@@ -1,0 +1,26 @@
+@import "config";
+
+#splash {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: absolute;
+    top: 0; left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .logo {
+        background: white url('../img/logo.jpg') no-repeat 0 0;
+        width: 513px;
+        height: 296px;
+        color: white;
+        
+        div {
+            margin-left: 15px;
+            margin-top: 270px;
+            font-size: 10px;
+            font-style: italic;
+        }
+    }
+}

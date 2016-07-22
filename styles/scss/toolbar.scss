@@ -1,0 +1,51 @@
+@import "config";
+
+$btnSize: 16px;
+
+.ui-toolbar {
+    flex-wrap: wrap;
+    align-items: center;
+    @include user-select();
+    
+    .button {
+        border: 1px solid transparent;
+        width: 20px; height: 20px; min-width: 20px; min-height: 20px;
+        padding-left: 4px; padding-top: 4px;
+        background-repeat: no-repeat;
+        
+        .icon {
+            background-image: url("../img/commands.png");
+            width: $btnSize; height: $btnSize;
+        }
+        
+        &[enabled=true] {
+            &:hover {
+                background-color: $selectedButton;
+                border-color: $selectedButtonBorder;
+                border-radius: $borderRadius;
+                animation: toolbar-button 0.2s;
+            }
+            &:active {
+                border: 1px solid $borderLight;
+                background-color: $borderDark;
+                border-radius: $borderRadius;
+            }
+        }
+        &[enabled=false] {
+            opacity: 0.5;
+        }
+    }
+
+    .splitter {
+        border-right: 1px solid $borderLight;
+        border-left: 1px solid $borderDark;
+        width: 0px; height: 20px;
+        float: left;
+        margin: 3px;
+    }
+}
+
+@keyframes toolbar-button {
+    from { background-color: transparent; border-color: transparent; }
+    to { background-color: $selectedButton; border-color: $selectedButtonBorder; }
+}

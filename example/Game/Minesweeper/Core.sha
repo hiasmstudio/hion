@@ -1,0 +1,625 @@
+Make(webapp)
+Add(MainForm,1,35,203)
+{
+  Left=56
+  Top=56
+  Width=#3:357|
+  Height=#3:413|
+  Caption=#12:Mine sweeper|
+  link(onCreate,135:doWork2,[])
+}
+Add(PaintBox,101,126,301)
+{
+  Left=14
+  Top=49
+  Width=#3:320|
+  Height=#3:320|
+  Point(onContextMenu)
+  link(onDraw,102:doWork1,[])
+}
+Add(PaintBox,2,322,168)
+{
+  Left=14
+  Top=49
+  Width=#3:320|
+  Height=#3:320|
+  Point(doVisible)
+  Point(onMouseDown)
+  Point(onContextMenu)
+  link(onDraw,302:doEnum,[])
+  link(onMouseDown,91:doWork1,[])
+}
+Add(Image,18,203,168)
+{
+  Left=63
+  Top=378
+  Width=#3:160|
+  Height=#2:32|
+  Visible=0
+  URL=#1998:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAAAgCAYAAACVf3P1AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AMCEAEaz2ZoMgAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAUxSURBVHja7ZtvbFNVHIafdsMR2AirDJvhtMKMDAy0AxUFVD6YGNNbMJkJDgYDIkuIH8pg2cfxgW3+gQ4jNsYFmcWQIJXhbRWCJjMqCJE/2WCCZsoYZEU6Bo4pdOtaP9SWbcB27y20Ts6TLGvP8p57evLud857dqZrbW0Nk0RMJpMOwX1LKkBTU5Mm8fHjxykuLo5LL7i/0YspEPxvDSjZbEg2m5hlQeINKIwnSJoBhfkESTWgR5bFzAqSuwQLEwqSHkI8sow45BMkzYACQdIMaLPZsP0bRmwilAgSacDbGU6YUJAQAw5lNGFCwWBS73aHski/AhFCBCOqAsZ7K0XcahFoRbdhw4awmAZBUitgfn6+JvGMGTOoq6sTeqHXrNdrTbQCQUJCiNvtFrMkSJwB3W43gUAAt9uNwWDA6/UOaBMI7voesD+SJLFmzRr8fn+szeVysW/fPpxOZ0IG9aZNGvB+q+xRpX/3+5tbh7SUsRgzcnnBVMxDGVMU9xG90xgCeseO5ZrJxK+LF3N55kzFfXz25UU+3esDQK61qPoMW26z/bGrOGM1HvQxZU8rGRe6GXW9DwCP/LIi7atv337rVV+u/PmNjY24XC7a2toAyMnJoaioCIvFMrQBPR4Pfr+fcDiMTnfzLovf78fj8VBQUHDPDRg13GAjKqVsfmSiQqE+fuv8ib2nq/ji9FusfrpWcR+x62TBIBOPHuWZqirSN23i6x07FOmPnfyTr771xz0Xdg0H+4/sb2Om82daFpk4UjGL4LgHVOn7G+3cpVZKt9vJy5mmqo/Nmzdz9epVampqCIfDlJaW4nA42DFo/vSDl1+v1xs5n9HdepHK6/UOuGTwn99f6FNITYlMfk9fQFMfulAIfV+kgnRPmqRI0/7HDbZ83EZ5iSnuz/B+QQHOwkK81dVc6+hQpJlc3wpA1gk/L61sYG7Zj6Sfu6bp+bXffESIEEufL1Kly8rKivko6iWj0XjnJThqKoPBMGTHy5YtS0gVvBv84j+E98wmAOY+uli1vv+/FvxtMHBq9WpFuqoPfud1m5G83Iy4K19vIMCx+noO79zJ9e5uXqusHFY7xn8dgOZVeejC8GzFUczvNfGDY66qMRw6c5Dm86fInzyLqQ/nqVuFysqoqKjAbrcDkJ2dzfr16+8cQmRZRpZlrFbrHTu1Wq0jxnyNvgPIZ94hRJAXTSuxZL+iug+PLOPdvZtj69YxprOT2dXVinRtvgAf7ryA7Y0TN4+0+r1Ww6i0NPIXLgTgUkuLIs2NzEjVvzw9k44nMwFIv/CXquf2BHuoa9gOwJL5S1WPu7KyEp/PR01NDQ6Hg/b2djZu3Dh8CpYkKVY+B5dUSZJGhPmOnP+cAy1bgRALHlvFUzmLNPcVTkkhOHq0Ko1ca4l99W/TQrC3l6b9+yNVZOpURRrfvMhS92DzFSacugJA57RMdfvAI3vwd11izhPPMdk4RfW4u7q6blmCo23DhhCn04nH44ntB61WK5IkJSyEDA4f0fdK0/B3rZ/EXjec3UbD2W0DwomqFKzX05OezsXZszldVJSwX6L+KXjM+PHkLVjA/BUrlG09Ch9H3xPC4mgkpSdM+5yJnCxRHiI6ujrYc9iNDh2F85ZoGv/atWtxuVyUl5cDkJuby/Lly4c3YNRg0e8ul+uWtkSlYK2oMdqwKThOtFY+exzPD6Wl0lwyneaS6Zr0E8ZNYNe6+M58zWYzZrN5+KA41A9Hyn5PMHIZ9k9x4oKp4F6SCpFbCfEg9EKvlX8APorrnD4qXdoAAAAASUVORK5CYII=|
+  link(onLoad,105:doWork2,[])
+}
+Add(DrawImageRegion,23,672,266)
+{
+  SourceWidth=16
+  SourceHeight=16
+  Point(doSourceX)
+  link(Canvas,2:Canvas,[(678,230)(328,230)])
+  link(Image,108:Var3,[(692,217)])
+}
+Add(MathParse,25,609,308)
+{
+  MathStr=#5:%1*16|
+  DataCount=1
+  Args=#2:X1|
+  link(onResult,23:doSourceX,[(657,314)(657,279)])
+}
+Add(GetDataEx,66,161,133)
+{
+  Angle=1
+  link(Data,107:Var1,[])
+}
+Add(MultiElementEx,91,371,175)
+{
+  @Comment=#9:Open cell|
+  AddHint(-14,62,0,0,Comment)
+  link(onEvent1,140:doWork1,[(417,181)(417,165)(298,165)])
+  link(onEvent2,144:doEvent1,[(422,188)(422,69)])
+  link(Data1,309:Var1,[(377,149)])
+  link(Data2,107:Var2,[])
+}
+BEGIN_SDK
+Make(webapp)
+Add(MultiElementEditor,1,14,14)
+{
+  EventCount=2
+  WorkCount=1
+  DataCount=2
+  @VOffset=70
+  @HOffset=504
+  @Width=818
+  @Height=284
+  link(doWork1,37:doEvent1,[])
+}
+Add(MathParse,4,91,84)
+{
+  MathStr=#42:[floor($mouse[0]/16), floor($mouse[1]/16)]|
+  Args=#5:mouse|
+  AddHint(-72,-36,0,0,MathStr)
+}
+Add(Stack,6,182,140)
+{
+  link(onPop,23:doEvent1,[])
+}
+Add(Hub,7,112,140)
+{
+  OutCount=3
+  link(onEvent1,22:doWork2,[])
+  link(onEvent2,24:doWork2,[])
+  link(onEvent3,42:doWork2,[(139,160)(139,41)])
+}
+Add(If_else,10,385,147)
+{
+  Type=1
+  Op2=Real(2)
+  link(onTrue,12:doCalc,[])
+}
+Add(Memory,11,259,147)
+{
+  link(onData,422:doRead,[])
+}
+Add(MathParse,12,469,147)
+{
+  MathStr=#20:%1[%2[1]][%2[0]] = 2|
+  AddHint(-42,45,0,0,MathStr)
+  link(onResult,426:doRead,[])
+  link(X1,442:Var2,[])
+  link(X2,15:Var2,[])
+}
+Add(GetDataEx,15,476,126)
+{
+  Angle=3
+  link(Data,11:Value,[(372,133)(372,193)(265,193)])
+}
+Add(If_else,16,581,147)
+{
+  Op2=Real(0)
+  link(onTrue,17:doData,[])
+  link(onFalse,26:doCompare,[(625,160)(625,209)])
+}
+Add(DoData,17,637,147)
+{
+  link(onEventData,18:doFor,[])
+}
+Add(For,18,693,147)
+{
+  End=8
+  link(onEvent,20:doCalc,[])
+}
+Add(Array,19,749,91)
+{
+  Array=#20:[-1,-1,-1,0,1,1,1,0]|
+}
+Add(MathParse,20,749,147)
+{
+  MathStr=#42:[%2[0] + %1[%3], %2[1] + %1[(%3 + 2) % 8]]|
+  DataCount=3
+  Args=#2:X1|2:X2|2:X3|
+  AddHint(-175,98,0,0,MathStr)
+  link(onResult,22:doWork1,[(793,153)(793,75)(151,75)])
+  link(X1,19:Array,[])
+  link(X2,21:Var3,[(762,133)])
+}
+Add(GetDataEx,21,532,126)
+{
+  Angle=3
+  link(Data,15:Var3,[(538,133)])
+}
+Add(HubEx,22,147,140)
+{
+  link(onEvent,6:doPush,[])
+}
+Add(Hub,23,224,147)
+{
+  link(onEvent1,11:doValue,[])
+  link(onEvent2,24:doWork3,[(248,160)(248,178)(151,178)])
+}
+Add(HubEx,24,147,147)
+{
+  link(onEvent,6:doPop,[])
+}
+Add(If_else,26,637,203)
+{
+  Op2=Real(-1)
+  link(onTrue,50:doWork2,[])
+}
+Add(ArrayRead,31,105,238)
+{
+  Index=2
+  link(onRead,32:doCompare,[])
+}
+Add(If_else,32,154,238)
+{
+  Op2=Real(0)
+  link(onTrue,38:doData,[(200,244)(200,199)(45,199)(45,146)])
+  link(onFalse,33:doCalc,[])
+}
+Add(MathParse,33,217,245)
+{
+  MathStr=#47:$M[$pos[1]][$pos[0]] = 1 - $M[$pos[1]][$pos[0]]|
+  Args=#3:pos|1:M|
+  AddHint(50,21,0,0,MathStr)
+  link(onResult,42:doWork3,[(438,251)])
+  link(pos,39:Var2,[(223,187)(97,187)])
+  link(M,47:Var1,[(230,84)])
+}
+Add(Hub,37,56,84)
+{
+  link(onEvent1,4:doCalc,[])
+  link(onEvent2,31:doRead,[(79,97)(79,244)])
+}
+Add(DoData,38,56,140)
+{
+  link(onEventData,7:doEvent1,[])
+  link(Data,39:Var1,[(62,126)])
+}
+Add(GetDataEx,39,91,119)
+{
+  link(Data,4:Result,[])
+}
+Add(HubEx,42,434,35)
+{
+  link(onEvent,45:doEvent1,[])
+}
+Add(MultiElementEx,44,588,98)
+{
+  @Comment=#14:Check game end|
+  AddHint(45,15,0,0,Comment)
+  link(onEvent1,50:doWork1,[(682,104)(682,202)])
+  link(Data1,230:Var3,[(594,84)])
+  link(Data2,48:Var3,[(601,63)])
+}
+BEGIN_SDK
+Make(webapp)
+Add(MultiElementEditor,1,7,7)
+{
+  EventCount=1
+  WorkCount=1
+  DataCount=2
+  @VOffset=84
+  @HOffset=105
+  @Width=440
+  @Height=249
+  link(doWork1,313:doEnum,[])
+}
+Add(If_else,8,189,91)
+{
+  Op2=Real(1)
+  link(onTrue,419:doRead,[])
+  link(onFalse,13:doCompare,[(233,104)(233,146)])
+}
+Add(MathParse,9,371,91)
+{
+  MathStr=#6:%0 + 1|
+  DataCount=0
+  Args=#0:|
+  AddHint(-8,-33,0,0,MathStr)
+}
+Add(If_else,11,301,91)
+{
+  Op2=Real(-1)
+  link(onTrue,14:doWork2,[])
+}
+Add(If_else,13,301,140)
+{
+  Op2=Real(2)
+  link(onTrue,14:doWork3,[(347,146)])
+}
+Add(HubEx,14,343,91)
+{
+  link(onEvent,9:doCalc,[])
+}
+Add(MathParse,15,224,182)
+{
+  MathStr=#9:$len*$len|
+  DataCount=1
+  Args=#3:len|
+  AddHint(-20,48,0,0,MathStr)
+  link(onResult,17:doEvent1,[])
+}
+Add(If_else,16,371,182)
+{
+  link(onTrue,1:onEvent1,[(423,188)(423,97)])
+  link(Op1,9:Result,[])
+}
+Add(Hub,17,322,182)
+{
+  link(onEvent1,16:doCompare,[])
+  link(onEvent2,9:doClear,[(357,195)(357,104)])
+}
+Add(MatrixEnum,313,112,91)
+{
+  link(onEnum,8:doCompare,[])
+  link(onEnd,314:doSize,[(157,104)(157,188)])
+  link(Matrix,315:Var2,[])
+}
+Add(ArraySize,314,168,182)
+{
+  link(onSize,15:doCalc,[])
+  link(Array,315:Var3,[(174,77)])
+}
+Add(GetDataEx,315,112,70)
+{
+  link(Data,1:Data1,[])
+}
+Add(MatrixRead,419,245,91)
+{
+  link(onRead,11:doCompare,[])
+  link(Matrix,1:Data2,[(251,49)(125,49)])
+  link(Index,313:Index,[(258,77)(285,77)(285,134)(125,134)])
+}
+END_SDK
+Add(Hub,45,539,35)
+{
+  link(onEvent1,1:onEvent1,[(814,41)(814,90)])
+  link(onEvent2,44:doWork1,[(570,48)(570,104)])
+}
+Add(GetDataEx,47,315,77)
+{
+  Angle=1
+  link(Data,442:Var1,[])
+}
+Add(GetDataEx,48,525,56)
+{
+  link(Data,1:Data2,[])
+}
+Add(ChannelToIndex,50,693,196)
+{
+  link(onIndex,1:onEvent2,[(815,202)(815,97)])
+}
+Add(GetDataEx,230,518,77)
+{
+  link(Data,1:Data1,[])
+}
+Add(MatrixRead,422,315,147)
+{
+  link(onRead,10:doCompare,[])
+  link(Matrix,47:Var2,[])
+}
+Add(MatrixRead,426,525,147)
+{
+  link(onRead,16:doCompare,[])
+  link(Matrix,48:Var2,[])
+  link(Index,21:Var2,[])
+}
+Add(GetDataEx,442,469,77)
+{
+  Angle=1
+  link(Data,230:Var1,[])
+}
+END_SDK
+Add(MultiElementEx,96,161,259)
+{
+  @Comment=#24:Calc bombs in near cells|
+  AddHint(58,9,0,0,Comment)
+  link(Data1,109:Var2,[])
+}
+BEGIN_SDK
+Make(webapp)
+Add(MultiElementEditor,1,7,7)
+{
+  WorkCount=1
+  DataCount=1
+  @VOffset=63
+  @HOffset=154
+  @Width=503
+  @Height=186
+  link(doWork1,379:doEnum,[])
+}
+Add(For,4,231,70)
+{
+  End=8
+  link(onEvent,6:doCalc,[])
+  link(onStop,13:doCalc,[(279,83)(279,153)])
+}
+Add(Array,5,294,14)
+{
+  Array=#20:[-1,-1,-1,0,1,1,1,0]|
+}
+Add(MathParse,6,294,70)
+{
+  MathStr=#58:[$pos[0] + $arr[$index], $pos[1] + $arr[($index + 2) % 8]]|
+  Args=#3:arr|5:index|3:pos|
+  link(onResult,377:doRead,[])
+  link(arr,5:Array,[])
+  link(pos,380:Var2,[(314,56)(195,56)])
+}
+Add(If_else,8,406,70)
+{
+  Op2=Real(-1)
+  link(onTrue,418:doNext,[])
+}
+Add(If_else,11,119,70)
+{
+  Op2=Real(0)
+  link(onTrue,15:doData,[])
+}
+Add(MathParse,13,294,147)
+{
+  MathStr=#29:$m[$pos[1]][$pos[0]] = $value|
+  Args=#1:m|3:pos|5:value|
+  link(onResult,418:doReset,[(450,153)(450,83)])
+  link(m,16:Var2,[(300,130)(167,130)])
+  link(pos,380:Var3,[(307,119)])
+  link(value,418:Value,[(314,125)(468,125)])
+}
+Add(DoData,15,182,70)
+{
+  Data=Real(0)
+  link(onEventData,4:doFor,[])
+}
+Add(GetDataEx,16,161,35)
+{
+  link(Data,1:Data1,[])
+}
+Add(MatrixRead,377,350,70)
+{
+  link(onRead,8:doCompare,[])
+  link(Matrix,16:Var3,[(356,42)])
+}
+Add(MatrixEnum,379,70,70)
+{
+  link(onEnum,11:doCompare,[])
+  link(Matrix,16:Var1,[(76,42)])
+}
+Add(GetDataEx,380,189,112)
+{
+  Angle=3
+  link(Data,379:Index,[(83,119)])
+}
+Add(Counter,418,462,70)
+{
+}
+END_SDK
+Add(Matrix,97,448,91)
+{
+  Width=20
+  Height=20
+}
+Add(Matrix,98,378,98)
+{
+  Width=20
+  Height=20
+}
+Add(MultiElementEx,99,126,203)
+{
+  @Comment=#10:Setup bomb|
+  AddHint(-91,-43,0,0,Comment)
+  link(Data1,66:Var1,[(132,140)])
+}
+BEGIN_SDK
+Make(webapp)
+Add(MultiElementEditor,1,7,7)
+{
+  WorkCount=1
+  DataCount=1
+  @VOffset=84
+  @HOffset=105
+  link(doWork1,2:doFor,[])
+}
+Add(For,2,42,91)
+{
+  link(onEvent,3:doCalc,[])
+  link(End,4:Value,[])
+}
+Add(MathParse,3,112,91)
+{
+  MathStr=#47:%1[round(random()*19)][round(random()*19)] = -1|
+  DataCount=1
+  Args=#2:X1|
+  link(X1,1:Data1,[])
+}
+Add(Memory,4,42,35)
+{
+  Default=Real(35)
+  @Comment=#15:Number of bombs|
+  AddHint(74,-16,0,0,Comment)
+}
+END_SDK
+Add(Hub,100,91,203)
+{
+  OutCount=3
+  link(onEvent1,99:doWork1,[])
+  link(onEvent2,96:doWork1,[(121,216)(121,265)])
+  link(onEvent3,101:doDraw,[(115,223)(115,307)])
+}
+Add(MultiElementEx,102,196,301)
+{
+  @Comment=#10:Draw cells|
+  AddHint(57,9,0,0,Comment)
+  link(Data1,109:Var3,[(202,245)])
+  link(Data2,108:Var2,[])
+}
+BEGIN_SDK
+Make(webapp)
+Add(MultiElementEditor,1,7,7)
+{
+  WorkCount=1
+  DataCount=2
+  @VOffset=70
+  @HOffset=84
+  @Width=307
+  @Height=172
+  link(doWork1,4:doValue,[])
+}
+Add(Memory,4,35,77)
+{
+  link(onData,310:doEnum,[])
+}
+Add(MathParse,6,196,77)
+{
+  MathStr=#14:($arr[0]+1)*16|
+  DataCount=1
+  Args=#3:arr|
+  link(onResult,8:doSourceX,[(244,83)(244,146)])
+}
+Add(DrawImageRegion,8,259,133)
+{
+  SourceY=16
+  SourceWidth=16
+  SourceHeight=16
+  Point(doSourceX)
+  link(Canvas,4:Value,[(265,121)(41,121)])
+  link(Image,1:Data2,[(279,39)(104,39)])
+}
+Add(MathParse,10,196,133)
+{
+  MathStr=#29:point($arr[1]*16, $arr[2]*16)|
+  Args=#3:arr|
+  link(onResult,8:doDraw,[])
+}
+Add(Hub,287,147,77)
+{
+  link(onEvent1,6:doCalc,[])
+  link(onEvent2,10:doCalc,[(178,90)(178,139)])
+}
+Add(MatrixEnum,310,91,77)
+{
+  Data=1
+  link(onEnum,287:doEvent1,[])
+  link(Matrix,1:Data1,[])
+}
+END_SDK
+Add(HubEx,105,252,168)
+{
+  link(onEvent,140:doWork2,[])
+}
+Add(GetDataEx,107,378,133)
+{
+  link(Data,98:Array,[])
+}
+Add(GetDataEx,108,203,210)
+{
+  link(Data,18:Image,[])
+}
+Add(GetDataEx,109,161,238)
+{
+  link(Data,66:Var2,[])
+}
+Add(Button,133,147,91)
+{
+  Left=105
+  Top=14
+  Width=#3:143|
+  Height=#2:28|
+  Caption=#5:Start|
+  link(onClick,134:doEvent1,[])
+}
+Add(Hub,134,210,91)
+{
+  OutCount=4
+  link(onEvent1,444:doEvent1,[])
+  link(onEvent2,135:doWork1,[(235,104)(235,81)(81,81)])
+  link(onEvent3,139:doWork2,[])
+  link(onEvent4,105:doWork1,[(256,118)])
+}
+Add(HubEx,135,77,203)
+{
+  link(onEvent,100:doEvent1,[])
+}
+Add(ChannelToIndex,139,266,98)
+{
+  link(onIndex,2:doVisible,[(310,104)(310,181)])
+}
+Add(HubEx,140,294,168)
+{
+  link(onEvent,2:doDraw,[])
+}
+Add(AudioPlayer,143,560,77)
+{
+  Left=371
+  Top=238
+  Visible=0
+  URL=#34:/example/Game/Minesweeper/bomb.ogg|
+}
+Add(Hub,144,448,63)
+{
+  link(onEvent1,139:doWork1,[(471,69)(471,54)(255,54)(255,104)])
+  link(onEvent2,145:doEvent,[])
+}
+Add(IndexToChannel,145,504,70)
+{
+  link(onEvent2,143:doPlay,[])
+}
+Add(MatrixEnum,302,448,168)
+{
+  link(onEnum,303:doCompare,[(492,174)(492,265)])
+  link(Matrix,309:Var2,[])
+}
+Add(If_else,303,504,259)
+{
+  Type=1
+  Op2=Real(2)
+  link(onTrue,305:doEvent1,[])
+}
+Add(Hub,305,560,259)
+{
+  link(onEvent1,25:doCalc,[(591,265)(591,314)])
+  link(onEvent2,306:doCalc,[])
+}
+Add(MathParse,306,609,266)
+{
+  MathStr=#29:point($pos[0]*16, $pos[1]*16)|
+  Args=#3:pos|
+  link(onResult,23:doDraw,[])
+  link(pos,302:Index,[(615,247)(461,247)])
+}
+Add(GetDataEx,309,448,142)
+{
+  link(Data,97:Array,[])
+}
+Add(Hub,444,343,91)
+{
+  link(onEvent1,97:doClear,[])
+  link(onEvent2,98:doClear,[])
+}

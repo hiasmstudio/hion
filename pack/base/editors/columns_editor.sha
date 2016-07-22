@@ -1,0 +1,354 @@
+Add(MainForm,1,147,217)
+{
+  Left=56
+  Top=56
+  Caption=#12:ui.coleditor|
+  link(onCreate,60:doWork3,[(200,223)])
+}
+Add(ListBox,2,623,98)
+{
+  Left=7
+  Top=28
+  Width=#3:155|
+  Height=#3:247|
+  TabIndex=#1:0|
+  Point(doReplace)
+  Point(doSelectIndex)
+  link(onSelect,30:doRead,[])
+}
+Add(Edit,3,812,98)
+{
+  Left=175
+  Top=49
+  Width=#3:211|
+  link(onChange,64:doEvent1,[])
+}
+Add(Label,4,980,28)
+{
+  Left=175
+  Top=28
+  Width=#3:211|
+  Height=#2:21|
+  Caption=#7:ui.name|
+}
+Add(Label,5,980,77)
+{
+  Left=175
+  Top=77
+  Width=#3:211|
+  Height=#2:21|
+  Caption=#8:ui.width|
+}
+Add(Edit,6,812,175)
+{
+  Left=175
+  Top=98
+  Width=#3:211|
+  link(onChange,36:doSet,[])
+}
+Add(Label,7,980,126)
+{
+  Left=175
+  Top=126
+  Width=#3:211|
+  Height=#2:21|
+  Caption=#8:ui.align|
+}
+Add(ComboBox,8,910,238)
+{
+  Left=175
+  Top=147
+  Width=#3:212|
+  Strings=#4:left|6:center|5:right|
+  Select=1
+  Point(doSelectIndex)
+  Point(doSelectText)
+  link(onSelect,38:doModify,[])
+}
+Add(ToolBar,9,21,84)
+{
+  Left=7
+  Top=1
+  Width=#3:156|
+  Buttons=#1:[|30:	{"title": "New", "icon": 19},|41:	{"title": "Add new column", "icon": 57},|38:	{"title": "Delete column", "icon": 9}|1:]|
+  link(onClick,13:doEvent,[])
+}
+Add(Button,10,42,266)
+{
+  Left=322
+  Top=245
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#7:ui.save|
+  link(onClick,57:doEvent1,[])
+}
+Add(Button,11,42,224)
+{
+  Left=238
+  Top=245
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#9:ui.cancel|
+  link(onClick,12:doWork2,[])
+}
+Add(HubEx,12,119,224)
+{
+  link(onEvent,1:doClose,[])
+}
+Add(IndexToChannel,13,84,84)
+{
+  Count=3
+  link(onEvent1,60:doWork2,[(135,90)(135,34)])
+  link(onEvent2,23:doConvert,[])
+  link(onEvent3,67:doRemove,[(135,104)(135,167)])
+}
+Add(ArrayEnum,16,448,98)
+{
+  link(onEnum,21:doGet,[])
+  link(Array,25:Var2,[])
+}
+Add(Hub,20,413,91)
+{
+  link(onEvent1,27:doData,[(493,97)(493,111)])
+  link(onEvent2,16:doEnum,[])
+}
+Add(JSON_Field,21,511,98)
+{
+  Name=#5:title|
+  link(onGet,2:doAdd,[])
+}
+Add(ArrayAdd,22,217,91)
+{
+  link(onAdd,78:doEvent1,[])
+  link(Array,44:Var1,[(223,77)])
+}
+Add(JSON,23,154,91)
+{
+  link(onConvert,22:doAdd,[])
+  link(Data,24:Value,[])
+}
+Add(Memory,24,154,35)
+{
+  Default=#25:{"title": "Column title"}|
+}
+Add(GetDataEx,25,448,70)
+{
+  link(Data,49:Result,[])
+}
+Add(DoData,27,567,105)
+{
+  link(onEventData,2:doText,[])
+}
+Add(ArrayRead,30,672,98)
+{
+  link(onRead,32:doEvent1,[])
+  link(Array,25:Var3,[(678,77)])
+}
+Add(JSON_Field,31,756,98)
+{
+  Name=#5:title|
+  link(onGet,3:doText,[])
+}
+Add(Hub,32,721,98)
+{
+  OutCount=4
+  link(onEvent1,31:doGet,[])
+  link(onEvent2,33:doGet,[(745,111)(745,181)])
+  link(onEvent3,34:doGet,[(745,118)(745,258)])
+  link(onEvent4,71:doGet,[(745,125)(745,335)])
+}
+Add(JSON_Field,33,756,175)
+{
+  Name=#5:width|
+  link(onGet,6:doText,[])
+}
+Add(JSON_Field,34,756,252)
+{
+  Name=#5:align|
+  link(onGet,63:doCompare,[])
+}
+Add(JSON_Field_Set,35,903,98)
+{
+  Name=#5:title|
+  link(Object,41:Var1,[(909,84)(888,84)])
+}
+Add(JSON_Field_Set,36,896,175)
+{
+  Name=#5:width|
+  link(Object,41:Var3,[(902,154)])
+}
+Add(JSON_Field_Set,37,1022,238)
+{
+  Name=#5:align|
+  link(Object,75:Var3,[(1028,217)])
+}
+Add(StrCase,38,966,238)
+{
+  link(onModify,37:doSet,[])
+}
+Add(GetDataEx,41,882,147)
+{
+  Angle=3
+  link(Data,30:Value,[(678,154)])
+}
+Add(hcTransmitter,42,322,273)
+{
+  DataCount=1
+  link(onInit,47:doEvent1,[])
+}
+Add(JSON,43,266,273)
+{
+  Mode=1
+  link(onConvert,42:doReturn,[])
+  link(Data,44:Var2,[])
+}
+Add(GetDataEx,44,266,70)
+{
+  Angle=1
+  link(Data,77:Var1,[])
+}
+Add(ArrayRead,46,413,273)
+{
+}
+Add(Hub,47,378,273)
+{
+  link(onEvent1,46:doRead,[])
+  link(onEvent2,48:doRead,[(402,286)(402,335)])
+}
+Add(ArrayRead,48,413,329)
+{
+  Index=1
+  link(onRead,51:doCompare,[])
+}
+Add(JSON,49,448,28)
+{
+  link(onConvert,61:doWork1,[(497,34)(497,67)(396,67)])
+}
+Add(If_else,51,462,329)
+{
+  Type=5
+  link(onTrue,52:doWork2,[])
+  link(onFalse,53:doData,[])
+}
+Add(HubEx,52,553,329)
+{
+  Angle=3
+  link(onEvent,59:doWork1,[(557,20)(431,20)])
+}
+Add(DoData,53,511,336)
+{
+  Data=#2:[]|
+  link(onEventData,52:doWork3,[(557,342)])
+}
+Add(Hub,57,91,266)
+{
+  link(onEvent1,12:doWork3,[(123,272)])
+  link(onEvent2,43:doConvert,[])
+}
+Add(DoData,58,217,28)
+{
+  Data=#2:[]|
+  link(onEventData,59:doWork2,[])
+}
+Add(HubEx,59,427,28)
+{
+  link(onEvent,49:doConvert,[])
+}
+Add(HubEx,60,196,28)
+{
+  link(onEvent,58:doData,[])
+}
+Add(HubEx,61,392,91)
+{
+  link(onEvent,20:doEvent1,[])
+}
+Add(If_else,63,805,252)
+{
+  link(onTrue,66:doData,[])
+  link(onFalse,8:doSelectText,[])
+}
+Add(Hub,64,861,98)
+{
+  link(onEvent1,35:doSet,[])
+  link(onEvent2,2:doReplace,[(882,111)(882,142)(606,142)(606,118)])
+}
+Add(DoData,66,861,252)
+{
+  Data=#1:0|
+  link(onEventData,8:doSelectIndex,[])
+}
+Add(ArrayRemove,67,336,161)
+{
+  link(onRemove,61:doWork3,[(396,167)])
+  link(Array,81:Var2,[])
+  link(Index,2:SelectIndex,[(349,146)(629,146)])
+}
+Add(Label,69,980,175)
+{
+  Left=175
+  Top=175
+  Width=#3:211|
+  Height=#2:21|
+  Caption=#7:ui.type|
+}
+Add(ComboBox,70,910,315)
+{
+  Left=175
+  Top=196
+  Width=#3:212|
+  Strings=#4:text|5:image|8:checkbox|
+  Select=1
+  Point(doSelectIndex)
+  Point(doSelectText)
+  link(onSelect,74:doSet,[])
+}
+Add(JSON_Field,71,756,329)
+{
+  Name=#4:type|
+  link(onGet,72:doCompare,[])
+}
+Add(If_else,72,805,329)
+{
+  link(onTrue,73:doData,[])
+  link(onFalse,70:doSelectText,[])
+}
+Add(DoData,73,861,329)
+{
+  Data=#1:0|
+  link(onEventData,70:doSelectIndex,[])
+}
+Add(JSON_Field_Set,74,980,315)
+{
+  Name=#4:type|
+  link(Object,75:Var2,[])
+}
+Add(GetDataEx,75,980,210)
+{
+  Angle=3
+  link(Data,41:Var2,[(888,217)])
+}
+Add(MathParse,76,490,196)
+{
+  MathStr=#8:$count-1|
+  Args=#5:count|
+  link(onResult,2:doSelectIndex,[(612,202)(612,125)])
+}
+Add(GetDataEx,77,336,70)
+{
+  Angle=1
+  link(Data,25:Var1,[])
+}
+Add(Hub,78,287,91)
+{
+  link(onEvent1,61:doWork2,[])
+  link(onEvent2,80:doSize,[(320,104)(320,202)])
+}
+Add(ArraySize,80,434,196)
+{
+  link(onSize,76:doCalc,[])
+  link(Array,81:Var3,[(440,140)])
+}
+Add(GetDataEx,81,336,133)
+{
+  link(Data,77:Var2,[])
+}

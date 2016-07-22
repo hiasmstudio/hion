@@ -1,0 +1,39 @@
+$borderColor: gray;
+$borderRadius: 3px;
+
+$textColor: black;
+$textDisabledColor: rgb(84, 84, 84);
+
+$controlColor: #efe9e3;
+$faceColor: #999;
+$bgColor: #c9b9ab;
+$bgColorActive: #66ccff;
+$borderLight: lighten($controlColor, 10%);
+$borderDark: darken($controlColor, 10%);
+$bgColorHover: $controlColor;
+$inputBgColor: white;
+
+$selectedButton: #92604b;
+$selectedButtonBorder: #684b3e;
+$selectedButtonText: white;
+
+$fontSize: 12px;
+
+$hintBgColor: #feff7e;
+$shadowColor: #888;
+
+$formBgColor: #5d453a;
+
+// dark
+// $controlColor: #252525;
+// $textColor: #d6d6d6;
+// $borderLight: lighten($controlColor, 10%);
+// $borderDark: darken($controlColor, 10%);
+// $borderColor: black;
+// $shadowColor: #111;
+// $selectedButton: #494949;
+// $inputBgColor: rgba(255, 255, 255, 0.1);
+
+@mixin user-select() {
+    user-select: none; -ms-user-select: none; -moz-user-select: none; -webkit-user-select: none;
+}

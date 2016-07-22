@@ -1,0 +1,44 @@
+@import "config";
+
+.popup {
+    border: 1px solid $borderDark;
+    background-color: $controlColor;
+    position: absolute;
+    padding: 1px; z-index: 9999;
+    box-shadow: 0 0 5px $shadowColor;
+    animation: opacity 0.3s;
+    user-select: none; -ms-user-select: none; -moz-user-select: none; -webkit-user-select: none;
+    
+    
+    .item {
+        height: 16px;
+        cursor: pointer;
+        font-size: $fontSize;
+        padding: 2px;
+        padding-right: 7px;
+        display: flex;
+        
+        .icon {
+            width: 16px; height: 16px;
+            margin-right: 7px;
+            margin-left: 4px;
+            background-image: url("../img/commands.png");
+        }
+        .title { }
+        
+        &:hover { background-color: $selectedButton; color: $selectedButtonText; }
+        &[enabled=false] {
+            cursor: default;
+            opacity: 0.5;
+            
+            &:hover { background-color: transparent; color: black; }
+        }
+    }
+    
+    .splitter {
+        border-top: 1px solid $borderDark;
+        border-bottom: 1px solid $borderLight;
+        padding: 0;
+        margin: 3px;
+    }
+}

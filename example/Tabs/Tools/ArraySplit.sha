@@ -1,0 +1,39 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:390|
+  Height=#3:305|
+  Caption=#17:String split demo|
+}
+Add(ArraySplit,55,217,77)
+{
+  link(onSplit,58:doEnum,[])
+  link(String,57:Text,[])
+}
+Add(Button,56,140,77)
+{
+  Left=14
+  Top=14
+  Caption=#5:Split|
+  link(onClick,55:doSplit,[])
+}
+Add(Edit,57,217,21)
+{
+  Left=84
+  Top=14
+  Width=#3:288|
+  Text=#23:Item1,Item2,Item3,Item4|
+}
+Add(ArrayEnum,58,287,77)
+{
+  link(onEnum,59:doAdd,[])
+}
+Add(ListBox,59,350,77)
+{
+  Left=84
+  Top=42
+  Width=#3:288|
+  Height=#3:226|
+}

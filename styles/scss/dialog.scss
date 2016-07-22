@@ -1,0 +1,65 @@
+@import "config";
+
+.dialog {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 400px;
+    border: 1px solid $formBgColor;
+    background-color: $formBgColor;
+    overflow: hidden; 
+    min-height: 16px;
+    box-shadow: 0 0 15px $shadowColor;
+    border-radius: $borderRadius;
+    animation: opacity 0.3s;
+    
+    &[resize=true] { border-width: 3px; }
+    
+    > .caption {
+        height: 16px;
+        min-height: 16px;
+        padding: 2px;
+        padding-left: 26px;
+        font-weight: bold;
+        font-size: $fontSize;
+        color: white; 
+        background: $formBgColor url("../img/sha.png") no-repeat 3px 2px;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        user-select: none; -ms-user-select: none; -moz-user-select: none; -webkit-user-select: none;
+        
+        .text {
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 100%;
+            cursor: move;
+        }
+        
+        .close {
+            flex-shrink: 0;
+            width: 16px; height: 16px;
+            cursor: pointer;
+            background-image: url('../img/window_close.png');
+            
+            &:hover { background-color: $borderLight; border-radius: 8px; }
+        }
+    }
+    
+    > .body {
+        background-color: $controlColor;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    > .tools {
+        padding: 5px;
+        text-align: right;
+        background-color: $controlColor;
+        border-top: 1px solid $borderDark;
+    }
+}

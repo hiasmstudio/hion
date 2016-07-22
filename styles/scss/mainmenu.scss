@@ -1,0 +1,18 @@
+@import "config";
+
+.mainmenu {
+    cursor: default;
+    display: flex;
+    user-select: none; -ms-user-select: none; -moz-user-select: none; -webkit-user-select: none; 
+
+    .item {
+        padding: 5px 8px;
+        font-size: $fontSize;
+        &:hover { background-color: $bgColor; }
+    }
+    
+    .active {
+        background-color: $selectedButton;
+        &:hover { background-color: $selectedButton; }
+    }
+}

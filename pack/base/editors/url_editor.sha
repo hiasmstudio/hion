@@ -1,0 +1,114 @@
+Make(webapp)
+Add(MainForm,1,287,252)
+{
+  Width=#3:317|
+  Height=#3:370|
+  Caption=#12:ui.urleditor|
+}
+Add(Label,7,161,161)
+{
+  Left=28
+  Top=49
+  Width=#3:260|
+  Height=#2:35|
+  Caption=#16:ui.dropimagehere|
+  HAlign=1
+}
+Add(FileRead,2,217,112)
+{
+  Type=2
+  link(onRead,10:doWork2,[])
+}
+Add(DropBox,3,161,112)
+{
+  Left=21
+  Top=42
+  Width=#3:274|
+  link(onDropFile,2:doRead,[])
+}
+Add(Image,5,399,112)
+{
+  Left=21
+  Top=105
+  Width=#3:275|
+  Height=#3:191|
+  Theme=#8:borderin|
+  Mode=1
+}
+Add(Edit,8,217,161)
+{
+  Left=56
+  Top=14
+  Width=#3:239|
+  link(onChange,10:doWork3,[(312,167)])
+}
+Add(hcTransmitter,9,343,217)
+{
+  DataCount=1
+  link(onInit,20:doRead,[])
+  link(Arg1,18:Value,[])
+}
+Add(HubEx,10,308,112)
+{
+  link(onEvent,19:doWork2,[])
+}
+Add(Button,14,168,217)
+{
+  Left=224
+  Top=308
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#7:ui.save|
+  link(onClick,17:doEvent1,[])
+}
+Add(Button,15,168,259)
+{
+  Left=140
+  Top=308
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#9:ui.cancel|
+  link(onClick,16:doWork2,[])
+}
+Add(HubEx,16,259,259)
+{
+  link(onEvent,1:doClose,[])
+}
+Add(Hub,17,231,217)
+{
+  link(onEvent1,9:doReturn,[])
+  link(onEvent2,16:doWork3,[(263,230)])
+}
+Add(Memory,18,343,112)
+{
+  link(onData,5:doLoad,[])
+}
+Add(HubEx,19,322,112)
+{
+  link(onEvent,18:doValue,[])
+}
+Add(ArrayRead,20,399,217)
+{
+  Index=1
+  link(onRead,23:doEvent1,[])
+}
+Add(Label,21,21,14)
+{
+  Left=21
+  Top=14
+  Width=#2:36|
+  Height=#2:21|
+  Caption=#3:URL|
+}
+Add(If_else,22,483,224)
+{
+  Type=5
+  link(onTrue,19:doWork1,[(535,230)(535,100)(326,100)])
+}
+Add(Hub,23,448,217)
+{
+  link(onEvent1,8:doText,[(475,223)(475,205)(206,205)(206,167)])
+  link(onEvent2,22:doCompare,[])
+}

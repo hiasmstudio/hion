@@ -1,0 +1,79 @@
+Add(MainForm,1,70,63)
+{
+  Left=56
+  Top=56
+  Width=#3:235|
+  Height=#3:141|
+  Caption=#5:Login|
+}
+Add(Edit,4,273,77)
+{
+  Left=14
+  Top=14
+  Width=#3:204|
+  PlaceHolder=#5:Login|
+}
+Add(Edit,5,336,77)
+{
+  Left=14
+  Top=49
+  Width=#3:204|
+  PlaceHolder=#8:Password|
+  Password=1
+}
+Add(Button,6,189,126)
+{
+  Left=133
+  Top=77
+  Width=#2:87|
+  Height=#2:28|
+  Caption=#5:Login|
+  link(onClick,18:doEvent1,[])
+}
+Add(Label,7,133,133)
+{
+  Left=14
+  Top=84
+  Width=#3:113|
+  Height=#2:21|
+  Visible=0
+  Theme=#4:link|
+  Caption=#13:Login failed!|
+  Point(doVisible)
+}
+Add(XMLHttpRequest,11,371,133)
+{
+  Method=1
+  URL=#16:/server/core.php|
+  link(onLoad,16:doCompare,[])
+}
+Add(Hub,12,336,133)
+{
+  link(onEvent1,11:doOpen,[])
+  link(onEvent2,11:doSend,[])
+}
+Add(URLBuilder,13,273,133)
+{
+  Args=#5:login|4:pass|
+  link(onBuild,12:doEvent1,[])
+  link(login,4:Text,[])
+  link(pass,5:Text,[(286,121)(342,121)])
+}
+Add(hcTransmitter,15,504,133)
+{
+}
+Add(If_else,16,441,133)
+{
+  Op2=#1:1|
+  link(onTrue,15:doReturn,[])
+  link(onFalse,17:doWork2,[(489,146)(489,181)(56,181)(56,153)])
+}
+Add(ChannelToIndex,17,70,140)
+{
+  link(onIndex,7:doVisible,[])
+}
+Add(Hub,18,238,126)
+{
+  link(onEvent1,17:doWork1,[(265,132)(265,113)(56,113)(56,146)])
+  link(onEvent2,13:doBuild,[])
+}

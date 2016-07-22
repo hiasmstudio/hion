@@ -1,0 +1,50 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:303|
+  Height=#3:226|
+  Caption=#15:Draw image demo|
+}
+Add(PaintBox,2,196,56)
+{
+  Left=21
+  Top=21
+  Width=#3:261|
+  Height=#3:163|
+  link(onDraw,9:doFor,[])
+}
+Add(DrawImage,7,406,196)
+{
+  link(Canvas,2:Canvas,[(412,170)(202,170)])
+  link(Point,10:Point,[])
+  link(Image,8:Image,[(426,179)(139,179)])
+}
+Add(Image,8,133,56)
+{
+  Left=210
+  Top=7
+  Visible=0
+  URL=#11:favicon.ico|
+  link(onLoad,2:doDraw,[])
+}
+Add(For,9,252,56)
+{
+  Start=1
+  End=200
+  Step=2
+  link(onEvent,12:doCalc,[])
+}
+Add(PointXY,10,413,133)
+{
+  link(X,9:Position,[(419,111)(258,111)])
+  link(Y,12:Result,[(426,111)(307,111)])
+}
+Add(MathParse,12,301,56)
+{
+  MathStr=#24:sin(%1*4/180*PI)*50 + 50|
+  DataCount=1
+  Args=#2:X1|
+  link(onResult,7:doDraw,[(370,62)(370,202)])
+}

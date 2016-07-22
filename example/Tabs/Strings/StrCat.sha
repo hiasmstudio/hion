@@ -1,0 +1,65 @@
+Make(webapp)
+Add(MainForm,11,56,56)
+{
+  Left=56
+  Top=56
+  Width=385
+  Height=150
+  Caption=String concat demo
+}
+Add(Edit,12,189,56)
+{
+  Left=98
+  Top=14
+  Width=274
+  Text=Hello
+}
+Add(Edit,14,301,56)
+{
+  Left=98
+  Top=42
+  Width=274
+  Text= world!!!
+}
+Add(Button,15,189,119)
+{
+  Left=175
+  Top=70
+  Width=129
+  Caption=Concat
+  link(onClick,20:doStrCat,[])
+}
+Add(Label,16,140,56)
+{
+  Left=7
+  Top=14
+  Width=85
+  Height=21
+  Caption=String 1
+}
+Add(Label,17,252,56)
+{
+  Left=7
+  Top=42
+  Width=85
+  Height=21
+  Caption=String 2
+}
+Add(Edit,18,357,119)
+{
+  Left=98
+  Top=98
+  Width=274
+}
+Add(Label,19,357,161)
+{
+  Left=119
+  Top=161
+  Caption=Result
+}
+Add(StrCat,20,294,119)
+{
+  link(onStrCat,18:doText,[])
+  link(Str1,12:Text,[(300,104)(195,104)])
+  link(Str2,14:Text,[])
+}

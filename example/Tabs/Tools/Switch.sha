@@ -1,0 +1,37 @@
+Make(webapp)
+Add(MainForm,1,56,63)
+{
+  Left=56
+  Top=56
+  Width=#3:191|
+  Height=#2:87|
+  Caption=#11:Switch demo|
+  link(onCreate,2:doReset,[])
+}
+Add(Switch,2,224,56)
+{
+  DataOn=#2:On|
+  DataOff=#3:Off|
+  Point(onOn)
+  Point(onOff)
+  link(onSwitch,3:doCaption,[(270,62)(270,48)(154,48)(154,62)])
+  link(onOn,6:doWork2,[])
+  link(onOff,6:doWork1,[])
+}
+Add(Button,3,168,56)
+{
+  Left=42
+  Top=21
+  Point(doCaption)
+  link(onClick,2:doSwitch,[])
+}
+Add(Switcher,5,350,63)
+{
+  Left=105
+  Top=23
+  Point(doOn)
+}
+Add(ChannelToIndex,6,287,63)
+{
+  link(onIndex,5:doOn,[])
+}

@@ -1,0 +1,26 @@
+@import "config";
+
+.hint {
+    border: 1px solid $borderColor;
+    padding: 2px;
+    font-size: $fontSize;
+    border-radius: $borderRadius;
+    max-width: 200px;
+    background-color: $hintBgColor;
+    box-shadow: 0 0 5px $shadowColor;
+    position: absolute;
+    overflow: hidden;
+    animation: opacity 0.3s;
+    
+    .header {
+        border-bottom: 1px dotted $borderColor;
+        font-weight: bold;
+    }
+    .footer {
+        border-top: 1px dotted $borderColor;
+    }
+    .icon {
+        vertical-align: middle;
+        margin-right: 4px;
+    }
+}

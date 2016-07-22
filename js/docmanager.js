@@ -1,0 +1,1138 @@
+'use strict';
+
+/* global TabControl,Builder,commander */
+
+//------------------------------------------------------------------------------
+
+function getFileNode(location) {
+	if(location === "") {
+		return null;
+	}
+	
+	var fs;
+	if(location.startsWith("/local")) {
+		fs = new LocalFS();
+	}
+	else {
+		fs = new RemoteFS();
+	}
+	
+	var node = new FSNode(fs, location);
+	return node;
+}
+
+function FSNode (fs, location) {
+	if(location) {
+		var p = fs.getPath(location);
+		this.name = p.name;
+		this.path = p.path;
+	}
+	else {
+		this.name = "";
+		this.path = "";
+	}
+	this.mime = "";
+	this.size = 0;
+	this.fs = fs;
+	this.isFile = false;
+}
+
+FSNode.prototype.location = function() {
+	return this.path + "/" + this.name;
+};
+
+FSNode.prototype.read = function(callback) {
+	this.fs.read(this.location(), callback);
+};
+
+FSNode.prototype.write = function(data, callback) {
+	this.fs.write(this.location(), data, callback);
+};
+
+
+function DesktopFSNode(desktopFile) {
+	FSNode.call(this, null);
+	
+	this.isFile = true;
+	this.name = desktopFile.name;
+	this.size = desktopFile.size;
+	this.mime = desktopFile.type;
+	this.desktopFile = desktopFile;
+}
+
+DesktopFSNode.prototype = Object.create(FSNode.prototype);
+
+DesktopFSNode.prototype.read = function(callback) {
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		callback(0, e.target.result);
+	};
+	reader.readAsText(this.desktopFile);
+};
+
+//------------------------------------------------------------------------------
+
+function FS () {
+	
+}
+
+FS.prototype.getPath = function(location) {
+	if(location.charAt(location.length-1) === "/") {
+		location = location.substr(0, location.length-1);
+	}
+	var i = location.lastIndexOf("/");
+	return {path: location.substr(0, i), name: location.substr(i+1)};
+};
+
+FS.prototype.__supportError = function() { console.error("Not supported"); };
+
+FS.prototype.list = function(dir, callback) { this.__supportError(); };
+FS.prototype.mkdir = function(dir, callback) { this.__supportError(); };
+FS.prototype.rmdir = function(dir, callback) { this.__supportError(); };
+
+FS.prototype.remove = function(file, callback) { this.__supportError(); };
+FS.prototype.move = function(fileOld, fileNew, callback) {
+	this.read(fileOld, function(error, data) {
+		if(error === 0) {
+			this.remove(fileOld, function(error) {
+				if(error === 0) {
+					this.write(fileNew, data, function(error) {
+						if(error === 0) {
+							callback(0);
+						}
+						else {
+							callback(3);
+						}
+					});
+				}
+				else {
+					callback(2);
+				}
+			});
+		}
+		else {
+			callback(1);
+		}
+	});
+};
+FS.prototype.read = function(file, callback) { this.__supportError(); };
+FS.prototype.write = function(file, data, callback) { this.__supportError(); };
+
+function LocalFS () {
+	FS.call(this);
+}
+
+LocalFS.prototype = Object.create(FS.prototype);
+
+LocalFS.prototype.__getKey = function(dir) {
+	return dir.replace(/\//g, "_");
+};
+
+LocalFS.prototype._loadList = function(folder, data) {
+	var nodes = [];
+	var lines = JSON.parse(data);
+	for(var i in lines) {
+		var node = new FSNode(this);
+		node.name = i;
+		node.isFile = lines[i] == 0;
+		node.path = folder;
+		nodes.push(node);
+	}
+	return nodes;
+};
+
+LocalFS.prototype.list = function(dir, callback) {
+	var key = this.__getKey(dir);
+	if(window.localStorage[key]) {
+		callback(0, this._loadList(dir, window.localStorage[key]));
+	}
+	else {
+		callback(1);
+	}
+};
+
+LocalFS.prototype.mkdir = function(dir, callback) {
+	var node = this.getPath(dir);
+	var key = this.__getKey(node.path);
+	var list = window.localStorage[key] ? JSON.parse(window.localStorage[key]) : {};
+	list[node.name] = 1;
+	window.localStorage[key] = JSON.stringify(list);
+	callback(0);
+};
+
+LocalFS.prototype.rmdir = function(dir, callback) {
+	var node = this.getPath(dir);
+	var key1 = this.__getKey(dir);
+	if(!window.localStorage[key1] || window.localStorage[key1] === "{}") {
+		var key2 = this.__getKey(node.path);
+		
+		if(window.localStorage[key2]) {
+			var list = JSON.parse(window.localStorage[key2]);
+			delete list[node.name];
+			window.localStorage[key2] = JSON.stringify(list);
+			callback(0);
+		}
+		else {
+			callback(2);
+		}
+	}
+	else {
+		callback(1);
+	}
+};
+
+LocalFS.prototype.remove = function(file, callback) {
+	var node = this.getPath(file);
+	var key = this.__getKey(node.path);
+	var folder = window.localStorage[key];
+	if(folder) {
+		var list = JSON.parse(window.localStorage[key]);
+		delete list[node.name];
+		window.localStorage[key] = JSON.stringify(list);
+		callback(0);
+	}
+	else {
+		callback(1);
+	}
+};
+
+LocalFS.prototype.read = function(file, callback) {
+	var key = this.__getKey(file);
+	var data = window.localStorage[key];
+	if(data) {
+		callback(0, data);
+	}
+	else {
+		callback(1);
+	}
+};
+
+LocalFS.prototype.write = function(file, data, callback) {
+	var node = this.getPath(file);
+	var key1 = this.__getKey(node.path);
+	var fList = window.localStorage[key1];
+	if(!fList && key1 === "_local") {
+		fList = "{}";
+	}
+	if(fList) {
+		var list = JSON.parse(fList);
+		if(!list[node.name]) {
+			list[node.name] = 0;
+			window.localStorage[key1] = JSON.stringify(list);
+		}
+		var key2 = this.__getKey(file);
+		window.localStorage[key2] = data;
+		callback(0);
+	}
+	else {
+		callback(1);
+	}
+};
+
+function RemoteFS () {
+	FS.call(this);
+}
+
+RemoteFS.prototype = Object.create(FS.prototype);
+
+RemoteFS.prototype._loadList = function(folder, data) {
+	var nodes = [];
+	var lines = JSON.parse(data);
+	for(var i in lines) {
+		var node = new FSNode(this);
+		node.name = i;
+		node.isFile = lines[i] == 0;
+		node.path = folder;
+		nodes.push(node);
+	}
+	return nodes;
+};
+
+RemoteFS.prototype.list = function(dir, callback) {
+	var __fs = this;
+	$.get("server/core.php?dir=" + dir, function(data){
+		callback(0, __fs._loadList(dir, data));
+	});
+};
+
+RemoteFS.prototype.mkdir = function(dir, callback) {
+	$.post("server/core.php", {mkdir: dir}, function(data) {
+		if(data) {
+			var error = JSON.parse(data);
+			callback(error.code);
+		}
+		else {
+			callback(0);
+		}
+	});
+};
+
+RemoteFS.prototype.rmdir = function(dir, callback) {
+	$.post("server/core.php", {rm: dir}, function(data){
+		if(data) {
+			var error = JSON.parse(data);
+			callback(error.code);
+		}
+		else {
+			callback(0);
+		}	
+	});
+};
+
+RemoteFS.prototype.remove = function(file, callback) {
+	this.rmdir(file, callback);
+};
+
+RemoteFS.prototype.read = function(file, callback) {
+	$.post("server/core.php", {name: file, load: true}, function(data) {
+		if(this.status == 200) {
+    		callback(0, data);
+		}
+		else {
+			var error = JSON.parse(data);
+			callback(error.code);
+		}
+	});
+};
+
+RemoteFS.prototype.write = function(file, data, callback) {
+	$.post("server/core.php", {name: file, sha: data, save: true}, function(data){
+		if(data) {
+			var error = JSON.parse(data);
+			callback(error.code);
+		}
+		else {
+			callback(0);
+		}
+	});
+};
+
+//------------------------------------------------------------------------------
+
+function DocumentTab(file) {
+    this.manager = null;
+    this.tab = null;
+    this.saved = true;
+}
+
+DocumentTab.prototype.getControl = function(){
+    return this._ctl;
+};
+
+DocumentTab.prototype.open = function(file) { this.file = file; };
+DocumentTab.prototype.save = function(file) { this.file = file; };
+DocumentTab.prototype.init = function() {};
+DocumentTab.prototype.resize = function() {};
+DocumentTab.prototype.close = function() {
+	if(this.saved || confirm("Are you sure?")) {
+		this.hide();
+		return true;
+	}
+	return false;
+};
+DocumentTab.prototype.getTitle = function() {
+    if(this.file) {
+	    var fName = this.file.name;
+	    var i = fName.indexOf(".");
+	    return i > 0 ? fName.substr(0, i) : fName;
+    }
+    
+    return "";
+};
+
+DocumentTab.prototype.show = function() { this.getControl().show(); };
+DocumentTab.prototype.hide = function() { this.getControl().hide(); };
+
+DocumentTab.prototype.updateCommands = function(commander) {};
+DocumentTab.prototype.execCommand = function(cmd, data) {};
+
+//------------------------------------------------------------------------------
+
+var buffer = "";
+var hintLink = null;
+
+function SHATab(file) {
+	this.container = new Panel({theme: "doc-sha"});
+	this.container.layuot = new VLayout(this.container, {});
+    this.sdkEditor = new SdkEditor();
+    this.sdkEditor.hide();
+    this._ctl = this.container.getControl();
+    this.container.add(this.sdkEditor);
+    this.loader = new UILoader({size: 64, radius: 5});
+    this.container.add(this.loader);
+    
+    this.statusBar = new Panel({height: 20, theme: "statusbar"});
+    this.statusBar.hide();
+    this.container.add(this.statusBar);
+    this.address = new Panel({theme: "panel-clear"});
+    this.address.setLayoutOptions({grow: 1});
+    this.statusBar.add(this.address);
+
+    // this.statusBar.add(new Button({caption: "+", width: 20}));
+    // this.statusBar.add(new Label({caption: "100%", width: 40, halign: 1}));
+    // this.statusBar.add(new Button({caption: "-", width: 20}));
+    this.zoom = new TrackBar({min: 0, max: 5, step: 1, width: 60});
+    this.zoom.position = 2;
+    var __editor = this;
+    this.zoom.addListener("input", function () {
+		__editor.sdkEditor.zoom(0.25 * (1 << __editor.zoom.position));
+		commander.reset();
+	});
+    this.statusBar.add(this.zoom);
+
+    DocumentTab.call(this, file);
+}
+
+SHATab.prototype = Object.create(DocumentTab.prototype);
+
+SHATab.prototype.getTitle = function(){
+    return DocumentTab.prototype.getTitle.call(this) || "Project";
+};
+
+SHATab.prototype.createFromData = function(data) {
+    var sdk = new SDK(packMan.getPack("base"));
+	this.sdkEditor.edit(sdk);
+	this.sdkEditor.createNew();
+	if(data) {
+		this.sdkEditor.loadFromText(data);
+	}
+	this.loader.free();
+	this.sdkEditor.show();
+	this.statusBar.show();
+	this.resize();
+};
+
+SHATab.prototype.open = function(file) {
+    DocumentTab.prototype.open.call(this, file);
+    
+ 	if(file) {
+ 		var __editor = this;
+ 		this.tab.load(true);
+ 		file.read(function(error, data){
+ 			if(error === 0) {
+ 				__editor.createFromData(data);
+ 				__editor.tab.load(false);
+ 			}
+ 			else {
+ 				displayError({code: error});
+ 			}
+ 		});
+ 	}
+ 	else {
+ 		this.createFromData("");
+ 	}
+};
+
+SHATab.prototype.save = function (file) {
+	DocumentTab.prototype.save.call(this, file);
+
+	this.saveSDKtoFile();
+};
+
+SHATab.prototype.init = function() {
+    this.resize();
+    
+	var __editor__ = this;
+    this.sdkEditor.onselectelement = function(selMan) {
+		propEditor.show(selMan);
+		if(__editor__.fEditor) {
+			__editor__.fEditor.update();
+		}
+		commander.reset();
+	};
+	this.sdkEditor.onstatuschange = function(text) {
+		$("state").innerHTML = text;
+	};
+	this.sdkEditor.onpopupmenu = function(type, x, y, obj) {
+		switch(type) {
+			case POPUP_MENU_ELEMENT:
+				popupElement.up(x, y);
+				break;
+			case POPUP_MENU_SDK:
+				popupSDK.up(x, y);
+				break;
+			case POPUP_MENU_HINT_LINK:
+				var items = [];
+				for(var collection of [obj.e.props, obj.e.sys]) {
+					for(var p in collection) {
+						var prop = collection[p];
+						items.push({
+							title: prop.name,
+							click: function() {
+								obj.prop = obj.e.props[this.title] || obj.e.sys[this.title];
+								__editor__.sdkEditor.draw();
+							}
+						});
+					}
+					if(collection === obj.e.props) {
+						items.push({title: "-"});
+					}
+				}
+				hintLink = new PopupMenu(items);
+				hintLink.up(x, y);
+				break;
+			case POPUP_MENU_LINE:
+				popupLine.up(x, y);
+				break;
+		}
+	};
+	this.sdkEditor.oneditprop = function(prop) {
+		propEditor.onadveditor(prop);
+	};
+	this.sdkEditor.onsdkchange = function() {
+		if(__editor__.saved) {
+			__editor__.saved = false;
+			commander.reset();
+		}
+	};
+	this.sdkEditor.onsdkselect = function(){
+		__editor__.updateAddress();
+	};
+};
+
+SHATab.prototype.resize = function() {
+	this.sdkEditor.resize();
+};
+
+var runners = {};
+
+SHATab.prototype.show = function() {
+	DocumentTab.prototype.show.call(this);
+	
+	this.sdkEditor.getControl().focus();
+	//setTimeout(function(){console.log(__editor__.sdkEditor.getControl()); __editor__.sdkEditor.getControl().focus();}, 2);
+	
+	var __editor__ = this;
+	propEditor.onpropchange = function(prop) {
+		__editor__.sdkEditor.draw();
+		__editor__.sdkEditor.onsdkchange();
+		
+		if(__editor__.fEditor) {
+			__editor__.fEditor.update();
+		}
+	};
+	propEditor.onadveditor = function(item) {
+		var e = __editor__.sdkEditor.sdk.selMan.items[0];
+		var customEditor = e.props[item.name] ? e.props[item.name].editor : e.sys[item.name].editor;
+		if(customEditor) {
+			if(!runners[customEditor]) {
+				runners[customEditor] = new Runner(__editor__.sdkEditor.sdk.pack.getEditorsPath() + customEditor);
+			}
+			runners[customEditor].run([item.name, item.value, e.props], function(data) {
+				__editor__.sdkEditor.sdk.selMan.setProp(item.name, data[0]);
+				__editor__.sdkEditor.onselectelement(__editor__.sdkEditor.sdk.selMan);
+				propEditor.onpropchange(null);
+			});
+		}
+		else {
+			var m = new Builder().n("div");
+			var e = m.n("div").style("flexGrow", 1);
+			$.appendChild(m.element);
+			var editor = CodeMirror(e.element, {
+				value: item.value,
+				lineNumbers: window.getOptionBool("opt_ce_line_numbers", 1),
+				lineWrapping: window.getOptionBool("opt_ce_line_wrapping", 0),
+				matchBrackets: true,
+				mode: "text/javascript",
+				indentUnit: 4, // Длина отступа в пробелах.
+				indentWithTabs: true,
+				enterMode: "keep",
+				tabMode: "shift"
+			});
+			
+			m.element.dialog({
+				title: "Edit property " + item.name, resize: true, modal: true, destroy: true,
+				buttons: [{
+					text: "Save",
+					click: function (dialog) {
+						__editor__.sdkEditor.sdk.selMan.setProp(item.name, editor.getValue());
+						dialog.close();
+						__editor__.sdkEditor.onselectelement(__editor__.sdkEditor.sdk.selMan);
+						propEditor.onpropchange(null);
+					}
+				}]
+			}).height(300).show();
+			
+			editor.focus();
+		}
+	};
+
+	if(this.sdkEditor.sdk) {
+		this.sdkEditor.onselectelement(this.sdkEditor.sdk.selMan);
+	}
+	this.resize();
+};
+
+SHATab.prototype.hide = function() {
+	DocumentTab.prototype.hide.call(this);
+	
+	propEditor.onpropchange = function() {};
+	propEditor.onadveditor = function() {};
+	propEditor.show(null);
+};
+
+SHATab.prototype.updateAddress = function() {
+	var sdk = this.sdkEditor.sdk;
+
+	var __editor = this;
+	this.address.removeAll();
+
+	var last = null;
+	while(sdk) {
+		var c = sdk.parentElement ? sdk.parentElement.sys.Comment.value : "ROOT";
+		if(!c) {
+			c = "Container";
+		}
+		
+		var l = new Label({caption: c, theme: sdk !== this.sdkEditor.sdk ? "link" : ""});
+		last ? this.address.insert(l, last) : this.address.add(l);
+		if(sdk.parentElement) {
+			this.address.insert(last = new Label({width: 10, caption: "\\", halign: 1}), l);
+		}
+		
+		if(sdk !== this.sdkEditor.sdk) {
+			l.getControl().tag = sdk;
+			l.addListener("click", function() {
+				if(__editor.fEditor) {
+					__editor.formEditor();
+				}
+				__editor.sdkEditor.edit(this.tag);
+			});
+		}
+		sdk = sdk.parent;
+	}
+};
+
+SHATab.prototype.updateCommands = function(commander) {
+    if(this.sdkEditor.sdk) {
+    	commander.enabled("addelement");
+    	
+		commander.enabled("saveas");
+		commander.enabled("run");
+		commander.enabled("formedit");
+		commander.enabled("selectall");
+		commander.enabled("slidedown");
+		commander.enabled("slideright");
+		commander.enabled("makehint");
+		commander.enabled("remove_lh");
+		commander.enabled("capture");
+		commander.enabled("sha_source");
+		commander.enabled("statistic");
+		commander.enabled("paste");
+		
+		if(this.file && this.file.path.startsWith("/home")) commander.enabled("share");
+		
+		if(this.sdkEditor.canZoomIn()) commander.enabled("zoomin");
+		if(this.sdkEditor.canZoomOut()) commander.enabled("zoomout");
+		
+		if(this.sdkEditor.canUndo()) commander.enabled("undo");
+		if(this.sdkEditor.canRedo()) commander.enabled("redo");
+
+		if(!this.saved) commander.enabled("save");
+		if(this.sdkEditor.canBringToFront()) commander.enabled("bringtofront");
+		if(this.sdkEditor.canSendToBack()) commander.enabled("sendtoback");
+		
+		if(user.uid > 1) commander.enabled("build");
+    }
+    
+	if(this.sdkEditor.sdk && !this.sdkEditor.sdk.selMan.isEmpty()) {
+		commander.enabled("cut");
+		commander.enabled("copy");
+		commander.enabled("delete");
+		if(this.sdkEditor.sdk.selMan.size() == 1) {
+			commander.enabled("comment");
+		}
+	}  
+
+	if(this.sdkEditor.canBack()) {
+		commander.enabled("back");
+	}
+	if(this.sdkEditor.canForward()) {
+		commander.enabled("forward");
+	}
+};
+
+SHATab.prototype.saveSDKtoFile = function() {
+	var __editor = this;
+	this.tab.save(true);
+	this.file.write(this.sdkEditor.getMainSDK().save(false), function(error){
+		if(error === 0) {
+			__editor.saved = true;
+			commander.reset();
+			__editor.tab.caption = __editor.getTitle();
+			__editor.tab.title = __editor.file.location();
+		}
+		else {
+ 			displayError({code: error});
+ 		}
+		__editor.tab.save(false);
+	});
+};
+
+SHATab.prototype.formEditor = function() {
+	if(this.fEditor) {
+		this.fEditor.edit(null);
+		this.fEditor = null;
+		this.sdkEditor.show();
+		this.resize();
+	}
+	else {
+		this.fEditor = new FormEditor(this.sdkEditor);
+		var ctl = this.fEditor.edit(this.sdkEditor.sdk);
+		if(ctl) {
+			this.sdkEditor.hide();
+			this.container.insert(ctl, this.container.get(1));
+			this.fEditor.update();
+		}
+	}
+};
+
+
+
+SHATab.prototype.showStatistic = function() {
+	var stat = [
+		[translate.translate("ui.statecount"), 0],
+		[translate.translate("ui.statincursdk"), 0],
+		[translate.translate("ui.statsdknum"), 0],
+		[translate.translate("ui.statintel"), 0],
+		[translate.translate("ui.statlinkednum"), 0],
+		[translate.translate("ui.statlinkedpoints"), 0]
+	];
+	
+	function fill(sdk) {
+		if(sdk) {
+			stat[0][1] += sdk.imgs.length;
+			for(var e of sdk.imgs) {
+				if(e instanceof ITElement || e instanceof HubsEx || e instanceof Debug) {
+					stat[3][1]++;
+				}
+				for(var p in e.points) {
+					if(!e.points[p].isFree()) {
+						stat[5][1] ++;
+					}
+				}
+				if(e.sdk) {
+					stat[2][1] ++;
+					fill(e.sdk);
+				}
+			}
+		}
+	};
+	
+	stat[1][1] = this.sdkEditor.sdk.imgs.length;
+	fill(this.sdkEditor.getMainSDK());
+	
+	new Runner("statistic").run(stat);
+};
+
+SHATab.prototype.build = function() {
+	$("state").innerHTML = "Build...";
+	$.post("server/core.php", {build: this.file.name, code: this.sdkEditor.getMainSDK().save(false)}, function(data, file) {
+		var b = new Builder($("state")).html('');
+		for(var line of data.split("\n")) {
+			var eline = b.n("div");
+			if(line.startsWith("CODEGEN")) {
+				var text = line.substring(9);
+				var span = eline.n("span").html(text.substring(1));
+				if(text.startsWith("~")) {
+					span.style("color", "gray");
+				}
+				else if(text.startsWith("@")) {
+					span.style("color", "silver");
+				}
+				else if(text.startsWith("!")) {
+					span.style("color", "red");
+				}
+				else if(text.startsWith("#")) {
+					span.style("color", "blue");
+				}
+			}
+			else {
+				eline.html(line);
+			}
+		}
+		b.n("div").html("Open application in new tab: <a href=\"/users/" + user.uid + "/" + file + ".html\" target=\"_blank\">" + file + ".html</a>");
+	}, this.file.name.substring(0, this.file.name.length - 4));
+};
+
+SHATab.prototype.execCommand = function(cmd, data) {
+    switch(cmd) {
+    	case "addelement":
+    		this.sdkEditor.beginAddElement(data);
+    		if(this.fEditor) {
+    			this.fEditor.beginAddElement(data, this.sdkEditor.cursorNormal);
+    			this.sdkEditor.endOperation();
+    		}
+    		break
+    	
+        case "run":
+        	this.sdkEditor.run();
+        	if(this.file && !this.saved && window.getOptionBool("opt_save_edit", 0)) {
+        		this.saveSDKtoFile();
+        	}
+        	break;
+        case "save":
+            if(this.file) {
+                this.saveSDKtoFile();
+            }
+            else {
+                commander.execCommand("saveas");
+            }
+            break;
+		case "saveas": fileManager.save(this.file ? this.file.location() : "Project.sha"); break;
+        
+        case "back":
+        	if(this.fEditor) {
+        		this.formEditor();
+        	}
+        	window.history.back();
+        	commander.reset();
+        	break;
+        case "forward": this.sdkEditor.forward(); commander.reset(); break;
+        
+        case "formedit": this.formEditor(); break;
+        
+        case "delete": this.sdkEditor.deleteSelected(); break;
+        case "copy":
+        	buffer = this.sdkEditor.sdk.save(true);
+        	if(data) {
+        		data.setData('text/plain', buffer);
+        	}
+        	commander.reset();
+        	break;
+        case "paste":
+        	var text = data ? data.getData("text/plain") : buffer;
+        	if(text.substr(0, 3) == "Add") {
+        		this.sdkEditor.pasteFromText(text);
+        	}
+        	break;
+        
+        case "comment": this.sdkEditor.oneditprop(this.sdkEditor.sdk.selMan.items[0].sys["Comment"]); break;
+        
+        case "slidedown": this.sdkEditor.beginOperation(window.ME_SLIDE_DOWN); break;
+        case "slideright": this.sdkEditor.beginOperation(window.ME_SLIDE_RIGHT); break;
+        case "selectall": this.sdkEditor.selectAll(); break;
+        
+        case "bringtofront": this.sdkEditor.bringToFront(); break;
+        case "sendtoback": this.sdkEditor.sendToBack(); break;
+        
+        case "makehint": this.sdkEditor.beginOperation(window.ME_MAKE_LH); break;
+        case "remove_lh": this.sdkEditor.beginOperation(window.ME_REMOVE_LH); break;
+        
+        case "zoomin": this.sdkEditor.zoomIn(); this.zoom.position++; commander.reset(); break;
+        case "zoomout": this.sdkEditor.zoomOut(); this.zoom.position--; commander.reset(); break;
+        
+        case "capture": window.open(this.sdkEditor.control.toDataURL("image/png")); break;
+        case "sha_source": this.sdkEditor.download(this.file ? this.file.location() : "Project.sha"); break;
+        
+        case "paste_debug": this.sdkEditor.pasteLineElement("Debug"); break;
+        case "paste_dodata": this.sdkEditor.pasteLineElement("DoData"); break;
+        case "paste_hub": this.sdkEditor.pasteLineElement("Hub"); break;
+        
+        case "share": new Runner("share", function(){}).run([this.file.location(), 0]); break;
+        
+        case "undo": this.sdkEditor.undo(); commander.reset(); break;
+        case "redo": this.sdkEditor.redo(); commander.reset(); break;
+        
+        case "statistic": this.showStatistic(); break;
+        
+        case "build": this.build(); break;
+        
+        default:
+            DocumentTab.prototype.execCommand.call(this, cmd, data);
+    }
+};
+
+//------------------------------------------------------------------------------
+
+function CodeTab(file) {
+    DocumentTab.call(this, file);
+    
+	var memo = new Builder().n("div").class("doc-code");
+	memo.n("textarea").id("text-edit-form-memo").style("flexGrow", 1);
+	this._ctl = memo.element;
+}
+
+CodeTab.prototype = Object.create(DocumentTab.prototype);
+
+CodeTab.prototype.init = function() {
+	this.editor = CodeMirror.fromTextArea(this._ctl.childNodes[0], {
+		lineNumbers: true, // Нумеровать каждую строчку.
+		matchBrackets: true,
+		mode: "text/javascript",
+		indentUnit: 2, // Длина отступа в пробелах.
+		indentWithTabs: true,
+		enterMode: "keep",
+		tabMode: "shift"
+	});
+	this.editor.focus();
+};
+
+CodeTab.prototype.open = function(file) {
+	DocumentTab.prototype.open.call(this, file);
+	
+	if(file) {
+		var __editor = this;
+		file.read(function(error, data) {
+			if(error === 0) {
+				__editor.editor.setValue(data);
+			}
+		});
+	}
+};
+
+//------------------------------------------------------------------------------
+
+function OggTab(file) {
+    DocumentTab.call(this, file);
+    
+	var audio = new Builder().n("audio").attr("controls", "controls");
+	this._ctl = audio.element;
+	console.log(this._ctl)
+}
+
+OggTab.prototype = Object.create(DocumentTab.prototype);
+
+OggTab.prototype.open = function(file) {
+	var __editor = this;
+	file.read(function(error, data){
+		if(error === 0) {
+			var blob = new Blob([data], {type : 'audio/ogg'});
+			var url = URL.createObjectURL(blob);
+			__editor._ctl.src = url;
+		}
+	});
+};
+
+//------------------------------------------------------------------------------
+
+function ImageTab(file) {
+    DocumentTab.call(this, file);
+    
+	this.image = new UIImage({});
+	this._ctl = this.image.getControl();
+}
+
+ImageTab.prototype = Object.create(DocumentTab.prototype);
+
+ImageTab.prototype.open = function(file) {
+	var __editor = this;
+	file.read(function(error, data){
+		if(error === 0) {
+			var blob = new Blob([data], {type : 'image/png'});
+			var url = URL.createObjectURL(blob);
+			__editor.image.url = url;
+		}
+	});
+};
+
+//------------------------------------------------------------------------------
+
+function StartupTab(file) {
+    DocumentTab.call(this, file);
+    
+    this.startup = new Builder().n("div").class("startup");
+	this.startup.n("div").class("button").style("backgroundImage", "url('img/new.png')").on("onclick", function(){ commander.execCommand('new'); }).html("Create New...");
+	this.startup.n("div").class("button").style("backgroundImage", "url('img/folder.png')").on("onclick", function(){ commander.execCommand('open'); }).html("Open exists");
+	this._ctl = this.startup.element;
+}
+
+StartupTab.prototype = Object.create(DocumentTab.prototype);
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+function DocumentManageer(control) {
+    
+    var extMap = [
+        { ext: /.*\.sha$/i, tab: SHATab },
+        { ext: /.*\.txt$/i, tab: CodeTab },
+        { ext: /.*\.ogg$/i, tab: OggTab },
+        { ext: /.*\.png$/i, tab: ImageTab }
+    ];
+    
+    var dm = this;
+    
+    this.tabs = new TabControl();
+	this.tabs.appendTo(control);
+	this.tabs.onclose = function(tab) {
+	    if(tab.content.close()) {
+    	    control.removeChild(tab.content.getControl());
+    	    return true;
+	    }
+	    
+	    return false;
+	};
+	this.tabs.onselect = function(tab) {
+        dm.currentTab.hide();
+	    dm.currentTab = tab ? tab.content : dm.startup;
+	    if(dm.currentTab) {
+	        dm.currentTab.show();
+	        commander.reset();
+	    }
+	    
+	    dm.saveOpenTabs();
+	};
+	
+	this.startup = new StartupTab("Startup");
+
+    this._showTab = function(tab) {
+        this.currentTab = tab;
+        control.appendChild(tab.getControl());
+    };
+
+	this.openByType = function(Class, file, title) {
+	    if(file) {
+	    	console.log("Open: ", file.location());
+	    }
+	    
+        var content = new Class(file);
+        content.manager = this;
+        var tab = this.tabs.addTab("", "");
+        tab.content = content;
+        content.tab = tab;
+        this._showTab(tab.content);
+        tab.content.init();
+        tab.content.open(file);
+        tab.content.show();
+        tab.title = file ? file.location() : "";
+        tab.caption = title || content.getTitle();
+        
+        commander.reset();
+        this.saveOpenTabs();
+	};
+	
+	this.openFile = function(file, title) {
+		for(var obj of extMap) {
+			if(file.name.match(obj.ext)) {
+				this.openByType(obj.tab, file, title);
+				return;
+			}
+		}
+		
+		this.openByType(SHATab, file, title);
+	};
+	
+	this.open = function(fileName, title) {
+		this.openFile(getFileNode(fileName), title);
+	};
+	
+	this.save = function(file) {
+		this.currentTab.save(getFileNode(file));
+	};
+	
+	this.resize = function() {
+	    this.tabs.each(function(tab) {
+	        tab.content.resize();
+	    });
+	};
+	
+	this.execCommand = function(cmd, data) {
+		this.currentTab.execCommand(cmd, data);
+
+        switch(cmd) {
+            case "new": this.openNew(); break;
+        }
+	};
+	
+	this.updateCommands = function(commander) {
+		this.currentTab.updateCommands(commander);
+	};
+	
+	this.openNew = function() {
+	    this.openByType(SHATab, null);
+	};
+	
+	this.saveOpenTabs = function() {
+		if(window.getOptionBool("opt_save_tabs", 1)) {
+			var openFiles = [];
+			this.tabs.each(function(tab){
+				if(tab.content && tab.content.file) {
+					openFiles.push(tab.content.file.location());
+				}
+			});
+			window.localStorage['opentabs'] = JSON.stringify(openFiles);
+		}
+	};
+	
+	this.init = function() {
+		if(window.getOptionBool("opt_save_tabs", 1)) {
+			var data = window.localStorage['opentabs'];
+			if(data) {
+				var openFiles = JSON.parse(data);
+				for(var file of openFiles) {
+					this.open(file);
+				}
+			}
+		}
+		else {
+			if(window.getOptionBool("opt_new_project", 0)) {
+				commander.execCommand("new");
+			}
+		}
+	};
+	
+	document.body.onbeforeunload = function() {
+		var saved = true;
+		dm.tabs.each(function(tab){
+			if(tab.content) {
+				saved = saved && tab.content.saved;
+			}
+		});
+		
+		return saved ? null : 'Your most recent changes have not been saved. If you leave before saving, your changes will be lost.';
+	};
+	
+    this._showTab(this.startup);
+    
+    window.addEventListener("resize", function(){
+        dm.resize();
+    });
+    document.addEventListener("paste", function(e) {
+        if((!document.activeElement || document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA")) {
+        	commander.execCommand("paste", e.clipboardData);
+			event.preventDefault();
+			return false;
+		}
+		return true;
+    });
+    document.addEventListener("copy", function(e) {
+        if((!document.activeElement || document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA")) {
+        	commander.execCommand("copy", e.clipboardData);
+        	event.preventDefault();
+			return false;
+		}
+		return true;
+    });
+    document.addEventListener("cut", function(e) {
+        if((!document.activeElement || document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA")) {
+        	commander.execCommand("copy", e.clipboardData);
+        	commander.execCommand("delete");
+        	event.preventDefault();
+			return false;
+		}
+		return true;
+    });
+    
+	// drop files
+	var __doc = this;
+	control.ondrop = function(event){
+		event.preventDefault();
+		for(var i = 0; i < event.dataTransfer.files.length; i++) {
+			__doc.openFile(new DesktopFSNode(event.dataTransfer.files[i]));
+		}
+    	
+    	this.removeAttribute("drop");
+		
+		return false;
+	};
+	control.ondragover = function(event){
+		this.setAttribute("drop", "");
+		return false;
+	};
+	control.ondragleave = function(event){
+		this.removeAttribute("drop");
+		return false;
+	};
+}

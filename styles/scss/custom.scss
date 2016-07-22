@@ -1,0 +1,33 @@
+@import "config";
+
+// custom themes for elements
+
+.borderin {
+    border: 1px solid $borderLight;
+    border-top-color: $borderDark;
+    border-left-color: $borderDark;
+}
+
+.borderout {
+    border: 1px solid $borderLight;
+    border-bottom-color: $borderDark;
+    border-right-color: $borderDark;
+}
+
+.panel-clear {
+    border: 0;
+}
+
+.input-classic {
+    background-color: $inputBgColor;
+    border: 1px solid $borderColor;
+}
+
+.ui-pannel-top-left {
+    border-right: 0;
+    border-bottom: 0;
+    border-top: 1px solid $borderLight;
+    border-left: 1px solid $borderLight;
+}
+
+.bg-dark { background-color: $borderDark; }

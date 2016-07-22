@@ -1,0 +1,99 @@
+Add(MainForm,1,371,147)
+{
+  Width=#3:255|
+  Height=#3:253|
+  Caption=#11:ui.projstat|
+}
+Add(SimpleTable,7,287,77)
+{
+  Left=14
+  Top=14
+  Width=#3:226|
+  Height=#3:170|
+  Columns=#78:[{"title":"ui.category"},{"title":"ui.value","width":"40px","align":"center"}]|
+}
+Add(hcTransmitter,8,119,77)
+{
+  link(onInit,16:doEvent1,[])
+}
+Add(Button,10,301,154)
+{
+  Left=168
+  Top=196
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#8:ui.close|
+  link(onClick,1:doClose,[])
+}
+Add(Button,11,119,126)
+{
+  Left=84
+  Top=196
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#7:ui.copy|
+  link(onClick,14:doWork1,[])
+}
+Add(ArrayEnum,12,217,77)
+{
+  link(onEnum,7:doAddRow,[])
+}
+Add(MultiElementEx,14,217,126)
+{
+}
+BEGIN_SDK
+Add(MultiElementEditor,13,7,7)
+{
+  WorkCount=2
+  @VOffset=63
+  @Height=270
+  link(doWork1,15:doShow,[])
+  link(doWork2,18:doEnum,[(35,83)(35,132)])
+}
+Add(MainForm,15,63,70)
+{
+  Left=63
+  Top=70
+  Width=#3:302|
+  Height=#3:239|
+  Visible=0
+  Caption=#17:Copy to clipboard|
+}
+Add(Memo,17,259,196)
+{
+  Left=7
+  Top=7
+  Width=#3:288|
+  Height=#3:205|
+}
+Add(ArrayEnum,18,63,126)
+{
+  link(onEnum,22:doEvent1,[])
+}
+Add(FormatStr,19,203,196)
+{
+  Mask=#7:%1 - %2|
+  link(onFString,17:doAdd,[])
+  link(Str1,21:Value,[])
+}
+Add(ArrayRead,21,203,126)
+{
+}
+Add(Hub,22,112,126)
+{
+  link(onEvent1,21:doRead,[])
+  link(onEvent2,23:doRead,[(136,139)(136,202)])
+}
+Add(ArrayRead,23,147,196)
+{
+  Index=1
+  link(onRead,19:doString,[])
+}
+END_SDK
+Add(Hub,16,175,77)
+{
+  link(onEvent1,12:doEnum,[])
+  link(onEvent2,14:doWork2,[(203,90)(203,139)])
+}

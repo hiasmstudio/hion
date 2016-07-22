@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
+ 
+<html>
+<head> 
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
+
+	<title>SHA Drawer demo</title>
+
+	<link rel="stylesheet" href="styles/ui.css" type="text/css"/>
+	<link rel="stylesheet" href="style.css" type="text/css"/>
+	
+	<script type="text/javascript" src="js/htmltools.js"></script>
+	<script type="text/javascript" src="js/translate.js"></script>
+	<script type="text/javascript" src="js/hint.js"></script>
+
+	<script type="text/javascript" src="js/pack.js"></script>
+	<script type="text/javascript" src="js/selman.js"></script>
+	<script type="text/javascript" src="js/sdk.js"></script>
+	<script type="text/javascript" src="js/point.js"></script>
+	<script type="text/javascript" src="js/element.js"></script>
+	<script type="text/javascript" src="js/elements.js"></script>
+
+	<script src="js/ui.js" type="text/javascript"></script>
+
+    <script src="js/shadrawer.js" type="text/javascript"></script>
+<body onload="draw()">
+    <script type="text/javascript">
+        function draw() {
+        	var file = window.location.hash.substr(1);
+            new SHADrawer($("drawer"), file);
+        }
+    </script>
+
+    <div style="height: 0; overflow: hidden;" id="palette"></div>
+    <canvas id="drawer" width=600 height=400 style="width: 600px; height: 400px; background: #ffffff url('img/back.gif');"></canvas>
+
+</body>
+
+</html>

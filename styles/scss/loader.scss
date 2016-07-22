@@ -1,0 +1,31 @@
+@import "config";
+
+$max: 12;
+
+.ui-loader {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.g--circle {
+	fill-opacity: 0;
+	fill: $borderColor;
+	animation: opacityl 1.2s linear infinite;
+	
+	@for $item from 1 through $max {
+		&:nth-child(#{$max}n + #{$item}) {
+			animation-delay: -#{$item/10}s;
+		}
+	}
+}
+
+@keyframes opacityl {
+	3% {
+		fill-opacity: 1;
+	}
+	75% {
+		fill-opacity: 0;
+	}
+}

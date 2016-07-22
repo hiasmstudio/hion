@@ -1,0 +1,170 @@
+@import "config";
+
+#docmanager {
+    border-right: 1px solid $borderDark;
+    border-bottom: 1px solid $borderDark;
+
+    .tabs {
+        padding: 2px;
+        display: flex;
+        height: 21px;
+        padding-bottom: 0;
+        background-color: $controlColor;
+        border-top: 1px solid $borderLight;
+        border-left: 1px solid $borderLight;
+        border-bottom: 1px solid $borderDark;
+        flex-shrink: 0;
+        @include user-select();
+
+        .tab {
+            cursor: default;
+            color: gray;
+            display: flex;
+            align-items: center;
+            margin-bottom: -1px;
+            background-color: $controlColor;
+            border: 1px solid $borderDark;
+            font-size: 12px;
+            padding: 2px 5px;
+            width: 100px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            margin-right: 2px;
+            animation: tab 0.3s; height: 16px;
+            
+            &:hover { color: $textColor; }
+            
+            .title { flex-basis: 100%; flex-grow: 1; overflow: hidden; text-overflow: ellipsis; margin-right: 4px; white-space: nowrap; }
+            .icon { background-image: url('../img/sha.png'); width: 16px; height: 16px; flex-shrink: 0; margin-right: 3px; opacity: 0.5; }
+            .close {
+                width: 14px; height: 14px; color: gray; font-size: $fontSize; text-align: center; flex-shrink: 0; border-radius: 8px;
+                &:hover { background-color: $borderDark; color: $selectedButtonText; }
+            }
+            &[save=true] {
+                .close {
+                    content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfgAwcHHzjg8FPOAAAAc0lEQVQY02NgoD9ghDEUpRjS/oX+Zfi9+tes988gYswwScFiz3o3UWNRUYcLX34fgIgxwST/hiow3GW4ziDH8DMUJgaX/M3wj+E3w0+Gvwx/GTAkf66+waDAoMFwk4FhNYbLuKXYGhiuMlxlaGCQYhhAAAB6vR9+Z/piugAAAABJRU5ErkJggg==');
+                }
+            }
+            
+            
+            &[active=true] {
+                color: $textColor;
+                background-color: $inputBgColor;
+                border-bottom: 1px solid $inputBgColor;
+                
+                .icon { opacity: 1.0; }
+            }
+        }
+    }
+    
+    &[drop] { opacity: 0.5; outline: 2px solid black; }
+    
+    .doc-sha {
+        flex-basis: 100%;
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        background-color: $inputBgColor;
+        border: 0;
+
+        > .content {
+            justify-content: center;
+            
+            > .canvas {
+                flex-basis: 100%;
+                flex-grow: 1;
+                position: relative;
+
+                > .scrollbox {
+                    position: absolute;
+                    overflow: auto;
+                    left: 0; top: 0; right: 0; bottom: 0;
+                    
+                    > canvas {
+                        background: $inputBgColor url('../img/back.gif');
+                        @include user-select();
+                    }
+                }
+            }
+        }
+        
+        .statusbar {
+            background-color: $controlColor;
+            border: 0;
+            border-top: 1px solid $borderDark;
+            padding-left: 5px;
+        }
+        
+        .form-editor {
+            border: 0;
+            padding-left: 7px;
+            padding-top: 7px;
+            flex-grow: 1;
+
+            > .content {
+                overflow: auto;
+                
+                > .dialog, > .ui-panel {
+                    position: absolute;
+                    left: 0 !important;
+                    top: 0 !important;
+                    box-shadow: initial;
+                    animation: none;
+                }
+                
+                .frm-ctl { position: absolute; margin: 0; padding: 0; font-size: $fontSize; box-sizing: border-box; }
+                .frm-top-ctl { margin: 0; left: 0; position: absolute; height: 100%; width: 100%; }
+                .frm-editor { position: absolute; top: 0; bottom: 0; left: 0; right: 0; border: 0; }
+                .frm-edit-grip { border: 1px solid $borderColor; width: 7px; height: 7px; margin: 0; background-color: $inputBgColor; }
+                .frm-edit-select { border: 1px dotted $borderColor; box-sizing: border-box; }
+            }
+            
+            // element do not visible in form editor
+            .invisible-control {
+                border: 1px dotted gray;
+                background-color: white;
+            }
+        }
+    }
+    
+    .startup {
+        background-color: white;
+        border-left: 1px solid $borderLight;
+        flex-basis: 100%;
+        flex-grow: 1;
+        flex-shrink: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: $fontSize;
+        overflow: auto;
+        @include user-select();
+        
+        .button {
+            text-align: center;
+            border: 1px solid $borderDark;
+            border-radius: 5px;
+            background-color: $controlColor;
+            background-repeat: no-repeat;
+            background-position: 34px 34px;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            margin: 10px;
+            &:hover {
+                background-color: $selectedButton;
+            }
+        }
+    }
+    
+    .doc-code {
+        position: relative;
+        display: flex;
+        flex-grow: 1;
+    }
+}
+
+@keyframes tab {
+    from { margin-top: 16px; }
+    to { margin-top: 0; }
+}

@@ -1,0 +1,97 @@
+Make(webapp)
+Add(MainForm,1,210,189)
+{
+  Left=56
+  Top=56
+  Height=169
+  Caption=Insert string example
+  link(onCreate,15:doWork2,[])
+}
+Add(Insert,2,329,189)
+{
+  link(onInsert,11:doText,[])
+  link(Str,7:Text,[(335,65)(216,65)])
+  link(SubStr,8:Text,[(342,121)(216,121)])
+  link(Position,9:Text,[(349,177)(216,177)])
+}
+Add(Label,4,133,21)
+{
+  Left=14
+  Top=14
+  Width=78
+  Height=21
+  Caption=String
+}
+Add(Label,5,133,77)
+{
+  Left=14
+  Top=42
+  Width=78
+  Height=21
+  Caption=Sub string
+}
+Add(Label,6,133,133)
+{
+  Left=14
+  Top=77
+  Width=78
+  Caption=Position
+}
+Add(Edit,7,210,21)
+{
+  Left=91
+  Top=14
+  Width=295
+  Text=Original text
+  link(onChange,13:doWork1,[(284,27)])
+}
+Add(Edit,8,210,77)
+{
+  Left=91
+  Top=42
+  Width=295
+  Text=[INSERT]
+  link(onChange,13:doWork2,[])
+}
+Add(Edit,9,210,133)
+{
+  Left=91
+  Top=70
+  Width=295
+  Text=8
+  link(onChange,14:doWork2,[])
+}
+Add(Label,10,133,189)
+{
+  Left=14
+  Top=119
+  Height=21
+  Caption=Result
+}
+Add(Edit,11,392,189)
+{
+  Left=91
+  Top=119
+  Width=295
+}
+Add(Panel,12,490,161)
+{
+  Left=14
+  Top=105
+  Width=373
+  Height=2
+}
+Add(HubEx,13,280,77)
+{
+  Angle=1
+  link(onEvent,14:doWork1,[])
+}
+Add(HubEx,14,280,133)
+{
+  Angle=1
+  link(onEvent,15:doWork1,[])
+}
+Add(HubEx,15,280,189)
+{
+  link(onEvent,2:doInsert,[])
+}

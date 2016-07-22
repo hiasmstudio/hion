@@ -1,0 +1,35 @@
+@import "config";
+
+.props {
+    border-left: 1px solid $borderLight;
+    border-top: 1px solid $borderLight;
+    width: 200px;
+    vertical-align: top;
+    font-size: 12px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    @include user-select();
+
+    .content { width: 100%; }
+    
+    .pan {
+        border-bottom: 1px solid $borderDark;
+        flex-grow: 1;
+        position: relative;
+        > .content { overflow: auto; position: absolute; top: 0; bottom: 0; }
+    }
+    
+    .ui-toolbar {
+        border-bottom: 1px solid $borderDark;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+    
+    .ui-listbox {
+        flex-grow: 1;
+        border: 0;
+        border-bottom: 1px solid $borderDark;
+    }
+}
+

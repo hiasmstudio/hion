@@ -1,0 +1,45 @@
+@import "config";
+
+.ui-listbox {
+    border: 1px solid $borderColor;
+    background-color: $inputBgColor;
+    display: flex;
+    font-size: $fontSize;
+    box-sizing: border-box;
+    user-select: none; -ms-user-select: none; -moz-user-select: none; -webkit-user-select: none;
+    
+    .content {
+        position: relative;
+        flex-grow: 1;
+        overflow: auto;
+    }
+    
+    .items {
+        position: absolute;
+        left: 0; top: 0; bottom: 0; right: 0;
+        
+        .item {
+            white-space: nowrap;
+            padding-left: 3px;
+            cursor: pointer;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            
+            &:hover	{ background-color: $bgColorHover; }
+            &[selected=true] { background-color: $bgColorActive; }
+        }
+    }
+    
+    .icon {
+        height: 16px; width: 16px;
+        margin-right: 3px;
+    }
+    
+    &[disabled] {
+        color: $textDisabledColor;
+        background-color: $controlColor;
+        
+        .item { cursor: default; }
+    }
+}

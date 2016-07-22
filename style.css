@@ -1,0 +1,38 @@
+.modalframe { background-color: #fff; opacity: 0.5; width: 100%; height: 100%; position: absolute; left: 0; top: 0;  }
+
+.checkboxmy { font-size: 0; }
+.checkboxmy input[type="checkbox"] { display:none; }
+.checkboxmy input[type="checkbox"] + span {
+    display: inline-block; width: 13px; height: 13px; background: url(/img/ui.png) -13px top no-repeat; cursor:pointer;
+}
+.checkboxmy input[type="checkbox"]:checked + span { background-position:0 top; }
+.checkboxmy input[type="checkbox"][disabled="disabled"] + span,
+.checkboxmy input[type="checkbox"][disabled="true"] + span {
+    background-position: -39px top; cursor: default;
+}
+.checkboxmy input[type="checkbox"][disabled="true"]:checked + span {
+    background-position: -26px top;
+}
+
+/* Custon themes */
+.button-dlg {
+    border: 1px solid #c9b9ab;
+    padding: 2px !important;
+    border-radius: 2px;
+    margin-right: 1px;
+    background-color: #efe9e3;
+}
+.button-dlg:hover {
+    background-color: #fff9f3;
+    border-color: #92604b;
+}
+.button-dlg:active {
+	position:relative;
+	top:1px;
+}
+
+/* animations */
+@keyframes opacity {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

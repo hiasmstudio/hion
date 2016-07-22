@@ -1,0 +1,110 @@
+Make(webapp)
+Add(MainForm,1,49,63)
+{
+  Left=60
+  Top=60
+  Width=639
+  Height=479
+}
+Add(YaMap,9,259,217)
+{
+  Left=147
+  Top=35
+  Width=473
+  Height=403
+  link(onCoords,14:doEvent1,[])
+}
+Add(Label,10,140,49)
+{
+  Left=154
+  Top=7
+  Width=15
+  Height=21
+  Caption=X:
+}
+Add(Label,11,140,91)
+{
+  Left=357
+  Top=7
+  Width=15
+  Height=21
+  Caption=Y:
+}
+Add(Edit,12,448,217)
+{
+  Left=175
+  Top=7
+  Width=169
+}
+Add(Edit,13,448,266)
+{
+  Left=371
+  Top=7
+  Width=169
+}
+Add(Hub,14,322,217)
+{
+  link(onEvent1,15:doRead,[])
+  link(onEvent2,16:doRead,[(373,230)(373,272)])
+}
+Add(ArrayRead,15,392,217)
+{
+  link(onRead,12:doText,[])
+  link(Index,17:Value,[])
+}
+Add(ArrayRead,16,392,266)
+{
+  Index=1
+  link(onRead,13:doText,[])
+}
+Add(Memory,17,399,154)
+{
+  Default=0
+}
+Add(StrList,18,119,168)
+{
+  Strings=#9:29.979167|9:31.134167|15:Пирамида Хеопса|
+}
+Add(Button,19,63,217)
+{
+  Left=14
+  Top=35
+  Width=122
+  Height=28
+  Caption=Пирамида Хеопса
+  AddHint(-36,-76,0,0,Caption)
+  link(onClick,20:doData,[])
+}
+Add(DoData,20,126,217)
+{
+  link(onEventData,25:doWork2,[])
+  link(Data,18:Array,[])
+}
+Add(Hub,21,210,217)
+{
+  link(onEvent1,9:doGoto,[])
+  link(onEvent2,9:doPlacemark,[])
+}
+Add(Button,22,63,329)
+{
+  Left=14
+  Top=70
+  Width=122
+  Height=28
+  Caption=Геоглифы Наски
+  AddHint(-31,55,0,0,Caption)
+  link(onClick,24:doData,[])
+}
+Add(StrList,23,119,280)
+{
+  Strings=#10:-14.688333|10:-75.122778|14:Геоглифы Наски|
+}
+Add(DoData,24,126,329)
+{
+  link(onEventData,25:doWork3,[(186,335)])
+  link(Data,23:Array,[])
+}
+Add(HubEx,25,182,217)
+{
+  link(onEvent,21:doEvent1,[])
+}

@@ -1,0 +1,36 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Height=70
+  Caption=ComboBox demo
+  link(onCreate,6:doFor,[])
+}
+Add(ComboBox,2,238,56)
+{
+  Left=14
+  Top=14
+  Width=128
+  Height=20
+  Select=1
+  link(onSelect,3:doCaption,[])
+}
+Add(Label,3,287,56)
+{
+  Left=154
+  Top=14
+  Width=100
+  Height=22
+  Caption=
+}
+Add(For,6,126,56)
+{
+  Start=1
+  link(onEvent,7:doStrCat,[])
+}
+Add(StrCat,7,182,56)
+{
+  Str1=Item 
+  link(onStrCat,2:doAdd,[])
+}

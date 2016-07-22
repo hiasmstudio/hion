@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"> 
+ 
+<html>
+<head> 
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/> 
+
+	<title>Hion - HiAsm Online</title>
+
+	<link rel="stylesheet" href="style.css" type="text/css"/>
+	<link rel="stylesheet" href="styles/ui.css" type="text/css"/>
+	
+	<link href="cm/lib/codemirror.css" rel="stylesheet" type="text/css"/>
+	<script src="cm/lib/codemirror.js" type="text/javascript"></script>
+	<script src="cm/mode/javascript.js" type="text/javascript"></script>
+	
+	<script type="text/javascript" src="js/htmltools.js"></script>
+	<script type="text/javascript" src="js/ui.js"></script>
+	<script type="text/javascript" src="js/translate.js"></script>
+	<script type="text/javascript" src="js/dialog.js"></script>
+	<script type="text/javascript" src="js/popupmenu.js"></script>
+	<script type="text/javascript" src="js/mainmenu.js"></script>
+	<script type="text/javascript" src="js/hint.js"></script>
+	<script type="text/javascript" src="js/filemanager.js"></script>
+	<script type="text/javascript" src="js/commander.js"></script>
+	
+	<script type="text/javascript" src="js/formeditor.js"></script>
+	<script type="text/javascript" src="js/propeditor.js"></script>
+	<script type="text/javascript" src="js/sdkeditor.js"></script>
+	<script type="text/javascript" src="js/docmanager.js"></script>
+	
+	<script type="text/javascript" src="js/pack.js"></script>
+	<script type="text/javascript" src="js/selman.js"></script>
+	<script type="text/javascript" src="js/sdk.js"></script>
+	<script type="text/javascript" src="js/point.js"></script>
+	<script type="text/javascript" src="js/element.js"></script>
+	<script type="text/javascript" src="js/elements.js"></script>
+
+	<script src="js/ui.js" type="text/javascript"></script>
+</head>
+<body style="background-color: black; color: white; font-family: monospace;">
+    <div id="log"></div>
+    <script type="text/javascript">
+        'use strict';
+        
+        function print(text) {
+            $("log").appendChild(new Builder().n("div").html(text).element);
+        }
+        
+        function test(value, text) {
+            if(value) {
+                print('[ <span style="color: lime;">OK</span> ] ' + text)
+            }
+            else {
+                print('[<span style="color: red;">FAIL</span>] ' + text)
+            }
+        }
+
+        test(window.HTMLElement.prototype.append, "HTMLElement");
+        test(window.Loader, "Loader");
+        test($.get, "get");
+        test($.post, "post");
+        test(window.Translate, "Translate");
+        test(window.HTMLElement.prototype.dialog, "dialog");
+        test(window.UIControl, "UIControl");
+        test(window.PopupMenu, "PopupMenu");
+        test(window.MainMenu, "MainMenu");
+        test(window.Hint, "Hint");
+        test(window.FileManager, "FileManager");
+        test(window.Commander, "Commander");
+        test(window.FormEditor, "FormEditor");
+        test(window.PropertyEditor, "PropertyEditor");
+        test(window.SdkEditor, "SdkEditor");
+        test(window.PackManager, "PackManager");
+        test(window.DocumentManageer, "DocumentManageer");
+        test(window.Pack, "Pack");
+        test(window.SelectManager, "SelectManager");
+        test(window.SDK, "SDK");
+        test(window.Point, "Point");
+        test(window.ElementProperty, "ElementProperty");
+        test(window.SdkElement, "SdkElement");
+        test(window.createElement, "createElement");
+        test(window.Palette, "Palette");
+        test(window.UIControl, "UIControl");
+
+        try {
+            var f = eval("'use strict'; let f = 33; f");
+            test(f === 33, "let");
+        }
+        catch(err) {
+            test(false, "let");
+        }
+        try {
+            var f = eval("'use strict'; var count = 0; for(var t of [1,2]) { count += t; } count;");
+            test(f === 3, "for of");
+        }
+        catch(err) {
+            test(false, "for of");
+        }
+        try {
+            var f = eval("'use strict'; const _CONST = 48; _CONST");
+            test(f === 48, "const");
+        }
+        catch(err) {
+            test(false, "const");
+        }
+    </script>
+</body>
+</html>

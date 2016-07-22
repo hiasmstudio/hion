@@ -1,0 +1,243 @@
+Make(webapp)
+Add(MainForm,1,14,105)
+{
+  Left=56
+  Top=56
+  Width=#3:403|
+  Height=#3:310|
+  Caption=#14:Animation demo|
+  link(onCreate,58:doEvent1,[])
+}
+Add(PaintBox,2,231,112)
+{
+  Left=14
+  Top=35
+  Width=#3:373|
+  Height=#3:240|
+  Point(onMouseMove)
+  Point(onMouseOut)
+  Point(onMouseOver)
+  link(onDraw,11:doEnum,[])
+  link(onMouseMove,41:doValue,[])
+  link(onMouseOut,44:doReset,[(275,132)(275,139)])
+  link(onMouseOver,44:doNext,[(275,139)(275,132)])
+}
+Add(Timer,3,91,112)
+{
+  Interval=10
+  link(onTimer,25:doEvent1,[])
+}
+Add(DrawText,8,525,196)
+{
+  X=20
+  Y=20
+  link(Canvas,2:Canvas,[(531,174)(237,174)])
+  link(Point,16:Result,[])
+}
+Add(ArrayEnum,11,420,112)
+{
+  link(onEnum,23:doEvent1,[])
+  link(Array,57:Value,[])
+}
+Add(MathParse,13,350,294)
+{
+  MathStr=#34:%1[0][0] += (%2[0] - %1[0][0])/10,|33:%1[0][1] += (%2[1] - %1[0][1])/10|
+  link(X1,46:Var2,[])
+  link(X2,41:Value,[])
+}
+Add(MathParse,16,532,112)
+{
+  MathStr=#27:point(%1[%2][0], %1[%2][1])|
+  link(X1,29:Var2,[])
+  link(X2,11:Index,[(545,98)(573,98)(573,155)(433,155)])
+}
+Add(Hub,23,469,112)
+{
+  link(onEvent1,16:doCalc,[])
+  link(onEvent2,8:doDraw,[(505,125)(505,202)])
+}
+Add(For,24,231,210)
+{
+  Start=1
+  link(onEvent,28:doCalc,[])
+  link(onStop,42:doCompare,[(275,223)(275,300)])
+}
+Add(Hub,25,140,112)
+{
+  link(onEvent1,2:doDraw,[])
+  link(onEvent2,32:doSize,[(164,125)(164,216)])
+}
+Add(MathParse,28,294,210)
+{
+  MathStr=#44:%1[%2][0] += (%1[%2 - 1][0] - %1[%2][0])/_k,|43:%1[%2][1] += (%1[%2 - 1][1] - %1[%2][1])/_k|
+  link(X1,33:Var2,[])
+}
+Add(GetDataEx,29,532,91)
+{
+  link(Data,63:Array,[])
+}
+Add(ArraySize,32,175,210)
+{
+  link(onSize,24:doFor,[])
+  link(Array,33:Var1,[(181,196)])
+}
+Add(GetDataEx,33,294,189)
+{
+  link(Data,73:Var1,[(300,98)])
+}
+Add(Memory,41,357,119)
+{
+}
+Add(If_else,42,287,294)
+{
+  Type=2
+  Op2=#1:0|
+  link(onTrue,13:doCalc,[])
+  link(onFalse,47:doNext,[(335,307)(335,370)])
+  link(Op1,44:Value,[])
+}
+Add(Counter,44,287,126)
+{
+}
+Add(MathParse,45,399,364)
+{
+  MathStr=#65:$coords[0][0] += (170 + sin($angle/180*PI)*60 - $coords[0][0])/5,|64:$coords[0][1] += (120 + cos($angle/180*PI)*60 - $coords[0][1])/5|
+  Args=#6:coords|5:angle|
+  link(coords,46:Var3,[(405,266)])
+}
+Add(GetDataEx,46,350,259)
+{
+  link(Data,33:Var3,[(356,196)])
+}
+Add(Counter,47,350,364)
+{
+  Max=359
+  Step=2
+  link(onCounter,45:doCalc,[])
+}
+Add(InfoTip,48,399,21)
+{
+  Info=#10:Draw scene|
+  @Width=190
+  @Height=214
+}
+Add(InfoTip,49,126,182)
+{
+  Info=#14:Calk positions|
+  @Width=218
+  @Height=74
+}
+Add(InfoTip,50,245,273)
+{
+  Info=#14:Move to cursor|
+  @Width=176
+  @Height=67
+}
+Add(InfoTip,51,308,350)
+{
+  Info=#14:Move to circle|
+  VAlign=2
+  @Width=155
+  @Height=67
+}
+Add(TrackBar,52,91,28)
+{
+  Left=112
+  Top=7
+  Width=#3:142|
+  Min=2
+  Value=10
+  link(onPosition,53:doValue,[])
+}
+Add(GlobalVar,53,140,28)
+{
+  Name=#1:k|
+  Default=#2:10|
+}
+Add(Label,54,21,28)
+{
+  Left=14
+  Top=7
+  Width=#2:92|
+  Height=#2:21|
+  Caption=#17:Particles gravity|
+}
+Add(Edit,55,175,49)
+{
+  Left=266
+  Top=7
+  Width=#3:120|
+  Text=#7:Hion!!!|
+  link(onChange,74:doWork2,[])
+}
+Add(ArraySplit,56,238,49)
+{
+  Delimiter=#0:|
+  link(onSplit,57:doValue,[])
+}
+Add(Memory,57,420,49)
+{
+  link(onData,68:doWork1,[])
+}
+Add(Hub,58,63,105)
+{
+  link(onEvent1,60:doData,[(158,111)(158,97)])
+  link(onEvent2,3:doTimer,[])
+}
+Add(DoData,60,175,91)
+{
+  Data=#7:Hion!!!|
+  link(onEventData,74:doWork3,[(221,97)])
+  link(Data,55:Text,[])
+}
+Add(Array,63,532,49)
+{
+}
+Add(MultiElementEx,68,476,49)
+{
+  @Comment=#12:Coords array|
+  link(onEvent1,63:doClear,[])
+  link(Data1,73:Var3,[(482,40)(468,40)])
+}
+BEGIN_SDK
+Add(MultiElementEditor,67,7,7)
+{
+  WorkCount=1
+  EventCount=1
+  DataCount=1
+  @VOffset=63
+  @HOffset=168
+  @Width=237
+  @Height=116
+  link(doWork1,70:doEvent1,[])
+}
+Add(ArrayEnum,69,70,77)
+{
+  link(onEnum,78:doCalc,[])
+}
+Add(Hub,70,35,70)
+{
+  link(onEvent1,67:onEvent1,[])
+  link(onEvent2,69:doEnum,[])
+}
+Add(ArrayAdd,71,175,77)
+{
+  link(Array,67:Data1,[])
+}
+Add(MathParse,78,126,77)
+{
+  MathStr=#5:[0,0]|
+  DataCount=0
+  Args=#0:|
+  link(onResult,71:doAdd,[])
+}
+END_SDK
+Add(GetDataEx,73,462,91)
+{
+  Angle=1
+  link(Data,29:Var1,[])
+}
+Add(HubEx,74,217,49)
+{
+  link(onEvent,56:doSplit,[])
+}

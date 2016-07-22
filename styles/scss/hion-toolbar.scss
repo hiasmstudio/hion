@@ -1,0 +1,30 @@
+@import "config";
+
+.hion-toolbar {
+    height: 27px;
+    padding: 1px;
+    border-bottom: 1px solid $borderDark;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    
+    .separator { flex-grow: 1; } 
+
+    .hion {
+        padding-right: 10px;
+        border-top: 1px solid $borderDark;
+        border-left: 1px solid $borderDark;
+        border-bottom: 1px solid $borderDark;
+        border-bottom-left-radius: 15px;
+        padding-top: 5px;
+        height: 21px;
+        margin-top: -1px;
+        padding-left: 4px;
+        margin-left: 5px;
+        background: #c9b9ab url('../img/hion.png') no-repeat 11px 3px;
+        box-shadow: 0px 0px 4px 1px rgba(50, 50, 50, 1);
+        width: 23px;
+    }
+    
+    .user { padding-right: 10px; }
+} 

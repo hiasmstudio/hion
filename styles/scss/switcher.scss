@@ -1,0 +1,32 @@
+@import "config";
+
+.ui-switcher {
+  background-color: $bgColor;
+  border: 1px solid $borderColor;
+  border-radius: $borderRadius;
+//  box-shadow: inset 0px 0px 1px 0px black;
+  transition: background-color 0.3s linear;
+  
+  .in {
+    background-color: $faceColor;
+    border: 1px solid #333;
+    border-radius: $borderRadius;
+    height: 100%;
+    width: 50%;
+    position: relative;
+    left: -1px;
+    top: -1px;
+    margin-left: 0%;
+    transition: margin-left 0.3s linear;
+    box-shadow: inset 0px 0px 3px 0px white;
+  }
+  
+  &[on=true] {
+    background-color: $bgColorActive;
+    
+    .in { margin-left: 50%; }
+  }
+  &[disabled] {
+    .in { background-color: $controlColor; }
+  }
+}
