@@ -802,7 +802,7 @@ SHATab.prototype.execCommand = function(cmd, data) {
         	break;
         case "paste":
         	var text = data ? data.getData("text/plain") : buffer;
-        	if(text.substr(0, 3) == "Add") {
+        	if(text.substr(0, 4) == "Make") {
         		this.sdkEditor.pasteFromText(text);
         	}
         	break;
