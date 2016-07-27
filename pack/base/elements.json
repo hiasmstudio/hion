@@ -539,7 +539,7 @@
 		"tab": "firebase",
 		"points": [
 			{ "name": "onInit", "type": 2 },
-			{ "name": "onAuthStateChanged", "type": 2, "args": "Value" }
+			{ "name": "onAuthStateChanged", "type": 2, "args": "Value", "data": 1 }
 		],
 		"props": [
 			{ "name": "ApiKey", "type": 2, "def": "" },
@@ -604,8 +604,8 @@
 			{ "name": "doCreate", "type": 1 },
 			{ "name": "onCreate", "type": 2 },
 			{ "name": "onError", "type": 2, "args": "Code,Message" },
-			{ "name": "EMail", "type": 4 },
-			{ "name": "Password", "type": 4 }
+			{ "name": "EMail", "type": 4, "data": 2 },
+			{ "name": "Password", "type": 4, "data": 2 }
 		]
 	},
 	"FBUserSignIn": {
@@ -618,8 +618,8 @@
 			{ "name": "doSignOut", "type": 1 },
 			{ "name": "onSignIn", "type": 2 },
 			{ "name": "onError", "type": 2, "args": "Code,Message" },
-			{ "name": "EMail", "type": 4 },
-			{ "name": "Password", "type": 4 }
+			{ "name": "EMail", "type": 4, "data": 2 },
+			{ "name": "Password", "type": 4, "data": 2 }
 		]
 	},
 	"FBUserProfile": {
@@ -627,10 +627,10 @@
 		"points": [
 			{ "name": "doDisplayName", "type": 1, "flags": 1 },
 			{ "name": "doPhotoURL", "type": 1, "flags": 1 },
-			{ "name": "DisplayName", "type": 3 },
-			{ "name": "EMail", "type": 3 },
-			{ "name": "PhotoURL", "type": 3 },
-			{ "name": "UID", "type": 3 }
+			{ "name": "DisplayName", "type": 3, "data": 2 },
+			{ "name": "EMail", "type": 3, "data": 2 },
+			{ "name": "PhotoURL", "type": 3, "data": 2 },
+			{ "name": "UID", "type": 3, "data": 2 }
 		]
 	},
 	
