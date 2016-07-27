@@ -76,6 +76,9 @@
 	"group.core": "Ядро",
 	"group.json": "JSON",
 	"group.matrix": "Матрица",
+	"tab.firebase": "Firebase",
+	"group.fbnode": "Нода",
+	"group.fbuser": "Пользователь",
 	
 	"ui.close": "Закрыть",
 	"ui.cancel": "Отменить",
@@ -311,6 +314,22 @@
 	"el.ChartGauge": "Диаграмма с циферблатом",
 	
 	"el.ChartLine": "Линейная диаграмма",
+	
+	"el.Firebase": "Облачная БД Firebase",
+	
+	"el.FBNode": "Нода дерева в БД",
+	
+	"el.FBSendMessage": "Запись данных в БД",
+	
+	"el.FBFilter": "Фильтрация данных",
+	
+	"el.FBListen": "Отслеживание изменений данных",
+	
+	"el.FBUserCreate": "Регистрация нового пользователя",
+	
+	"el.FBUserSignIn": "Авторизация пользователя",
+	
+	"el.FBUserProfile": "Профиль пользователя",
 	
 	"el.PointXY": "Точка",
 	"PointXY.X": "Координата X точки",

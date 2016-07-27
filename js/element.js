@@ -2505,6 +2505,181 @@ function createElement(sdk, id, x, y) {
 				this.ctl.init();
 			};
 			break;
+		case "Firebase":
+			i.run = function(flags) {
+				if(!(flags & window.FLAG_USE_EDIT)) {
+					var parent = this;
+					$.appendScript("https://www.gstatic.com/firebasejs/live/3.0/firebase.js", function(){
+						var config = {
+							apiKey: parent.props.ApiKey.value,
+							authDomain: parent.props.AuthDomain.value,
+							databaseURL: parent.props.DatabaseURL.value,
+							storageBucket: parent.props.StorageBucket.value,
+						};
+						parent.fb = firebase.initializeApp(config);
+						parent.onInit.call(parent.fb);
+						
+						firebase.auth().onAuthStateChanged(function(user){
+							i.onAuthStateChanged.call(user ? 1 : 0);
+						});
+					});
+				}
+			};
+			break;
+		case "FBNode":
+			i.doReference.onevent = function(data) {
+				this.parent.node = firebase.database().ref(this.parent.d(data).read("Path"));
+				this.parent.onReference.call(this.parent.node);
+			};
+			i.Node.onevent = function() {
+				return this.parent.node;
+			};
+			break;
+		case "FBSendMessage":
+			i.doSend.onevent = function(data) {
+				var d = this.parent.d(data);
+				var node = d.read("Node");
+				var msg = d.read("Message");
+				switch(this.parent.props.Mode.value) {
+					case 0:
+						node.set(msg);
+						break;
+					case 1:
+						node.push(msg);
+						break;
+					case 2:
+						node.update(msg);
+						break;
+				}
+				this.parent.onSend.call(node);
+			};
+			break;
+		case "FBFilter":
+			i.doFilter.onevent = function(data) {
+				var d = this.parent.d(data);
+				var node = d.read("Node");
+				var value = d.read("Value");
+				switch(this.parent.props.Mode.value) {
+					case 0:
+						node.limitToFirst(value);
+						break;
+					case 1:
+						node.limitToLast(value);
+						break;
+				}
+				this.parent.onFilter.call(node);
+			};
+			break;
+		case "FBListen":
+			i.run = function() {
+				if(this.node) {
+					this.node.off(this.getHandler(), this.handler);
+					this.node = null;
+				}
+			};
+			i.getHandler = function() {
+				return ["value", "child_added", "child_changed", "child_removed"][this.props.Event.value];
+			};
+			i.doListen.onevent = function(data) {
+				var d = this.parent.d(data);
+				this.parent.node = d.read("Node");
+				
+				this.parent.handler = this.parent.node.on(this.parent.getHandler(), function(data){
+					i.onListen.call(data.val());
+				});
+			};
+			break;
+		case "FBUserCreate":
+			i.doCreate.onevent = function(data) {
+				var d = this.parent.d(data);
+				var mail = d.read("EMail");
+				var pass = d.read("Password");
+				firebase.auth().createUserWithEmailAndPassword(mail, pass).then(
+					function(){
+						i.onCreate.call();
+					},
+					function(error) {
+						i.onError.call([error.code, error.message]);
+					}
+				);
+				
+			};
+			break;
+		case "FBUserSignIn":
+			i.doSignIn.onevent = function(data) {
+				var d = this.parent.d(data);
+				var mail = d.read("EMail");
+				var pass = d.read("Password");
+				var auth = null;
+				switch(this.parent.props.Method.value) {
+					case 0:
+						auth = firebase.auth().signInWithEmailAndPassword(mail, pass);
+						break;
+					case 1:
+						var provider = new firebase.auth.GoogleAuthProvider();
+						auth = firebase.auth().signInWithPopup(provider);
+						break;
+				}
+				auth.then(
+					function(){
+						i.onSignIn.call();
+					},
+					function(error) {
+						i.onError.call([error.code, error.message]);
+					}
+				);
+				
+			};
+			i.doSignOut.onevent = function(data) {
+				firebase.auth().signOut();
+			};
+			break;
+		case "FBUserProfile":
+			i.run = function() {
+				if(i.doDisplayName) {
+					i.doDisplayName.onevent = function(data) {
+						if(firebase.auth().currentUser) {
+							firebase.auth().currentUser.updateProfile({
+								displayName: data
+							}).then(function() {
+
+							}, function(error) {
+
+							});
+						}
+					};
+				}
+				if(i.doPhotoURL) {
+					i.doPhotoURL.onevent = function(data) {
+						if(firebase.auth().currentUser) {
+							firebase.auth().currentUser.updateProfile({
+								photoURL: data
+							}).then(function() {
+
+							}, function(error) {
+
+							});
+						}
+					};
+				}
+			};
+			i.DisplayName.onevent = function() {
+				var user = firebase.auth().currentUser;
+				return user ? user.displayName : "guest";
+			};
+			i.EMail.onevent = function() {
+				var user = firebase.auth().currentUser;
+				return user ? user.email : "";
+			};
+			i.PhotoURL.onevent = function() {
+				var user = firebase.auth().currentUser;
+				return user ? user.photoURL : "";
+			};
+			i.UID.onevent = function() {
+				var user = firebase.auth().currentUser;
+				return user ? user.uid : 0;
+			};
+			break;
 		case "VideoPlayer":
 			i.run = function(flags) {
 				this.ctl = new VideoPlayer({url: this.props.URL.value, controls: this.props.Controls.value, autoplay: this.props.Autoplay.value});
