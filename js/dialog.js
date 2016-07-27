@@ -3,7 +3,20 @@ var drag_y = 0;
 var drag_obj = null;
 var actionState = 0;
 
-/* global GetPos, ModalFrame, Builder */
+/* global ModalFrame, Builder */
+
+function GetPos(offTrial) {
+	var offL=0;
+	var offT=0;
+
+	while(offTrial) {
+		offL+=offTrial.offsetLeft - offTrial.scrollLeft;
+		offT+=offTrial.offsetTop - offTrial.scrollTop;
+		offTrial=offTrial.offsetParent;
+	}
+
+	return {left:offL , top:offT};
+} 
 
 window.HTMLElement.prototype.dialog = function(options) {
 	var body = this;
