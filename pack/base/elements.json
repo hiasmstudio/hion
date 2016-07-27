@@ -9,6 +9,8 @@
 	"wincontrol": {
 		"class": "WinElement",
 		"points": [
+			{ "name": "doScrollByX", "type": 1, "flags": 1 },
+			{ "name": "doScrollByY", "type": 1, "flags": 1 },
 			{ "name": "onClick", "type": 2, "flags": 1 },
 			{ "name": "onDblClick", "type": 2, "flags": 1 },
 			{ "name": "onKeyDown", "type": 2, "args": "Code,Flags", "flags": 1 },

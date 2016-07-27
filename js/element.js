@@ -3823,6 +3823,16 @@ WinElement.prototype.run = function(flags) {
 	// 		_ctl_.onClick.call();
 	// 	});
 	// }
+	if(this['doScrollByX']) {
+		this.doScrollByX.onevent = function(data) {
+			this.parent.ctl.getControl().scrollLeft = data;
+		}
+	}
+	if(this['doScrollByY']) {
+		this.doScrollByY.onevent = function(data) {
+			this.parent.ctl.getControl().scrollTop = data;
+		}
+	}
 	if(this['onDblClick']) {
 		this.ctl.addListener("dblclick", function(){
 			_ctl_.onDblClick.call();
