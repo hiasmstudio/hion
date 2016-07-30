@@ -727,7 +727,8 @@ SHATab.prototype.showStatistic = function() {
 
 SHATab.prototype.build = function() {
 	$("state").innerHTML = "Build...";
-	$.post("server/core.php", {build: this.file.name, code: this.sdkEditor.getMainSDK().save(false)}, function(data, file) {
+	var name = this.file ? this.file.name : "Project.sha";
+	$.post("server/core.php", {build: name, code: this.sdkEditor.getMainSDK().save(false)}, function(data, file) {
 		var b = new Builder($("state")).html('');
 		for(var line of data.split("\n")) {
 			var eline = b.n("div");
@@ -752,7 +753,7 @@ SHATab.prototype.build = function() {
 			}
 		}
 		b.n("div").html("Open application in new tab: <a href=\"/users/" + user.uid + "/" + file + ".html\" target=\"_blank\">" + file + ".html</a>");
-	}, this.file.name.substring(0, this.file.name.length - 4));
+	}, name.substring(0, name.length - 4));
 };
 
 SHATab.prototype.execCommand = function(cmd, data) {
