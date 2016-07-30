@@ -720,6 +720,9 @@ textarea {
   border-right: 1px solid #dcd0c3;
   overflow-x: hidden;
   overflow-y: auto;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
   user-select: none;
   -ms-user-select: none;
   -moz-user-select: none;

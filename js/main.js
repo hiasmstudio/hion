@@ -228,7 +228,8 @@ function loadWorkspace() {
 	}));
 	loader.add(new LoaderTask(function(){
 		this.parent.state("Next..." + $("palette"));
-		palette = new Palette($("palette"));
+		palette = new Palette({});
+		palette.appendTo($("palette"));
 		this.parent.state("Next load...");
 		palette.onselect = function(obj) {
 			//sdkEditor.beginAddElement(obj);
