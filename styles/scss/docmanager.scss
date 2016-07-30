@@ -2,7 +2,6 @@
 
 #docmanager {
     border-right: 1px solid $borderDark;
-    border-bottom: 1px solid $borderDark;
 
     .tabs {
         padding: 2px;
@@ -66,6 +65,7 @@
         justify-content: center;
         background-color: $inputBgColor;
         border: 0;
+		border-bottom: 1px solid $borderDark;
 
         > .content {
             justify-content: center;
@@ -162,6 +162,15 @@
         display: flex;
         flex-grow: 1;
     }
+
+	.state {
+		height: 56px;
+		font-size: $fontSize;
+		padding: 3px;
+		border-top: 1px solid $borderLight;
+		background-color: $inputBgColor;
+		overflow-y: auto;
+	}
 }
 
 @keyframes tab {

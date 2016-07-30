@@ -52,16 +52,6 @@
     }
 }
 
-.state {
-    height: 50px;
-    font-size: $fontSize;
-    padding: 3px;
-    border-top: 1px solid $borderLight;
-    border-right: 1px solid $borderDark;
-    background-color: $inputBgColor;
-    overflow-y: auto;
-}
-
 *[visible=false] {
     display: none !important;
 }

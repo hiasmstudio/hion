@@ -478,8 +478,7 @@ textarea {
     border-top: 1px solid #dcd0c3; }
 
 #docmanager {
-  border-right: 1px solid #dcd0c3;
-  border-bottom: 1px solid #dcd0c3; }
+  border-right: 1px solid #dcd0c3; }
   #docmanager .tabs {
     padding: 2px;
     display: flex;
@@ -554,7 +553,8 @@ textarea {
     display: flex;
     justify-content: center;
     background-color: white;
-    border: 0; }
+    border: 0;
+    border-bottom: 1px solid #dcd0c3; }
     #docmanager .doc-sha > .content {
       justify-content: center; }
       #docmanager .doc-sha > .content > .canvas {
@@ -655,6 +655,13 @@ textarea {
     position: relative;
     display: flex;
     flex-grow: 1; }
+  #docmanager .state {
+    height: 56px;
+    font-size: 12px;
+    padding: 3px;
+    border-top: 1px solid white;
+    background-color: white;
+    overflow-y: auto; }
 
 @keyframes tab {
   from {
@@ -819,15 +826,6 @@ textarea {
     padding: 5px;
     background-color: #8f8; }
 
-.state {
-  height: 50px;
-  font-size: 12px;
-  padding: 3px;
-  border-top: 1px solid white;
-  border-right: 1px solid #dcd0c3;
-  background-color: white;
-  overflow-y: auto; }
-
 *[visible=false] {
   display: none !important; }
 
@@ -968,3 +966,5 @@ textarea {
           height: 9px;
           background: url(/img/ui.png) -18px -13px no-repeat;
           cursor: pointer; }
+
+/*# sourceMappingURL=ui.css.map */

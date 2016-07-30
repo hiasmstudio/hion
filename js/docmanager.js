@@ -726,33 +726,34 @@ SHATab.prototype.showStatistic = function() {
 };
 
 SHATab.prototype.build = function() {
-	$("state").innerHTML = "Build...";
+	this.manager.state.set("Build...");
+	var state = this.manager.state;
 	var name = this.file ? this.file.name : "Project.sha";
 	$.post("server/core.php", {build: name, code: this.sdkEditor.getMainSDK().save(false)}, function(data, file) {
-		var b = new Builder($("state")).html('');
+		state.clear();
 		for(var line of data.split("\n")) {
-			var eline = b.n("div");
 			if(line.startsWith("CODEGEN")) {
 				var text = line.substring(9);
-				var span = eline.n("span").html(text.substring(1));
+				var color = "";
 				if(text.startsWith("~")) {
-					span.style("color", "gray");
+					color = "gray";
 				}
 				else if(text.startsWith("@")) {
-					span.style("color", "silver");
+					color = "silver";
 				}
 				else if(text.startsWith("!")) {
-					span.style("color", "red");
+					color = "red";
 				}
 				else if(text.startsWith("#")) {
-					span.style("color", "blue");
+					color = "blue";
 				}
+				state.add(text.substring(1), color);
 			}
 			else {
-				eline.html(line);
+				state.add(line);
 			}
 		}
-		b.n("div").html("Open application in new tab: <a href=\"/users/" + user.uid + "/" + file + ".html\" target=\"_blank\">" + file + ".html</a>");
+		state.add("Open application in new tab: <a href=\"/users/" + user.uid + "/" + file + ".html\" target=\"_blank\">" + file + ".html</a>");
 	}, name.substring(0, name.length - 4));
 };
 
@@ -944,6 +945,34 @@ StartupTab.prototype = Object.create(DocumentTab.prototype);
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
+function StatePanel(options) {
+	this.list = new Builder().n("div").class("state");
+	this._ctl = this.list.element;
+	console.log(this._ctl)
+	this.setOptions(options);
+}
+
+StatePanel.prototype = Object.create(UIControl.prototype);
+
+StatePanel.prototype.set = function(text) {
+	this.list.html(text);
+};
+
+StatePanel.prototype.add = function(text, color) {
+	var line = this.list.n("div").html(text);
+	if(color) {
+		line.style("color", color);
+	}
+};
+
+StatePanel.prototype.clear = function() {
+	this.list.html('');
+};
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
 function DocumentManageer(control) {
     
     var extMap = [
@@ -976,11 +1005,14 @@ function DocumentManageer(control) {
 	    dm.saveOpenTabs();
 	};
 	
+	this.state = new StatePanel({});
+	this.state.appendTo(control);
+	
 	this.startup = new StartupTab("Startup");
 
     this._showTab = function(tab) {
         this.currentTab = tab;
-        control.appendChild(tab.getControl());
+        control.insertBefore(tab.getControl(), control.lastChild);
     };
 
 	this.openByType = function(Class, file, title) {
