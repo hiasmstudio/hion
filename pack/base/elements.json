@@ -573,6 +573,14 @@
 			{ "name": "Message", "type": 4 }
 		]
 	},
+	"FBReadMessage": {
+		"tab": "firebase",
+		"points": [
+			{ "name": "doRead", "type": 1 },
+			{ "name": "onRead", "type": 2, "args": "Data" },
+			{ "name": "Node", "type": 4 }
+		]
+	},
 	"FBFilter": {
 		"tab": "firebase",
 		"props": [

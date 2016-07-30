@@ -2554,6 +2554,16 @@ function createElement(sdk, id, x, y) {
 				this.parent.onSend.call(node);
 			};
 			break;
+		case "FBReadMessage":
+			i.doRead.onevent = function(data) {
+				var d = this.parent.d(data);
+				var node = d.read("Node");
+				
+				node.once("value").then(function(data){
+					i.onRead.call(data.val());
+				});
+			};
+			break;
 		case "FBFilter":
 			i.doFilter.onevent = function(data) {
 				var d = this.parent.d(data);
