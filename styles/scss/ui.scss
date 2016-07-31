@@ -77,6 +77,12 @@
 //     box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
 // }
 
+.ui-workspace {
+	align-content: stretch;
+	align-items: stretch;
+	flex-basis: 100%;
+}
+
 .ui-property-editor {
     cursor: default;
     width: 100%;

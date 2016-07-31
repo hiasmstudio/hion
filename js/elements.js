@@ -3,8 +3,9 @@
 function Palette(options) {
 	UIContainer.call(this);
 	
-	this.palette = new Builder().n("div").class("palette");
-	this._ctl = this.palette.element;
+	var p = new Builder().n("div").class("palette");
+	this.palette = p.n("div").class("pl-body");
+	this._ctl = p.element;
 
 	this.selected = null;
 	this.onselect = function(){};
@@ -19,6 +20,10 @@ function Palette(options) {
 }
 
 Palette.prototype = Object.create(UIContainer.prototype);
+
+Palette.prototype.getContainer = function() {
+	return this.palette.element;
+};
 
 Palette.prototype.selElement = function(obj) {
 	if(this.selected) {

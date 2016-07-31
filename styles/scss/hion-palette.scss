@@ -1,31 +1,35 @@
 @import "config";
 
 .palette {
-    border-top: 1px solid $borderLight;
-    border-right: 1px solid $borderDark;
-    overflow-x: hidden;
-    overflow-y: auto;
-	position: absolute; top: 0px; bottom: 0px;
-    user-select: none; -ms-user-select: none; -moz-user-select: none; -webkit-user-select: none;
-    
-    .element {
-        margin: 0px;
-        border: 1px solid transparent;
-        border-radius: 3px;
-        width: 27px; height: 27px;
-        padding-left: 2px; padding-top: 2px;
-        
-        &[selected] {
-            border-color: $selectedButtonBorder;
-            background-color: $selectedButton;
-        }
-        &:hover { border-color: $selectedButtonBorder; background-color: $selectedButton; } 
-    }
-    
-    .group {
-        background-color: $borderDark;
-        font-size: $fontSize;
-        flex-basis: 100%;
-        padding-left: 5px;
-    }
+	flex-shrink: 0; position: relative; width: 142px;
+	
+	> .pl-body {
+		border-top: 1px solid $borderLight;
+		border-right: 1px solid $borderDark;
+		overflow-x: hidden;
+		overflow-y: auto;
+		position: absolute; top: 0px; bottom: 0px;
+		user-select: none; -ms-user-select: none; -moz-user-select: none; -webkit-user-select: none;
+
+		.element {
+			margin: 0px;
+			border: 1px solid transparent;
+			border-radius: 3px;
+			width: 27px; height: 27px;
+			padding-left: 2px; padding-top: 2px;
+
+			&[selected] {
+				border-color: $selectedButtonBorder;
+				background-color: $selectedButton;
+			}
+			&:hover { border-color: $selectedButtonBorder; background-color: $selectedButton; } 
+		}
+
+		.group {
+			background-color: $borderDark;
+			font-size: $fontSize;
+			flex-basis: 100%;
+			padding-left: 5px;
+		}
+	}
 }

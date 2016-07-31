@@ -1,7 +1,8 @@
 @import "config";
 
-#docmanager {
+.docmanager {
     border-right: 1px solid $borderDark;
+	flex-grow: 1;
 
     .tabs {
         padding: 2px;

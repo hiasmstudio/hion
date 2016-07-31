@@ -310,10 +310,14 @@ RemoteFS.prototype.write = function(file, data, callback) {
 //------------------------------------------------------------------------------
 
 function DocumentTab(file) {
+	UIControl.call(this);
+	
     this.manager = null;
     this.tab = null;
     this.saved = true;
 }
+
+DocumentTab.prototype = Object.create(UIControl.prototype);
 
 DocumentTab.prototype.getControl = function(){
     return this._ctl;
@@ -890,7 +894,6 @@ function OggTab(file) {
     
 	var audio = new Builder().n("audio").attr("controls", "controls");
 	this._ctl = audio.element;
-	console.log(this._ctl)
 }
 
 OggTab.prototype = Object.create(DocumentTab.prototype);
@@ -948,7 +951,7 @@ StartupTab.prototype = Object.create(DocumentTab.prototype);
 function StatePanel(options) {
 	this.list = new Builder().n("div").class("state");
 	this._ctl = this.list.element;
-	console.log(this._ctl)
+
 	this.setOptions(options);
 }
 
@@ -973,7 +976,13 @@ StatePanel.prototype.clear = function() {
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-function DocumentManageer(control) {
+function DocumentManageer(options) {
+	UIContainer.call(this);
+	
+	this._ctl = new Builder().n("div").class("docmanager").element;
+	
+	this.setOptions(options);
+	this.layout = new VLayout(this, {});
     
     var extMap = [
         { ext: /.*\.sha$/i, tab: SHATab },
@@ -985,34 +994,36 @@ function DocumentManageer(control) {
     var dm = this;
     
     this.tabs = new TabControl();
-	this.tabs.appendTo(control);
+	this.add(this.tabs);
 	this.tabs.onclose = function(tab) {
 	    if(tab.content.close()) {
-    	    control.removeChild(tab.content.getControl());
+    	    dm.remove(tab.content);
     	    return true;
 	    }
 	    
 	    return false;
 	};
 	this.tabs.onselect = function(tab) {
-        dm.currentTab.hide();
-	    dm.currentTab = tab ? tab.content : dm.startup;
-	    if(dm.currentTab) {
-	        dm.currentTab.show();
-	        commander.reset();
-	    }
-	    
-	    dm.saveOpenTabs();
+		dm.currentTab.hide();
+		dm.currentTab = tab ? tab.content : dm.startup;
+		if(dm.currentTab) {
+			dm.currentTab.show();
+			commander.reset();
+		}
+
+		dm.saveOpenTabs();
 	};
 	
 	this.state = new StatePanel({});
-	this.state.appendTo(control);
+	this.add(this.state);
+	//this.splitter = new Splitter({edge: 0});
+	//this.splitter.setManage(this.state);
 	
 	this.startup = new StartupTab("Startup");
 
     this._showTab = function(tab) {
         this.currentTab = tab;
-        control.insertBefore(tab.getControl(), control.lastChild);
+        this.insert(tab, this.state);
     };
 
 	this.openByType = function(Class, file, title) {
@@ -1150,7 +1161,7 @@ function DocumentManageer(control) {
     
 	// drop files
 	var __doc = this;
-	control.ondrop = function(event){
+	this.getControl().ondrop = function(event){
 		event.preventDefault();
 		for(var i = 0; i < event.dataTransfer.files.length; i++) {
 			__doc.openFile(new DesktopFSNode(event.dataTransfer.files[i]));
@@ -1160,12 +1171,14 @@ function DocumentManageer(control) {
 		
 		return false;
 	};
-	control.ondragover = function(event){
+	this.getControl().ondragover = function(event){
 		this.setAttribute("drop", "");
 		return false;
 	};
-	control.ondragleave = function(event){
+	this.getControl().ondragleave = function(event){
 		this.removeAttribute("drop");
 		return false;
 	};
 }
+
+DocumentManageer.prototype = Object.create(UIContainer.prototype);

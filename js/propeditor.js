@@ -2,7 +2,13 @@ var _selMan = null;
 
 /* global Builder */
 
-function PropertyEditor(panel) {
+function PropertyEditor(options) {
+	UIContainer.call(this);
+	
+	this._ctl = new Builder().n("div").class("props").element;
+	
+	this.setOptions(options);
+	this.layout = new VLayout(this, {});
 
 	this.showSysProps = true;
 	this.currentSelectProp = null;
@@ -33,8 +39,8 @@ function PropertyEditor(panel) {
 			}
 		}
 	]);
-	panel.appendChild(tb.getControl());
-	this.panel = new Builder(panel).n("div").class("pan").n("div").class("content").element;
+	this.add(tb);
+	this.panel = new Builder(this._ctl).n("div").class("pan").n("div").class("content").element;
 	
 	this.points = new ListBox({checkboxes: true});
 	this.points.hide();
@@ -53,13 +59,13 @@ function PropertyEditor(panel) {
 		var e = pEditor.selMan.items[0];
 		this.parent.infoBox.caption = translate.translate(e.getPointInfo(item.point));
 	};
-	panel.appendChild(this.points.getControl());
+	this.points.appendTo(this._ctl);
 	
 	var iPanel = new Panel({height: 49, theme: "ui-pannel-top-left"});
 	iPanel.layout.setOptions({padding: 3});
 	this.infoBox = new Label({});
 	iPanel.add(this.infoBox);
-	panel.appendChild(iPanel.getControl());
+	this.add(iPanel);
 	
 	this.editor.oncheck = function(item, checked) {
 		pEditor.selMan.changePoint(item.name, checked);
@@ -508,3 +514,5 @@ UIPropertyEditor.prototype.edit = function(items) {
 		}
 	}
 };
+
+PropertyEditor.prototype = Object.create(UIContainer.prototype);

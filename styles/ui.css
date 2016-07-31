@@ -477,9 +477,10 @@ textarea {
     background-color: #efe9e3;
     border-top: 1px solid #dcd0c3; }
 
-#docmanager {
-  border-right: 1px solid #dcd0c3; }
-  #docmanager .tabs {
+.docmanager {
+  border-right: 1px solid #dcd0c3;
+  flex-grow: 1; }
+  .docmanager .tabs {
     padding: 2px;
     display: flex;
     height: 21px;
@@ -493,7 +494,7 @@ textarea {
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none; }
-    #docmanager .tabs .tab {
+    .docmanager .tabs .tab {
       cursor: default;
       color: gray;
       display: flex;
@@ -509,23 +510,23 @@ textarea {
       margin-right: 2px;
       animation: tab 0.3s;
       height: 16px; }
-      #docmanager .tabs .tab:hover {
+      .docmanager .tabs .tab:hover {
         color: black; }
-      #docmanager .tabs .tab .title {
+      .docmanager .tabs .tab .title {
         flex-basis: 100%;
         flex-grow: 1;
         overflow: hidden;
         text-overflow: ellipsis;
         margin-right: 4px;
         white-space: nowrap; }
-      #docmanager .tabs .tab .icon {
+      .docmanager .tabs .tab .icon {
         background-image: url("../img/sha.png");
         width: 16px;
         height: 16px;
         flex-shrink: 0;
         margin-right: 3px;
         opacity: 0.5; }
-      #docmanager .tabs .tab .close {
+      .docmanager .tabs .tab .close {
         width: 14px;
         height: 14px;
         color: gray;
@@ -533,21 +534,21 @@ textarea {
         text-align: center;
         flex-shrink: 0;
         border-radius: 8px; }
-        #docmanager .tabs .tab .close:hover {
+        .docmanager .tabs .tab .close:hover {
           background-color: #dcd0c3;
           color: white; }
-      #docmanager .tabs .tab[save=true] .close {
+      .docmanager .tabs .tab[save=true] .close {
         content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfgAwcHHzjg8FPOAAAAc0lEQVQY02NgoD9ghDEUpRjS/oX+Zfi9+tes988gYswwScFiz3o3UWNRUYcLX34fgIgxwST/hiow3GW4ziDH8DMUJgaX/M3wj+E3w0+Gvwx/GTAkf66+waDAoMFwk4FhNYbLuKXYGhiuMlxlaGCQYhhAAAB6vR9+Z/piugAAAABJRU5ErkJggg=="); }
-      #docmanager .tabs .tab[active=true] {
+      .docmanager .tabs .tab[active=true] {
         color: black;
         background-color: white;
         border-bottom: 1px solid white; }
-        #docmanager .tabs .tab[active=true] .icon {
+        .docmanager .tabs .tab[active=true] .icon {
           opacity: 1.0; }
-  #docmanager[drop] {
+  .docmanager[drop] {
     opacity: 0.5;
     outline: 2px solid black; }
-  #docmanager .doc-sha {
+  .docmanager .doc-sha {
     flex-basis: 100%;
     flex-grow: 1;
     display: flex;
@@ -555,75 +556,75 @@ textarea {
     background-color: white;
     border: 0;
     border-bottom: 1px solid #dcd0c3; }
-    #docmanager .doc-sha > .content {
+    .docmanager .doc-sha > .content {
       justify-content: center; }
-      #docmanager .doc-sha > .content > .canvas {
+      .docmanager .doc-sha > .content > .canvas {
         flex-basis: 100%;
         flex-grow: 1;
         position: relative; }
-        #docmanager .doc-sha > .content > .canvas > .scrollbox {
+        .docmanager .doc-sha > .content > .canvas > .scrollbox {
           position: absolute;
           overflow: auto;
           left: 0;
           top: 0;
           right: 0;
           bottom: 0; }
-          #docmanager .doc-sha > .content > .canvas > .scrollbox > canvas {
+          .docmanager .doc-sha > .content > .canvas > .scrollbox > canvas {
             background: white url("../img/back.gif");
             user-select: none;
             -ms-user-select: none;
             -moz-user-select: none;
             -webkit-user-select: none; }
-    #docmanager .doc-sha .statusbar {
+    .docmanager .doc-sha .statusbar {
       background-color: #efe9e3;
       border: 0;
       border-top: 1px solid #dcd0c3;
       padding-left: 5px; }
-    #docmanager .doc-sha .form-editor {
+    .docmanager .doc-sha .form-editor {
       border: 0;
       padding-left: 7px;
       padding-top: 7px;
       flex-grow: 1; }
-      #docmanager .doc-sha .form-editor > .content {
+      .docmanager .doc-sha .form-editor > .content {
         overflow: auto; }
-        #docmanager .doc-sha .form-editor > .content > .dialog, #docmanager .doc-sha .form-editor > .content > .ui-panel {
+        .docmanager .doc-sha .form-editor > .content > .dialog, .docmanager .doc-sha .form-editor > .content > .ui-panel {
           position: absolute;
           left: 0 !important;
           top: 0 !important;
           box-shadow: initial;
           animation: none; }
-        #docmanager .doc-sha .form-editor > .content .frm-ctl {
+        .docmanager .doc-sha .form-editor > .content .frm-ctl {
           position: absolute;
           margin: 0;
           padding: 0;
           font-size: 12px;
           box-sizing: border-box; }
-        #docmanager .doc-sha .form-editor > .content .frm-top-ctl {
+        .docmanager .doc-sha .form-editor > .content .frm-top-ctl {
           margin: 0;
           left: 0;
           position: absolute;
           height: 100%;
           width: 100%; }
-        #docmanager .doc-sha .form-editor > .content .frm-editor {
+        .docmanager .doc-sha .form-editor > .content .frm-editor {
           position: absolute;
           top: 0;
           bottom: 0;
           left: 0;
           right: 0;
           border: 0; }
-        #docmanager .doc-sha .form-editor > .content .frm-edit-grip {
+        .docmanager .doc-sha .form-editor > .content .frm-edit-grip {
           border: 1px solid gray;
           width: 7px;
           height: 7px;
           margin: 0;
           background-color: white; }
-        #docmanager .doc-sha .form-editor > .content .frm-edit-select {
+        .docmanager .doc-sha .form-editor > .content .frm-edit-select {
           border: 1px dotted gray;
           box-sizing: border-box; }
-      #docmanager .doc-sha .form-editor .invisible-control {
+      .docmanager .doc-sha .form-editor .invisible-control {
         border: 1px dotted gray;
         background-color: white; }
-  #docmanager .startup {
+  .docmanager .startup {
     background-color: white;
     border-left: 1px solid white;
     flex-basis: 100%;
@@ -638,7 +639,7 @@ textarea {
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none; }
-    #docmanager .startup .button {
+    .docmanager .startup .button {
       text-align: center;
       border: 1px solid #dcd0c3;
       border-radius: 5px;
@@ -649,13 +650,13 @@ textarea {
       height: 100px;
       cursor: pointer;
       margin: 10px; }
-      #docmanager .startup .button:hover {
+      .docmanager .startup .button:hover {
         background-color: #92604b; }
-  #docmanager .doc-code {
+  .docmanager .doc-code {
     position: relative;
     display: flex;
     flex-grow: 1; }
-  #docmanager .state {
+  .docmanager .state {
     height: 56px;
     font-size: 12px;
     padding: 3px;
@@ -716,36 +717,40 @@ textarea {
     padding-right: 10px; }
 
 .palette {
-  border-top: 1px solid white;
-  border-right: 1px solid #dcd0c3;
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  user-select: none;
-  -ms-user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none; }
-  .palette .element {
-    margin: 0px;
-    border: 1px solid transparent;
-    border-radius: 3px;
-    width: 27px;
-    height: 27px;
-    padding-left: 2px;
-    padding-top: 2px; }
-    .palette .element[selected] {
-      border-color: #684b3e;
-      background-color: #92604b; }
-    .palette .element:hover {
-      border-color: #684b3e;
-      background-color: #92604b; }
-  .palette .group {
-    background-color: #dcd0c3;
-    font-size: 12px;
-    flex-basis: 100%;
-    padding-left: 5px; }
+  flex-shrink: 0;
+  position: relative;
+  width: 142px; }
+  .palette > .pl-body {
+    border-top: 1px solid white;
+    border-right: 1px solid #dcd0c3;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none; }
+    .palette > .pl-body .element {
+      margin: 0px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      width: 27px;
+      height: 27px;
+      padding-left: 2px;
+      padding-top: 2px; }
+      .palette > .pl-body .element[selected] {
+        border-color: #684b3e;
+        background-color: #92604b; }
+      .palette > .pl-body .element:hover {
+        border-color: #684b3e;
+        background-color: #92604b; }
+    .palette > .pl-body .group {
+      background-color: #dcd0c3;
+      font-size: 12px;
+      flex-basis: 100%;
+      padding-left: 5px; }
 
 .props {
   border-left: 1px solid white;
@@ -836,6 +841,11 @@ textarea {
   @page {
     size: auto;
     margin: 0; } }
+.ui-workspace {
+  align-content: stretch;
+  align-items: stretch;
+  flex-basis: 100%; }
+
 .ui-property-editor {
   cursor: default;
   width: 100%;

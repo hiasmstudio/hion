@@ -21,6 +21,22 @@ var user = null;
 
 var KEY_DELETE = 46;
 
+//------------------------------------------------------------------------------
+// Main workspace
+
+function Workspace(options) {
+	UIContainer.call(this);
+	
+	this._ctl = new Builder().n("div").class("ui-workspace").element;
+	
+	this.setOptions(options);
+	this.layout = new HLayout(this, {});
+}
+
+Workspace.prototype = Object.create(UIContainer.prototype);
+
+//------------------------------------------------------------------------------
+
 function readProperty(data, point, prop) {
 	if(point.point)
 		return point.point.onevent(data);
@@ -144,6 +160,9 @@ function Runner(project, callback) {
 }
 
 function loadWorkspace() {
+	var workspace = new Workspace({});
+	workspace.appendTo($("workspace"));
+	
 	var loader = new Loader({havestate: true});
 	loader.onload = function() {
 		var tbcommands = ["-", "new", "open", "save", "saveas", "-", "formedit", "-", "back", "forward", "-", "delete", "-", "run", "build", "-", "about"];
@@ -227,12 +246,8 @@ function loadWorkspace() {
 		packMan.load(["base"]);
 	}));
 	loader.add(new LoaderTask(function(){
-		this.parent.state("Next..." + $("palette"));
-		palette = new Palette({});
-		palette.appendTo($("palette"));
 		this.parent.state("Next load...");
 		palette.onselect = function(obj) {
-			//sdkEditor.beginAddElement(obj);
 			commander.execCommand("addelement", obj);
 		};
 		palette.onload = function() {
@@ -243,10 +258,15 @@ function loadWorkspace() {
 		palette.load(packMan.getPack("base"));
 	}));
 	loader.run();
-	
-	docManager = new DocumentManageer($("docmanager"));
 
-	propEditor = new PropertyEditor($("props"));
+	palette = new Palette({});
+	workspace.add(palette);
+	
+	docManager = new DocumentManageer({});
+	workspace.add(docManager);
+
+	propEditor = new PropertyEditor({});
+	workspace.add(propEditor);
 
 	fileManager = new FileManager();
 	fileManager.onfilename = function(fileName){
