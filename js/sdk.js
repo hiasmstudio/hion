@@ -445,6 +445,12 @@ function SDK(pack) {
 		return prn ? prn.getChild() : parent;
 	};
 	
+	this.stop = function(flags) {
+		for(var e of this.imgs) {
+			e.onfree(flags);
+		}
+	};
+	
 	this.resetID();
 }
 

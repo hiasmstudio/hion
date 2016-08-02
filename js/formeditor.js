@@ -126,6 +126,7 @@ function FormEditor(sdkEditor) {
 	this.edit = function(sdk) {
 		
 		if(this.parentElement) {
+			this.freeControls();
 			this.parentElement = null;
 			this.editor.free();
 			return;
@@ -351,10 +352,16 @@ function FormEditor(sdkEditor) {
 		return this.editor;
 	};
 	
+	this.freeControls = function() {
+		this.sdk.stop(window.FLAG_USE_EDIT);
+	};
+	
 	this.update = function() {
 		if(this.parentElement === null) {
 			return;
 		}
+		
+		this.freeControls();
 		
 		this.elements.layout = this.parentElement.getLayout(this.elements);
 		

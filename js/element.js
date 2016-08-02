@@ -549,6 +549,7 @@ SdkElement.prototype.isSelect = function() {
 	
 SdkElement.prototype.onpropchange = function(prop) {};
 SdkElement.prototype.oninit = function() {};
+SdkElement.prototype.onfree = function() {};
 
 SdkElement.prototype.loadFromText = function(line) { return false; };
 SdkElement.prototype.saveToText = function() { return ""; };
@@ -1093,9 +1094,22 @@ function createElement(sdk, id, x, y) {
 			break;
 		case "CSS":
 			i.run = function () {
-				var css = document.createElement("style");
-				css.innerHTML = this.props.StyleSheet.value;
-				document.head.appendChild(css);
+				if(this.css == null) {
+					this.css = document.createElement("style");
+					this.css.innerHTML = this.props.StyleSheet.value;
+					document.head.appendChild(this.css);
+					this.cssref = 1;
+				}
+				else {
+					this.cssref++;
+				}
+			};
+			i.onfree = function() {
+				this.cssref--;
+				if(this.css && this.cssref == 0) {
+					document.head.removeChild(this.css);
+					this.css = null;
+				}
 			};
 			break;
 		case "Spoiler":
@@ -1930,6 +1944,12 @@ function createElement(sdk, id, x, y) {
 				if(flags & window.FLAG_USE_EDIT) {
 					this.ctl.addListener("close", function(){ return false; });
 				}
+				else if(!(flags & window.FLAG_USE_CHILD)) {
+					this.ctl.addListener("close", function(){
+						i.parent.stop(window.FLAG_USE_RUN);
+						return true;
+					});
+				}
 				
 				this.ctl.layout = this.getLayout(this.ctl);
 				
@@ -2216,6 +2236,9 @@ function createElement(sdk, id, x, y) {
 				// if(flags & window.FLAG_USE_RUN) {
 					return this.sdk.run(flags | window.FLAG_USE_CHILD);
 				// }
+			};
+			i.onfree = function(flags) {
+				return this.sdk.stop(flags | window.FLAG_USE_CHILD);
 			};
 			break;
 		case "Array":
