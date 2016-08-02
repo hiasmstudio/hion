@@ -1602,7 +1602,7 @@
 			{ "name": "Content", "type": 4, "data": 2 }
 		],
 		"props": [
-			{ "name": "Method", "type": 4, "def": 0, "list": "GET,POST" },
+			{ "name": "Method", "type": 14, "def": 0, "list": "GET,POST" },
 			{ "name": "URL", "type": 2, "def": "" },
 			{ "name": "Content", "type": 2, "def": "" }
 		]
