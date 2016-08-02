@@ -424,6 +424,12 @@
 			{ "name": "Height", "def": 100 }
 		]
 	},
+	"CSS": {
+		"tab": "interface",
+		"props": [
+			{ "name": "StyleSheet", "type": 5, "def": ".my-style-name {\n\n}", "flags": 1 }
+		]
+	},
 	"special": { "tab": "interface", "group": true },
 	"YaMap": {
 		"tab": "interface",

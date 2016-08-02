@@ -1091,6 +1091,13 @@ function createElement(sdk, id, x, y) {
 				i.flags |= window.IS_PARENT;
 			}
 			break;
+		case "CSS":
+			i.run = function () {
+				var css = document.createElement("style");
+				css.innerHTML = this.props.StyleSheet.value;
+				document.head.appendChild(css);
+			};
+			break;
 		case "Spoiler":
 			i.run = function (flags) {
 				this.ctl = new Spoiler({caption: "Spoil me"});
