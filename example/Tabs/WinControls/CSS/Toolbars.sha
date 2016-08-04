@@ -1,0 +1,19 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Width=#3:387|
+  Height=#3:103|
+  Caption=#21:Toolbar theme example|
+}
+Add(ToolBar,2,133,56)
+{
+  Left=21
+  Top=28
+  Width=#3:345|
+  Theme=#10:my-toolbar|
+  Buttons=#370:[{"title":"Command title","icon":1},{"title":"Command title","icon":43},{"title":"Command title","icon":29},{"title":"-","icon":0},{"title":"Command title","icon":44},{"title":"Command title","icon":32},{"title":"-","icon":0},{"title":"Command title","icon":46},{"title":"Command title","icon":37},{"title":"Command title","icon":55},{"title":"Command title","icon":56}]|
+}
+Add(CSS,3,210,56)
+{
+  StyleSheet=#13:.my-toolbar {|78:	background: -moz-linear-gradient(top, #c9de96 0%, #8ab66b 44%, #398235 100%);|79:	background: -webkit-linear-gradient(top, #c9de96 0%,#8ab66b 44%,#398235 100%);|77:	background: linear-gradient(to bottom, #c9de96 0%,#8ab66b 44%,#398235 100%);|1:}|10:									 |23:.my-toolbar .splitter {|28:	border-left-color: #8ab66b;|29:	border-right-color: #c9de96;|1:}|10:									 |41:.my-toolbar .button[enabled=true]:hover {|27:	background-color: #c9de96;|1:}|0:|27:@keyframes toolbar-button {|70:    from { background-color: transparent; border-color: transparent; }|60:    to { background-color: #c9de96; border-color: #8ab66b; }|1:}|
+}
