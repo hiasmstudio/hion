@@ -427,7 +427,7 @@
 	"CSS": {
 		"tab": "interface",
 		"props": [
-			{ "name": "StyleSheet", "type": 5, "def": ".my-style-name {\n\n}", "flags": 1 }
+			{ "name": "StyleSheet", "type": 5, "def": ".my-style-name {\n\n}", "flags": 1, "editor": ":css" }
 		]
 	},
 	"special": { "tab": "interface", "group": true },
@@ -1554,7 +1554,7 @@
 		"props": [
 			{ "name": "WorkCount", "type": 1, "def": 0 },
 			{ "name": "EventCount", "type": 1, "def": 0 },
-			{ "name": "Code", "type": 5, "def": "", "flags": 1 }
+			{ "name": "Code", "type": 5, "def": "", "flags": 1, "editor": ":javascript" }
 		]
 	},
 	"GeoLocation": {
