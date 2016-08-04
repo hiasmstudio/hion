@@ -1004,7 +1004,11 @@ function SdkEditor() {
 						if(!footer) {
 							footer = h.n("div").class("footer");
 						}
-						footer.n("div").html(i + " = " + prop.getText());
+						var text = prop.getText();
+						if(text.length > 300) {
+							text = text.substring(0, 300) + "...";
+						}
+						footer.n("div").html(i + " = " + text.replace(/\n/g, "<br>"));
 					}
 				}
 			}
