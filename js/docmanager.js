@@ -518,7 +518,7 @@ SHATab.prototype.show = function() {
 	propEditor.onadveditor = function(item) {
 		var e = __editor__.sdkEditor.sdk.selMan.items[0];
 		var customEditor = e.props[item.name] ? e.props[item.name].editor : e.sys[item.name].editor;
-		if(customEditor && customEditor.indexOf(":") > 0) {
+		if(customEditor && customEditor.indexOf(":") != 0) {
 			if(!runners[customEditor]) {
 				runners[customEditor] = new Runner(__editor__.sdkEditor.sdk.pack.getEditorsPath() + customEditor);
 			}
@@ -537,7 +537,7 @@ SHATab.prototype.show = function() {
 				lineNumbers: window.getOptionBool("opt_ce_line_numbers", 1),
 				lineWrapping: window.getOptionBool("opt_ce_line_wrapping", 0),
 				matchBrackets: true,
-				mode: {name: customEditor.substring(1)},
+				mode: {name: customEditor ? customEditor.substring(1) : ''},
 				extraKeys: {"Ctrl-Space": "autocomplete"},
 				indentUnit: 4, // Длина отступа в пробелах.
 				indentWithTabs: true,
