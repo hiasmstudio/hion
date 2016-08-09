@@ -52,11 +52,11 @@ function PropertyEditor(options) {
 		else {
 			e.addPoint(item.point.name, item.point.type);
 		}
-		this.parent.onpropchange(null);
+		pEditor.onpropchange(null);
 	};
 	this.points.onselect = function(item, text) {
 		var e = pEditor.selMan.items[0];
-		this.parent.infoBox.caption = translate.translate(e.getPointInfo(item.point));
+		pEditor.infoBox.caption = translate.translate(e.getPointInfo(item.point));
 	};
 	this.panel.appendChild(this.points.getControl());
 	
