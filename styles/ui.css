@@ -781,9 +781,13 @@ textarea {
     flex-grow: 0;
     flex-shrink: 0; }
   .props .ui-listbox {
-    flex-grow: 1;
     border: 0;
-    border-bottom: 1px solid #dcd0c3; }
+    border-bottom: 1px solid #dcd0c3;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; }
 
 .borderin {
   border: 1px solid white;

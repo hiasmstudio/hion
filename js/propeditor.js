@@ -26,16 +26,16 @@ function PropertyEditor(options) {
 			title: "",
 			icon: 40,
 			click: function(){
-				panel.childNodes[1].show();
-				panel.childNodes[2].hide();
+				pEditor.points.hide();
+				pEditor.editor.show();
 			}
 		},
 		{
 			title: "",
 			icon: 48,
 			click: function(){
-				panel.childNodes[1].hide();
-				panel.childNodes[2].show();
+				pEditor.points.show();
+				pEditor.editor.hide();
 			}
 		}
 	]);
@@ -44,7 +44,6 @@ function PropertyEditor(options) {
 	
 	this.points = new ListBox({checkboxes: true});
 	this.points.hide();
-	this.points.parent = this;
 	this.points.oncheck = function(item, text) {
 		var e = pEditor.selMan.items[0];
 		if(e.findPointByName(item.point.name)) {
@@ -59,7 +58,7 @@ function PropertyEditor(options) {
 		var e = pEditor.selMan.items[0];
 		this.parent.infoBox.caption = translate.translate(e.getPointInfo(item.point));
 	};
-	this.points.appendTo(this._ctl);
+	this.panel.appendChild(this.points.getControl());
 	
 	var iPanel = new Panel({height: 49, theme: "ui-pannel-top-left"});
 	iPanel.layout.setOptions({padding: 3});
