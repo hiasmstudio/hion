@@ -822,8 +822,8 @@ SHATab.prototype.execCommand = function(cmd, data) {
         case "slideright": this.sdkEditor.beginOperation(window.ME_SLIDE_RIGHT); break;
         case "selectall": this.sdkEditor.selectAll(); break;
         
-        case "bringtofront": this.sdkEditor.bringToFront(); break;
-        case "sendtoback": this.sdkEditor.sendToBack(); break;
+        case "bringtofront": this.sdkEditor.bringToFront(); commander.reset(); break;
+        case "sendtoback": this.sdkEditor.sendToBack(); commander.reset(); break;
         
         case "makehint": this.sdkEditor.beginOperation(window.ME_MAKE_LH); break;
         case "remove_lh": this.sdkEditor.beginOperation(window.ME_REMOVE_LH); break;

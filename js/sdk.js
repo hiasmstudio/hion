@@ -468,3 +468,13 @@ SDK.prototype.getParams = function() {
 	
 	return {x1: minX, y1: minY, x2: maxX, y2: maxY};
 };
+
+SDK.prototype.indexOf = function(element) {
+	for(var i = 0; i < this.imgs.length; i++) {
+		if(this.imgs[i] === element) {
+			return i;
+		}
+	}
+	
+	return -1;
+};

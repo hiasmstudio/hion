@@ -1299,10 +1299,15 @@ function SdkEditor() {
 	};
 	
 	this.canBringToFront = function() {
-		return this.sdk.selMan.size() === 1 && this.sdk.imgs[this.sdk.imgs.length-1] !== this.sdk.selMan.items[0];
+		return this.sdk.selMan.size() === 1 && this.sdk.imgs[this.sdk.imgs.length-1] !== this.sdk.selMan.items[0] && !(this.sdk.selMan.items[0].flags & IS_PARENT);
 	};
 	this.canSendToBack = function() {
-		return this.sdk.selMan.size() === 1 && this.sdk.imgs[0] !== this.sdk.selMan.items[0];
+		if(this.sdk.selMan.size() === 1) {
+			var prevIndex = this.sdk.indexOf(this.sdk.selMan.items[0]);
+			return prevIndex > 0 && !(this.sdk.selMan.items[0].flags & IS_PARENT) && !(this.sdk.imgs[prevIndex-1].flags & IS_PARENT);
+		}
+		
+		return false;
 	};
 	this.bringToFront = function() {
 		if(this.canBringToFront()) {
@@ -1322,7 +1327,8 @@ function SdkEditor() {
 	this.sendToBack = function() {
 		if(this.canSendToBack()) {
 			var e = null;
-			for(var i = this.sdk.imgs.length-1; i > 1; i--) {
+			var i;
+			for(i = this.sdk.imgs.length-1; i > 1 && !(this.sdk.imgs[i-1].flags & IS_PARENT); i--) {
 				if(this.sdk.imgs[i].isSelect()) {
 					e = this.sdk.imgs[i];
 				}
@@ -1330,7 +1336,8 @@ function SdkEditor() {
 					this.sdk.imgs[i] = this.sdk.imgs[i-1];
 				}
 			}
-			this.sdk.imgs[1] = e;
+			console.log(i)
+			this.sdk.imgs[i] = e;
 			this.draw();
 		}
 	};
