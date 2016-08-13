@@ -416,6 +416,7 @@ SHATab.prototype.open = function(file) {
  			if(error === 0) {
  				__editor.createFromData(data);
  				__editor.tab.load(false);
+				commander.reset();
  			}
  			else {
  				displayError({code: error});
@@ -614,7 +615,6 @@ SHATab.prototype.updateCommands = function(commander) {
     	
 		commander.enabled("saveas");
 		commander.enabled("run");
-		commander.enabled("formedit");
 		commander.enabled("selectall");
 		commander.enabled("slidedown");
 		commander.enabled("slideright");
@@ -624,6 +624,8 @@ SHATab.prototype.updateCommands = function(commander) {
 		commander.enabled("sha_source");
 		commander.enabled("statistic");
 		commander.enabled("paste");
+
+		if(this.sdkEditor.canFormEdit()) commander.enabled("formedit");
 		
 		if(this.file && this.file.path.startsWith("/home")) commander.enabled("share");
 		

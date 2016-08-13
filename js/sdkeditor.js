@@ -1423,3 +1423,15 @@ SdkEditor.prototype.canRedo = function(){ return this.sdk.undo.canRedo(); };
 
 SdkEditor.prototype.undo = function(){ this.sdk.undo.undo(); this.draw(); };
 SdkEditor.prototype.redo = function(){ this.sdk.undo.redo(); this.draw(); };
+
+
+SdkEditor.prototype.canFormEdit = function() {
+	if(this.sdk.imgs.length && this.sdk.imgs[0].flags & IS_PARENT) {
+		return true;
+	}
+	if(this.sdk.imgs.length > 1 && this.sdk.imgs[1].flags & IS_PARENT) {
+		return true;
+	}
+	
+	return false;
+};
