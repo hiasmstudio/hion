@@ -1,0 +1,148 @@
+Add(MainForm,1,210,14)
+{
+  Left=56
+  Top=56
+  Height=#3:153|
+  Caption=#15:ui.shareproject|
+}
+Add(Button,2,112,203)
+{
+  Left=287
+  Top=91
+  Width=#3:101|
+  Height=#2:28|
+  Enabled=0
+  Caption=#2:OK|
+  Point(doEnabled)
+  link(onClick,27:doData,[])
+}
+Add(Label,3,140,14)
+{
+  Left=14
+  Top=14
+  Height=#2:21|
+  Caption=#3:URL|
+}
+Add(Edit,4,672,259)
+{
+  Left=70
+  Top=14
+  Width=#3:316|
+}
+Add(CheckBox,5,616,133)
+{
+  Left=70
+  Top=49
+  Width=#3:318|
+  Caption=#17:ui.shareprjcanrun|
+}
+Add(hcTransmitter,6,168,105)
+{
+  link(onInit,7:doRead,[])
+}
+Add(ArrayRead,7,217,105)
+{
+  link(onRead,13:doValue,[])
+}
+Add(Figure,10,112,105)
+{
+  Left=7
+  Top=70
+  Width=#3:380|
+  Height=#2:16|
+  Shape=2
+  Stroke=gray
+}
+Add(URLBuilder,12,273,203)
+{
+  Args=#6:public|5:value|
+  link(onBuild,15:doEvent1,[])
+  link(public,13:Value,[])
+}
+Add(Memory,13,273,105)
+{
+  link(onData,28:doData,[])
+}
+Add(XMLHttpRequest,14,371,203)
+{
+  Method=1
+  URL=#15:server/core.php|
+  link(onLoad,19:doEvent1,[])
+}
+Add(Hub,15,329,203)
+{
+  link(onEvent1,14:doOpen,[])
+  link(onEvent2,14:doSend,[])
+}
+Add(Loader,16,329,280)
+{
+  Left=7
+  Top=91
+  Width=#2:36|
+  Height=#2:36|
+  Visible=0
+  Size=32
+  Radius=3
+  Point(doVisible)
+}
+Add(ChannelToIndex,17,273,280)
+{
+  link(onIndex,16:doVisible,[])
+}
+Add(Hub,18,231,203)
+{
+  OutCount=3
+  link(onEvent1,12:doBuild,[])
+  link(onEvent2,17:doWork2,[(259,216)(259,293)])
+  link(onEvent3,31:doWork1,[(252,223)(252,243)(32,243)(32,209)])
+}
+Add(Hub,19,420,203)
+{
+  OutCount=3
+  link(onEvent1,23:doConvert,[])
+  link(onEvent2,17:doWork1,[(453,216)(453,255)(264,255)(264,286)])
+  link(onEvent3,31:doWork2,[(447,223)(447,248)(39,248)(39,216)])
+}
+Add(JSON,23,462,203)
+{
+  link(onConvert,25:doEvent1,[])
+}
+Add(JSON_Field,24,560,259)
+{
+  Name=#4:link|
+  link(onGet,30:doStrCat,[])
+}
+Add(Hub,25,518,203)
+{
+  link(onEvent1,26:doGet,[(546,209)(546,139)])
+  link(onEvent2,24:doGet,[(546,216)(546,265)])
+}
+Add(JSON_Field,26,560,133)
+{
+  Name=#6:public|
+  link(onGet,5:doCheck,[])
+}
+Add(DoData,27,175,203)
+{
+  link(onEventData,29:doWork2,[])
+  link(Data,5:Checked,[(181,184)(622,184)])
+}
+Add(DoData,28,322,105)
+{
+  Data=#1:2|
+  link(onEventData,29:doWork1,[(368,111)(368,159)(221,159)])
+}
+Add(HubEx,29,217,203)
+{
+  link(onEvent,18:doEvent1,[])
+}
+Add(StrCat,30,616,259)
+{
+  Str1=#41:http://ide.hiasm.com/runner.html#/public/|
+  link(onStrCat,4:doText,[])
+}
+Add(ChannelToIndex,31,56,203)
+{
+  link(onIndex,2:doEnabled,[])
+}
+
