@@ -534,7 +534,7 @@ SHATab.prototype.show = function() {
 			var e = m.n("div").style("flexGrow", 1);
 			$.appendChild(m.element);
 			var editor = CodeMirror(e.element, {
-				value: item.value,
+				value: item.value.toString(),
 				lineNumbers: window.getOptionBool("opt_ce_line_numbers", 1),
 				lineWrapping: window.getOptionBool("opt_ce_line_wrapping", 0),
 				matchBrackets: true,
