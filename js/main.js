@@ -324,8 +324,7 @@ function loadWorkspace() {
 		profile: {
 			icon: 55, def: true,
 			exec: function() {
-				//window.open("http://beta.hiasm.com/profilemain/" + user.uid, '_blank');
-				window.open("http://forum.hiasm.com/profile.html?q=33&u=" + user.uid, '_blank');
+				window.open("http://forum.hiasm.com/profilemain/" + user.uid, '_blank');
 			}
 		},
 		cut: { icon: 42, exec: function(){ this.execCommand("copy").execCommand("delete"); } },
