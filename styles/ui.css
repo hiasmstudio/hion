@@ -655,7 +655,8 @@ textarea {
   .docmanager .doc-code {
     position: relative;
     display: flex;
-    flex-grow: 1; }
+    flex-grow: 1;
+    border-bottom: 1px solid #dcd0c3; }
   .docmanager .state {
     height: 56px;
     font-size: 12px;
@@ -983,5 +984,3 @@ textarea {
           height: 9px;
           background: url(/img/ui.png) -18px -13px no-repeat;
           cursor: pointer; }
-
-/*# sourceMappingURL=ui.css.map */

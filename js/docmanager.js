@@ -45,6 +45,10 @@ FSNode.prototype.read = function(callback) {
 	this.fs.read(this.location(), callback);
 };
 
+FSNode.prototype.readArray = function(callback) {
+	this.read(callback);
+};
+
 FSNode.prototype.write = function(data, callback) {
 	this.fs.write(this.location(), data, callback);
 };
@@ -68,6 +72,14 @@ DesktopFSNode.prototype.read = function(callback) {
 		callback(0, e.target.result);
 	};
 	reader.readAsText(this.desktopFile);
+};
+
+DesktopFSNode.prototype.readArray = function(callback) {
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		callback(0, e.target.result);
+	};
+	reader.readAsArrayBuffer(this.desktopFile);
 };
 
 //------------------------------------------------------------------------------
@@ -902,8 +914,10 @@ function OggTab(file) {
 OggTab.prototype = Object.create(DocumentTab.prototype);
 
 OggTab.prototype.open = function(file) {
+	DocumentTab.prototype.open.call(this, file);
+	
 	var __editor = this;
-	file.read(function(error, data){
+	file.readArray(function(error, data){
 		if(error === 0) {
 			var blob = new Blob([data], {type : 'audio/ogg'});
 			var url = URL.createObjectURL(blob);
@@ -917,15 +931,17 @@ OggTab.prototype.open = function(file) {
 function ImageTab(file) {
     DocumentTab.call(this, file);
     
-	this.image = new UIImage({});
+	this.image = new UIImage({mode: 1});
 	this._ctl = this.image.getControl();
 }
 
 ImageTab.prototype = Object.create(DocumentTab.prototype);
 
 ImageTab.prototype.open = function(file) {
+	DocumentTab.prototype.open.call(this, file);
+	
 	var __editor = this;
-	file.read(function(error, data){
+	file.readArray(function(error, data){
 		if(error === 0) {
 			var blob = new Blob([data], {type : 'image/png'});
 			var url = URL.createObjectURL(blob);
@@ -989,7 +1005,7 @@ function DocumentManageer(options) {
     
     var extMap = [
         { ext: /.*\.sha$/i, tab: SHATab },
-        { ext: /.*\.txt$/i, tab: CodeTab },
+        { ext: /.*\.(txt|js|hws)$/i, tab: CodeTab },
         { ext: /.*\.ogg$/i, tab: OggTab },
         { ext: /.*\.png$/i, tab: ImageTab }
     ];
