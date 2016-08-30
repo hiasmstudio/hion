@@ -101,6 +101,7 @@
             }
             div.pe-value {
                 color: navy;
+				position: relative;
                 .color {
                     width: 11px; height: 11px;
                     border: 1px solid $borderColor;
@@ -125,7 +126,12 @@
                 border-left-color: gray;
             }
             div.pe-value {
-                div.in { padding-top: 0; white-space: normal; overflow: visible; }
+                div.in {
+					padding-top: 0; padding-left: 0; white-space: normal; overflow: visible;
+					input[type=text] {
+						padding-left: 2px;
+					}
+				}
             }
         }
     }
@@ -160,13 +166,14 @@
                 padding: 0; width: 18px; height: 17px; flex-shrink: 0; font-size: 12px;
             }
             .combo {
+				right: 0; top: 0;
                 width: 120px;
                 min-height: 36px;
                 max-height: 120px;
                 border: 1px solid $borderColor;
                 background-color: $inputBgColor;
                 margin-top: 18px;
-                margin-left: -121px;
+                //margin-left: -24px;
                 overflow: auto;
                 position: absolute;
                 z-index: 999;
