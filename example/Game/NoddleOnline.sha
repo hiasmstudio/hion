@@ -1,0 +1,473 @@
+Make(webapp)
+Add(MainForm,1,63,105)
+{
+  Width=#3:329|
+  Height=#3:211|
+  Caption=#13:Noodle online|
+}
+Add(Firebase,44,63,49)
+{
+  ApiKey=#39:AIzaSyDNjuvJ4cA91CGFrub0Rj2bSNY8YHYGbS8|
+  AuthDomain=#26:hion-7e3cb.firebaseapp.com|
+  DatabaseURL=#33:https://hion-7e3cb.firebaseio.com|
+  StorageBucket=#22:hion-7e3cb.appspot.com|
+  link(onInit,67:doWork1,[])
+}
+Add(MultiElementEx,67,140,49)
+{
+  @Comment=#11:Secret room|
+  AddHint(-21,-41,0,0,Comment)
+  link(onEvent1,75:doWork1,[])
+}
+BEGIN_SDK
+Make(webapp)
+Add(MultiElementEditor,66,7,7)
+{
+  EventCount=1
+  WorkCount=1
+  @VOffset=70
+  @HOffset=119
+  @Height=186
+  link(doWork1,71:doData,[])
+}
+Add(Panel,68,140,77)
+{
+  Left=42
+  Top=28
+  Width=#3:249|
+  Height=#3:133|
+  Enabled=0
+  Point(doEnabled)
+  Point(doVisible)
+}
+Add(Edit,69,231,21)
+{
+  Left=21
+  Top=56
+  Width=#3:211|
+  Pattern=#15:[0-9a-zA-Z]{4,}|
+}
+Add(Label,70,133,21)
+{
+  Left=21
+  Top=35
+  Width=#3:211|
+  Caption=#17:Secret room name:|
+}
+Add(DoData,71,42,77)
+{
+  Data=Real(1)
+  link(onEventData,68:doEnabled,[])
+}
+Add(Button,72,42,140)
+{
+  Left=84
+  Top=84
+  Width=#2:80|
+  Height=#2:28|
+  Caption=#7:Connect|
+  Data=Real(0)
+  link(onClick,73:doEvent1,[])
+}
+Add(Hub,73,91,140)
+{
+  link(onEvent1,68:doVisible,[(119,146)(119,90)])
+  link(onEvent2,117:doData,[(206,153)(206,83)])
+}
+Add(DoData,117,231,77)
+{
+  link(onEventData,66:onEvent1,[])
+  link(Data,69:Text,[])
+}
+END_SDK
+Add(MultiElementEx,75,224,49)
+{
+  @Comment=#9:Game core|
+  AddHint(-19,-41,0,0,Comment)
+}
+BEGIN_SDK
+Make(webapp)
+Add(MultiElementEditor,74,7,7)
+{
+  WorkCount=1
+  @VOffset=42
+  @Width=678
+  @Height=522
+  link(doWork1,116:doEvent1,[])
+}
+Add(Panel,76,161,49)
+{
+  Left=7
+  Top=7
+  Width=#3:315|
+  Height=#3:177|
+  Visible=0
+  Point(doVisible)
+}
+Add(PaintBox,77,210,189)
+{
+  Left=7
+  Top=7
+  Width=#3:160|
+  Height=#3:160|
+  Point(onMouseDown)
+  Point(onContextMenu)
+  link(onDraw,80:doEnum,[])
+  link(onMouseDown,86:doEvent1,[])
+}
+Add(Matrix,78,238,105)
+{
+  Width=5
+  Height=5
+  link(onClear,89:doWork1,[])
+}
+Add(Hub,79,161,105)
+{
+  link(onEvent1,78:doClear,[])
+  link(onEvent2,87:doWork1,[(193,118)])
+}
+Add(MatrixEnum,80,301,189)
+{
+  Data=1
+  link(onEnum,101:doEvent1,[])
+  link(Matrix,85:Var2,[])
+}
+Add(MathParse,81,406,189)
+{
+  MathStr=#29:point($pos[1]*31, $pos[2]*31)|
+  Args=#3:pos|
+  link(onResult,82:doDraw,[])
+}
+Add(DrawImage,82,497,189)
+{
+  link(Canvas,83:Var1,[(503,175)(489,175)])
+  link(Image,84:Image,[])
+}
+Add(GetDataEx,83,483,240)
+{
+  Angle=3
+  link(Data,77:Canvas,[(216,247)])
+}
+Add(Image,84,511,133)
+{
+  Left=532
+  Top=63
+  Visible=0
+  URL=#598:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AgHEzsRP1UQuQAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAEXSURBVFjDxZdBbsUgDETfr3qSbnuQ3v88FTNdgEkgqMv52USOguM3GrDzAswbr0+A1n6RGkZIwgjfYwu5zTv2FathPNf7Hs91xl5jufH99cMH0B9iZMGSpBcjt/7cWj9uYXryvk5LMT3f+PiIqxisS4FOkiO3NYqmFMiSe8SLAknyiqcCafLKdykQJq98lwfC5B7vr7sgSu5NgTC5xvsPBVLk3XP3XRAmr/xnDwTIffJAktzq+bdekCTfz4EwuXTyQJD84YE0eRU5FZCz5NV7bt0wS25p2wVVYYz80Q2z5FXU4STMkNeht82EOfKaQdeZMEj+mIrT5PY/HkiQHz2QJNfMeZgHEuRzAlt6QZDcY/wDeL379/wP2jYWb+q3Q7EAAAAASUVORK5CYII=|
+}
+Add(GetDataEx,85,301,154)
+{
+  Angle=3
+  link(Data,114:Var3,[(276,161)(276,161)])
+}
+Add(Hub,86,259,196)
+{
+  link(onEvent1,169:doEvent1,[(286,202)(286,255)(196,255)(196,335)])
+  link(onEvent2,87:doWork3,[(283,209)(283,230)(193,230)])
+}
+Add(HubEx,87,189,189)
+{
+  link(onEvent,77:doDraw,[])
+}
+Add(InfoTip,88,357,119)
+{
+  Info=#4:Draw|
+  @Width=218
+  @Height=186
+}
+Add(MultiElementEx,89,294,105)
+{
+  @Comment=#11:Init matrix|
+}
+BEGIN_SDK
+Make(webapp)
+Add(MultiElementEditor,90,7,7)
+{
+  WorkCount=1
+  @VOffset=63
+  @HOffset=105
+  @Width=314
+  @Height=179
+  link(doWork1,97:doValue,[(28,76)(28,125)])
+}
+Add(MatrixWrite,91,49,70)
+{
+  Value=String(H)
+  link(onWrite,92:doWrite,[])
+  link(Index,93:Array,[])
+}
+Add(MatrixWrite,92,112,70)
+{
+  Value=String(E)
+  link(Index,94:Array,[])
+}
+Add(Array,93,56,14)
+{
+  Array=#5:[0,2]|
+}
+Add(Array,94,119,14)
+{
+  Array=#5:[1,2]|
+}
+Add(MatrixEnum,95,126,119)
+{
+  Data=1
+  link(onEnum,96:doWrite,[])
+}
+Add(MatrixWrite,96,203,119)
+{
+  link(Matrix,97:Value,[(209,111)(188,111)(188,168)(62,168)])
+  link(Index,95:Index,[(216,104)(180,104)(180,161)(139,161)])
+  link(Value,98:Value,[])
+}
+Add(Memory,97,56,119)
+{
+  link(onData,95:doEnum,[])
+}
+Add(Memory,98,217,49)
+{
+  Default=String( )
+}
+END_SDK
+Add(DrawText,99,504,259)
+{
+  Align=1
+  link(Canvas,83:Var3,[(510,247)])
+  link(Text,80:Item,[(524,237)(307,237)])
+}
+Add(MathParse,100,406,259)
+{
+  MathStr=#43:point($pos[1]*31 + 16, $pos[2]*31 + 16 + 6)|
+  Args=#3:pos|
+  link(onResult,99:doDraw,[])
+}
+Add(Hub,101,364,189)
+{
+  link(onEvent1,81:doCalc,[])
+  link(onEvent2,100:doCalc,[(392,202)(392,265)])
+}
+Add(MathParse,102,245,385)
+{
+  MathStr=#38:[floor($arr[0]/32), floor($arr[1]/32)]|
+  Args=#3:arr|
+  link(onResult,166:doCompare,[])
+}
+Add(MatrixWrite,103,469,385)
+{
+  link(Matrix,176:Var2,[])
+  link(Value,197:Var3,[(489,377)])
+}
+Add(FBNode,105,448,63)
+{
+  link(onReference,106:doListen,[])
+}
+Add(FBListen,106,504,63)
+{
+  Event=1
+  link(onListen,112:doEvent1,[(550,69)(550,32)(27,32)(27,237)])
+}
+Add(FBSendMessage,107,448,434)
+{
+  Mode=1
+  link(Node,198:Var2,[])
+}
+Add(Hub,108,350,385)
+{
+  link(onEvent1,103:doWrite,[])
+  link(onEvent2,109:doAdd,[(378,398)(378,440)])
+}
+Add(ArrayAdd,109,392,434)
+{
+  link(onAdd,107:doSend,[])
+  link(Value,197:Var2,[])
+}
+Add(MatrixWrite,111,84,238)
+{
+  link(onWrite,87:doWork2,[(153,244)(153,195)])
+  link(Matrix,114:Var1,[(90,161)])
+  link(Value,113:Value,[])
+}
+Add(Hub,112,42,231)
+{
+  link(onEvent1,113:doRead,[(73,237)(73,188)])
+  link(onEvent2,111:doWrite,[])
+}
+Add(ArrayRead,113,98,182)
+{
+  Index=2
+}
+Add(GetDataEx,114,238,154)
+{
+  link(Data,78:Array,[])
+}
+Add(DoData,115,105,49)
+{
+  Data=Real(1)
+  link(onEventData,76:doVisible,[])
+}
+Add(Hub,116,49,49)
+{
+  OutCount=3
+  link(onEvent1,115:doData,[])
+  link(onEvent2,79:doEvent1,[(87,62)(87,111)])
+  link(onEvent3,118:doStrCat,[])
+}
+Add(StrCat,118,392,63)
+{
+  Str1=#5:game/|
+  link(onStrCat,105:doReference,[])
+}
+Add(Label,165,84,287)
+{
+  Left=182
+  Top=7
+  Width=#2:92|
+  Caption=#17:Character to set:|
+}
+Add(If_else,166,294,385)
+{
+  Op2=Real(0)
+  link(onTrue,108:doEvent1,[])
+  link(onFalse,173:doEvent1,[(338,398)(338,426)])
+  link(Op1,167:Value,[])
+}
+Add(ArrayRead,167,294,329)
+{
+  Index=2
+}
+Add(Hub,169,210,329)
+{
+  link(onEvent1,167:doRead,[])
+  link(onEvent2,102:doCalc,[(234,342)(234,391)])
+}
+Add(MatrixWrite,171,567,420)
+{
+  Value=String( )
+  link(Matrix,176:Var3,[(573,371)])
+}
+Add(FBSendMessage,172,616,469)
+{
+  Mode=1
+  link(Node,198:Var3,[(622,357)])
+}
+Add(Hub,173,525,420)
+{
+  link(onEvent1,171:doWrite,[])
+  link(onEvent2,174:doAdd,[(553,433)(553,475)])
+}
+Add(ArrayAdd,174,567,469)
+{
+  Value=#1: |
+  link(onAdd,172:doSend,[])
+}
+Add(GetDataEx,176,469,364)
+{
+  link(Data,85:Var3,[(475,161)])
+}
+Add(Button,180,245,280)
+{
+  Left=217
+  Top=28
+  Height=#2:45|
+  Caption=#1:H|
+  Point(doCaption)
+  link(onClick,182:doWork1,[])
+}
+Add(MultiElementEx,182,294,280)
+{
+  @Comment=#15:Enter character|
+  link(onEvent1,196:doValue,[])
+}
+BEGIN_SDK
+Make(webapp)
+Add(MultiElementEditor,181,7,7)
+{
+  EventCount=1
+  WorkCount=1
+  @VOffset=49
+  @Width=447
+  @Height=228
+  link(doWork1,183:doShow,[])
+}
+Add(MainForm,183,147,56)
+{
+  Left=49
+  Top=56
+  Width=#3:164|
+  Height=#2:90|
+  Visible=0
+  Caption=#13:Char selecter|
+}
+Add(Label,184,203,56)
+{
+  Left=14
+  Top=14
+  Width=#3:176|
+  Caption=#19:Enter the character|
+}
+Add(Edit,185,49,133)
+{
+  Left=14
+  Top=35
+  Width=#3:134|
+  TabIndex=#1:1|
+  Pattern=#1:.|
+  Point(onKeyDown)
+  link(onKeyDown,195:doRead,[])
+}
+Add(Length,186,217,140)
+{
+  link(onLength,188:doCompare,[])
+  link(Str,190:Var2,[])
+}
+Add(If_else,187,161,140)
+{
+  Op2=Real(13)
+  link(onTrue,186:doLength,[])
+}
+Add(If_else,188,280,140)
+{
+  Op2=Real(1)
+  link(onTrue,189:doModify,[])
+  link(onFalse,192:doMessage,[(324,153)(324,195)])
+}
+Add(StrCase,189,336,140)
+{
+  Type=1
+  link(onModify,191:doEvent1,[])
+  link(Str,190:Var3,[(342,126)])
+}
+Add(GetDataEx,190,217,119)
+{
+  Angle=3
+  link(Data,185:Text,[(89,126)(89,181)(55,181)])
+}
+Add(Hub,191,385,140)
+{
+  link(onEvent1,183:doClose,[(412,146)(412,108)(133,108)(133,69)])
+  link(onEvent2,181:onEvent1,[(426,153)(426,62)])
+}
+Add(Message,192,336,189)
+{
+  Text=#33:You must enter a single character|
+}
+Add(ArrayRead,195,112,140)
+{
+  link(onRead,187:doCompare,[])
+}
+END_SDK
+Add(Memory,196,343,280)
+{
+  Default=String(H)
+  link(onData,180:doCaption,[(389,286)(389,272)(231,272)(231,286)])
+}
+Add(GetDataEx,197,399,370)
+{
+  Angle=3
+  link(Data,196:Value,[(349,377)])
+}
+Add(GetDataEx,198,448,350)
+{
+  link(Data,105:Node,[])
+}
+END_SDK
