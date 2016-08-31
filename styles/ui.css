@@ -657,6 +657,14 @@ textarea {
     display: flex;
     flex-grow: 1;
     border-bottom: 1px solid #dcd0c3; }
+  .docmanager .doc-image {
+    background-color: white;
+    border: 0;
+    border-bottom: 1px solid #dcd0c3; }
+    .docmanager .doc-image .content {
+      overflow: auto; }
+    .docmanager .doc-image .ui-image {
+      position: absolute; }
   .docmanager .state {
     height: 56px;
     font-size: 12px;
@@ -864,7 +872,8 @@ textarea {
       .ui-property-editor tr td div.pe-title .in {
         left: 13px; }
     .ui-property-editor tr td div.pe-value {
-      color: navy; }
+      color: navy;
+      position: relative; }
       .ui-property-editor tr td div.pe-value .color {
         width: 11px;
         height: 11px;
@@ -887,8 +896,11 @@ textarea {
     border-left-color: gray; }
   .ui-property-editor tr[selected] div.pe-value div.in {
     padding-top: 0;
+    padding-left: 0;
     white-space: normal;
     overflow: visible; }
+    .ui-property-editor tr[selected] div.pe-value div.in input[type=text] {
+      padding-left: 2px; }
   .ui-property-editor div.out {
     position: relative;
     height: 16px;
@@ -924,13 +936,14 @@ textarea {
         flex-shrink: 0;
         font-size: 12px; }
       .ui-property-editor div.out div.in .combo {
+        right: 0;
+        top: 0;
         width: 120px;
         min-height: 36px;
         max-height: 120px;
         border: 1px solid gray;
         background-color: white;
         margin-top: 18px;
-        margin-left: -121px;
         overflow: auto;
         position: absolute;
         z-index: 999;
@@ -984,3 +997,5 @@ textarea {
           height: 9px;
           background: url(/img/ui.png) -18px -13px no-repeat;
           cursor: pointer; }
+
+/*# sourceMappingURL=ui.css.map */

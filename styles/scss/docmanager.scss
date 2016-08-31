@@ -164,6 +164,15 @@
         flex-grow: 1;
         border-bottom: 1px solid $borderDark;
     }
+	
+	.doc-image {
+		background-color: $inputBgColor;
+		border: 0;
+		//border-left: 1px solid $borderDark;
+		border-bottom: 1px solid $borderDark;
+		.content { overflow: auto; }
+		.ui-image { position: absolute; }
+	}
 
 	.state {
 		height: 56px;

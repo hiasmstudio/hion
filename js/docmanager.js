@@ -931,19 +931,22 @@ OggTab.prototype.open = function(file) {
 function ImageTab(file) {
     DocumentTab.call(this, file);
     
+	this.panel = new Panel({theme: "doc-image"});
+	this.setLayoutOptions({grow:1});
 	this.image = new UIImage({mode: 1});
-	this._ctl = this.image.getControl();
+	this.panel.add(this.image);
+	this._ctl = this.panel.getControl();
 }
 
 ImageTab.prototype = Object.create(DocumentTab.prototype);
 
 ImageTab.prototype.open = function(file) {
 	DocumentTab.prototype.open.call(this, file);
-	
+
 	var __editor = this;
 	file.readArray(function(error, data){
 		if(error === 0) {
-			var blob = new Blob([data], {type : 'image/png'});
+			var blob = new Blob([data], {type : file.mime});
 			var url = URL.createObjectURL(blob);
 			__editor.image.url = url;
 		}
@@ -1005,9 +1008,9 @@ function DocumentManageer(options) {
     
     var extMap = [
         { ext: /.*\.sha$/i, tab: SHATab },
-        { ext: /.*\.(txt|js|hws)$/i, tab: CodeTab },
+        { ext: /.*\.(txt|js|hws|sql|php|ini|html|css|scss)$/i, tab: CodeTab },
         { ext: /.*\.ogg$/i, tab: OggTab },
-        { ext: /.*\.png$/i, tab: ImageTab }
+        { ext: /.*\.(png|jpg|ico|gif|jpeg|bmp)$/i, tab: ImageTab }
     ];
     
     var dm = this;
