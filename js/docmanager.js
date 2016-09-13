@@ -772,7 +772,7 @@ SHATab.prototype.build = function() {
 				state.add(line);
 			}
 		}
-		state.add("Open application in new tab: <a href=\"/users/" + user.uid + "/" + file + ".html\" target=\"_blank\">" + file + ".html</a>");
+		//state.add("Open application in new tab: <a href=\"/users/" + user.uid + "/" + file + ".html\" target=\"_blank\">" + file + ".html</a>");
 	}, name.substring(0, name.length - 4));
 };
 
