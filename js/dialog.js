@@ -143,6 +143,10 @@ window.HTMLElement.prototype.dialog = function(options) {
 		if(!(opt && opt.noCenter)) {
 			this.move((document.childNodes[1].offsetWidth - this.offsetWidth)/2,  (document.childNodes[1].offsetHeight - this.offsetHeight)/2);
 		}
+		if(opt && opt.fullScreen) {
+			this.move(0, 0);
+			this.style.height = this.style.width = "100%";
+		}
 		if(options.modal || options.modal === undefined) {
 			this.mframe = new ModalFrame(this);
 		}

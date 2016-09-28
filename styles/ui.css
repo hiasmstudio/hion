@@ -477,6 +477,9 @@ textarea {
     background-color: #efe9e3;
     border-top: 1px solid #dcd0c3; }
 
+.dialog-fullscreen {
+  border-radius: 0; }
+
 .docmanager {
   border-right: 1px solid #dcd0c3;
   flex-grow: 1; }

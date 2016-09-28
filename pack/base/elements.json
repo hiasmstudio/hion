@@ -73,7 +73,7 @@
 			{ "name": "Resize", "type": 14, "def": 0, "list": "false,true" },
 			{ "name": "ShowCaption", "type": 14, "def": 1, "list": "false,true" },
 			{ "name": "ShowBorder", "type": 14, "def": 1, "list": "false,true" },
-			{ "name": "Position", "type": 4, "def": 1, "list": "None,Center" }
+			{ "name": "Position", "type": 4, "def": 1, "list": "None,Center,FullScreen" }
 		]
 	},
 	"Label": {

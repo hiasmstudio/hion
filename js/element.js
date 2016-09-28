@@ -1938,7 +1938,8 @@ function createElement(sdk, id, x, y) {
 					modal: !(flags & window.FLAG_USE_EDIT),
 					popup: !(flags & window.FLAG_USE_EDIT),
 					showcaption: this.props.ShowCaption.isDef(),
-					showborder: this.props.ShowBorder.isDef()
+					showborder: this.props.ShowBorder.isDef(),
+					theme: this.props.Position.value === 2 ? "dialog-fullscreen" : ""
 				});
 				
 				if(flags & window.FLAG_USE_EDIT) {
@@ -1955,7 +1956,7 @@ function createElement(sdk, id, x, y) {
 				
 				WinElement.prototype.run.call(this, flags);
 				if(!(flags & window.FLAG_USE_CHILD)) {
-					this.ctl.show({noCenter: !this.props.Position.isDef()});
+					this.ctl.show({noCenter: this.props.Position.value === 0, fullScreen: this.props.Position.value === 2});
 				}
 				return this.ctl
 			};
