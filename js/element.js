@@ -1312,6 +1312,16 @@ function createElement(sdk, id, x, y) {
 				this.parent.onEndEnum.call();
 			};
 			break;
+		case "Object":
+			i.doCreate.onevent = function(data) {
+				this.parent.result = {};
+				this.parent.onCreate.call(this.parent.result);
+			};
+			i.Object.onevent = function(data) {
+				return this.parent.result;
+			};
+			i.run = function(){ this.result = {}; };
+			break;
 		case "FormatStr":
 			i.doString.onevent = function(data) {
 				var r = this.parent.d(data);

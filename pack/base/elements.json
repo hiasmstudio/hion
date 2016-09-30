@@ -1094,6 +1094,14 @@
 			{ "name": "Object", "type": 4 }
 		]
 	},
+	"Object": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doCreate", "type": 1 },
+			{ "name": "onCreate", "type": 2, "args": "Object" },
+			{ "name": "Object", "type": 3 }
+		]
+	},
 	"cables": { "tab": "tools", "group": true },
 	"CableWork": {
 		"tab": "tools",
