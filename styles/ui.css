@@ -582,7 +582,8 @@ textarea {
       background-color: #efe9e3;
       border: 0;
       border-top: 1px solid #dcd0c3;
-      padding-left: 5px; }
+      padding-left: 5px;
+      flex-shrink: 0; }
     .docmanager .doc-sha .form-editor {
       border: 0;
       padding-left: 7px;
@@ -671,10 +672,11 @@ textarea {
   .docmanager .state {
     height: 56px;
     font-size: 12px;
-    padding: 3px;
-    border-top: 1px solid white;
     background-color: white;
-    overflow-y: auto; }
+    overflow-y: auto;
+    flex-shrink: 0; }
+  .docmanager .ui-splitter {
+    background-color: white; }
 
 @keyframes tab {
   from {

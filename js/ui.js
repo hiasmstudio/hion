@@ -1561,9 +1561,11 @@ var __sliderMode = 1;
 function Splitter(options) {
 	this.manage = null;
 	
+	this.onresize = function(){};
+	
 	this._ctl = new Builder().n("div").class("ui-splitter").attr("parent", this).on("onmousedown", function(event) {
 		__sliderManaged = this.parent.manage;
-		__sliderDragObj = {x: event.clientX, y: event.clientY, w: __sliderManaged.width, h: __sliderManaged.height};
+		__sliderDragObj = {x: event.clientX, y: event.clientY, w: __sliderManaged.width, h: __sliderManaged.height, ctl: this.parent};
 		document.addEventListener("mousemove", options.edge % 2 === 1 ? __sliderMoveX : __sliderMoveY);
 		document.addEventListener("mouseup", __sliderUp);
 		__sliderManaged.parent.getControl().style.cursor = options.edge % 2 === 1 ? "col-resize" : "row-resize";
@@ -1621,6 +1623,7 @@ function __sliderUp() {
 	document.removeEventListener("mousemove", __sliderMoveY);
 	document.removeEventListener("mouseup", __sliderUp);
 	__sliderManaged.parent.getControl().style.cursor = "default";
+	__sliderDragObj.ctl.onresize();
 };
 
 //******************************************************************************

@@ -1037,15 +1037,20 @@ function DocumentManageer(options) {
 	};
 	
 	this.state = new StatePanel({});
+	var h = window.localStorage.getItem("prop_state_height");
+	if(h) {
+		this.state.height = h;
+	}
 	this.add(this.state);
-	//this.splitter = new Splitter({edge: 0});
-	//this.splitter.setManage(this.state);
+	this.splitter = new Splitter({edge: 0});
+	this.splitter.setManage(this.state);
+	this.splitter.onresize = function(){ window.localStorage.setItem("prop_state_height", dm.state.height) };
 	
 	this.startup = new StartupTab("Startup");
 
     this._showTab = function(tab) {
         this.currentTab = tab;
-        this.insert(tab, this.state);
+        this.insert(tab, this.splitter);
     };
 
 	this.openByType = function(Class, file, title) {

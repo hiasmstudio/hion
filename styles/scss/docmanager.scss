@@ -94,6 +94,7 @@
             border: 0;
             border-top: 1px solid $borderDark;
             padding-left: 5px;
+			flex-shrink: 0;
         }
         
         .form-editor {
@@ -177,10 +178,13 @@
 	.state {
 		height: 56px;
 		font-size: $fontSize;
-		padding: 3px;
-		border-top: 1px solid $borderLight;
 		background-color: $inputBgColor;
 		overflow-y: auto;
+		flex-shrink: 0;
+	}
+	
+	.ui-splitter {
+		background-color: white;
 	}
 }
 
