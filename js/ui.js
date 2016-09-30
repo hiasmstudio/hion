@@ -1566,7 +1566,7 @@ function Splitter(options) {
 		__sliderDragObj = {x: event.clientX, y: event.clientY, w: __sliderManaged.width, h: __sliderManaged.height};
 		document.addEventListener("mousemove", options.edge % 2 === 1 ? __sliderMoveX : __sliderMoveY);
 		document.addEventListener("mouseup", __sliderUp);
-		__sliderManaged.parent.getControl().style.cursor = "col-resize";
+		__sliderManaged.parent.getControl().style.cursor = options.edge % 2 === 1 ? "col-resize" : "row-resize";
 		__sliderMode = options.edge > 2 ? 1 : -1;
 	}).element;
 	
