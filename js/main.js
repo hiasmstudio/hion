@@ -191,7 +191,7 @@ function loadWorkspace() {
 	 		file: ["new", "open", "save", "saveas", "-", "share", "-", "capture", "sha_source"],
 	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "tools"],
 	 		editor: ["undo", "redo", "-", "slidedown", "slideright", "-", "zoomin", "zoomout", "-", "selectall", "-", "makehint", "remove_lh"],
-	 		view: ["formedit", "statistic"],
+	 		view: ["formedit", "statistic", "-", "output"],
 	 		help: ["forum", "mail", "-", "about"]
 	 	};
 		mainMenu = createMainmenu(mmCommands);
@@ -364,7 +364,8 @@ function loadWorkspace() {
 				new Runner("settings", function(){ /* update options */ }).run();
 			}
 		},
-		build: { icon: 58 }
+		build: { icon: 58 },
+		output: {  }
 	});
 	commander.onupdate = function() {
 		docManager.updateCommands(commander);

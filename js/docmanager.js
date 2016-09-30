@@ -1045,6 +1045,7 @@ function DocumentManageer(options) {
 	this.splitter = new Splitter({edge: 0});
 	this.splitter.setManage(this.state);
 	this.splitter.onresize = function(){ window.localStorage.setItem("prop_state_height", dm.state.height) };
+	this.showState(false);
 	
 	this.startup = new StartupTab("Startup");
 
@@ -1104,10 +1105,14 @@ function DocumentManageer(options) {
 
         switch(cmd) {
             case "new": this.openNew(); break;
+            case "output": this.showState(this.state.visible == "false"); break;
+            case "build": if(this.state.visible == "false") this.showState(true); break;
         }
 	};
 	
 	this.updateCommands = function(commander) {
+		commander.enabled("output");
+
 		this.currentTab.updateCommands(commander);
 	};
 	
@@ -1209,3 +1214,8 @@ function DocumentManageer(options) {
 }
 
 DocumentManageer.prototype = Object.create(UIContainer.prototype);
+
+DocumentManageer.prototype.showState = function(value) {
+	this.state.setVisible(value);
+	this.splitter.setVisible(value);
+}

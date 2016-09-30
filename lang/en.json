@@ -53,6 +53,7 @@
 	"cmd.redo": "Redo",
 	"cmd.tools": "Settings",
 	"cmd.statistic": "Statistic",
+	"cmd.output": "Output window",
 	
 	"tab.interface": "Interface",
 	"group.standart": "Standart",

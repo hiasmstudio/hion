@@ -53,6 +53,7 @@
 	"cmd.redo": "Вернуть",
 	"cmd.tools": "Настройки",
 	"cmd.statistic": "Статистика",
+	"cmd.output": "Окно вывода",
 	
 	"tab.interface": "Интерфейс",
 	"group.standart": "Стандартные",
