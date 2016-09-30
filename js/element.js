@@ -2942,6 +2942,84 @@ function createElement(sdk, id, x, y) {
 				return this.parent.time.getTime();
 			};
 			break;
+		case "VK_Init":
+			i.doInit.onevent = function() {
+				var vkinit = this.parent;
+				$.appendScript("http://vk.com/js/api/openapi.js", function(){
+					VK.init({
+						apiId: vkinit.props.AppId.value,
+						onlyWidgets: false
+					});
+					vkinit.onInit.call();
+				});
+			};
+			break;
+		case "VK_Auth":
+			i.doLogin.onevent = function(data) {
+				var vka = this.parent;
+				VK.Auth.getLoginStatus(function(res){
+					if(res.status !== "connected"){
+						VK.Auth.login(function(lres){
+							if(lres.status == "connected")
+								vka.onSuccess.call(vka.user = lres.session.user);
+							else
+								vka.onError.call(lres.status);
+						}, vka.d(data).readInt("Permissions"));
+					}
+					else {
+						vka.onSuccess.call(vka.user = res.session.user);
+					}
+				});
+			};
+			i.doLogout.onevent = function() {
+				VK.Auth.logout();
+			};
+			i.User.onevent = function() {
+				return this.parent.user;
+			};
+			break;
+		case "VK_AudioList":
+			i.doGet.onevent = function(data) {
+				var self = this.parent;
+				var d = self.d(data);
+				var options = {
+					owner_id: d.readInt("OwnerId"),
+					offset: d.readInt("Offset"),
+					count: d.readInt("Count"),
+					album_id: d.readInt("AlbumId"),
+					audio_ids: d.readInt("AudioIds"),
+					need_user: 0
+				};
+				VK.Api.call('audio.get', options, function(r) {
+					if(r.response){
+						r.response.shift();
+						self.onGet.call(self.array = r.response); 
+					}
+					else {
+						self.onError.call(r.error.error_msg);
+					}
+				});
+			};
+			i.AudioArray.onevent = function() {
+				return this.parent.array;
+			};
+			break;
+		case "VK_AudioInfo":
+			i.doValue.onevent = function(data) {
+				this.parent.audio = data;
+				this.parent.onData.call();
+			};
+			i.URL.onevent = function() { return this.parent.audio.url; };
+			i.Duration.onevent = function() { return this.parent.audio.duration; };
+			i.Title.onevent = function() { return this.parent.audio.title; };
+			i.AudioID.onevent = function() { return this.parent.audio.aid; };
+			i.run = function() {
+				this.initPointHandler("OwnerID", function() { return this.parent.audio.owner_id; });
+				this.initPointHandler("Artist", function() { return this.parent.audio.artist; });
+				this.initPointHandler("LyricsID", function() { return this.parent.audio.lyrics_id; });
+				this.initPointHandler("GenreID", function() { return this.parent.audio.genre; });
+			};
+			break;
 	}
 	
 	return i;

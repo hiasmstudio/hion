@@ -1622,6 +1622,69 @@
 		]
 	},
 	
+	"VK_Init": {
+		"tab": "vk",
+		"props": [
+			{ "name": "AppId", "type": 1, "def": 0 }
+		],
+		"points": [
+			{ "name": "doInit", "type": 1 },
+			{ "name": "onInit", "type": 2 },
+			{ "name": "AppId", "type": 4, "data": 1 }
+		]
+	},
+	"VK_Auth": {
+		"tab": "vk",
+		"props": [
+			{ "name": "Permissions", "type": 1, "def": 0 }
+		],
+		"points": [
+			{ "name": "doLogin", "type": 1 },
+			{ "name": "doLogout", "type": 1 },
+			{ "name": "onSuccess", "type": 2, "args": "User" },
+			{ "name": "onError", "type": 2, "args" : "Error" },
+			{ "name": "User", "type": 3 },
+			{ "name": "Permissions", "type": 4, "data": 1 }
+		]
+	},
+	"audiolist": { "tab": "vk", "group": true },
+	"VK_AudioList": {
+		"tab": "vk",
+		"props": [
+			{ "name": "OwnerId", "type": 1, "def": 0 },
+			{ "name": "AlbumId", "type": 1, "def": 0 },
+			{ "name": "AudioIds", "type": 2, "def": "" },
+			{ "name": "Offset", "type": 1, "def": 0 },
+			{ "name": "Count", "type": 1, "def": 0 }
+		],
+		"points": [
+			{ "name": "doGet", "type": 1 },
+			{ "name": "onGet", "type": 2, "args" : "Array" },
+			{ "name": "onError", "type": 2, "args" : "Error" },
+			{ "name": "AudioArray", "type": 3 },
+			{ "name": "OwnerId", "type": 4, "data": 1 },
+			{ "name": "Offset", "type": 4, "data": 1 },
+			{ "name": "Count", "type": 4, "data": 1 },
+			{ "name": "AlbumId", "type": 4, "data": 1, "flags": 1 },
+			{ "name": "AudioIds", "type": 4, "flags": 1 }
+		]
+	},
+	"VK_AudioInfo": {
+		"tab": "vk",
+		"points": [
+			{ "name": "doValue", "type": 1 },
+			{ "name": "onData", "type": 2 },
+			{ "name": "URL", "type": 3, "data": 2 },
+			{ "name": "Duration", "type": 3, "data": 1 },
+			{ "name": "Title", "type": 3, "data": 2 },
+			{ "name": "AudioID", "type": 3, "data": 1 },
+			{ "name": "OwnerID", "type": 3, "data": 1, "flags": 1 },
+			{ "name": "Artist", "type": 3, "data": 2, "flags": 1 },
+			{ "name": "LyricsID", "type": 3, "data": 2, "flags": 1 },
+			{ "name": "GenreID", "type": 3, "data": 2, "flags": 1 }
+		]
+	},
+	
 	"design": { "tab": "helpers", "group": true },
 	"InfoTip": {
 		"tab": "helpers",
