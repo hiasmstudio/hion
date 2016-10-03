@@ -33,6 +33,9 @@
             
             &:hover { background-color: transparent; color: black; }
         }
+		&[checked=true] {
+			font-weight: bold;
+        }
     }
     
     .splitter {

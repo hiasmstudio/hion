@@ -173,10 +173,18 @@ function loadWorkspace() {
 				buttons.push({title: "-"});
 			}
 			else {
+				var items = null;
+				if(cmd === "build") {
+					items = [
+						{title: "Make", cmd: "make"},
+						{title: "Make NWJS", cmd: "make_nwjs"}
+					];
+				}
 				buttons.push({
 					icon: commander.haveIcon(cmd),
 					tag: cmd,
 					title: commander.getTitle(cmd),
+					items: items,
 					click: function() { commander.execCommand(this.tag); }
 				});
 			}
@@ -365,6 +373,8 @@ function loadWorkspace() {
 			}
 		},
 		build: { icon: 58 },
+		make: { },
+		make_nwjs: { },
 		output: {  }
 	});
 	commander.onupdate = function() {
@@ -386,6 +396,12 @@ function loadWorkspace() {
 		updatePopup(popupSDK);
 		mainToolBar.each(function(item){
 			item.enabled = commander.isEnabled(item.tag);
+			if(item.haveSubMenu()) {
+				item.submenu.each(function(index, item){
+					this.enabled(index, commander.isEnabled(item.command));
+					this.checked(index, commander.isChecked(item.command));
+				});
+			}
 		});
 		var i = 0;
 		while(mainMenu.menuItem(i)) {

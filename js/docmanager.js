@@ -395,6 +395,8 @@ function SHATab(file) {
 		commander.reset();
 	});
     this.statusBar.add(this.zoom);
+	
+	this.buildMode = 0;
 
     DocumentTab.call(this, file);
 }
@@ -651,7 +653,15 @@ SHATab.prototype.updateCommands = function(commander) {
 		if(this.sdkEditor.canBringToFront()) commander.enabled("bringtofront");
 		if(this.sdkEditor.canSendToBack()) commander.enabled("sendtoback");
 		
-		if(user.uid > 1) commander.enabled("build");
+		if(user.uid > 1) {
+			commander.enabled("build");
+			commander.enabled("make");
+			commander.enabled("make_nwjs");
+			if(this.buildMode === 0)
+				commander.checked("make");
+			else
+				commander.checked("make_nwjs");
+		}
     }
     
 	if(this.sdkEditor.sdk && !this.sdkEditor.sdk.selMan.isEmpty()) {
@@ -744,11 +754,11 @@ SHATab.prototype.showStatistic = function() {
 	new Runner("statistic").run(stat);
 };
 
-SHATab.prototype.build = function() {
+SHATab.prototype.build = function(mode) {
 	this.manager.state.set("Build...");
 	var state = this.manager.state;
 	var name = this.file ? this.file.name : "Project.sha";
-	$.post("server/core.php", {build: name, code: this.sdkEditor.getMainSDK().save(false)}, function(data, file) {
+	$.post("server/core.php", {build: name, mode: mode, code: this.sdkEditor.getMainSDK().save(false)}, function(data, file) {
 		state.clear();
 		for(var line of data.split("\n")) {
 			if(line.startsWith("CODEGEN")) {
@@ -857,7 +867,9 @@ SHATab.prototype.execCommand = function(cmd, data) {
         
         case "statistic": this.showStatistic(); break;
         
-        case "build": this.build(); break;
+        case "build": this.build(["", "nwjs"][this.buildMode]); break;
+        case "make": this.buildMode = 0; commander.reset(); break;
+        case "make_nwjs": this.buildMode = 1; commander.reset(); break;
         
         default:
             DocumentTab.prototype.execCommand.call(this, cmd, data);

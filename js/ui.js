@@ -1513,6 +1513,30 @@ function ToolButton(options) {
 	var _icon = b.n("div").class("icon");
 	this._ctl = b.element;
 	
+	if(options.items) {
+		var items = [];
+		for(var i in options.items) {
+			var item = options.items[i];
+			items.push({
+				title: item.title,
+				command: item.cmd,
+				click: function() {
+					commander.execCommand(this.command);
+				}
+			});
+		}
+		var popup = new PopupMenu(items);
+		this.submenu = popup;
+		b.n("div").attr("parent", this).class("submenu").on("onclick", function(e) {
+			e.stopPropagation();
+			if(this.parent.enabled == "true") {
+				popup.up(this.offsetLeft - 24, this.offsetHeight + 3);
+			}
+			
+			return false;
+		});
+	}
+	
 	this.enabled = true;
 	
 	this.addListener("click", function(){
@@ -1540,6 +1564,10 @@ function ToolButton(options) {
 }
 
 ToolButton.prototype = Object.create(UIControl.prototype);
+
+ToolButton.prototype.haveSubMenu = function() {
+	return this.submenu;
+};
 
 Object.defineProperty(ToolButton.prototype, "enabled", {
 	get: function() {

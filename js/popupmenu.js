@@ -56,19 +56,23 @@ PopupMenu.prototype.close = function() {
 	popup.hide();
 	this.onclose();
 	popup = null;
-}
+};
 
 PopupMenu.prototype.size = function() {
 	return this.body.childNodes.length;
-}
+};
 
 PopupMenu.prototype.enabled = function(index, value) {
 	this.body.childNodes[index].setAttribute("enabled", value);
-}
+};
+
+PopupMenu.prototype.checked = function(index, value) {
+	this.body.childNodes[index].setAttribute("checked", value);
+};
 
 PopupMenu.prototype.getItem = function(index) {
 	return this.body.childNodes[index].parent;
-}
+};
 
 PopupMenu.prototype.each = function(callback) {
 	for(var i = 0; i < this.body.childNodes.length; i++) {
@@ -76,4 +80,4 @@ PopupMenu.prototype.each = function(callback) {
 			callback.call(this, i, this.body.childNodes[i].parent);
 		}
 	}
-}
+};

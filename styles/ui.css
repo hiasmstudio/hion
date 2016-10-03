@@ -264,17 +264,29 @@ textarea {
   -webkit-user-select: none; }
   .ui-toolbar .button {
     border: 1px solid transparent;
-    width: 20px;
-    height: 20px;
+    height: 24px;
     min-width: 20px;
     min-height: 20px;
     padding-left: 4px;
-    padding-top: 4px;
-    background-repeat: no-repeat; }
+    background-repeat: no-repeat;
+    display: flex; }
     .ui-toolbar .button .icon {
+      margin-top: 4px;
       background-image: url("../img/commands.png");
       width: 16px;
-      height: 16px; }
+      height: 16px;
+      flex-shrink: 0; }
+    .ui-toolbar .button .submenu {
+      flex-shrink: 0;
+      width: 12px;
+      border-left: 1px solid transparent;
+      margin-left: 3px;
+      cursor: pointer;
+      background-image: url("/img/down-arrow.png");
+      background-repeat: no-repeat;
+      background-position: 2px 5px; }
+      .ui-toolbar .button .submenu:hover {
+        border-left-color: #684b3e; }
     .ui-toolbar .button[enabled=true]:hover {
       background-color: #92604b;
       border-color: #684b3e;
@@ -396,6 +408,8 @@ textarea {
       .popup .item[enabled=false]:hover {
         background-color: transparent;
         color: black; }
+    .popup .item[checked=true] {
+      font-weight: bold; }
   .popup .splitter {
     border-top: 1px solid #dcd0c3;
     border-bottom: 1px solid white;
