@@ -1712,6 +1712,18 @@
 			{ "name": "Color", "def": "blue" }
 		]
 	},
+	"PictureTip": {
+		"tab": "helpers",
+		"class": "PTElement",
+		"props": [
+			{ "name": "PictureURL", "type": 2, "def": "", "flags": 1 },
+			{ "name": "Frame", "type": 4, "def": 0, "list": "Dots,Clear,Line" },
+			{ "name": "Link", "type": 2, "def": "" }
+		],
+		"sys": [
+			{ "name": "Color", "def": "#969696" }
+		]
+	},
 	"spheme": { "tab": "helpers", "group": true },
 	"HubEx": {
 		"tab": "helpers",

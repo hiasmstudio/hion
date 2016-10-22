@@ -3465,6 +3465,7 @@ LTElement.prototype.draw = function(ctx) {
 	if(this.needCalcSize) {
 		var metrics = ctx.measureText(this.props.Link.value);
 		this.w = metrics.width + 4;
+		this.needCalcSize = false;
 	}
 
 	if(this.isSelect()) {
@@ -3479,6 +3480,62 @@ LTElement.prototype.draw = function(ctx) {
 
 LTElement.prototype.mouseDown = function(x, y, button, flags) {
 	if(flags & 0x2) {
+		window.open(this.props.Link.value);
+		return true;
+	}
+	return false;
+};
+
+//******************************************************************************
+// PTElement
+//******************************************************************************
+
+function PTElement(id) {
+	SdkElement.call(this, id);
+	this.image = null;
+}
+
+PTElement.prototype = Object.create(SdkElement.prototype);
+
+PTElement.prototype.onpropchange = function(prop) {
+	if(prop === this.props.Link) {
+		//this.needCalcSize = true;
+	}
+	else if(prop === this.props.PictureURL) {
+		this.loaded = false;
+		this.image = new Image()
+		var img = this;
+		this.image.onload = function(){
+			img.loaded = true;
+			img.w = this.width;
+			img.h = this.height;
+			img.parent.ondraw();
+		};
+		this.image.src = prop.value;
+	}
+};
+
+PTElement.prototype.draw = function(ctx) {
+	if(this.loaded) {
+		ctx.drawImage(this.image, this.x, this.y);
+	}
+	
+	if(!this.isSelect() && this.props.Frame.value === 0) {
+		ctx.setLineDash([3,3]);
+	}
+	ctx.strokeStyle = this.isSelect() ? "#000" : this.sys.Color.value;
+	if(this.isSelect() || this.props.Frame.value != 1)
+		ctx.strokeRect(this.x, this.y, this.w, this.h);
+	
+//	if(this.isSelect()) {
+//		ctx.setLineDash([3,3]);
+//		ctx.strokeStyle = "#000";
+//		ctx.strokeRect(this.x, this.y, this.w, this.h);
+//	}
+};
+
+PTElement.prototype.mouseDown = function(x, y, button, flags) {
+	if(flags & 0x2 && this.props.Link.value) {
 		window.open(this.props.Link.value);
 		return true;
 	}
