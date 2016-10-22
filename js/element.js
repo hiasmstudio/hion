@@ -3364,33 +3364,75 @@ function ITElement(id) {
 
 ITElement.prototype = Object.create(SizeElement.prototype);
 
+function wrapText(context, text, maxWidth) {
+	var cars = text.split("\n");
+	var lines = [];
+
+	for (var ii = 0; ii < cars.length; ii++) {
+		var line = "";
+		var words = cars[ii].split(" ");
+
+		for (var n = 0; n < words.length; n++) {
+			var testLine = line + words[n] + " ";
+			var metrics = context.measureText(testLine);
+			var testWidth = metrics.width;
+
+			if (testWidth > maxWidth) {
+				lines.push(line);
+				line = words[n] + " ";
+			}
+			else {
+				line = testLine;
+			}
+		}
+
+		lines.push(line);
+	}
+	
+	return lines;
+}
+
 ITElement.prototype.draw = function(ctx) {
 	ctx.save();
 	if(!this.isSelect()) {
 		ctx.setLineDash([3,3]);
 	}
-	ctx.rect(this.x-1, this.y-1, this.w+1, this.h+1);
+	var offset = this.props.Margin.value;
 	ctx.strokeStyle = this.isSelect() ? "#000" : this.sys.Color.value;
 	ctx.strokeRect(this.x, this.y, this.w, this.h);
+	ctx.rect(this.x + offset, this.y + offset, this.w - 2*offset, this.h - 2*offset);
 	ctx.clip();
 	ctx.fillStyle = "#000";
 	ctx.font = "14px Arial";
-	var len = ctx.measureText(this.props.Info.value).width;
-	var x = this.x;
+	
+	var lines = wrapText(ctx, this.props.Info.value, this.w - 2*offset);
 	var y = this.y + 12;
-	if(this.props.HAlign.value === 1) {
-		x += (this.w - len)/2;
-	}
-	else if(this.props.HAlign.value === 2) {
-		x += this.w - len;
-	}
+	var lineHeight = 14;
 	if(this.props.VAlign.value === 1) {
-		y += (this.h - 14)/2;
+		y += (this.h - 14*lines.length)/2;
 	}
 	else if(this.props.VAlign.value === 2) {
-		y += this.h - 14;
+		y += this.h - 14*lines.length - offset;
 	}
-	ctx.fillText(this.props.Info.value, x, y);
+	else {
+		y += offset;
+	}
+	
+	for(var line of lines) {
+		var len = ctx.measureText(line).width;
+		var x = this.x;
+		if(this.props.HAlign.value === 1) {
+			x += (this.w - len)/2;
+		}
+		else if(this.props.HAlign.value === 2) {
+			x += this.w - len - offset;
+		}
+		else {
+			x += offset;
+		}
+		ctx.fillText(line, x, y);
+		y += lineHeight;
+	}
 	ctx.restore();
 };
 ITElement.prototype.inPoint = function(x, y) {
