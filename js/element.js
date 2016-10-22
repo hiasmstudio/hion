@@ -3472,6 +3472,7 @@ LTElement.prototype.draw = function(ctx) {
 		ctx.setLineDash([3,3]);
 		ctx.strokeStyle = "#000";
 		ctx.strokeRect(this.x, this.y, this.w, this.h);
+		ctx.setLineDash([]);
 	}
 	
 	ctx.fillStyle = this.sys.Color.value;
@@ -3527,11 +3528,7 @@ PTElement.prototype.draw = function(ctx) {
 	if(this.isSelect() || this.props.Frame.value != 1)
 		ctx.strokeRect(this.x, this.y, this.w, this.h);
 	
-//	if(this.isSelect()) {
-//		ctx.setLineDash([3,3]);
-//		ctx.strokeStyle = "#000";
-//		ctx.strokeRect(this.x, this.y, this.w, this.h);
-//	}
+	ctx.setLineDash([]);
 };
 
 PTElement.prototype.mouseDown = function(x, y, button, flags) {
