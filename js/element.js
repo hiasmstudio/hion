@@ -3442,6 +3442,49 @@ ITElement.prototype.inPoint = function(x, y) {
 };
 
 //******************************************************************************
+// LTElement
+//******************************************************************************
+
+function LTElement(id) {
+	SdkElement.call(this, id);
+	this.h = 18;
+	this.needCalcSize = true;
+}
+
+LTElement.prototype = Object.create(SdkElement.prototype);
+
+LTElement.prototype.onpropchange = function(prop) {
+	if(prop === this.props.Link) {
+		this.needCalcSize = true;
+	}
+};
+
+LTElement.prototype.draw = function(ctx) {
+	ctx.font = "14px Arial";
+
+	if(this.needCalcSize) {
+		var metrics = ctx.measureText(this.props.Link.value);
+		this.w = metrics.width + 4;
+	}
+
+	if(this.isSelect()) {
+		ctx.setLineDash([3,3]);
+		ctx.strokeStyle = "#000";
+		ctx.strokeRect(this.x, this.y, this.w, this.h);
+	}
+	
+	ctx.fillStyle = this.sys.Color.value;
+	ctx.fillText(this.props.Link.value, this.x + 2, this.y + 1 + 12);
+};
+
+LTElement.prototype.mouseDown = function(x, y, button, flags) {
+	if(flags & 0x2) {
+		window.open(this.props.Link.value);
+		return true;
+	}
+	return false;
+};
+//******************************************************************************
 // CapElement
 //******************************************************************************
 

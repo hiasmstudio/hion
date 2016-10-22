@@ -1702,6 +1702,16 @@
 			{ "name": "Height", "type": 1, "def": 32 }
 		]
 	},
+	"LinkTip": {
+		"tab": "helpers",
+		"class": "LTElement",
+		"props": [
+			{ "name": "Link", "type": 2, "def": "http://hiasm.com", "flags": 1 }
+		],
+		"sys": [
+			{ "name": "Color", "def": "blue" }
+		]
+	},
 	"spheme": { "tab": "helpers", "group": true },
 	"HubEx": {
 		"tab": "helpers",
