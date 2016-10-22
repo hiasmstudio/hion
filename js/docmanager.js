@@ -653,7 +653,7 @@ SHATab.prototype.updateCommands = function(commander) {
 		if(this.sdkEditor.canBringToFront()) commander.enabled("bringtofront");
 		if(this.sdkEditor.canSendToBack()) commander.enabled("sendtoback");
 		
-		if(this.sdkEditor.sdk.selMan.size()) commander.enabled("moveto");
+		if(!this.sdkEditor.sdk.selMan.isEmpty()) commander.enabled("moveto");
 		
 		if(user.uid > 1) {
 			commander.enabled("build");

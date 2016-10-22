@@ -5,7 +5,7 @@ Add(MainForm,1,224,168)
   Height=#3:283|
   Layout=2
   Padding=5
-  Caption=#19:Move into container|
+  Caption=#9:ui.moveto|
   Resize=1
 }
 Add(SimpleTable,2,336,119)
@@ -15,7 +15,7 @@ Add(SimpleTable,2,336,119)
   Grow=1
   Width=#0:|
   Height=#3:226|
-  Columns=#115:[{"title":"Icon","align":"center","type":"image","width":"40px"},{"title":"Name","width":"110px"},{"title":"Info"}]|
+  Columns=#117:[{"title":"","align":"center","type":"image","width":"40px"},{"title":"ui.name","width":"110px"},{"title":"ui.info"}]|
   Select=1
   link(onSelect,13:doValue,[])
   link(onClick,22:doEvent2,[(382,132)(382,161)(169,161)(169,132)])
@@ -30,7 +30,9 @@ Make(webapp)
 Add(MultiElementEditor,4,7,7)
 {
   EventCount=2
+  WorkCount=1
   @VOffset=84
+  link(doWork1,24:doData,[])
 }
 Add(Panel,6,21,35)
 {
@@ -50,7 +52,7 @@ Add(Button,7,112,140)
   Margin=5
   Width=#2:73|
   Height=#2:28|
-  Caption=#6:Cancel|
+  Caption=#9:ui.cancel|
   link(onClick,4:onEvent2,[(226,146)(226,104)])
 }
 Add(Button,8,112,91)
@@ -60,15 +62,22 @@ Add(Button,8,112,91)
   Margin=5
   Width=#2:73|
   Height=#2:28|
+  Enabled=0
   Caption=#2:OK|
+  Point(doEnabled)
   link(onClick,4:onEvent1,[])
+}
+Add(DoData,24,56,91)
+{
+  Data=Real(1)
+  link(onEventData,8:doEnabled,[])
 }
 END_SDK
 Add(hcTransmitter,10,224,119)
 {
   DataCount=1
   link(onInit,11:doEnum,[])
-  link(Arg1,13:Value,[(230,105)(436,105)(436,162)(398,162)])
+  link(Arg1,13:Value,[(230,110)(447,110)(447,162)(398,162)])
 }
 Add(ArrayEnum,11,280,119)
 {
@@ -76,6 +85,7 @@ Add(ArrayEnum,11,280,119)
 }
 Add(Memory,13,392,119)
 {
+  link(onData,5:doWork1,[(436,125)(436,103)(91,103)(91,125)])
 }
 Add(Hub,22,182,119)
 {

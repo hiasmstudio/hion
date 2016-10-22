@@ -19,6 +19,8 @@
 	"cmd.delete.info": "Remove selected elements",
 	"cmd.run": "Run",
 	"cmd.run.info": "Run current project",
+	"cmd.build": "Build",
+	"cmd.build.info": "Build current project",
 	"cmd.about": "About",
 	"cmd.about.info": "Open dialog \"About\"",
 	"cmd.cut": "Cut",
@@ -81,6 +83,11 @@
 	"group.chartdata": "Chart data",
 	"group.chart": "Charts",
 	"group.matrix": "Matrix",
+	"tab.firebase": "Firebase",
+	"group.fbnode": "Node",
+	"group.fbuser": "User",
+	"tab.vk": "VK",
+	"group.audiolist": "Audio",
 	
 	"ui.close": "Close",
 	"ui.cancel": "Cancel",
@@ -93,6 +100,7 @@
 	"ui.category": "Category",
 	"ui.value": "Value",
 	"ui.name": "Name",
+	"ui.info": "Information",
 	"ui.width": "Width",
 	"ui.align": "Align",
 	"ui.type": "Type",
@@ -131,5 +139,7 @@
 	"ui.statlinkedpoints": "Linked points",
 	
 	"ui.self_props": "Self properties",
-	"ui.sys_props": "System properties"
+	"ui.sys_props": "System properties",
+	
+	"ui.moveto": "Move elements in the container"
 }
