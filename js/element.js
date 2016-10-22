@@ -460,8 +460,22 @@ SdkElement.prototype.drawHints = function(ctx) {
 		// rect
 		ctx.strokeStyle = "#808080";
 		ctx.fillStyle = "#ffffe1";
-		ctx.fillRect(x, y, h.width, h.height);
-		ctx.strokeRect(x, y, h.width, h.height);
+		var radius = 5;
+		ctx.beginPath();
+		ctx.moveTo(x + radius, y);
+		ctx.lineTo(x + h.width - radius, y);
+		ctx.quadraticCurveTo(x + h.width, y, x + h.width, y + radius);
+		ctx.lineTo(x + h.width, y + h.height - radius);
+		ctx.quadraticCurveTo(x + h.width, y + h.height, x + h.width - radius, y + h.height);
+		ctx.lineTo(x + radius, y + h.height);
+		ctx.quadraticCurveTo(x, y + h.height, x, y + h.height - radius);
+		ctx.lineTo(x, y + radius);
+		ctx.quadraticCurveTo(x, y, x + radius, y);
+		ctx.closePath();
+		ctx.fill();
+		ctx.stroke();
+		//ctx.fillRect(x, y, h.width, h.height);
+		//ctx.strokeRect(x, y, h.width, h.height);
 
 		// text
 		ctx.fillStyle = "black";
