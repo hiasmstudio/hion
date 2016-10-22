@@ -54,6 +54,7 @@
 	"cmd.tools": "Settings",
 	"cmd.statistic": "Statistic",
 	"cmd.output": "Output window",
+	"cmd.moveto": "Move to...",
 	
 	"tab.interface": "Interface",
 	"group.standart": "Standart",

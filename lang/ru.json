@@ -54,6 +54,7 @@
 	"cmd.tools": "Настройки",
 	"cmd.statistic": "Статистика",
 	"cmd.output": "Окно вывода",
+	"cmd.moveto": "Переместить в...",
 	
 	"tab.interface": "Интерфейс",
 	"group.standart": "Стандартные",

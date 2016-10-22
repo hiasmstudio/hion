@@ -197,7 +197,7 @@ function loadWorkspace() {
 
 	 	var mmCommands = {
 	 		file: ["new", "open", "save", "saveas", "-", "share", "-", "capture", "sha_source"],
-	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "tools"],
+	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "moveto", "-", "tools"],
 	 		editor: ["undo", "redo", "-", "slidedown", "slideright", "-", "zoomin", "zoomout", "-", "selectall", "-", "makehint", "remove_lh"],
 	 		view: ["formedit", "statistic", "-", "output"],
 	 		help: ["forum", "mail", "-", "about"]
@@ -375,7 +375,8 @@ function loadWorkspace() {
 		build: { icon: 58 },
 		make: { },
 		make_nwjs: { },
-		output: {  }
+		output: {  },
+		moveto: {  }
 	});
 	commander.onupdate = function() {
 		docManager.updateCommands(commander);

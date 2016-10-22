@@ -28,6 +28,16 @@ function SelectManager(sdk) {
 		this.add(e);
 		this.endSelect();
 	};
+	this.unselect = function(e) {
+		for(var i in this.items) {
+			if(this.items[i] === e) {
+				e.flags ^= window.IS_SELECT;
+				this.items.splice(i, 1);
+				this.doSelect();
+				break;
+			}
+		}
+	};
 	this.selRect = function(ox1, oy1, ox2, oy2) {
 		this.beginSelect();
 		var x1 = Math.min(ox1, ox2);
@@ -155,5 +165,20 @@ function SelectManager(sdk) {
 				}
 			}
 		}
+	};
+	this.getRect = function() {
+		var minX = 32768;
+		var minY = 32768;
+		var maxX = -32768;
+		var maxY = -32768;
+		for(var i in this.items) {
+			var item = this.items[i];
+			if(item.x < minX) minX = item.x;
+			if(item.y < minY) minY = item.y;
+			if(item.x + item.w > maxX) maxX = item.x + item.w;
+			if(item.y + item.h > maxY) maxY = item.y + item.h;
+		}
+		
+		return {x1:minX, y1:minY, x2:maxX, y2:maxY};
 	};
 }

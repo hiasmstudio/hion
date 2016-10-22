@@ -653,6 +653,8 @@ SHATab.prototype.updateCommands = function(commander) {
 		if(this.sdkEditor.canBringToFront()) commander.enabled("bringtofront");
 		if(this.sdkEditor.canSendToBack()) commander.enabled("sendtoback");
 		
+		if(this.sdkEditor.sdk.selMan.size()) commander.enabled("moveto");
+		
 		if(user.uid > 1) {
 			commander.enabled("build");
 			commander.enabled("make");
@@ -752,6 +754,64 @@ SHATab.prototype.showStatistic = function() {
 	fill(this.sdkEditor.getMainSDK());
 	
 	new Runner("statistic").run(stat);
+};
+
+SHATab.prototype.moveto = function() {
+	var list = [];
+	for(var e in this.sdkEditor.sdk.pack.elements) {
+		var element = this.sdkEditor.sdk.pack.elements[e];
+		if(e == "MultiElementEx") {
+			list.push([this.sdkEditor.sdk.pack.getRoot() + "/icons/" + e + ".ico", e, translate.translate("el." + e)]);
+		}
+	}
+	var sdke = this.sdkEditor;
+	new Runner("movein", function(data){
+		var cont = data[0][1];
+		var rect = sdke.sdk.selMan.getRect();
+		var saved = sdke.sdk.save(true);
+		var links = [{count:0, points:{}}, {count:0, points:{}}, {count:0, points:{}}, {count:0, points:{}}];
+		sdke.sdk.selMan.eath(function(item){
+			for(var p in item.points) {
+				var point = item.points[p];
+				if(!point.isFree() && !point.point.parent.isSelect()) {
+					var lnk = links[point.type-1];
+					var pn = point.name;
+					if(lnk.points[pn])
+						pn += lnk.count;
+					lnk.points[pn] = {point: point.point, id: point.parent.eid, name: point.name};
+					lnk.count ++;
+				}
+			}
+		});
+		sdke.deleteSelected();
+		var e = sdke.addElement(cont, (rect.x1 + rect.x2 - 32)/2, (rect.y1 + rect.y2 - 32)/2);
+		var size = e.sdk.imgs.length;
+		e.sdk.load(saved);
+		e.sdk.selMan.selectAll();
+		if(size)
+			e.sdk.selMan.unselect(e.sdk.imgs[0]);
+		rect = e.sdk.selMan.getRect();
+		e.sdk.selMan.move(-rect.x1 + POINT_SPACE*5, -rect.y1 + POINT_SPACE*5);
+		e.sdk.selMan.clear();
+		
+		var arr = {WorkCount:0, EventCount:1, VarCount:2, DataCount:3};
+		for(var p in arr) {
+			e.sdk.imgs[0].props[p].value = links[arr[p]].count;
+			e.sdk.imgs[0].onpropchange(e.sdk.imgs[0].props[p]);
+			
+			for(var i in links[arr[p]].points) {
+				var point = links[arr[p]].points[i];
+				var newe = e.sdk.getElementByEId(point.id);
+				var newp = newe.findPointByName(point.name);
+				newp.connect(e.sdk.imgs[0].getFirstFreePoint(newp.getPair())).createPath();
+				
+				point.point.clear();
+				point.point.connect(e.getFirstFreePoint(point.point.getPair())).createPath();
+			}
+		}
+		
+		sdke.draw();
+	}).run(list);
 };
 
 SHATab.prototype.build = function(mode) {
@@ -870,6 +930,8 @@ SHATab.prototype.execCommand = function(cmd, data) {
         case "build": this.build(["", "nwjs"][this.buildMode]); break;
         case "make": this.buildMode = 0; commander.reset(); break;
         case "make_nwjs": this.buildMode = 1; commander.reset(); break;
+		
+		case "moveto": this.moveto(); break;
         
         default:
             DocumentTab.prototype.execCommand.call(this, cmd, data);
