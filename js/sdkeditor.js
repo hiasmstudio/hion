@@ -352,7 +352,7 @@ function SdkEditor() {
 				else if (obj) {
 					switch (obj.type) {
 						case OBJ_TYPE_ELEMENT:
-							if(obj.obj.mouseDown(x, y, button)) {
+							if(obj.obj.mouseDown(x, y, button, flags)) {
 								editor.beginOperation(ME_ELEMENT_MOUSE, obj.obj);
 							}
 							else {
