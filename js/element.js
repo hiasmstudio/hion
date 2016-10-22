@@ -1086,8 +1086,8 @@ function createElement(sdk, id, x, y) {
 			i.getChild = function(){
 				return this.ctl;
 			};
-			
-			if(i.parent.parent) {
+
+			if(i.parent.parent && i.parent.imgs.length === 1) {
 				i.flags |= window.IS_PARENT;
 			}
 			break;
@@ -1102,7 +1102,7 @@ function createElement(sdk, id, x, y) {
 				return this.ctl;
 			};
 			
-			if(i.parent.parent) {
+			if(i.parent.parent && i.parent.imgs.length === 1) {
 				i.flags |= window.IS_PARENT;
 			}
 			break;
@@ -2000,7 +2000,9 @@ function createElement(sdk, id, x, y) {
 				return null;
 			};
 
-			i.flags |= window.IS_PARENT;
+			if(!i.parent.parent || i.parent.imgs.length === 1) {
+				i.flags |= window.IS_PARENT;
+			}
 			break;
 		case "Host":
 			i.doIP.onevent = function() {
