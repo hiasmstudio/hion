@@ -344,6 +344,9 @@ textarea {
         background-color: #efe9e3; }
       .ui-listbox .items .item[selected=true] {
         background-color: #66ccff; }
+      .ui-listbox .items .item > span {
+        text-overflow: ellipsis;
+        overflow: hidden; }
   .ui-listbox .icon {
     height: 16px;
     width: 16px;

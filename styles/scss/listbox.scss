@@ -28,6 +28,11 @@
             
             &:hover	{ background-color: $bgColorHover; }
             &[selected=true] { background-color: $bgColorActive; }
+			
+			> span {
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
         }
     }
     
