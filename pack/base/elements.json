@@ -1690,10 +1690,11 @@
 		"tab": "helpers",
 		"class": "ITElement",
 		"props": [
-				{ "name": "Info", "type": 2, "def": "InfoTip", "flags": 1 },
-				{ "name": "VAlign", "type": 4, "def": 0, "list": "Top,Center,Bottom" },
-				{ "name": "HAlign", "type": 4, "def": 1, "list": "Left,Center,Right" },
-				{ "name": "Margin", "type": 1, "def": 0 }
+			{ "name": "Info", "type": 2, "def": "InfoTip", "flags": 1 },
+			{ "name": "Frame", "type": 4, "def": 0, "list": "Dots,Clear,Line" },
+			{ "name": "VAlign", "type": 4, "def": 0, "list": "Top,Center,Bottom" },
+			{ "name": "HAlign", "type": 4, "def": 1, "list": "Left,Center,Right" },
+			{ "name": "Margin", "type": 1, "def": 0 }
 		],
 		"sys": [
 			{ "name": "Color", "def": "#969696" },

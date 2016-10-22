@@ -3394,12 +3394,13 @@ function wrapText(context, text, maxWidth) {
 
 ITElement.prototype.draw = function(ctx) {
 	ctx.save();
-	if(!this.isSelect()) {
+	if(!this.isSelect() && this.props.Frame.value === 0) {
 		ctx.setLineDash([3,3]);
 	}
 	var offset = this.props.Margin.value;
 	ctx.strokeStyle = this.isSelect() ? "#000" : this.sys.Color.value;
-	ctx.strokeRect(this.x, this.y, this.w, this.h);
+	if(this.isSelect() || this.props.Frame.value != 1)
+		ctx.strokeRect(this.x, this.y, this.w, this.h);
 	ctx.rect(this.x + offset, this.y + offset, this.w - 2*offset, this.h - 2*offset);
 	ctx.clip();
 	ctx.fillStyle = "#000";
