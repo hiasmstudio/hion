@@ -658,8 +658,14 @@ SHATab.prototype.updateCommands = function(commander) {
 		
 		if(this.fEditor) {
 			commander.enabled("bind_rect");
+			if(this.bindFlags & 0x1)
+				commander.checked("bind_rect");
 			commander.enabled("bind_center");
+			if(this.bindFlags & 0x2)
+				commander.checked("bind_center");
 			commander.enabled("bind_padding");
+			if(this.bindFlags & 0x4)
+				commander.checked("bind_padding");
 		}
 		
 		if(user.uid > 1) {
@@ -942,9 +948,9 @@ SHATab.prototype.execCommand = function(cmd, data) {
 		
 		case "moveto": this.moveto(); break;
 		
-		case "bind_rect": this.bindFlags ^= 0x1; this.fEditor.setBindFlags(this.bindFlags); break;
-		case "bind_center": this.bindFlags ^= 0x2; this.fEditor.setBindFlags(this.bindFlags); break;
-		case "bind_padding": this.bindFlags ^= 0x4; this.fEditor.setBindFlags(this.bindFlags); break;
+		case "bind_rect": this.bindFlags ^= 0x1; this.fEditor.setBindFlags(this.bindFlags); commander.reset(); break;
+		case "bind_center": this.bindFlags ^= 0x2; this.fEditor.setBindFlags(this.bindFlags); commander.reset(); break;
+		case "bind_padding": this.bindFlags ^= 0x4; this.fEditor.setBindFlags(this.bindFlags); commander.reset(); break;
         
         default:
             DocumentTab.prototype.execCommand.call(this, cmd, data);

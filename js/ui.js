@@ -1578,6 +1578,15 @@ Object.defineProperty(ToolButton.prototype, "enabled", {
 	}
 });
 
+Object.defineProperty(ToolButton.prototype, "checked", {
+	get: function() {
+	  return this._ctl.getAttribute("checked");
+	},
+	set: function(value) {
+		this._ctl.setAttribute("checked", value);
+	}
+});
+
 //******************************************************************************
 // Splitter
 //******************************************************************************

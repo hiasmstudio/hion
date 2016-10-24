@@ -52,6 +52,11 @@ $btnSize: 16px;
         &[enabled=false] {
             opacity: 0.5;
         }
+        &[checked=true] {
+			border: 1px solid $borderLight;
+			border-radius: $borderRadius;
+			background-color: $checkedColor;
+        }
     }
 
     .splitter {

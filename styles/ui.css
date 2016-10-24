@@ -298,6 +298,10 @@ textarea {
       border-radius: 3px; }
     .ui-toolbar .button[enabled=false] {
       opacity: 0.5; }
+    .ui-toolbar .button[checked=true] {
+      border: 1px solid white;
+      border-radius: 3px;
+      background-color: #eae8d0; }
   .ui-toolbar .splitter {
     border-right: 1px solid white;
     border-left: 1px solid #dcd0c3;

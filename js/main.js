@@ -400,6 +400,7 @@ function loadWorkspace() {
 		updatePopup(popupSDK);
 		mainToolBar.each(function(item){
 			item.enabled = commander.isEnabled(item.tag);
+			item.checked = commander.isChecked(item.tag);
 			if(item.haveSubMenu()) {
 				item.submenu.each(function(index, item){
 					this.enabled(index, commander.isEnabled(item.command));
