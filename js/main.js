@@ -165,7 +165,7 @@ function loadWorkspace() {
 	
 	var loader = new Loader({havestate: true});
 	loader.onload = function() {
-		var tbcommands = ["-", "new", "open", "save", "saveas", "-", "formedit", "-", "back", "forward", "-", "delete", "-", "run", "build", "-", "about"];
+		var tbcommands = ["-", "new", "open", "save", "saveas", "-", "formedit", "bind_rect", "bind_center", "bind_padding", "-", "back", "forward", "-", "delete", "-", "run", "build", "-", "about"];
 		var buttons = [];
 		for(var i in tbcommands) {
 			var cmd = tbcommands[i];
@@ -376,7 +376,10 @@ function loadWorkspace() {
 		make: { },
 		make_nwjs: { },
 		output: {  },
-		moveto: {  }
+		moveto: {  },
+		bind_rect: { icon: 41 },
+		bind_center: { icon: 36 },
+		bind_padding: { icon: 46 }
 	});
 	commander.onupdate = function() {
 		docManager.updateCommands(commander);

@@ -397,6 +397,7 @@ function SHATab(file) {
     this.statusBar.add(this.zoom);
 	
 	this.buildMode = 0;
+	this.bindFlags = 0;
 
     DocumentTab.call(this, file);
 }
@@ -655,6 +656,12 @@ SHATab.prototype.updateCommands = function(commander) {
 		
 		if(!this.sdkEditor.sdk.selMan.isEmpty()) commander.enabled("moveto");
 		
+		if(this.fEditor) {
+			commander.enabled("bind_rect");
+			commander.enabled("bind_center");
+			commander.enabled("bind_padding");
+		}
+		
 		if(user.uid > 1) {
 			commander.enabled("build");
 			commander.enabled("make");
@@ -709,6 +716,7 @@ SHATab.prototype.formEditor = function() {
 	}
 	else {
 		this.fEditor = new FormEditor(this.sdkEditor);
+		this.fEditor.setBindFlags(this.bindFlags);
 		var ctl = this.fEditor.edit(this.sdkEditor.sdk);
 		if(ctl) {
 			this.sdkEditor.hide();
@@ -716,6 +724,7 @@ SHATab.prototype.formEditor = function() {
 			this.fEditor.update();
 		}
 	}
+	commander.reset();
 };
 
 
@@ -932,6 +941,10 @@ SHATab.prototype.execCommand = function(cmd, data) {
         case "make_nwjs": this.buildMode = 1; commander.reset(); break;
 		
 		case "moveto": this.moveto(); break;
+		
+		case "bind_rect": this.bindFlags ^= 0x1; this.fEditor.setBindFlags(this.bindFlags); break;
+		case "bind_center": this.bindFlags ^= 0x2; this.fEditor.setBindFlags(this.bindFlags); break;
+		case "bind_padding": this.bindFlags ^= 0x4; this.fEditor.setBindFlags(this.bindFlags); break;
         
         default:
             DocumentTab.prototype.execCommand.call(this, cmd, data);

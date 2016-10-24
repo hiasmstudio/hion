@@ -119,6 +119,8 @@
                 .frm-editor { position: absolute; top: 0; bottom: 0; left: 0; right: 0; border: 0; }
                 .frm-edit-grip { border: 1px solid $borderColor; width: 7px; height: 7px; margin: 0; background-color: $inputBgColor; }
                 .frm-edit-select { border: 1px dotted $borderColor; box-sizing: border-box; }
+				.axis-x { border-left: 1px dotted black; width: 1px; height: 100%; }
+				.axis-y { border-top: 1px dotted black; height: 1px; width: 100%; }
             }
             
             // element do not visible in form editor

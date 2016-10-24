@@ -642,6 +642,14 @@ textarea {
         .docmanager .doc-sha .form-editor > .content .frm-edit-select {
           border: 1px dotted gray;
           box-sizing: border-box; }
+        .docmanager .doc-sha .form-editor > .content .axis-x {
+          border-left: 1px dotted black;
+          width: 1px;
+          height: 100%; }
+        .docmanager .doc-sha .form-editor > .content .axis-y {
+          border-top: 1px dotted black;
+          height: 1px;
+          width: 100%; }
       .docmanager .doc-sha .form-editor .invisible-control {
         border: 1px dotted gray;
         background-color: white; }

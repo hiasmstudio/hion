@@ -53,13 +53,8 @@ function frmEditMove(event) {
 			break;
 		case FRM_MOVE:
 			if(dx||dy) {
-				for(var obj of frm_ms.dctrl) {
-					var p = obj.el.props;
-					p.Left.value = Math.max(p.Left.value + dx, 0);
-					p.Top.value = Math.max(p.Top.value + dy, 0);
-					obj.ctl.left = p.Left.value;
-					obj.ctl.top = p.Top.value;
-				}
+				this.formEditor.moveSelection(dx, dy);
+				this.formEditor.updateLines();
 				this.formEditor.selectForEdit(frm_ms.dctrl);
 				frm_ms.x += dx;
 				frm_ms.y += dy;
@@ -107,6 +102,7 @@ function frmEditMove(event) {
 					obj.ctl.height = p.Height.value;
 					obj.ctl.width = p.Width.value;
 				}
+				this.formEditor.updateLines();
 				this.formEditor.selectForEdit(frm_ms.dctrl);
 				frm_ms.x += dx;
 				frm_ms.y += dy;
@@ -212,6 +208,7 @@ function FormEditor(sdkEditor) {
 				frm_ms.state = FRM_NONE;
 				this.parentNode.style.cursor = "";
 				__editor__.updateSelection();
+				__editor__.clearLines();
 			};
 			body.appendChild(d);
 			this.grips.push(d);
@@ -343,6 +340,7 @@ function FormEditor(sdkEditor) {
 			this.parentNode.style.cursor = "";
 			
 			this.formEditor.updateSelection();
+			this.formEditor.clearLines();
 
 			return true;
 		};
@@ -468,13 +466,17 @@ function FormEditor(sdkEditor) {
 	};
 }
 
+FormEditor.prototype.setBindFlags = function(flags) {
+	this.bindFlags = flags;
+};
+
 FormEditor.prototype.selectHide = function() {
 	for(var grip of this.grips) {
 		grip.hide();
 	}
 };
 
-FormEditor.prototype.selectForEdit = function(objs) {
+FormEditor.prototype.getRect = function(objs) {
 	var x1 = 32768, y1 = 32768, x2 = 0, y2 = 0;
 	for(var i in objs) {
 		var o = objs[i].ctl;
@@ -491,12 +493,18 @@ FormEditor.prototype.selectForEdit = function(objs) {
 			y2 = o.top + o.height;
 		}
 	}
-	var w = (x2-x1) - 1;
-	var h = (y2-y1) - 1;
+	
+	return {x1:x1, y1:y1, x2:x2, y2:y2};
+};
+
+FormEditor.prototype.selectForEdit = function(objs) {
+	var rect = this.getRect(objs);
+	var w = (rect.x2-rect.x1) - 1;
+	var h = (rect.y2-rect.y1) - 1;
 	for(var i = 0; i < 8; i++) {
 		var d = this.grips[i];
-		var x = x1 - 3;
-		var y = y1 - 3;
+		var x = rect.x1 - 3;
+		var y = rect.y1 - 3;
 		switch(i) {
 			case 1: x += w / 2; break;
 			case 2: x += w; break;
@@ -524,5 +532,133 @@ FormEditor.prototype.moveParentGrips = function() {
 		}
 		
 		grip.move(x, y);
+	}
+};
+
+FormEditor.prototype.moveSelection = function(dx, dy) {
+	for(var obj of frm_ms.dctrl) {
+		var p = obj.el.props;
+		var chageHeight = false;
+		var chageWidth = false;
+		if(frm_ms.state === FRM_MOVE) {
+			p.Left.value = Math.max(p.Left.value + dx, 0);
+			p.Top.value = Math.max(p.Top.value + dy, 0);
+		}
+		else {
+			if(frm_ms.state === FRM_SIZE || frm_ms.state === FRM_SIZE6 || frm_ms.state === FRM_SIZE7) {
+				p.Left.value = Math.max(p.Left.value + dx, 0);
+				p.Width.value = Math.max(parseInt(p.Width.value) - dx, 1);
+				chageWidth = true;
+			}
+			if(frm_ms.state <= FRM_SIZE2) {
+				p.Top.value = Math.max(p.Top.value + dy, 0);
+				p.Height.value = Math.max(parseInt(p.Height.value) - dy, 1);
+				chageHeight = true;
+			}
+			if(frm_ms.state >= FRM_SIZE2 && frm_ms.state <= FRM_SIZE4) {
+				p.Width.value = Math.max(parseInt(p.Width.value) + dx, 1);
+				chageWidth = true;
+			}
+			if(frm_ms.state >= FRM_SIZE4 && frm_ms.state <= FRM_SIZE6) {
+				p.Height.value = Math.max(parseInt(p.Height.value) + dy, 1);
+				chageHeight = true;
+			}
+		}
+		obj.ctl.move(p.Left.value, p.Top.value);
+		if(chageHeight)
+			obj.ctl.height = p.Height.value;
+		if(chageWidth)
+			obj.ctl.width = p.Width.value;
+	}
+};
+
+FormEditor.prototype.clearLines = function() {
+	if(this.nodes) {
+		var body = this.dlg.getContainer();
+		for(var n in this.nodes) {
+			body.removeChild(this.nodes[n]);
+		}
+	}
+	this.nodes = [];
+};
+
+FormEditor.prototype.updateLines = function() {
+	
+	if(this.bindFlags === 0) return;
+	
+	var body = this.dlg.getContainer();
+	this.clearLines();
+	
+	var rect = this.getRect(frm_ms.dctrl);
+	
+	var bindFlags = this.bindFlags;
+	function getEdges(x1, y1, ctl) {
+		var props = ctl.el.props;
+		var radius = 6;
+		
+		var ex1 = props.Left.value;
+		var ex2 = props.Left.value + ctl.ctl.width;
+		var ey1 = props.Top.value;
+		var ey2 = props.Top.value + ctl.ctl.height;
+		
+		if(bindFlags & 0x4) {
+			var bindPadding = 5;
+			ex1 -= bindPadding;
+			ey1 -= bindPadding;
+			ex2 += bindPadding;
+			ey2 += bindPadding;
+		}
+
+		var x = -1;
+		var dx = 0;
+		if(bindFlags & 0x5 && Math.abs(ex1 - x1) <= radius)
+			x = ex1;
+		else if(bindFlags & 0x5 && Math.abs(ex2 - x1) <= radius)
+			x = ex2;
+		else if(bindFlags & 0x2 && Math.abs(props.Left.value + Math.round(ctl.ctl.width/2) - x1) <= radius)
+			x = Math.round(props.Left.value + ctl.ctl.width/2);
+
+		var y = -1;
+		if(bindFlags & 0x5 && Math.abs(ey1 - y1) <= radius)
+			y = ey1;
+		else if(bindFlags & 0x5 && Math.abs(ey2 - y1) <= radius)
+			y = ey2;
+		else if(bindFlags & 0x2 && Math.abs(props.Top.value + Math.round(ctl.ctl.height/2) - y1) <= radius)
+			y = Math.round(props.Top.value + ctl.ctl.height/2);
+				
+		return {x:x, y:y}
+	}
+	
+	var points = [];
+	if(frm_ms.state === FRM_MOVE || frm_ms.state === FRM_SIZE || frm_ms.state === FRM_SIZE1 || frm_ms.state === FRM_SIZE2 || frm_ms.state === FRM_SIZE6 || frm_ms.state === FRM_SIZE7)
+		points.push({x: rect.x1, y: rect.y1});
+	if(frm_ms.state === FRM_MOVE)
+		points.push({x: (rect.x1 + rect.x2)/2, y: (rect.y1 + rect.y2)/2});
+	if(frm_ms.state === FRM_MOVE || frm_ms.state === FRM_SIZE2 || frm_ms.state === FRM_SIZE3 || frm_ms.state === FRM_SIZE4 || frm_ms.state === FRM_SIZE5 || frm_ms.state === FRM_SIZE6)
+		points.push({x: rect.x2, y: rect.y2});
+	var xAzis = false;
+	var yAzis = false;
+	for(var ctl of this.ctrl) {
+		if(!ctl.el.isSelect()) {
+			for(var p of points) {
+				var edges = getEdges(p.x, p.y, ctl);
+				if(edges.x > -1 && !xAzis) {
+					xAzis = true;
+					var node = new Builder().n("div").class("frm-ctl axis-x").element;
+					node.move(edges.x, 0);
+					body.insertBefore(node, this.selector);
+					this.nodes.push(node);
+					this.moveSelection(edges.x - p.x, 0);
+				}
+				if(edges.y > -1 && !yAzis) {
+					yAzis = true;
+					var node = new Builder().n("div").class("frm-ctl axis-y").element;
+					node.move(0, edges.y);
+					body.insertBefore(node, this.selector);
+					this.nodes.push(node);
+					this.moveSelection(0, edges.y - p.y);
+				}
+			}
+		}
 	}
 };
