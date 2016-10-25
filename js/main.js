@@ -212,7 +212,7 @@ function loadWorkspace() {
 		$("toolbar").appendChild(mainToolBar.getControl());
 		$("toolbar").appendChild(new Builder().n("div").class("separator").element);
 		$("toolbar").appendChild(new Builder().n("div").class("user").append(userMenu.control).element);
-		$("toolbar").appendChild(new Builder().n("div").class("hion").attr("title", "hion v1.4.1").element);
+		$("toolbar").appendChild(new Builder().n("div").class("hion").attr("title", "hion v1.4.2").element);
 	
 		commander.reset();
 
