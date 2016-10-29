@@ -775,7 +775,7 @@ SHATab.prototype.moveto = function() {
 	var list = [];
 	for(var e in this.sdkEditor.sdk.pack.elements) {
 		var element = this.sdkEditor.sdk.pack.elements[e];
-		if(e == "MultiElementEx") {
+		if(e == "MultiElement" || e == "MultiElementEx") {
 			list.push([this.sdkEditor.sdk.pack.getRoot() + "/icons/" + e + ".ico", e, translate.translate("el." + e)]);
 		}
 	}
@@ -811,7 +811,15 @@ SHATab.prototype.moveto = function() {
 		
 		var arr = {WorkCount:0, EventCount:1, VarCount:2, DataCount:3};
 		for(var p in arr) {
-			e.sdk.imgs[0].props[p].value = links[arr[p]].count;
+			if(e.sdk.imgs[0].props[p].type === 1)
+				e.sdk.imgs[0].props[p].value = links[arr[p]].count;
+			else {
+				var val = "";
+				for(var i in links[arr[p]].points) {
+					val += i + "\n";
+				}
+				e.sdk.imgs[0].props[p].value = val;
+			}
 			e.sdk.imgs[0].onpropchange(e.sdk.imgs[0].props[p]);
 			
 			for(var i in links[arr[p]].points) {

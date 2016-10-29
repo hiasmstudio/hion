@@ -2064,196 +2064,7 @@ function createElement(sdk, id, x, y) {
 				return this.parent.data;
 			};
 			break;
-		case "MultiElementEditor":
-			i.flags |= IS_NODELETE;
-			i.w = i.sys.Width.value;
-			i.h = i.sys.Height.value;
-			i.draw = function(ctx) {
-				ctx.strokeStyle = this.sys.Color.value;
-				ctx.strokeRect(this.x, this.y, this.w, this.h);
-				if(this.isSelect()) {
-					ctx.strokeRect(this.x+1, this.y+1, this.w-2, this.h-2);
-				}
-				
-				if(this.isSelect()) {
-					ctx.lineWidth = 3;
-					ctx.strokeStyle = "#00f";
-					var vy = this.y + this.sys.VOffset.value;
-					ctx.drawLine(this.x + this.w - 20, vy, this.x + this.w, vy);
-					
-					var vx = this.x + this.sys.HOffset.value;
-					ctx.drawLine(vx, this.y + this.h - 20, vx, this.y + this.h);
-					ctx.lineWidth = 1;
-				}
-				
-				this.drawPoints(ctx);
-			};
-			i.inPoint = function(x, y) {
-				return x >= this.x && y >= this.y && x < this.x+this.w && y < this.y+this.h &&
-						(x - this.x <= 5 || y - this.y <= 5 || this.x+this.w - x <= 5 || this.y+this.h - y <= 5 || this.getState(x, y));
-			};
-			i.inRect = function() { return false; };
-			i.getState = function(x, y) {
-				if(this.isSelect()) {
-					var _y = this.y + this.sys.VOffset.value;
-					if(x > this.x + this.w - 20 && y > _y-1 && y < _y + 3) {
-						return 10;
-					}
-					var _x = this.x + this.sys.HOffset.value;
-					if(y > this.y + this.h - 20 && x > _x-1 && x < _x + 3) {
-						return 11;
-					}
-				}
-				
-				return SizeElement.prototype.getState.call(this, x, y);
-			};
-			i.getCursor = function(x, y) {
-				var index = this.mouseState || this.getState(x, y);
-				if(index == 10) {
-					return "row-resize";
-				}
-				if(index == 11) {
-					return "col-resize";
-				}
-				
-				return SizeElement.prototype.getCursor.call(this, x, y);
-			};
-			i.mouseMove = function(x, y, emouse) {
-				if(this.mouseState == 10) {
-					var deltaY = window.toStep(emouse.startY - y);
-					if(deltaY) {
-						emouse.startY -= deltaY;
-						this.sys.VOffset.value -= deltaY;
-						var h = window.toStep(this.h - Math.max(this.psize[0], this.psize[1])*7);
-						if(this.sys.VOffset.value > h) {
-							this.sys.VOffset.value = h;
-						}
-						else if(this.sys.VOffset.value < 0) {
-							this.sys.VOffset.value = 0;
-						}
-						this.rePosPoints();
-					}
-				}
-				else if(this.mouseState == 11) {
-					var deltaX = window.toStep(emouse.startX - x);
-					if(deltaX) {
-						emouse.startX -= deltaX;
-						this.sys.HOffset.value -= deltaX;
-						var w = window.toStep(this.w - Math.max(this.psize[2], this.psize[3])*7);
-						if(this.sys.HOffset.value > w) {
-							this.sys.HOffset.value = w;
-						}
-						else if(this.sys.HOffset.value < 0) {
-							this.sys.HOffset.value = 0;
-						}
-						this.rePosPoints();
-					}
-				}
-				else {
-					SizeElement.prototype.mouseMove.call(this, x, y, emouse);
-				}
-			};
-			i.onpropchange = function(prop) {
-				if(prop === this.sys.Width) {
-					this.w = this.sys.Width.value;
-					this.rePosPoints();
-				}
-				else if(prop === this.sys.Height) {
-					this.h = this.sys.Height.value;
-					this.rePosPoints();
-				}
-				else if(prop === this.sys.VOffset || prop === this.sys.HOffset) {
-					this.rePosPoints();
-				}
-				else {
-					var oldW = this.w;
-					var oldH = this.h;
-
-					var arr = {WorkCount:0, EventCount:1, VarCount:2, DataCount:3};
-					var arrNames = ["doWork", "onEvent", "Var", "Data"];
-					var t = arr[prop.name];
-					{
-						var newType = t < 2 ? 1 - t : 5 - t;
-						var eDelta = prop.value - this.psize[newType];
-						if(eDelta > 0) {
-							for(var i = 0; i < eDelta; i++) {
-								var _name = arrNames[t] + (this.psize[newType] + 1);
-
-								var pointParent = this.parent.parentElement.addPoint(_name, t+1);
-								var point = this.addPoint(_name, newType+1);
-								if(t === 0) {
-									pointParent.onevent = function(data) {
-										var e = this.parent.sdk.imgs[0];
-										e[this.name].call(data);
-									};
-								}
-								else if(t === 1) {
-									point.onevent = function(data) {
-										this.parent.parent.parentElement[this.name].call(data);
-									};
-								}
-								else if(t === 2) {
-									pointParent.onevent = function(data) {
-										var e = this.parent.sdk.imgs[0];
-										return e[this.name].call(data);
-									};
-								}
-								else if(t === 3) {
-									point.onevent = function(data) {
-										return this.parent.parent.parentElement[this.name].point.onevent(data);
-									};
-								}
-
-							}
-						}
-						else if(eDelta < 0) {
-							for(var i = 0; i < -eDelta; i++) {
-								var _name = arrNames[t] + this.psize[newType];
-								if(this.points[_name].isFree() && this.parent.parentElement.points[_name].isFree()) {
-									this.removePoint(_name);
-									this.parent.parentElement.removePoint(_name);
-								}
-								else {
-									prop.value += -eDelta - i;
-									break;
-								}
-							}
-						}
-					}
-					
-					if(this.w < oldW) {
-						this.w = oldW;
-					}
-					if(this.h < oldH) {
-						this.h = oldH;
-					}
-					this.rePosPoints();
-				}
-			};
-			i.rePosPoints = function() {
-				SdkElement.prototype.rePosPoints.call(this);
-				for(var i in this.points) {
-					var point = this.points[i];
-					if(point.type === 1) {
-						point.pos.x += this.w;
-						point.pos.y += this.sys.VOffset.value;
-					}
-					else if(point.type === 2) {
-						point.pos.x -= this.w;
-						point.pos.y += this.sys.VOffset.value;
-					}
-					else if(point.type === 3) {
-						point.pos.y -= this.h;
-						point.pos.x += this.sys.HOffset.value;
-					}
-					else if(point.type === 4) {
-						point.pos.y += this.h;
-						point.pos.x += this.sys.HOffset.value;
-					}
-				}
-			};
-			break;
-		case "MultiElementEx":
+		case "MultiElement":
 			i.sdk = new SDK(i.parent.pack);
 			i.sdk.parent = i.parent;
 			i.sdk.parentElement = i;
@@ -2266,6 +2077,24 @@ function createElement(sdk, id, x, y) {
 			};
 			i.onfree = function(flags) {
 				return this.sdk.stop(flags | window.FLAG_USE_CHILD);
+			};
+			break;
+		case "MultiElementEx":
+			i.sdk = new SDK(i.parent.pack);
+			i.sdk.parent = i.parent;
+			i.sdk.parentElement = i;
+			var offset = window.getOptionInt("opt_multi_offset", 7);
+			i.sdk.add("MultiElementEditorEx", offset, offset);
+			i.run = function(flags) {
+				// if(flags & window.FLAG_USE_RUN) {
+					return this.sdk.run(flags | window.FLAG_USE_CHILD);
+				// }
+			};
+			i.onfree = function(flags) {
+				return this.sdk.stop(flags | window.FLAG_USE_CHILD);
+			};
+			i.getPointInfo = function(point) {
+				return this.sdk.imgs[0].points[point.name]._dplInfo;
 			};
 			break;
 		case "Array":
@@ -3687,6 +3516,275 @@ DPLElement.prototype._changePoints = function(prop, data) {
 
 DPLElement.prototype._getPointInfo = function(point, data) {
 	return point._dplInfo;
+};
+
+//******************************************************************************
+// MultiElementEditor
+//******************************************************************************
+
+function MultiElementEditor(id) {
+	SizeElement.call(this, id);
+	
+	this.flags |= IS_NODELETE;
+}
+
+MultiElementEditor.prototype = Object.create(SizeElement.prototype);
+
+MultiElementEditor.prototype.inRect = function() { return false; };
+
+MultiElementEditor.prototype.loadFromTemplate = function() {
+	SizeElement.prototype.loadFromTemplate.call(this);
+	this.w = this.sys.Width.value;
+	this.h = this.sys.Height.value;
+};
+
+MultiElementEditor.prototype.rePosPoints = function() {
+	SdkElement.prototype.rePosPoints.call(this);
+	for(var i in this.points) {
+		var point = this.points[i];
+		if(point.type === 1) {
+			point.pos.x += this.w;
+			point.pos.y += this.sys.VOffset.value;
+		}
+		else if(point.type === 2) {
+			point.pos.x -= this.w;
+			point.pos.y += this.sys.VOffset.value;
+		}
+		else if(point.type === 3) {
+			point.pos.y -= this.h;
+			point.pos.x += this.sys.HOffset.value;
+		}
+		else if(point.type === 4) {
+			point.pos.y += this.h;
+			point.pos.x += this.sys.HOffset.value;
+		}
+	}
+};
+
+MultiElementEditor.prototype.draw = function(ctx) {
+	ctx.strokeStyle = this.sys.Color.value;
+	ctx.strokeRect(this.x, this.y, this.w, this.h);
+	if(this.isSelect()) {
+		ctx.strokeRect(this.x+1, this.y+1, this.w-2, this.h-2);
+	}
+
+	if(this.isSelect()) {
+		ctx.lineWidth = 3;
+		ctx.strokeStyle = "#00f";
+		var vy = this.y + this.sys.VOffset.value;
+		ctx.drawLine(this.x + this.w - 20, vy, this.x + this.w, vy);
+
+		var vx = this.x + this.sys.HOffset.value;
+		ctx.drawLine(vx, this.y + this.h - 20, vx, this.y + this.h);
+		ctx.lineWidth = 1;
+	}
+
+	this.drawPoints(ctx);
+};
+
+MultiElementEditor.prototype.inPoint = function(x, y) {
+	return x >= this.x && y >= this.y && x < this.x+this.w && y < this.y+this.h &&
+			(x - this.x <= 5 || y - this.y <= 5 || this.x+this.w - x <= 5 || this.y+this.h - y <= 5 || this.getState(x, y));
+};
+
+MultiElementEditor.prototype.getState = function(x, y) {
+	if(this.isSelect()) {
+		var _y = this.y + this.sys.VOffset.value;
+		if(x > this.x + this.w - 20 && y > _y-1 && y < _y + 3) {
+			return 10;
+		}
+		var _x = this.x + this.sys.HOffset.value;
+		if(y > this.y + this.h - 20 && x > _x-1 && x < _x + 3) {
+			return 11;
+		}
+	}
+
+	return SizeElement.prototype.getState.call(this, x, y);
+};
+
+MultiElementEditor.prototype.getCursor = function(x, y) {
+	var index = this.mouseState || this.getState(x, y);
+	if(index == 10) {
+		return "row-resize";
+	}
+	if(index == 11) {
+		return "col-resize";
+	}
+
+	return SizeElement.prototype.getCursor.call(this, x, y);
+};
+
+MultiElementEditor.prototype.mouseMove = function(x, y, emouse) {
+	if(this.mouseState == 10) {
+		var deltaY = window.toStep(emouse.startY - y);
+		if(deltaY) {
+			emouse.startY -= deltaY;
+			this.sys.VOffset.value -= deltaY;
+			var h = window.toStep(this.h - Math.max(this.psize[0], this.psize[1])*7);
+			if(this.sys.VOffset.value > h) {
+				this.sys.VOffset.value = h;
+			}
+			else if(this.sys.VOffset.value < 0) {
+				this.sys.VOffset.value = 0;
+			}
+			this.rePosPoints();
+		}
+	}
+	else if(this.mouseState == 11) {
+		var deltaX = window.toStep(emouse.startX - x);
+		if(deltaX) {
+			emouse.startX -= deltaX;
+			this.sys.HOffset.value -= deltaX;
+			var w = window.toStep(this.w - Math.max(this.psize[2], this.psize[3])*7);
+			if(this.sys.HOffset.value > w) {
+				this.sys.HOffset.value = w;
+			}
+			else if(this.sys.HOffset.value < 0) {
+				this.sys.HOffset.value = 0;
+			}
+			this.rePosPoints();
+		}
+	}
+	else {
+		SizeElement.prototype.mouseMove.call(this, x, y, emouse);
+	}
+};
+
+MultiElementEditor.prototype.addEvent = function(point, pointParent) {
+	if(pointParent.type === 1) {
+		pointParent.onevent = function(data) {
+			var e = this.parent.sdk.imgs[0];
+			e[this.name].call(data);
+		};
+	}
+	else if(pointParent.type === 2) {
+		point.onevent = function(data) {
+			this.parent.parent.parentElement[this.name].call(data);
+		};
+	}
+	else if(pointParent.type === 3) {
+		pointParent.onevent = function(data) {
+			var e = this.parent.sdk.imgs[0];
+			return e[this.name].call(data);
+		};
+	}
+	else if(pointParent.type === 4) {
+		point.onevent = function(data) {
+			return this.parent.parent.parentElement[this.name].point.onevent(data);
+		};
+	}
+};
+
+MultiElementEditor.prototype.onpropchange = function(prop) {
+	if(prop === this.sys.Width) {
+		this.w = this.sys.Width.value;
+		this.rePosPoints();
+	}
+	else if(prop === this.sys.Height) {
+		this.h = this.sys.Height.value;
+		this.rePosPoints();
+	}
+	else if(prop === this.sys.VOffset || prop === this.sys.HOffset) {
+		this.rePosPoints();
+	}
+	else {
+		var oldW = this.w;
+		var oldH = this.h;
+
+		var arr = {WorkCount:0, EventCount:1, VarCount:2, DataCount:3};
+		var arrNames = ["doWork", "onEvent", "Var", "Data"];
+		var t = arr[prop.name];
+		{
+			var newType = t < 2 ? 1 - t : 5 - t;
+			var eDelta = prop.value - this.psize[newType];
+			if(eDelta > 0) {
+				for(var i = 0; i < eDelta; i++) {
+					var _name = arrNames[t] + (this.psize[newType] + 1);
+
+					var pointParent = this.parent.parentElement.addPoint(_name, t+1);
+					var point = this.addPoint(_name, newType+1);
+					this.addEvent(point, pointParent);
+				}
+			}
+			else if(eDelta < 0) {
+				for(var i = 0; i < -eDelta; i++) {
+					var _name = arrNames[t] + this.psize[newType];
+					if(this.points[_name].isFree() && this.parent.parentElement.points[_name].isFree()) {
+						this.removePoint(_name);
+						this.parent.parentElement.removePoint(_name);
+					}
+					else {
+						prop.value += -eDelta - i;
+						break;
+					}
+				}
+			}
+		}
+
+		if(this.w < oldW) {
+			this.w = oldW;
+		}
+		if(this.h < oldH) {
+			this.h = oldH;
+		}
+		this.rePosPoints();
+	}
+};
+
+//******************************************************************************
+// MultiElementEditorEx
+//******************************************************************************
+
+function MultiElementEditorEx(id) {
+	MultiElementEditor.call(this, id);
+}
+
+MultiElementEditorEx.prototype = Object.create(MultiElementEditor.prototype);
+
+MultiElementEditorEx.prototype.onpropchange = function(prop) {
+	if(prop === this.props.WorkCount || prop === this.props.EventCount || prop === this.props.VarCount || prop === this.props.DataCount) {
+		var oldW = this.w;
+		var oldH = this.h;
+
+		var arr = {WorkCount:0, EventCount:1, VarCount:2, DataCount:3};
+		var lines = prop.value.split("\n");
+		var t = arr[prop.name];
+		var newType = t < 2 ? 1 - t : 5 - t;
+		
+		var hash = {};
+		for(var line of lines) {
+			if(line) {
+				var arr = line.split("=");
+				var newPoint = this.points[arr[0]] || this.addPoint(arr[0], newType+1);
+				var pointParent = this.parent.parentElement.points[arr[0]] || this.parent.parentElement.addPoint(arr[0], t+1);
+				this.addEvent(newPoint, pointParent);
+				newPoint._dplInfo = arr[1] || "";
+				hash[arr[0]] = true;
+			}
+		}
+		for(var p in this.points) {
+			var point = this.points[p];
+			if(newType == point.type-1 && hash[point.name] !== true) {
+				this.removePoint(point.name);
+				this.parent.parentElement.removePoint(point.name);
+			}
+		}
+
+		if(this.w < oldW) {
+			this.w = oldW;
+		}
+		if(this.h < oldH) {
+			this.h = oldH;
+		}
+		this.rePosPoints();
+	}
+	else {
+		MultiElementEditor.prototype.onpropchange.call(this, prop);
+	}
+};
+
+MultiElementEditorEx.prototype.getPointInfo = function(point) {
+	return point._dplInfo || "";
 };
 
 //******************************************************************************

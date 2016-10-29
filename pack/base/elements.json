@@ -1025,16 +1025,35 @@
 	},
 	
 	"containers": { "tab": "tools", "group": true },
-	"MultiElementEx": {
+	"MultiElement": {
 		"tab": "tools"
 	},
 	"MultiElementEditor": {
-		"class": "SizeElement",
+		"class": "MultiElementEditor",
 		"props": [
 			{ "name": "EventCount", "type": 1, "def": 0 },
 			{ "name": "WorkCount", "type": 1, "def": 0 },
 			{ "name": "DataCount", "type": 1, "def": 0 },
 			{ "name": "VarCount", "type": 1, "def": 0 }
+		],
+		"sys": [
+			{ "name": "VOffset", "type": 1, "def": 0 },
+			{ "name": "HOffset", "type": 1, "def": 0 },
+			{ "name": "Color", "def": "#969696" },
+			{ "name": "Width", "type": 1, "def": 300 },
+			{ "name": "Height", "type": 1, "def": 200 }
+		]
+	},
+	"MultiElementEx": {
+		"tab": "tools"
+	},
+	"MultiElementEditorEx": {
+		"class": "MultiElementEditorEx",
+		"props": [
+			{ "name": "WorkCount", "type": 5, "def": "" },
+			{ "name": "EventCount", "type": 5, "def": "" },
+			{ "name": "VarCount", "type": 5, "def": "" },
+			{ "name": "DataCount", "type": 5, "def": "" }
 		],
 		"sys": [
 			{ "name": "VOffset", "type": 1, "def": 0 },
