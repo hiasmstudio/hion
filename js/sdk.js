@@ -165,7 +165,7 @@ function SDK(pack) {
 
 	this.clearProject = function () {
 		this.imgs = new Array();
-		this.add(this.pack.entry, 56, 56);
+		this.add(this.pack.projects[0], 56, 56);
 	};
 	
 	this.getRootSDK = function() {
@@ -197,7 +197,7 @@ function SDK(pack) {
 	};
 	
 	this.save = function (selection) {
-		var text = "Make(webapp)\n";
+		var text = this.parent ? "" : "Make(" + this.pack.name + ")\n";
 		for (var e of this.imgs) {
 			if(selection && !e.isSelect()) {
 				continue;
@@ -329,11 +329,18 @@ function SDK(pack) {
 			if (line.length === 0)
 				continue;
 
-			if (line.substr(0, 4) === "Make(") {
-				
+			if (line.substr(0, 5) === "Make(") {
+				var packName = line.substr(5, line.length - 6);
+				//----------------- TEMP
+				if(packName == "base")
+					packName = "webapp";
+				//---------------------
+				this.pack = packMan.getPack(packName);
+				if(!this.pack)
+					console.error("Pack", packName, "not found!")
 			} else if (line.substr(0, 4) === "Add(") {
 				var l = line.substr(4, line.length - 5).split(",");
-				if (l[0] === this.pack.entry && this.imgs[0].name === l[0]) {
+				if (this.pack.isEntry(l[0]) && this.imgs[0].name === l[0]) {
 					e = this.imgs[0];
 					e.move(parseInt(l[2]) - e.x, parseInt(l[3]) - e.y);
 				} else {

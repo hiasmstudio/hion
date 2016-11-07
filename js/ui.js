@@ -972,7 +972,7 @@ ListBox.prototype.setText = function(text) {
 	}
 };
 
-ListBox.prototype.getSelectText = function() {
+ListBox.prototype.getSelectString = function() {
 	var index = this.getSelectIndex();
 	return index === -1 ? "" : this.items[index];
 };
@@ -1289,6 +1289,9 @@ function UISimpleTable(options) {
 			this.lineHeight = options.lineheight;
 		}
 		this.showgrid = options.showgrid;
+		if(options.headers === false) {
+			this._ctl.setAttribute("headers", false);
+		}
 	}
 	
 	this.body = this.table.n("tbody");
@@ -1504,6 +1507,17 @@ ToolBar.prototype.enabled = function(index, value) {
 	this.items[index].enabled = value;
 };
 
+ToolBar.prototype.getButtonByTag = function(tag) {
+	var _btn = null;
+	this.each(function(btn){
+		if(btn.tag == tag) {
+			_btn = btn;
+			return true;
+		}
+	});
+	return _btn;
+};
+
 //******************************************************************************
 // ToolButton
 //******************************************************************************
@@ -1512,29 +1526,10 @@ function ToolButton(options) {
 	var b = new Builder().n("div").class("button");
 	var _icon = b.n("div").class("icon");
 	this._ctl = b.element;
+	this.submenu = null;
 	
 	if(options.items) {
-		var items = [];
-		for(var i in options.items) {
-			var item = options.items[i];
-			items.push({
-				title: item.title,
-				command: item.cmd,
-				click: function() {
-					commander.execCommand(this.command);
-				}
-			});
-		}
-		var popup = new PopupMenu(items);
-		this.submenu = popup;
-		b.n("div").attr("parent", this).class("submenu").on("onclick", function(e) {
-			e.stopPropagation();
-			if(this.parent.enabled == "true") {
-				popup.up(this.offsetLeft - 24, this.offsetHeight + 3);
-			}
-			
-			return false;
-		});
+		this.setSubMenu(options.items);
 	}
 	
 	this.enabled = true;
@@ -1567,6 +1562,30 @@ ToolButton.prototype = Object.create(UIControl.prototype);
 
 ToolButton.prototype.haveSubMenu = function() {
 	return this.submenu;
+};
+
+ToolButton.prototype.setSubMenu = function(subitems) {
+	var items = [];
+	for(var i in subitems) {
+		var item = subitems[i];
+		items.push({
+			title: item.title,
+			command: item.cmd,
+			click: item.click
+		});
+	}
+	var popup = new PopupMenu(items);
+	if(!this.submenu) {
+		new Builder(this._ctl).n("div").attr("parent", this).class("submenu").on("onclick", function(e) {
+			e.stopPropagation();
+			if(this.parent.enabled == "true") {
+				popup.up(this.offsetLeft - 24, this.offsetHeight + 3);
+			}
+
+			return false;
+		});
+	}
+	this.submenu = popup;
 };
 
 Object.defineProperty(ToolButton.prototype, "enabled", {

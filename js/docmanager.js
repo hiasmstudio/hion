@@ -335,7 +335,7 @@ DocumentTab.prototype.getControl = function(){
     return this._ctl;
 };
 
-DocumentTab.prototype.open = function(file) { this.file = file; };
+DocumentTab.prototype.open = function(file, asnew) { if(!asnew) this.file = file; };
 DocumentTab.prototype.save = function(file) { this.file = file; };
 DocumentTab.prototype.init = function() {};
 DocumentTab.prototype.resize = function() {};
@@ -396,7 +396,7 @@ function SHATab(file) {
 	});
     this.statusBar.add(this.zoom);
 	
-	this.buildMode = 0;
+	this.buildMode = "";
 	this.bindFlags = 0;
 
     DocumentTab.call(this, file);
@@ -409,7 +409,7 @@ SHATab.prototype.getTitle = function(){
 };
 
 SHATab.prototype.createFromData = function(data) {
-    var sdk = new SDK(packMan.getPack("base"));
+    var sdk = new SDK(packMan.getPack("webapp"));
 	this.sdkEditor.edit(sdk);
 	this.sdkEditor.createNew();
 	if(data) {
@@ -419,28 +419,25 @@ SHATab.prototype.createFromData = function(data) {
 	this.sdkEditor.show();
 	this.statusBar.show();
 	this.resize();
+	this.buildMode = sdk.pack.make.length ? sdk.pack.make[0].cmd : "";
 };
 
-SHATab.prototype.open = function(file) {
-    DocumentTab.prototype.open.call(this, file);
+SHATab.prototype.open = function(file, asnew) {
+    DocumentTab.prototype.open.call(this, file, asnew);
     
- 	if(file) {
- 		var __editor = this;
- 		this.tab.load(true);
- 		file.read(function(error, data){
- 			if(error === 0) {
- 				__editor.createFromData(data);
- 				__editor.tab.load(false);
-				commander.reset();
- 			}
- 			else {
- 				displayError({code: error});
- 			}
- 		});
- 	}
- 	else {
- 		this.createFromData("");
- 	}
+	var __editor = this;
+	this.tab.load(true);
+	file.read(function(error, data){
+		if(error === 0) {
+			__editor.createFromData(data);
+			__editor.tab.load(false);
+			commander.reset();
+			__editor.manager._ontabopen(__editor);
+		}
+		else {
+			displayError({code: error});
+		}
+	});
 };
 
 SHATab.prototype.save = function (file) {
@@ -671,11 +668,10 @@ SHATab.prototype.updateCommands = function(commander) {
 		if(user.uid > 1) {
 			commander.enabled("build");
 			commander.enabled("make");
-			commander.enabled("make_nwjs");
-			if(this.buildMode === 0)
-				commander.checked("make");
-			else
-				commander.checked("make_nwjs");
+//			if(this.buildMode === 0)
+//				commander.checked("make");
+//			else
+//				commander.checked("make_nwjs");
 		}
     }
     
@@ -916,7 +912,7 @@ SHATab.prototype.execCommand = function(cmd, data) {
         	break;
         case "paste":
         	var text = data ? data.getData("text/plain") : buffer;
-        	if(text.substr(0, 4) == "Make") {
+        	if(text.substr(0, 4) == "Make" || text.substr(0, 4) == "Add(") {
         		this.sdkEditor.pasteFromText(text);
         	}
         	break;
@@ -950,9 +946,8 @@ SHATab.prototype.execCommand = function(cmd, data) {
         
         case "statistic": this.showStatistic(); break;
         
-        case "build": this.build(["", "nwjs"][this.buildMode]); break;
-        case "make": this.buildMode = 0; commander.reset(); break;
-        case "make_nwjs": this.buildMode = 1; commander.reset(); break;
+        case "build": this.build(this.buildMode); break;
+        case "make": this.buildMode = data; commander.reset(); break;
 		
 		case "moveto": this.moveto(); break;
 		
@@ -1104,6 +1099,12 @@ function DocumentManageer(options) {
 	
 	this._ctl = new Builder().n("div").class("docmanager").element;
 	
+	this.ontabselect = function(tab){};
+	this.ontabopen = function(tab){};
+	
+	// called by child
+	this._ontabopen = function(tab){ if(this.currentTab == tab) this.ontabopen(tab); };
+	
 	this.setOptions(options);
 	this.layout = new VLayout(this, {});
     
@@ -1135,6 +1136,7 @@ function DocumentManageer(options) {
 		}
 
 		dm.saveOpenTabs();
+		dm.ontabselect(tab ? tab.content : null);
 	};
 	
 	this.state = new StatePanel({});
@@ -1155,8 +1157,8 @@ function DocumentManageer(options) {
         this.insert(tab, this.splitter);
     };
 
-	this.openByType = function(Class, file, title) {
-	    if(file) {
+	this.openByType = function(Class, file, title, asnew) {
+	    if(file && !asnew) {
 	    	console.log("Open: ", file.location());
 	    }
 	    
@@ -1167,10 +1169,12 @@ function DocumentManageer(options) {
         content.tab = tab;
         this._showTab(tab.content);
         tab.content.init();
-        tab.content.open(file);
+        tab.content.open(file, asnew);
         tab.content.show();
         tab.title = file ? file.location() : "";
         tab.caption = title || content.getTitle();
+		
+		this.ontabselect(content);
         
         commander.reset();
         this.saveOpenTabs();
@@ -1184,7 +1188,7 @@ function DocumentManageer(options) {
 			}
 		}
 		
-		this.openByType(SHATab, file, title);
+		this.openByType(SHATab, file, title, false);
 	};
 	
 	this.open = function(fileName, title) {
@@ -1218,7 +1222,18 @@ function DocumentManageer(options) {
 	};
 	
 	this.openNew = function() {
-	    this.openByType(SHATab, null);
+		var args = [];
+		for(var pack in packMan.packs) {
+			args.push({
+				name: pack,
+				title: packMan.packs[pack].title,
+				projects: packMan.packs[pack].projects
+			});
+		}
+		var doc = this;
+	    new Runner("new", function(data) {
+			doc.openByType(SHATab, getFileNode("/pack/" + data[0] + "/new/" + data[1] + ".sha"), "", true);
+		}).run(args);
 	};
 	
 	this.saveOpenTabs = function() {

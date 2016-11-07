@@ -184,12 +184,19 @@ textarea {
               border: 1px solid #dcd0c3;
               border-width: 0 1px 1px 0;
               background-color: white; }
+              .ui-simple-table > div > div > table > tbody > tr > td img {
+                display: block;
+                margin: auto; }
             .ui-simple-table > div > div > table > tbody > tr > td:last-child {
               border-right: 0; }
             .ui-simple-table > div > div > table > tbody > tr:hover > td {
               background-color: #efe9e3; }
             .ui-simple-table > div > div > table > tbody > tr[selected=true] > td {
               background-color: #66ccff; }
+  .ui-simple-table[headers=false] thead {
+    display: none; }
+  .ui-simple-table[headers=false] tbody {
+    top: 0; }
 
 .ui-switcher {
   background-color: #c9b9ab;
@@ -771,6 +778,8 @@ textarea {
     position: absolute;
     top: 0px;
     bottom: 0px;
+    left: 0;
+    right: 0;
     user-select: none;
     -ms-user-select: none;
     -moz-user-select: none;

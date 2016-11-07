@@ -24,21 +24,28 @@ function PropertyEditor(options) {
 	var tb = new ToolBar([
 		{
 			title: "",
+			tag: "props",
 			icon: 40,
 			click: function(){
 				pEditor.points.hide();
 				pEditor.editor.show();
+				tb.getButtonByTag("props").checked = true;
+				tb.getButtonByTag("events").checked = false;
 			}
 		},
 		{
 			title: "",
+			tag: "events",
 			icon: 48,
 			click: function(){
 				pEditor.points.show();
 				pEditor.editor.hide();
+				tb.getButtonByTag("events").checked = true;
+				tb.getButtonByTag("props").checked = false;
 			}
 		}
 	]);
+	tb.getButtonByTag("props").checked = true;
 	this.add(tb);
 	this.panel = new Builder(this._ctl).n("div").class("pan").n("div").class("content").element;
 	

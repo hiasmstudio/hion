@@ -8,7 +8,7 @@
 		border-right: 1px solid $borderDark;
 		overflow-x: hidden;
 		overflow-y: auto;
-		position: absolute; top: 0px; bottom: 0px;
+		position: absolute; top: 0px; bottom: 0px; left: 0; right: 0;
 		user-select: none; -ms-user-select: none; -moz-user-select: none; -webkit-user-select: none;
 
 		.element {

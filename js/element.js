@@ -730,7 +730,14 @@ function createElement(sdk, id, x, y) {
 				this.onClick.args = this.props.Select.getText();
 			};
 			i.doAdd.onevent = function (data) {
-				this.parent.ctl.add(this.parent.d(data).read("Str"));
+				var d = this.parent.d(data);
+				if(this.parent.Icon) {
+					var text = d.read("Str");
+					var icon = d.read("Icon");
+					this.parent.ctl.addIcon(icon, text);
+				}
+				else
+					this.parent.ctl.add(d.read("Str"));
 			};
 			i.doText.onevent = function (data) {
 				this.parent.ctl.setText(data);
@@ -1540,6 +1547,7 @@ function createElement(sdk, id, x, y) {
 				}
 				this.ctl = new UISimpleTable({
 					columns: columns,
+					headers: this.props.Headers.isDef(),
 					lineheight: this.props.LineHeight.isDef() ? 0 : this.props.LineHeight.value,
 					showgrid: this.props.ShowGrid.isDef()
 				});

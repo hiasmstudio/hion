@@ -146,6 +146,8 @@
 	
 	"ui.moveto": "Перестить элементы в контейнер",
 	
+	"ui.newproject": "Создать новый проект",
+	
 	"wincontrol.Left": "Отступ слева",
 	"wincontrol.Top": "Отступ сверху",
 	"wincontrol.Width": "Ширина элемента",

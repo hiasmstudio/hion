@@ -9,7 +9,6 @@ function Palette(options) {
 
 	this.selected = null;
 	this.onselect = function(){};
-	this.onload = function(){};
 	
 	this.hint = new Hint();
 	
@@ -41,8 +40,9 @@ Palette.prototype.unSelect = function() {
 	}
 };
 
-Palette.prototype.load = function(pack) {
-	this.task.parent.state("Create tabs...");
+Palette.prototype.show = function(pack) {
+	this.removeAll();
+	
 	// create tabs
 	var tabs = {};
 	for (var i in pack.elements) {
@@ -56,7 +56,7 @@ Palette.prototype.load = function(pack) {
 			this.add(tab);
 		}
 	}
-
+	
 	var __editor = this;
 	// elements
 	for (var id in pack.elements) {
@@ -90,7 +90,7 @@ Palette.prototype.load = function(pack) {
 			}
 		}
 	}
-
+	
 	// settings
 	for (var tab in tabs) {
 		if(window.getOptionBool("opt_palette_groups", 0)) {
@@ -124,6 +124,4 @@ Palette.prototype.load = function(pack) {
 			}
 		};
 	}
-
-	this.onload();
 };

@@ -139,7 +139,7 @@ function Runner(project, callback) {
 		else {
 			var __run = this;
 			$.get((project.indexOf("/") >= 0 ? project : "gui/" + project) + ".sha", function(data) {
-				var sdk = new SDK(packMan.getPack("base"));
+				var sdk = new SDK(packMan.getPack("webapp"));
 				sdk.clearProject();
 				sdk.load(data);
 				sdk.run(window.FLAG_USE_RUN);
@@ -173,18 +173,10 @@ function loadWorkspace() {
 				buttons.push({title: "-"});
 			}
 			else {
-				var items = null;
-				if(cmd === "build") {
-					items = [
-						{title: "Make", cmd: "make"},
-						{title: "Make NWJS", cmd: "make_nwjs"}
-					];
-				}
 				buttons.push({
 					icon: commander.haveIcon(cmd),
 					tag: cmd,
 					title: commander.getTitle(cmd),
-					items: items,
 					click: function() { commander.execCommand(this.tag); }
 				});
 			}
@@ -251,26 +243,52 @@ function loadWorkspace() {
 			delete this.task;
 		};
 		packMan.task = this;
-		packMan.load(["base"]);
+		packMan.load(["webapp", "qt"]);
 	}));
-	loader.add(new LoaderTask(function(){
-		this.parent.state("Next load...");
-		palette.onselect = function(obj) {
-			commander.execCommand("addelement", obj);
-		};
-		palette.onload = function() {
-			this.task.taskComplite("Palette loaded.");
-			delete this.task;
-		};
-		palette.task = this;
-		palette.load(packMan.getPack("base"));
-	}));
+//	loader.add(new LoaderTask(function(){
+//		this.parent.state("Next load...");
+//		palette.onload = function() {
+//			this.task.taskComplite("Palette loaded.");
+//			delete this.task;
+//		};
+//		palette.task = this;
+//		palette.load(packMan);
+//	}));
 	loader.run();
 
 	palette = new Palette({});
+	palette.onselect = function(obj) {
+		commander.execCommand("addelement", obj);
+	};
 	workspace.add(palette);
 	
 	docManager = new DocumentManageer({});
+	docManager.ontabselect = docManager.ontabopen = function(tab){
+		if(tab && tab.sdkEditor.sdk) {
+			// set palette elements
+			var pack = tab.sdkEditor.sdk.pack;
+			palette.show(pack);
+
+			// set make menu
+			if(pack.make.length) {
+				var btn = mainToolBar.getButtonByTag("build");
+				var items = [];
+				for(var make of pack.make) {
+					items.push({
+						title: make.name,
+						cmd: make.cmd,
+						click: function() {
+							commander.execCommand("make", this.command);
+						}
+					});
+				}
+				btn.setSubMenu(items);
+			}
+		}
+		else {
+			palette.removeAll();
+		}
+	};
 	workspace.add(docManager);
 
 	propEditor = new PropertyEditor({});
@@ -374,7 +392,6 @@ function loadWorkspace() {
 		},
 		build: { icon: 58 },
 		make: { },
-		make_nwjs: { },
 		output: {  },
 		moveto: {  },
 		bind_rect: { icon: 41 },
@@ -401,12 +418,12 @@ function loadWorkspace() {
 		mainToolBar.each(function(item){
 			item.enabled = commander.isEnabled(item.tag);
 			item.checked = commander.isChecked(item.tag);
-			if(item.haveSubMenu()) {
-				item.submenu.each(function(index, item){
-					this.enabled(index, commander.isEnabled(item.command));
-					this.checked(index, commander.isChecked(item.command));
-				});
-			}
+//			if(item.haveSubMenu()) {
+//				item.submenu.each(function(index, item){
+//					this.enabled(index, commander.isEnabled(item.command));
+//					this.checked(index, commander.isChecked(item.command));
+//				});
+//			}
 		});
 		var i = 0;
 		while(mainMenu.menuItem(i)) {

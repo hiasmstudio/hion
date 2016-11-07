@@ -1,0 +1,8 @@
+{
+	"title": "WEB application",
+	"projects": ["MainForm"],
+	"make": [
+		{"name": "Make", "cmd": "make"},
+		{"name": "Make NWJS", "cmd": "make-nwjs"}
+	]
+}

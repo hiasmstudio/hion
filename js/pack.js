@@ -34,9 +34,18 @@ function Pack(name) {
     this.name = name;
     this.elements = [];
     this.onload = function(){};
-    this.entry = "MainForm";
 	this.loadedImages = 0;
+	this.projects = [];
+	this.make = [];
+	this.title = "";
 }
+
+Pack.prototype.isEntry = function(name) {
+	for(var prj of this.projects)
+		if(name == prj)
+			return true;
+	return false;
+};
 
 Pack.prototype.getRoot = function() {
     return "pack/" + this.name;
@@ -47,9 +56,16 @@ Pack.prototype.getEditorsPath = function() {
 };
 
 Pack.prototype.load = function() {
-    $.get(this.getRoot() + "/elements.json", function(data, pack) {
-		pack.elements = JSON.parse(data);
-		pack.loadIcons();
+	$.get(this.getRoot() + "/pack.json", function(data, pack) {
+		var js = JSON.parse(data);
+		pack.projects = js.projects;
+		pack.make = js.make;
+		pack.title = js.title;
+		
+		$.get(pack.getRoot() + "/elements.json", function(data, pack) {
+			pack.elements = JSON.parse(data);
+			pack.loadIcons();
+		}, pack);
 	}, this);
 };
 

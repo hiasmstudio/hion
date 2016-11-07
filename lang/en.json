@@ -141,5 +141,7 @@
 	"ui.self_props": "Self properties",
 	"ui.sys_props": "System properties",
 	
-	"ui.moveto": "Move elements in the container"
+	"ui.moveto": "Move elements in the container",
+	
+	"ui.newproject": "Create new project"
 }

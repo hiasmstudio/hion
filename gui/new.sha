@@ -1,0 +1,210 @@
+Make(webapp)
+Add(MainForm,1,343,126)
+{
+  Width=#3:525|
+  Height=#3:309|
+  Layout=2
+  Padding=5
+  Caption=#13:ui.newproject|
+  Resize=1
+}
+Add(MultiElementEx,6,343,21)
+{
+  link(onSelect,8:doEnabled,[(389,27)(389,10)(214,10)(214,132)])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,5,7,7)
+{
+  WorkCount=#6:doLoad|
+  EventCount=#8:onSelect|
+  VarCount=#4:pack|7:project|
+  @VOffset=70
+  @HOffset=343
+  @Width=622
+  @Height=270
+  link(doLoad,28:doValue,[])
+  link(pack,111:Var3,[(356,196)])
+  link(project,54:Value,[(363,256)(510,256)])
+}
+Add(Panel,9,84,28)
+{
+  Left=7
+  Top=7
+  Grow=1
+  Width=#0:|
+  Height=#3:247|
+  Theme=#11:panel-clear|
+  Layout=1
+}
+Add(ListBox,11,343,84)
+{
+  Left=21
+  Top=49
+  Width=#3:127|
+  Height=#0:|
+  Point(Icon)
+  link(onSelect,31:doEvent1,[])
+  link(Str,80:Result,[])
+}
+Add(Memory,28,84,77)
+{
+  link(onData,96:doEnum,[])
+}
+Add(ArrayEnum,30,273,210)
+{
+  link(onEnum,56:doString,[])
+}
+Add(Hub,31,399,84)
+{
+  OutCount=3
+  link(onEvent1,53:doClear,[(432,90)(432,223)])
+  link(onEvent2,98:doRead,[(426,97)(426,138)(70,138)(70,160)])
+  link(onEvent3,43:doWork1,[])
+}
+Add(ChannelToIndex,43,560,98)
+{
+  link(onIndex,5:onSelect,[(611,104)(611,83)])
+}
+Add(SimpleTable,53,455,210)
+{
+  Left=448
+  Top=154
+  Grow=1
+  Height=#0:|
+  Columns=#82:[{"title":"ico","width":"30px","align":"center","type":"image"},{"title":"entry"}]|
+  Select=1
+  Headers=0
+  link(onSelect,54:doRead,[])
+}
+Add(ArrayRead,54,504,210)
+{
+  Index=1
+  link(onRead,43:doWork2,[(548,216)(548,111)])
+}
+Add(ArrayBuilder,55,378,210)
+{
+  Items=#4:icon|5:entry|
+  link(onBuild,53:doAddRow,[])
+  link(entry,30:Item,[(391,200)(369,200)(369,252)(279,252)])
+}
+Add(FormatStr,56,322,210)
+{
+  Mask=#21:/pack/%2/icons/%1.ico|
+  link(onFString,55:doBuild,[])
+  link(Str2,111:Var2,[])
+}
+Add(FormatStr,67,294,84)
+{
+  DataCount=1
+  Mask=#16:pack/%1/icon.png|
+  link(onFString,11:doAdd,[])
+}
+Add(JSON_Field,79,224,210)
+{
+  Name=#8:projects|
+  AddHint(-13,-34,0,0,Name)
+  link(onGet,30:doEnum,[])
+}
+Add(JSON_Field,80,343,28)
+{
+  Name=#5:title|
+  AddHint(54,4,0,0,Name)
+}
+Add(Hub,83,203,77)
+{
+  link(onEvent1,80:doGet,[(233,83)(233,34)])
+  link(onEvent2,97:doGet,[])
+}
+Add(ArrayEnum,96,140,77)
+{
+  link(onEnum,83:doEvent1,[])
+}
+Add(JSON_Field,97,245,84)
+{
+  Name=#4:name|
+  AddHint(-4,44,0,0,Name)
+  link(onGet,67:doString,[])
+}
+Add(ArrayRead,98,84,154)
+{
+  link(onRead,109:doEvent1,[])
+  link(Array,28:Value,[])
+}
+Add(JSON_Field,108,329,154)
+{
+  Name=#4:name|
+}
+Add(Hub,109,133,154)
+{
+  link(onEvent1,108:doGet,[])
+  link(onEvent2,79:doGet,[(161,167)(161,216)])
+}
+Add(GetDataEx,111,329,189)
+{
+  link(Data,108:Result,[])
+}
+END_SDK
+Add(MultiElementEx,8,231,126)
+{
+  link(onOk,41:doEvent1,[(279,132)(279,83)])
+  link(onCancel,42:doWork2,[])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,7,7,7)
+{
+  WorkCount=#9:doEnabled|
+  EventCount=#4:onOk|8:onCancel|
+  @VOffset=35
+  @Height=151
+  link(doEnabled,14:doEnabled,[])
+}
+Add(Panel,10,49,84)
+{
+  Left=7
+  Top=259
+  Shrink=0
+  Width=#0:|
+  Height=#2:33|
+  Theme=#11:panel-clear|
+  Layout=1
+  JustifyContent=1
+}
+Add(Button,13,154,84)
+{
+  Left=112
+  Top=91
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#9:ui.cancel|
+  link(onClick,7:onCancel,[(247,90)(247,55)])
+}
+Add(Button,14,154,42)
+{
+  Left=168
+  Top=91
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Enabled=0
+  Caption=#2:OK|
+  Point(doEnabled)
+  link(onClick,7:onOk,[])
+}
+END_SDK
+Add(hcTransmitter,19,343,77)
+{
+  DataCount=2
+  link(onInit,6:doLoad,[(391,83)(391,66)(391,60)(329,60)(329,27)])
+  link(Arg1,6:pack,[])
+  link(Arg2,6:project,[])
+}
+Add(Hub,41,294,77)
+{
+  link(onEvent1,19:doReturn,[])
+  link(onEvent2,42:doWork1,[(326,90)])
+}
+Add(HubEx,42,322,133)
+{
+  link(onEvent,1:doClose,[])
+}

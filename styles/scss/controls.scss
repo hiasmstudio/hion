@@ -192,6 +192,7 @@ textarea { resize: none; margin: 0; padding: 0; }
                             border: 1px solid $borderDark;
                             border-width: 0 1px 1px 0;
                             background-color: $inputBgColor;
+							img { display: block; margin: auto; }
                         }
                         > td:last-child {
                             border-right: 0;
@@ -207,6 +208,10 @@ textarea { resize: none; margin: 0; padding: 0; }
             }
         }
     }
+	&[headers=false] {
+		thead { display: none; }
+		tbody { top: 0; }
+	}
 }
 
 .ui-chart { }

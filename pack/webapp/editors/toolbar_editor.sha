@@ -1,0 +1,427 @@
+Add(MainForm,1,140,217)
+{
+  Left=56
+  Top=56
+  Width=#3:501|
+  Height=#3:464|
+  Caption=#16:ui.toolbareditor|
+  link(onCreate,60:doWork3,[(200,223)])
+}
+Add(ListBox,2,525,98)
+{
+  Left=7
+  Top=28
+  Width=#3:155|
+  Height=#3:371|
+  TabIndex=#1:0|
+  Point(doReplace)
+  link(onSelect,30:doRead,[])
+}
+Add(Edit,3,721,98)
+{
+  Left=238
+  Top=7
+  Width=#3:252|
+  link(onChange,64:doEvent1,[])
+}
+Add(Label,4,889,28)
+{
+  Left=175
+  Top=7
+  Width=#2:64|
+  Height=#2:21|
+  Caption=#8:ui.title|
+}
+Add(Label,5,889,77)
+{
+  Left=175
+  Top=35
+  Width=#2:64|
+  Height=#2:21|
+  Caption=#6:ui.tag|
+}
+Add(Edit,6,721,175)
+{
+  Left=238
+  Top=35
+  Width=#3:252|
+  link(onChange,36:doSet,[])
+}
+Add(ToolBar,9,21,84)
+{
+  Left=7
+  Top=1
+  Width=#3:156|
+  Buttons=#123:[{"title":"Delete all buttons","icon":19},{"title":"Add new button","icon":57},{"title":"Delete selected button","icon":9}]|
+  link(onClick,13:doEvent,[])
+}
+Add(Button,10,42,266)
+{
+  Left=420
+  Top=406
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#7:ui.save|
+  link(onClick,57:doEvent1,[])
+}
+Add(Button,11,42,224)
+{
+  Left=336
+  Top=406
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#9:ui.cancel|
+  link(onClick,12:doWork2,[])
+}
+Add(HubEx,12,119,224)
+{
+  link(onEvent,1:doClose,[])
+}
+Add(IndexToChannel,13,84,84)
+{
+  Count=3
+  link(onEvent1,60:doWork2,[(135,90)(135,34)])
+  link(onEvent2,23:doConvert,[])
+  link(onEvent3,67:doRemove,[(135,104)(135,167)])
+}
+Add(ArrayEnum,16,357,98)
+{
+  link(onEnum,21:doGet,[])
+}
+Add(Hub,20,322,91)
+{
+  link(onEvent1,27:doData,[(402,97)(402,111)])
+  link(onEvent2,16:doEnum,[])
+}
+Add(JSON_Field,21,420,98)
+{
+  Name=#5:title|
+  link(onGet,2:doAdd,[])
+}
+Add(ArrayAdd,22,217,91)
+{
+  link(onAdd,61:doWork2,[])
+  link(Array,44:Var1,[(223,77)])
+}
+Add(JSON,23,154,91)
+{
+  link(onConvert,22:doAdd,[])
+  link(Data,24:Value,[])
+}
+Add(Memory,24,154,35)
+{
+  Default=#37:{"title": "Command title", "icon": 0}|
+}
+Add(GetDataEx,25,357,70)
+{
+  link(Data,49:Result,[])
+}
+Add(DoData,27,476,105)
+{
+  link(onEventData,2:doText,[])
+}
+Add(ArrayRead,30,581,98)
+{
+  link(onRead,32:doEvent1,[])
+  link(Array,25:Var3,[(587,77)])
+}
+Add(JSON_Field,31,665,98)
+{
+  Name=#5:title|
+  link(onGet,3:doText,[])
+}
+Add(Hub,32,630,98)
+{
+  OutCount=3
+  link(onEvent1,31:doGet,[])
+  link(onEvent2,33:doGet,[(654,111)(654,181)])
+  link(onEvent3,34:doGet,[(654,118)(654,258)])
+}
+Add(JSON_Field,33,665,175)
+{
+  Name=#3:tag|
+  link(onGet,6:doText,[])
+}
+Add(JSON_Field,34,665,252)
+{
+  Name=#4:icon|
+  link(onGet,81:doWork1,[])
+}
+Add(JSON_Field_Set,35,812,98)
+{
+  Name=#5:title|
+  link(Object,41:Var1,[(818,84)(797,84)])
+}
+Add(JSON_Field_Set,36,805,175)
+{
+  Name=#3:tag|
+  link(Object,41:Var3,[(811,154)])
+}
+Add(GetDataEx,41,791,147)
+{
+  Angle=3
+  link(Data,30:Value,[(587,154)])
+}
+Add(hcTransmitter,42,322,273)
+{
+  DataCount=1
+  link(onInit,47:doEvent1,[])
+}
+Add(JSON,43,266,273)
+{
+  Mode=1
+  link(onConvert,42:doReturn,[])
+  link(Data,68:Var2,[])
+}
+Add(GetDataEx,44,266,70)
+{
+  Angle=1
+  link(Data,25:Var1,[])
+}
+Add(ArrayRead,46,413,273)
+{
+}
+Add(Hub,47,378,273)
+{
+  OutCount=3
+  link(onEvent1,46:doRead,[])
+  link(onEvent2,48:doRead,[(402,286)(402,335)])
+  link(onEvent3,92:doRead,[(402,293)(402,398)])
+}
+Add(ArrayRead,48,413,329)
+{
+  Index=1
+  link(onRead,51:doCompare,[])
+}
+Add(JSON,49,357,28)
+{
+  link(onConvert,61:doWork1,[(402,34)(402,86)(305,86)])
+}
+Add(If_else,51,462,329)
+{
+  Type=5
+  link(onTrue,52:doWork2,[])
+  link(onFalse,53:doData,[])
+}
+Add(HubEx,52,560,329)
+{
+  link(onEvent,59:doWork3,[(577,335)(577,193)(291,193)])
+}
+Add(DoData,53,511,336)
+{
+  Data=#2:[]|
+  link(onEventData,52:doWork3,[(564,342)])
+}
+Add(Hub,57,91,266)
+{
+  link(onEvent1,12:doWork3,[(123,272)])
+  link(onEvent2,43:doConvert,[])
+}
+Add(DoData,58,217,28)
+{
+  Data=#2:[]|
+  link(onEventData,59:doWork2,[])
+}
+Add(HubEx,59,287,28)
+{
+  link(onEvent,49:doConvert,[])
+}
+Add(HubEx,60,196,28)
+{
+  link(onEvent,58:doData,[])
+}
+Add(HubEx,61,301,91)
+{
+  link(onEvent,20:doEvent1,[])
+}
+Add(Hub,64,770,98)
+{
+  link(onEvent1,35:doSet,[])
+  link(onEvent2,2:doReplace,[(791,111)(791,142)(515,142)(515,118)])
+}
+Add(ArrayRemove,67,224,161)
+{
+  link(onRemove,61:doWork3,[(305,167)])
+  link(Array,68:Var1,[(230,140)])
+  link(Index,2:SelectIndex,[(237,146)(531,146)])
+}
+Add(GetDataEx,68,266,133)
+{
+  link(Data,44:Var2,[])
+}
+Add(Label,71,889,126)
+{
+  Left=175
+  Top=63
+  Caption=#7:ui.icon|
+}
+Add(JSON_Field_Set,78,791,252)
+{
+  Name=#4:icon|
+  link(Object,41:Var2,[])
+}
+Add(MultiElementEx,81,721,252)
+{
+  @Comment=#13:Icon selector|
+  link(onEvent1,78:doSet,[])
+}
+BEGIN_SDK
+Add(MultiElementEditor,80,7,7)
+{
+  WorkCount=2
+  EventCount=1
+  @VOffset=140
+  @Width=517
+  @Height=326
+  link(doWork1,90:doWork3,[(81,153)])
+  link(doWork2,97:doEvent1,[])
+}
+Add(Panel,82,28,21)
+{
+  Left=168
+  Top=77
+  Width=#3:322|
+  Height=#3:322|
+}
+Add(Image,83,322,77)
+{
+  Left=176
+  Top=1
+  Width=#3:256|
+  Height=#3:256|
+  Visible=0
+  URL=#16:img/commands.png|
+  Point(onMouseDown)
+}
+Add(MathParse,84,413,140)
+{
+  MathStr=#44:floor($pos[0] / 20) + floor($pos[1] / 20)*16|
+  Args=#3:pos|
+  link(onResult,89:doEvent1,[])
+}
+Add(Figure,85,210,91)
+{
+  Width=#2:20|
+  Height=#2:20|
+  Shape=1
+  Fill=rgba(0,0,0,0.3)
+  Point(doLeft)
+  Point(doTop)
+}
+Add(MathParse,86,147,91)
+{
+  MathStr=#15:($icon % 16)*20|
+  Args=#4:icon|
+  link(onResult,85:doLeft,[])
+}
+Add(Hub,87,98,91)
+{
+  link(onEvent1,86:doCalc,[])
+  link(onEvent2,88:doCalc,[(129,104)(129,146)])
+}
+Add(MathParse,88,147,140)
+{
+  MathStr=#20:floor($icon / 16)*20|
+  Args=#4:icon|
+  link(onResult,85:doTop,[(195,146)(195,104)])
+}
+Add(Hub,89,469,140)
+{
+  link(onEvent1,90:doWork1,[(498,146)(498,70)(81,70)])
+  link(onEvent2,80:onEvent1,[])
+}
+Add(HubEx,90,77,91)
+{
+  link(onEvent,87:doEvent1,[])
+}
+Add(If_else,94,273,77)
+{
+  Type=5
+  link(onTrue,83:doLoad,[])
+}
+Add(PaintBox,95,308,133)
+{
+  Width=#3:320|
+  Height=#3:320|
+  Point(onMouseDown)
+  link(onDraw,113:doData,[])
+  link(onMouseDown,84:doCalc,[])
+}
+Add(DrawImageRegion,96,308,224)
+{
+  SourceWidth=16
+  SourceHeight=16
+  Point(doSourceX)
+  Point(doSourceY)
+  link(Canvas,95:Canvas,[])
+  link(Image,83:Image,[])
+}
+Add(Hub,97,231,154)
+{
+  link(onEvent1,94:doCompare,[(259,160)(259,83)])
+  link(onEvent2,95:doDraw,[(276,167)(276,139)])
+}
+Add(MathParse,98,231,238)
+{
+  MathStr=#5:$x*16|
+  Args=#1:x|
+  link(onResult,96:doSourceY,[])
+}
+Add(For,99,28,231)
+{
+  End=16
+  link(onEvent,102:doEvent1,[])
+}
+Add(For,100,154,238)
+{
+  End=16
+  link(onEvent,106:doEvent1,[])
+}
+Add(DoData,101,105,238)
+{
+  Data=#1:0|
+  link(onEventData,100:doFor,[])
+}
+Add(Hub,102,77,231)
+{
+  link(onEvent1,103:doCalc,[(104,237)(104,202)])
+  link(onEvent2,101:doData,[])
+}
+Add(MathParse,103,231,196)
+{
+  MathStr=#5:$x*16|
+  Args=#1:x|
+  link(onResult,96:doSourceX,[(286,202)(286,237)])
+}
+Add(MathParse,104,287,294)
+{
+  MathStr=#27:point($x*20 + 2, $y*20 + 2)|
+  Args=#1:x|1:y|
+  link(onResult,96:doDraw,[(333,300)(333,265)(294,265)(294,230)])
+  link(x,99:Position,[(293,279)(34,279)])
+}
+Add(Hub,106,203,238)
+{
+  link(onEvent1,98:doCalc,[])
+  link(onEvent2,104:doCalc,[(226,251)(226,300)])
+}
+Add(DoData,113,357,133)
+{
+  link(onEventData,99:doFor,[(400,139)(400,194)(14,194)(14,237)])
+}
+END_SDK
+Add(ArrayRead,92,413,392)
+{
+  Index=2
+  link(onRead,93:doGet,[])
+}
+Add(JSON_Field,93,462,392)
+{
+  Name=#3:URL|
+  link(onGet,116:doGet,[])
+}
+Add(JSON_Field,116,511,392)
+{
+  Name=#5:value|
+  link(onGet,81:doWork2,[(632,398)(632,265)])
+}
