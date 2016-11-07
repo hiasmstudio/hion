@@ -82,7 +82,7 @@ function PropertyEditor(options) {
 			item.value = value.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
 		}
 		else {
-			item.value= value;
+			item.value = value;
 		}
 		pEditor.selMan.setProp(item.name, item.value);
 		pEditor.selMan.eath(function(e){
@@ -146,7 +146,7 @@ function PropertyEditor(options) {
 				checked: e.findPointByName("do" + p.name),
 				defvalue: p.def,
 				default: p.isDefaultEdit(),
-				list: p.list,
+				list: p.getList(),
 				group: p.group ? p.inherit + "." + p.group : null,
 				info: p.getInfo()
 			};
@@ -293,10 +293,12 @@ UIPropertyEditor.prototype._fillDataList = function(item, edit, combo) {
 	var pEditor = this;
 	combo.html("");
 	var index = 0;
-	var isEnum = item.type == DATA_ENUM || item.type == DATA_ENUMEX;
+	var isEnum = item.type == DATA_ENUM || item.type == DATA_ENUMEX || item.type == DATA_MANAGER;
+	var indexAsValue = item.type == DATA_ENUM || item.type == DATA_ENUMEX;
 	var list = isEnum ? item.list : colors;
 	for(var option of list) {
-		var line = combo.n("div").attr("value", isEnum ? index : option).on("onmousedown", function(event) {
+		var optionValue = indexAsValue ? index : option;
+		var line = combo.n("div").attr("value", optionValue).on("onmousedown", function(event) {
 			event.stopPropagation();
 
 			pEditor.onchange(item, this.value);
@@ -312,10 +314,10 @@ UIPropertyEditor.prototype._fillDataList = function(item, edit, combo) {
 			line.n("div").html(option);
 		}
 		
-		if(index == item.defvalue) {
+		if(optionValue == item.defvalue) {
 			line.element.setAttribute("default", "");
 		}
-		if(index == item.value) {
+		if(optionValue == item.value) {
 			line.element.setAttribute("selected", "");
 		}
 		index++;
@@ -401,6 +403,7 @@ UIPropertyEditor.prototype._selectRow = function (row) {
 	if(row.item.type != DATA_INT && row.item.type != DATA_REAL) {
 		line.n("button").html("..").on("onclick", function(){
 			switch(row.item.type) {
+				case DATA_MANAGER:
 				case DATA_ENUM:
 				case DATA_ENUMEX:
 				case DATA_COLOR:
@@ -412,7 +415,7 @@ UIPropertyEditor.prototype._selectRow = function (row) {
 			}
 		});
 		
-		if(row.item.type === DATA_ENUM || row.item.type === DATA_ENUMEX || row.item.type === DATA_COLOR) {
+		if(row.item.type === DATA_ENUM || row.item.type === DATA_ENUMEX || row.item.type === DATA_COLOR || row.item.type === DATA_MANAGER) {
 			var combo = line.n("div").class("combo");
 			combo.element.hide();
 			edit.on("ondblclick", function() {
@@ -503,6 +506,9 @@ UIPropertyEditor.prototype.edit = function(items) {
 			var t = title.n("div").class("in").html(item.title).element;
 			if(item.default) {
 				t.setAttribute("default", "");
+			}
+			if(item.type == DATA_MANAGER) {
+				t.setAttribute("manager", "");
 			}
 			if(group) {
 				t.setAttribute("ingroup", "");

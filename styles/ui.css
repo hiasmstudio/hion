@@ -1013,6 +1013,9 @@ textarea {
         font-weight: bold; }
       .ui-property-editor div.out div.in[ingroup] {
         left: 22px; }
+      .ui-property-editor div.out div.in[manager] {
+        color: maroon;
+        font-weight: bold; }
     .ui-property-editor div.out .checkboxsmall {
       font-size: 0;
       width: 9px;

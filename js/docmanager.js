@@ -411,7 +411,7 @@ SHATab.prototype.getTitle = function(){
 SHATab.prototype.createFromData = function(data) {
     var sdk = new SDK(packMan.getPack("webapp"));
 	this.sdkEditor.edit(sdk);
-	this.sdkEditor.createNew();
+	//this.sdkEditor.createNew();
 	if(data) {
 		this.sdkEditor.loadFromText(data);
 	}

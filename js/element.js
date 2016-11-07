@@ -23,6 +23,7 @@ var DATA_LIST     = 5;
 var DATA_REAL     = 7;
 var DATA_COLOR    = 8;
 var DATA_ENUMEX   = 14;
+var DATA_MANAGER  = 20;
 
 function ElementProperty(parent, inherit, template) {
 	this.value = this.def = template.def;
@@ -69,6 +70,8 @@ ElementProperty.prototype.serialize = function() {
 			else {
 				return "Real(" + this.value + ")";
 			}
+		case DATA_MANAGER:
+			return '"' + this.value + '"';
 	}
 	
 	return this.value.toString();
@@ -81,6 +84,26 @@ ElementProperty.prototype.getText = function() {
 	}
 	
 	return this.value.toString().replace(/</g, "&lt;");
+};
+ElementProperty.prototype.getList = function() {
+	switch(this.type) {
+		case DATA_MANAGER:
+			var list = [];
+			for(var e of this.parent.parent.imgs) {
+				if(e.props.Name && e.props.Name.value) {
+					for(var i of e.interfaces) {
+						for(var ie of this.list) {
+							if(i == ie) {
+								list.push(e.props.Name.value);
+							}
+						}
+					}
+				}
+			}
+			list.push(this.def);
+			return list;
+	}
+	return this.list;
 };
 ElementProperty.prototype.getInfo = function() {
 	return this.inherit + "." + this.name;
@@ -116,6 +139,7 @@ function SdkElement(name) {
 	this.hints = [];
 	
 	this.pointsEx = [];
+	this.interfaces = [];
 
 	this.info = "el." + name;
 	this.flags = 0;
@@ -183,6 +207,11 @@ SdkElement.prototype.loadFromTemplate = function() {
 		if(template.inherit) {
 			loadTemplate(element, template.inherit);
 		}
+		if(template.interfaces) {
+			var arr = template.interfaces.split(",");
+			element.interfaces = element.interfaces.concat(arr);
+		}
+		
 		// create points
 		for(var index in template.points) {
 			var point = template.points[index];
