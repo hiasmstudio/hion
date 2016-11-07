@@ -183,6 +183,8 @@
 		background-color: $inputBgColor;
 		overflow-y: auto;
 		flex-shrink: 0;
+		padding-left: 5px;
+		user-select: text; -ms-user-select: text; -moz-user-select: text; -webkit-user-select: text;
 	}
 	
 	.ui-splitter {
