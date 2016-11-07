@@ -43,11 +43,15 @@ Palette.prototype.unSelect = function() {
 Palette.prototype.show = function(pack) {
 	this.removeAll();
 	
+	function isValidTab(tab) {
+		return tab && tab !== "*";
+	}
+	
 	// create tabs
 	var tabs = {};
 	for (var i in pack.elements) {
 		var element = pack.elements[i];
-		if(element.tab && !tabs[element.tab]) {
+		if(isValidTab(element.tab) && !tabs[element.tab]) {
 			var tab = new Spoiler({
 				caption: window.translate.translate("tab." + element.tab)
 			});
@@ -61,7 +65,7 @@ Palette.prototype.show = function(pack) {
 	// elements
 	for (var id in pack.elements) {
 		var element = pack.elements[id];
-		if(element.tab) {
+		if(isValidTab(element.tab)) {
 			if(element.group) {
 				tabs[element.tab].body().n("div").class("group").html(window.translate.translate("group." + id));
 			}

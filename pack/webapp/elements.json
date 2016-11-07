@@ -56,6 +56,19 @@
 			{ "name": "Padding", "type": 1, "def": 0, "group": "layout" }
 		]
 	},
+	
+	"SiteWidget": {
+		"tab": "*",
+		"inherit": "wincontainer",
+		"points": [
+			{ "name": "onCreate", "type": 2 }
+		],
+		"props": [
+			{ "name": "Width", "def": 400 },
+			{ "name": "Height", "def": 300 }
+		]
+	},
+	
 	"standart": { "tab": "interface", "group": true },
 	"MainForm": {
 		"tab": "interface",

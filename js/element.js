@@ -2041,6 +2041,27 @@ function createElement(sdk, id, x, y) {
 				i.flags |= window.IS_PARENT;
 			}
 			break;
+		case "SiteWidget":
+			i.run = function(flags) {
+				this.ctl = new Panel({theme: ""});
+				
+				this.ctl.layout = this.getLayout(this.ctl);
+				
+				WinElement.prototype.run.call(this, flags);
+				if(!(flags & window.FLAG_USE_CHILD)) {
+					this.ctl.show({});
+				}
+				return this.ctl
+			};
+			i.oninit = function() {
+				this.onCreate.call();
+			};
+			i.getChild = function(){
+				return null;
+			};
+
+			i.flags |= window.IS_PARENT;
+			break;
 		case "Host":
 			i.doIP.onevent = function() {
 				$.get("server/core.php?ip", function(data, object) {

@@ -1,6 +1,6 @@
 {
 	"title": "WEB application",
-	"projects": ["MainForm"],
+	"projects": ["MainForm", "SiteWidget"],
 	"make": [
 		{"name": "Make", "cmd": "make"},
 		{"name": "Make NWJS", "cmd": "make-nwjs"}
