@@ -1959,7 +1959,7 @@ InfoPanel.prototype._show = function(className, text) {
 };
 
 InfoPanel.prototype._hide = function(obj) {
-	obj.style.top = "-30px";
+	obj.style.top = "-60px";
 	this.panel = null;
 	setTimeout(function(){
 		document.body.removeChild(obj);

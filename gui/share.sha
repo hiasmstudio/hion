@@ -1,3 +1,4 @@
+Make(modules)
 Add(MainForm,1,210,14)
 {
   Left=56
@@ -129,7 +130,7 @@ Add(DoData,27,175,203)
 }
 Add(DoData,28,322,105)
 {
-  Data=#1:2|
+  Data=Real(2)
   link(onEventData,29:doWork1,[(368,111)(368,159)(221,159)])
 }
 Add(HubEx,29,217,203)
@@ -138,11 +139,10 @@ Add(HubEx,29,217,203)
 }
 Add(StrCat,30,616,259)
 {
-  Str1=#41:http://ide.hiasm.com/runner.html#/public/|
+  Str1=#30:http://ide.hiasm.com/#/public/|
   link(onStrCat,4:doText,[])
 }
 Add(ChannelToIndex,31,56,203)
 {
   link(onIndex,2:doEnabled,[])
 }
-

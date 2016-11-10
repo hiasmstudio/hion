@@ -606,6 +606,9 @@ SdkElement.prototype.initPointHandler = function(name, handler) {
 
 function getClass(pack, id) {
 	var template = pack.elements[id];
+	if(!template) {
+		console.error("Element config not found: ", id);
+	}
 	if(template.class) {
 		return template.class;
 	}
@@ -2747,6 +2750,12 @@ function createElement(sdk, id, x, y) {
 				}
 				
 				this.parent.onreturn(options);
+			};
+			break;
+		case "hcTranslator":
+			i.doTranslate.onevent = function(data) {
+				var text = translate.translate(this.parent.d(data).read("Key"));
+				this.parent.onTranslate.call(text);
 			};
 			break;
 		case "Converter":

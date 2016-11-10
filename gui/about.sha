@@ -1,3 +1,4 @@
+Make(modules)
 Add(MainForm,23,56,56)
 {
   Left=56

@@ -114,11 +114,11 @@ function createMainmenu(mmCommands) {
 }
 
 function displayError(error) {
-	var text = "Unknown error, code = " + error.code;
+	var text = "Unknown error, code = " + error.code + (error.info ? ", " + error.info : "");
 	var code = "error." + error.code;
 	var tText = translate.translate(code);
 	
-	infoPanel.error(tText === code ? text : tText);
+	infoPanel.error(tText === code ? text : tText + (error.info ? ": " + error.info : ""));
 }
 
 function changeUser() {
@@ -140,7 +140,7 @@ function Runner(project, callback) {
 			var __run = this;
 			$.get((project.indexOf("/") >= 0 ? project : "gui/" + project) + ".sha", function(data) {
 				var sdk = new SDK(packMan.getPack("webapp"));
-				sdk.clearProject();
+//				sdk.clearProject();
 				sdk.load(data);
 				sdk.run(window.FLAG_USE_RUN);
 				var e = sdk.getElementById("hcTransmitter");
@@ -213,6 +213,10 @@ function loadWorkspace() {
 		docManager.init();
 
 		$("splash").parentNode.removeChild($("splash"));
+		
+		if(window.location.hash.startsWith("#/public")) {
+			docManager.open(window.location.hash.substring(1));
+		}
 	};
 	loader.add(new LoaderTask(function(){
 		$.get("server/core.php?cfg", function(data, task) {
@@ -243,7 +247,7 @@ function loadWorkspace() {
 			delete this.task;
 		};
 		packMan.task = this;
-		packMan.load(["webapp", "qt"]);
+		packMan.load(["base", "webapp", "modules", "qt"]);
 	}));
 //	loader.add(new LoaderTask(function(){
 //		this.parent.state("Next load...");
@@ -270,7 +274,7 @@ function loadWorkspace() {
 			palette.show(pack);
 
 			// set make menu
-			if(pack.make.length) {
+			if(pack.make) {
 				var btn = mainToolBar.getButtonByTag("build");
 				var items = [];
 				for(var make of pack.make) {

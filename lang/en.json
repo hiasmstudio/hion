@@ -61,6 +61,7 @@
 	"tab.interface": "Interface",
 	"group.standart": "Standart",
 	"group.special": "Special",
+	"tab.ide": "Hion IDE",
 	"tab.tools": "Tools",
 	"group.math": "Math",
 	"group.logic": "Logic",
@@ -127,7 +128,7 @@
 	"ui.dropimagehere": "Drop image here...",
 	"ui.coleditor": "Columns editor",
 	"ui.shareproject": "Share project",
-	"ui.shareprjcanrun": "Other peoples can run this project",
+	"ui.shareprjcanrun": "Other peoples can open this project",
 	
 	"ui.hiondescr": "Online IDE version to explore the basics of visual programming block-based.",
 	

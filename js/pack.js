@@ -8,20 +8,26 @@ function PackManager() {
         var pm = this;
         
         this.counter = 0;
-        for(var pack of packs) {
-            var p = new Pack(pack);
-            this.packs[pack] = p;
-            this.counter++;
-            
-            p.onload = function(){
-                pm.counter--;
-                if(pm.counter == 0) {
-                    pm.onload();
-                }
-            };
-            
-            p.load();
-        }
+		var packName = packs[this.counter];
+		var p = new Pack(packName);
+		var base = p;
+		p.onload = function() {
+			pm.packs[packName] = p;
+			pm.counter++;
+			
+			if(pm.counter < packs.length) {
+				packName = packs[pm.counter];
+				var np = new Pack(packName);
+				np.parent = base;
+				np.onload = p.onload;
+				p = np;
+				np.load();
+			}
+			else {
+				pm.onload();
+			}
+		};
+		p.load();
     };
     
     this.getPack = function(name) {
@@ -64,6 +70,14 @@ Pack.prototype.load = function() {
 		
 		$.get(pack.getRoot() + "/elements.json", function(data, pack) {
 			pack.elements = JSON.parse(data);
+			// inherit elements from base package
+			if(pack.parent) {
+				for(var e in pack.elements) {
+					if(pack.parent.elements[e]) {
+						pack.elements[e] = pack.parent.elements[e];
+					}
+				}
+			}
 			pack.loadIcons();
 		}, pack);
 	}, this);
@@ -72,7 +86,7 @@ Pack.prototype.load = function() {
 Pack.prototype.loadIcons = function() {
     for (var id in this.elements) {
 		var element = this.elements[id];
-		if(element.tab && !element.group) {
+		if(element.tab && !element.group && !element.icon) {
 			this.loadedImages++;
 			
 			var icon = new Image();

@@ -1,4 +1,4 @@
-Make(webapp)
+Make(modules)
 Add(MainForm,1,287,252)
 {
   Width=#3:317|

@@ -419,7 +419,7 @@ SHATab.prototype.createFromData = function(data) {
 	this.sdkEditor.show();
 	this.statusBar.show();
 	this.resize();
-	this.buildMode = sdk.pack.make.length ? sdk.pack.make[0].cmd : "";
+	this.buildMode = sdk.pack.make ? sdk.pack.make[0].cmd : "";
 };
 
 SHATab.prototype.open = function(file, asnew) {
@@ -435,7 +435,7 @@ SHATab.prototype.open = function(file, asnew) {
 			__editor.manager._ontabopen(__editor);
 		}
 		else {
-			displayError({code: error});
+			displayError({code: error, info: file.location()});
 		}
 	});
 };
@@ -665,7 +665,7 @@ SHATab.prototype.updateCommands = function(commander) {
 				commander.checked("bind_padding");
 		}
 		
-		if(user.uid > 1) {
+		if(user.uid > 1 && this.buildMode) {
 			commander.enabled("build");
 			commander.enabled("make");
 //			if(this.buildMode === 0)
@@ -1192,7 +1192,19 @@ function DocumentManageer(options) {
 	};
 	
 	this.open = function(fileName, title) {
-		this.openFile(getFileNode(fileName), title);
+		var fTab = null;
+		this.tabs.each(function(tab){
+			if(tab.content && tab.content.file.location() == fileName) {
+				fTab = tab;
+			}
+		});
+		
+		if(fTab) {
+			this.tabs.select(fTab);
+		}
+		else {
+			this.openFile(getFileNode(fileName), title);
+		}
 	};
 	
 	this.save = function(file) {
@@ -1224,11 +1236,12 @@ function DocumentManageer(options) {
 	this.openNew = function() {
 		var args = [];
 		for(var pack in packMan.packs) {
-			args.push({
-				name: pack,
-				title: packMan.packs[pack].title,
-				projects: packMan.packs[pack].projects
-			});
+			if(packMan.packs[pack].projects.length)
+				args.push({
+					name: pack,
+					title: packMan.packs[pack].title,
+					projects: packMan.packs[pack].projects
+				});
 		}
 		var doc = this;
 	    new Runner("new", function(data) {
