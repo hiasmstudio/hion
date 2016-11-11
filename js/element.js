@@ -205,7 +205,9 @@ SdkElement.prototype.loadFromTemplate = function() {
 	function loadTemplate(element, tid) {
 		var template = element.parent.pack.elements[tid];
 		if(template.inherit) {
-			loadTemplate(element, template.inherit);
+			var arr = template.inherit.split(",");
+			for(var c of arr)
+				loadTemplate(element, c);
 		}
 		if(template.interfaces) {
 			var arr = template.interfaces.split(",");
