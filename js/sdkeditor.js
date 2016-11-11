@@ -1336,7 +1336,6 @@ function SdkEditor() {
 					this.sdk.imgs[i] = this.sdk.imgs[i-1];
 				}
 			}
-			console.log(i)
 			this.sdk.imgs[i] = e;
 			this.draw();
 		}

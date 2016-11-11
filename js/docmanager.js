@@ -833,7 +833,7 @@ SHATab.prototype.moveto = function() {
 	}).run(list);
 };
 
-SHATab.prototype.build = function(mode) {
+SHATab.prototype.build = function(mode, callback) {
 	this.manager.state.set("Build...");
 	var state = this.manager.state;
 	var name = this.file ? this.file.name : "Project.sha";
@@ -861,9 +861,22 @@ SHATab.prototype.build = function(mode) {
 				state.add(line);
 			}
 		}
-		//state.add("Open application in new tab: <a href=\"/users/" + user.uid + "/" + file + ".html\" target=\"_blank\">" + file + ".html</a>");
+		if(callback)
+			callback();
 	}, name.substring(0, name.length - 4));
 };
+
+SHATab.prototype.run = function() {
+	var run = this.sdkEditor.sdk.pack.run;
+	if(run.mode == "internal")
+		this.sdkEditor.run();
+	else if(run.mode == "url") {
+		var url = run.url.replace("%uid%", user.uid).replace("%pname%", this.getTitle().toLowerCase());
+		this.build(this.buildMode, function(){
+			window.open(window.location.origin + url);
+		});
+	}
+}
 
 SHATab.prototype.execCommand = function(cmd, data) {
     switch(cmd) {
@@ -876,7 +889,7 @@ SHATab.prototype.execCommand = function(cmd, data) {
     		break
     	
         case "run":
-        	this.sdkEditor.run();
+        	this.run();
         	if(this.file && !this.saved && window.getOptionBool("opt_save_edit", 0)) {
         		this.saveSDKtoFile();
         	}

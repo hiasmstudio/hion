@@ -1,4 +1,5 @@
 {
 	"title": "Hion modules",
-	"projects": ["MainForm"]
+	"projects": ["MainForm"],
+	"run": { "mode": "internal" }
 }

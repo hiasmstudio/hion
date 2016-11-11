@@ -43,6 +43,7 @@ function Pack(name) {
 	this.loadedImages = 0;
 	this.projects = [];
 	this.make = [];
+	this.run = { mode: "none" };
 	this.title = "";
 }
 
@@ -67,6 +68,8 @@ Pack.prototype.load = function() {
 		pack.projects = js.projects;
 		pack.make = js.make;
 		pack.title = js.title;
+		if(js.run)
+			pack.run = js.run;
 		
 		$.get(pack.getRoot() + "/elements.json", function(data, pack) {
 			pack.elements = JSON.parse(data);
