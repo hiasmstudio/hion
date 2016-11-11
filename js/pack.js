@@ -95,7 +95,7 @@ Pack.prototype.loadIcons = function() {
 			var icon = new Image();
 			icon.src = this.getRoot() + "/icons/" + id + ".ico";
 			icon.pack = this;
-			icon.onload = function(){
+			icon.onerror = icon.onload = function(){
 			    this.pack._loadImage();
 			};
 			
