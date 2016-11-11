@@ -972,7 +972,7 @@
 	},
 	"Hub": {
 		"tab": "tools",
-		"class": "DPElement",
+		"class": "Hub",
 		"sub": "InCount|doEvent,OutCount|onEvent,,",
 		"props": [
 			{ "name": "InCount", "type": 1, "def": 1 },

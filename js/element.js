@@ -1181,21 +1181,8 @@ function createElement(sdk, id, x, y) {
 			}
 			break;
 		case "Hub":
-			i.w = i.minW = 13;
-			i.minH = 13;
-			i.drawIcon = function(ctx) {
-				ctx.strokeStyle = "navy";
-				var c = this.x + this.w/2 + 0.5;
-				ctx.drawLine(c, this.y + POINT_OFF + 3, c, this.y + this.h - POINT_OFF - 1);
-				for(var i = 0; i < Math.max(this.props.InCount.value, this.props.OutCount.value); i++) {
-					var y = this.y + i*7 + POINT_OFF + 3;
-					var x1 = i < this.props.InCount.value ? this.x : c;
-					var x2 = i < this.props.OutCount.value ? this.x + this.w : c;
-					ctx.drawLine(x1, y, x2, y);
-				}
-			};
 			i.onpropchange = function(prop) {
-				DPElement.prototype.onpropchange.call(this, prop);
+				Hub.prototype.onpropchange.call(this, prop);
 				if(prop.name === "InCount") {
 					for(var i in this.points) {
 						if(this.points[i].type === pt_work) {
@@ -1209,7 +1196,6 @@ function createElement(sdk, id, x, y) {
 				}
 			};
 			i.onpropchange(i.props.InCount);
-			i.onpropchange(i.props.OutCount);
 			break;
 		case "HubEx":
 			i.onpropchange(i.props.Angle);
@@ -1240,7 +1226,6 @@ function createElement(sdk, id, x, y) {
 					this.parent[name].call(this.parent.props.Data.value);
 				}
 			};
-			i.onpropchange(i.props.Count);
 			break;
 		case "ChannelToIndex":
 			i.onpropchange = function(prop) {
@@ -3495,16 +3480,17 @@ function DPElement(id) {
 
 DPElement.prototype = Object.create(SdkElement.prototype);
 
-DPElement.prototype.setSDK = function(sdk, x, y) {
-	SdkElement.prototype.setSDK.call(this, sdk, x, y);
+DPElement.prototype.loadFromTemplate = function() {
+	SdkElement.prototype.loadFromTemplate.call(this);
 	
-	var template = sdk.pack.elements[this.name];
+	var template = this.parent.pack.elements[this.name];
 	var arr = template.sub.split(",");
 	this.dyn = {};
 	for(var i in arr) {
 		if(arr[i]) {
 			var kv = arr[i].split("|");
 			this.dyn[kv[0]] = { index: parseInt(i), pname: kv[1] };
+			this.onpropchange(this.props[kv[0]]);
 		}
 	}
 };
@@ -3583,6 +3569,31 @@ DPLElement.prototype._changePoints = function(prop, data) {
 
 DPLElement.prototype._getPointInfo = function(point, data) {
 	return point._dplInfo;
+};
+
+//******************************************************************************
+// Hub
+//******************************************************************************
+
+function Hub(id) {
+	DPElement.call(this, id);
+	
+	this.w = this.minW = 13;
+	this.h = this.minH = 13;
+}
+
+Hub.prototype = Object.create(DPElement.prototype);
+
+Hub.prototype.drawIcon = function(ctx) {
+	ctx.strokeStyle = "navy";
+	var c = this.x + this.w/2 + 0.5;
+	ctx.drawLine(c, this.y + POINT_OFF + 3, c, this.y + this.h - POINT_OFF - 1);
+	for(var i = 0; i < Math.max(this.props.InCount.value, this.props.OutCount.value); i++) {
+		var y = this.y + i*7 + POINT_OFF + 3;
+		var x1 = i < this.props.InCount.value ? this.x : c;
+		var x2 = i < this.props.OutCount.value ? this.x + this.w : c;
+		ctx.drawLine(x1, y, x2, y);
+	}
 };
 
 //******************************************************************************
