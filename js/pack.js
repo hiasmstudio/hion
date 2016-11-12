@@ -43,6 +43,7 @@ function Pack(name) {
 	this.loadedImages = 0;
 	this.projects = [];
 	this.make = [];
+	this.namesmap = {};
 	this.run = { mode: "none" };
 	this.title = "";
 }
@@ -70,6 +71,8 @@ Pack.prototype.load = function() {
 		pack.title = js.title;
 		if(js.run)
 			pack.run = js.run;
+		if(js.namesmap)
+			pack.namesmap = js.namesmap;
 		
 		$.get(pack.getRoot() + "/elements.json", function(data, pack) {
 			pack.elements = JSON.parse(data);
@@ -109,4 +112,8 @@ Pack.prototype._loadImage = function(img) {
 	if(this.loadedImages === 0) {
 		this.onload();
 	}
+};
+
+Pack.prototype.mapElementName = function(name) {
+	return this.namesmap[name] || name;
 };

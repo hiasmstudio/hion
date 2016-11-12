@@ -1585,6 +1585,48 @@ MultiElementEditorEx.prototype.getPointInfo = function(point) {
 };
 
 //******************************************************************************
+// MultiElement
+//******************************************************************************
+
+function MultiElement(id) {
+	SdkElement.call(this, id);
+}
+
+MultiElement.prototype = Object.create(SdkElement.prototype);
+
+MultiElement.prototype.getEditorName = function() {
+	return "MultiElementEditor";
+};
+
+MultiElement.prototype.loadFromTemplate = function() {
+	SdkElement.prototype.loadFromTemplate.call(this);
+	
+	this.sdk = new SDK(this.parent.pack);
+	this.sdk.parent = this.parent;
+	this.sdk.parentElement = this;
+	var offset = window.getOptionInt("opt_multi_offset", 7);
+	this.sdk.add(this.getEditorName(), offset, offset);
+};
+
+//******************************************************************************
+// MultiElementEx
+//******************************************************************************
+
+function MultiElementEx(id) {
+	MultiElement.call(this, id);
+}
+
+MultiElementEx.prototype = Object.create(MultiElement.prototype);
+
+MultiElementEx.prototype.getEditorName = function() {
+	return "MultiElementEditorEx";
+};
+
+MultiElementEx.prototype.getPointInfo = function(point) {
+	return this.sdk.imgs[0].points[point.name]._dplInfo;
+};
+
+//******************************************************************************
 // Debug
 //******************************************************************************
 

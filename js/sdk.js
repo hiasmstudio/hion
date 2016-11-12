@@ -189,7 +189,7 @@ function SDK(pack) {
 	};
 
 	this.add = function (id, x, y) {
-		var e = createElement(this, id, x, y);
+		var e = createElement(this, this.pack.mapElementName(id), x, y);
 		e.eid = this.getNextID();
 		this.imgs.push(e);
 		this.onaddelement(e);

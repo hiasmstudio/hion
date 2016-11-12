@@ -1036,7 +1036,8 @@
 	
 	"containers": { "tab": "tools", "group": true },
 	"MultiElement": {
-		"tab": "tools"
+		"tab": "tools",
+		"class": "MultiElement"
 	},
 	"MultiElementEditor": {
 		"class": "MultiElementEditor",
@@ -1055,7 +1056,8 @@
 		]
 	},
 	"MultiElementEx": {
-		"tab": "tools"
+		"tab": "tools",
+		"class": "MultiElementEx"
 	},
 	"MultiElementEditorEx": {
 		"class": "MultiElementEditorEx",
