@@ -371,6 +371,9 @@ function SDK(pack) {
 			} else if(line.substr(0, 1) === "@") {
 				var pSys = line.substr(1, line.length - 1).split("=");
 				var name = pSys[0];
+				// support hiasm4
+				if(name == "Hint")
+					name = "Comment";
 				//e.setProperty(p[0], p[1]);
 				parseProperty(name, e.sys[name], pSys[1]);
 			} else if(line.substr(0, 7) === "AddHint") {
