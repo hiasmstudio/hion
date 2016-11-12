@@ -53,7 +53,7 @@ Palette.prototype.show = function(pack) {
 		var element = pack.elements[i];
 		if(isValidTab(element.tab) && !tabs[element.tab]) {
 			var tab = new Spoiler({
-				caption: window.translate.translate("tab." + element.tab)
+				caption: pack.translate("tab." + element.tab)
 			});
 			tab.name = element.tab;
 			tabs[element.tab] = tab;
@@ -67,7 +67,7 @@ Palette.prototype.show = function(pack) {
 		var element = pack.elements[id];
 		if(isValidTab(element.tab)) {
 			if(element.group) {
-				tabs[element.tab].body().n("div").class("group").html(window.translate.translate("group." + id));
+				tabs[element.tab].body().n("div").class("group").html(pack.translate("group." + id));
 			}
 			else {
 				var e = tabs[element.tab].body().n("div").class("element").attr("eid", id)
@@ -75,8 +75,8 @@ Palette.prototype.show = function(pack) {
 						var tpl = pack.elements[this.eid];
 						var h = __editor.hint.body();
 						var header = h.n("div").class("header");
-						header.html(window.translate.translate(this.eid));
-						h.n("div").html(window.translate.translate("el." + this.eid));
+						header.html(pack.translate(this.eid));
+						h.n("div").html(pack.translate("el." + this.eid));
 						__editor.hint.show(e.clientX + 16, e.clientY + 16);
 					})
 					.on("onmouseleave", function(){__editor.hint.close();});

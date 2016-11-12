@@ -1031,7 +1031,7 @@ function SdkEditor() {
 			if(obj.type === 1) {
 				var h = this.hint.body();
 				h.n("div").class("header").html(obj.obj.name);
-				h.n("div").html(window.translate.translate(obj.obj.info));
+				h.n("div").html(this.sdk.pack.translate(obj.obj.info));
 				var footer = null;
 				for(var i in obj.obj.props) {
 					var prop = obj.obj.props[i];
@@ -1055,7 +1055,7 @@ function SdkEditor() {
 				if(obj.obj.args) {
 					header.n("span").style("fontWeight", "normal").html(" (" + obj.obj.args + ")");
 				}
-				h.n("div").html(window.translate.translate(obj.obj.parent.getPointInfo(obj.obj)));
+				h.n("div").html(this.sdk.pack.translate(obj.obj.parent.getPointInfo(obj.obj)));
 			}
 			else if(obj.type === 5) {
 				this.hint.body().html(obj.obj.prop ? obj.obj.prop.name : "not selected");

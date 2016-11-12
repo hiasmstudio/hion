@@ -44,6 +44,7 @@ function Pack(name) {
 	this.projects = [];
 	this.make = [];
 	this.namesmap = {};
+	this.strings = {};
 	this.run = { mode: "none" };
 	this.title = "";
 }
@@ -64,27 +65,31 @@ Pack.prototype.getEditorsPath = function() {
 };
 
 Pack.prototype.load = function() {
-	$.get(this.getRoot() + "/pack.json", function(data, pack) {
-		var js = JSON.parse(data);
-		pack.projects = js.projects;
-		pack.make = js.make;
-		pack.title = js.title;
-		if(js.run)
-			pack.run = js.run;
-		if(js.namesmap)
-			pack.namesmap = js.namesmap;
-		
-		$.get(pack.getRoot() + "/elements.json", function(data, pack) {
-			pack.elements = JSON.parse(data);
-			// inherit elements from base package
-			if(pack.parent) {
-				for(var e in pack.elements) {
-					if(pack.parent.elements[e]) {
-						pack.elements[e] = pack.parent.elements[e];
+	$.get(this.getRoot() + "/lang/" + translate.getLang() + ".json", function(data, pack) {
+		pack.strings = JSON.parse(data);
+	
+		$.get(pack.getRoot() + "/pack.json", function(data, pack) {
+			var js = JSON.parse(data);
+			pack.projects = js.projects;
+			pack.make = js.make;
+			pack.title = js.title;
+			if(js.run)
+				pack.run = js.run;
+			if(js.namesmap)
+				pack.namesmap = js.namesmap;
+
+			$.get(pack.getRoot() + "/elements.json", function(data, pack) {
+				pack.elements = JSON.parse(data);
+				// inherit elements from base package
+				if(pack.parent) {
+					for(var e in pack.elements) {
+						if(pack.parent.elements[e]) {
+							pack.elements[e] = pack.parent.elements[e];
+						}
 					}
 				}
-			}
-			pack.loadIcons();
+				pack.loadIcons();
+			}, pack);
 		}, pack);
 	}, this);
 };
@@ -116,4 +121,13 @@ Pack.prototype._loadImage = function(img) {
 
 Pack.prototype.mapElementName = function(name) {
 	return this.namesmap[name] || name;
+};
+
+Pack.prototype.translate = function(string) {
+	if(this.strings[string])
+		return this.strings[string];
+	if(this.parent && this.parent.strings[string])
+		return this.parent.strings[string];
+	
+	return string;
 };
