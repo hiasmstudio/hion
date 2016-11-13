@@ -63,7 +63,7 @@ function PropertyEditor(options) {
 	};
 	this.points.onselect = function(item, text) {
 		var e = pEditor.selMan.items[0];
-		pEditor.infoBox.caption = translate.translate(e.getPointInfo(item.point));
+		pEditor.infoBox.caption = pEditor.editor.translator.translate(e.getPointInfo(item.point));
 	};
 	this.panel.appendChild(this.points.getControl());
 	
@@ -93,7 +93,7 @@ function PropertyEditor(options) {
 		pEditor.onadveditor(item);
 	};
 	this.editor.onselect = function(item) {
-		pEditor.infoBox.caption = item ? translate.translate(item.info) : "";
+		pEditor.infoBox.caption = item ? this.translator.translate(item.info) : "";
 	};
 	this.panel.appendChild(this.editor.getControl());
 
@@ -106,6 +106,7 @@ function PropertyEditor(options) {
 		if(selMan === null || selMan.items.length === 0) {
 			return;
 		}
+		this.editor.translator = selMan.sdk.pack;
 		
 		// properties
 		function getSimilarProps(sys) {
@@ -479,7 +480,7 @@ UIPropertyEditor.prototype.edit = function(items) {
 					}
 					__editor.groupState[this.parentNode.parentNode.group.name] = checked;
 				});
-				g.n("span").class("caption").html(translate.translate(group.name));
+				g.n("span").class("caption").html(this.translator.translate(group.name));
 			}
 		}
 		else {
