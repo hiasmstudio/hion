@@ -292,8 +292,12 @@ function SDK(pack) {
 		}
 		function parseProperty(name, prop, value) {
 			if(prop.type === DATA_LIST || prop.type === DATA_STR) {
-				if(value.substr(0, 1) === "#") {
+				var c = value.substr(0, 1);
+				if(c === "#") {
 					value = parseStringValue(value);
+				}
+				else if(c === "\"") {
+					value = value.substr(1, value.length-2);
 				}
 			}
 			else if(prop.type === DATA_DATA) {
@@ -375,7 +379,10 @@ function SDK(pack) {
 				if(name == "Hint")
 					name = "Comment";
 				//e.setProperty(p[0], p[1]);
-				parseProperty(name, e.sys[name], pSys[1]);
+				if(e.sys[name])
+					parseProperty(name, e.sys[name], pSys[1]);
+				else
+					printError("System property not found: " + name + ", " + line);
 			} else if(line.substr(0, 7) === "AddHint") {
 				var name = line.substr(8, line.length - 9);
 				var hintParams = name.split(",");
