@@ -465,7 +465,8 @@ SdkElement.prototype.drawHints = function(ctx) {
 		
 		var text = h.prop ? h.prop.getText() : "(empty)";
 		var m = ctx.measureText(text);
-		h.width = m.width + 8;
+		var textOffset = h.prop.type == DATA_COLOR ? 18 : 0;
+		h.width = m.width + 8 + textOffset;
 		h.height = 12 + 6;
 		
 		// line
@@ -510,7 +511,17 @@ SdkElement.prototype.drawHints = function(ctx) {
 
 		// text
 		ctx.fillStyle = "black";
-		ctx.fillText(text, x + 2, y + 12 + 1);
+		ctx.fillText(text, x + 2 + textOffset, y + 12 + 1);
+		
+		if(h.prop.type == DATA_COLOR) {
+			ctx.strokeStyle = "#808080";
+			ctx.fillStyle = h.prop.value;
+			ctx.beginPath();
+			ctx.rect(x + 6, y + 4, 10, 10);
+			ctx.closePath();
+			ctx.fill();
+			ctx.stroke();
+		}
 	}
 };
 SdkElement.prototype.drawPoints = function(ctx) {
