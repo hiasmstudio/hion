@@ -11,6 +11,7 @@ function PackManager() {
 		var packName = packs[this.counter];
 		var p = new Pack(packName);
 		var base = p;
+		pm.state(packName);
 		p.onload = function() {
 			pm.packs[packName] = p;
 			pm.counter++;
@@ -21,6 +22,7 @@ function PackManager() {
 				np.parent = base;
 				np.onload = p.onload;
 				p = np;
+				pm.state(packName);
 				np.load();
 			}
 			else {
@@ -29,6 +31,10 @@ function PackManager() {
 		};
 		p.load();
     };
+	
+	this.state = function(text) {
+		this.task.parent.state("Load " + text + "...");
+	};
     
     this.getPack = function(name) {
         return this.packs[name];
