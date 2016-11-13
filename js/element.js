@@ -1006,7 +1006,7 @@ ITElement.prototype.draw = function(ctx) {
 	ctx.rect(this.x + offset, this.y + offset, this.w - 2*offset, this.h - 2*offset);
 	ctx.clip();
 	ctx.fillStyle = "#000";
-	ctx.font = "14px Arial";
+	ctx.font = "12px Arial";
 	
 	var lines = wrapText(ctx, this.props.Info.value, this.w - 2*offset);
 	var y = this.y + 12;
@@ -1062,7 +1062,7 @@ LTElement.prototype.onpropchange = function(prop) {
 };
 
 LTElement.prototype.draw = function(ctx) {
-	ctx.font = "14px Arial";
+	ctx.font = "12px Arial";
 
 	if(this.needCalcSize) {
 		var metrics = ctx.measureText(this.props.Link.value);
