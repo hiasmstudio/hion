@@ -86,7 +86,7 @@ Add(ArrayBuilder,55,385,273)
   Items=#4:icon|4:info|5:entry|
   link(onBuild,53:doAddRow,[(436,279)(436,216)])
   link(icon,56:FString,[(391,261)(314,261)])
-  link(entry,30:Item,[(405,252)(181,252)])
+  link(entry,133:Result,[(405,253)(265,253)])
 }
 Add(FormatStr,56,308,210)
 {
