@@ -19,12 +19,12 @@ Add(MultiElementEditorEx,5,7,7)
   EventCount=#8:onSelect|
   VarCount=#4:pack|7:project|
   @VOffset=70
-  @HOffset=343
+  @HOffset=490
   @Width=622
   @Height=319
   link(doLoad,28:doValue,[])
-  link(pack,111:Var3,[(356,196)])
-  link(project,54:Value,[(363,306)(510,306)])
+  link(pack,111:Var3,[(503,196)])
+  link(project,54:Value,[])
 }
 Add(Panel,9,84,28)
 {
@@ -46,11 +46,11 @@ Add(ListBox,11,343,84)
   link(onSelect,31:doEvent1,[])
   link(Str,80:Result,[])
 }
-Add(Memory,28,84,77)
+Add(Memory,28,49,77)
 {
   link(onData,96:doEnum,[])
 }
-Add(ArrayEnum,30,224,210)
+Add(ArrayEnum,30,175,210)
 {
   link(onEnum,122:doEvent1,[])
 }
@@ -58,7 +58,7 @@ Add(Hub,31,399,84)
 {
   OutCount=3
   link(onEvent1,53:doClear,[(432,90)(432,223)])
-  link(onEvent2,98:doRead,[(426,97)(426,138)(70,138)(70,209)])
+  link(onEvent2,98:doRead,[(426,97)(426,137)(32,137)(32,209)])
   link(onEvent3,43:doWork1,[])
 }
 Add(ChannelToIndex,43,560,98)
@@ -81,12 +81,12 @@ Add(ArrayRead,54,504,210)
   Index=2
   link(onRead,43:doWork2,[(548,216)(548,111)])
 }
-Add(ArrayBuilder,55,385,210)
+Add(ArrayBuilder,55,385,273)
 {
   Items=#4:icon|4:info|5:entry|
-  link(onBuild,53:doAddRow,[])
-  link(icon,56:FString,[(391,196)(364,196)(364,263)(314,263)])
-  link(entry,30:Item,[(405,197)(425,197)(425,255)(230,255)])
+  link(onBuild,53:doAddRow,[(436,279)(436,216)])
+  link(icon,56:FString,[(391,261)(314,261)])
+  link(entry,30:Item,[(405,252)(181,252)])
 }
 Add(FormatStr,56,308,210)
 {
@@ -99,7 +99,7 @@ Add(FormatStr,67,294,84)
   Mask=#16:pack/%1/icon.png|
   link(onFString,11:doAdd,[])
 }
-Add(JSON_Field,79,175,210)
+Add(JSON_Field,79,126,210)
 {
   Name=#8:projects|
   AddHint(-13,-34,0,0,Name)
@@ -115,7 +115,7 @@ Add(Hub,83,203,77)
   link(onEvent1,80:doGet,[(233,83)(233,34)])
   link(onEvent2,97:doGet,[])
 }
-Add(ArrayEnum,96,140,77)
+Add(ArrayEnum,96,105,77)
 {
   link(onEnum,83:doEvent1,[])
 }
@@ -125,7 +125,7 @@ Add(JSON_Field,97,245,84)
   AddHint(-4,44,0,0,Name)
   link(onGet,67:doString,[])
 }
-Add(ArrayRead,98,84,203)
+Add(ArrayRead,98,49,203)
 {
   link(onRead,109:doEvent1,[])
   link(Array,28:Value,[])
@@ -134,28 +134,31 @@ Add(JSON_Field,108,315,154)
 {
   Name=#4:name|
 }
-Add(Hub,109,133,203)
+Add(Hub,109,98,203)
 {
-  link(onEvent1,108:doGet,[(163,209)(163,164)(163,160)])
+  link(onEvent1,108:doGet,[(123,209)(123,164)(123,160)])
   link(onEvent2,79:doGet,[])
 }
 Add(GetDataEx,111,315,189)
 {
   link(Data,108:Result,[])
 }
-Add(hcTranslator,121,315,273)
+Add(Hub,122,224,210)
 {
-  link(onTranslate,55:doBuild,[(376,279)(376,216)])
+  link(onEvent1,133:doGet,[])
+  link(onEvent2,134:doGet,[(251,223)(251,279)])
 }
-Add(Hub,122,273,210)
+Add(JSON_Field,133,259,210)
 {
-  link(onEvent1,56:doString,[])
-  link(onEvent2,123:doStrCat,[(300,223)(300,260)(246,260)(246,279)])
+  Name=#5:entry|
+  AddHint(-1,-34,0,0,Name)
+  link(onGet,56:doString,[])
 }
-Add(StrCat,123,259,273)
+Add(JSON_Field,134,259,273)
 {
-  Str1=#3:el.|
-  link(onStrCat,121:doTranslate,[])
+  Name=#4:info|
+  AddHint(-79,7,0,0,Name)
+  link(onGet,55:doBuild,[])
 }
 END_SDK
 Add(MultiElementEx,8,231,126)

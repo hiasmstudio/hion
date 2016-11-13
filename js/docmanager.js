@@ -1249,12 +1249,17 @@ function DocumentManageer(options) {
 	this.openNew = function() {
 		var args = [];
 		for(var pack in packMan.packs) {
-			if(packMan.packs[pack].projects.length)
+			if(packMan.packs[pack].projects.length) {
+				var proj = [];
+				for(var p of packMan.packs[pack].projects) {
+					proj.push({entry: p, info: packMan.packs[pack].translate("el." + p)});
+				}
 				args.push({
 					name: pack,
 					title: packMan.packs[pack].title,
-					projects: packMan.packs[pack].projects
+					projects: proj
 				});
+			}
 		}
 		var doc = this;
 	    new Runner("new", function(data) {
