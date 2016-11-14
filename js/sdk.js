@@ -274,63 +274,6 @@ function SDK(pack) {
 			this.resetID();
 		}
 		
-		function parseStringValue(value) {
-			var fIndex = 1;
-			var p1 = 0;
-			var lines = [];
-			var counter = 0;
-			while( (p1 = value.indexOf(":", fIndex)) > 0 && counter < 2000) {
-				var len = parseInt(value.substr(fIndex, p1-fIndex));
-				lines.push(len ? value.substr(p1+1, len) : "");
-				fIndex = p1 + len + 2;
-				counter++;
-			}
-			if(counter == 2000) {
-				console.error("To many lines in project!");
-			}
-			return lines.join("\n").replace(/\\r/g, "\r");
-		}
-		function parseProperty(name, prop, value) {
-			if(prop.type === DATA_LIST || prop.type === DATA_STR) {
-				var c = value.substr(0, 1);
-				if(c === "#") {
-					value = parseStringValue(value);
-				}
-				else if(c === "\"") {
-					value = value.substr(1, value.length-2);
-				}
-			}
-			else if(prop.type === DATA_DATA) {
-				var i = value.indexOf("(");
-				if(i > 0) {
-					var type = value.substr(0, i);
-					var v = value.substr(i + 1, value.length - i - 2);
-					if(type === "String") {
-						value = v.substr(0, 1) == "#" ? parseStringValue(v) : v;
-					}
-					else if(type === "Integer") {
-						value = parseInt(v);
-					}
-					else if(type === "Real") {
-						value = parseFloat(v);
-					}
-				}
-				else {
-					value = parseStringValue(value);
-					if(!isNaN(parseInt(value))) {
-						value = parseInt(value);
-					}
-					else if(!isNaN(parseFloat(value))) {
-						value = parseFloat(value);
-					}
-				}
-			}
-			else if(prop.type === DATA_MANAGER) {
-				value = value.substr(1, value.length - 2);
-			}
-			e.setProperty(name, value);
-		}
-
 		for (; index < arr.length; index++) {
 			var line = arr[index].trim();
 			if (line.length === 0)
@@ -378,9 +321,9 @@ function SDK(pack) {
 				// support hiasm4
 				if(name == "Hint")
 					name = "Comment";
-				//e.setProperty(p[0], p[1]);
+				
 				if(e.sys[name])
-					parseProperty(name, e.sys[name], pSys[1]);
+					e.sys[name].parse(pSys[1]);
 				else
 					printError("System property not found: " + name + ", " + line);
 			} else if(line.substr(0, 7) === "AddHint") {
@@ -403,7 +346,7 @@ function SDK(pack) {
 				var ind = line.indexOf("=");
 				var name = line.substr(0, ind).trim();
 				if (e.props[name]) {
-					parseProperty(name, e.props[name], line.substr(ind+1));
+					e.props[name].parse(line.substr(ind+1));
 				}
 				else if(e.loadFromText(line)) {
 					// do nothing

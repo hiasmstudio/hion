@@ -251,6 +251,8 @@ UIPropertyEditor.prototype._getDisplayValue = function(item) {
 				return "#" + value;
 			}
 			break;
+		case DATA_FONT:
+			return item.value.name;
 	}
 	return value;
 };

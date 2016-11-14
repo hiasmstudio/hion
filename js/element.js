@@ -20,16 +20,19 @@ var DATA_STR      = 2;
 var DATA_DATA     = 3;
 var DATA_ENUM     = 4;
 var DATA_LIST     = 5;
+var DATA_ICON     = 6;	 // no support
 var DATA_REAL     = 7;
 var DATA_COLOR    = 8;
 var DATA_ENUMEX   = 14;
+var DATA_FONT     = 15;
 var DATA_MANAGER  = 20;
+var DATA_FLAGS    = 21;  // no support
 
 function ElementProperty(parent, inherit, template) {
-	this.value = this.def = template.def;
 	this.type = template.type;
 	this.name = template.name;
-	this.parent = parent;
+	this.parse(template.def);
+	this.def = this.value;
 	this.inherit = inherit;
 	if(template.title) {
 		this.title = template.title;
@@ -44,11 +47,13 @@ function ElementProperty(parent, inherit, template) {
 	if(template.editor) {
 		this.editor = template.editor;
 	}
+	this.parent = parent;
 }
 
 ElementProperty.prototype.isDef = function() { return this.value === this.def; };
 ElementProperty.prototype.isDefaultEdit = function() { return this.flags & PROP_FLAG_DEFAULT; };
 ElementProperty.prototype.isPoint = function() { return this.flags & PROP_FLAG_POINT; };
+
 ElementProperty.prototype.serialize = function() {
 	function serializeString(value) {
 		var arr = value.toString().replace(/\r/g, "\\r").split("\n");
@@ -72,10 +77,104 @@ ElementProperty.prototype.serialize = function() {
 			}
 		case DATA_MANAGER:
 			return '"' + this.value + '"';
+		case DATA_FONT:
+			return '[' + this.value.name + ',' + this.value.size + ',' + this.value.flags + ',' + this.value.color + ',' + this.value.charset + ']';
 	}
 	
 	return this.value.toString();
 };
+function parseStringValue(value) {
+	var fIndex = 1;
+	var p1 = 0;
+	var lines = [];
+	var counter = 0;
+	while( (p1 = value.indexOf(":", fIndex)) > 0 && counter < 2000) {
+		var len = parseInt(value.substr(fIndex, p1-fIndex));
+		lines.push(len ? value.substr(p1+1, len) : "");
+		fIndex = p1 + len + 2;
+		counter++;
+	}
+	if(counter == 2000) {
+		console.error("To many lines in project!");
+	}
+	return lines.join("\n").replace(/\\r/g, "\r");
+}
+function hex(v) {
+	var r = v.toString(16);
+	return r.length == 1 ? "0" + r : r;
+}
+ElementProperty.prototype.parse = function(value) {
+	switch(this.type) {
+		case DATA_LIST:
+		case DATA_STR:
+			if(value) {
+				var c = value.charAt(0);
+				if(c === "#") {
+					this.value = parseStringValue(value);
+				}
+				else if(c === "\"") {
+					this.value = value.substr(1, value.length-2);
+				}
+				else {
+					this.value = value;
+				}
+			}
+			else {
+				this.value = "";
+			}
+			break;
+		case DATA_DATA:
+			var i = typeof value === "string" ? value.indexOf("(") : 0;
+			if(i > 0) {
+				var type = value.substr(0, i);
+				var v = value.substr(i + 1, value.length - i - 2);
+				if(type === "String") {
+					this.value = v.substr(0, 1) == "#" ? parseStringValue(v) : v;
+				}
+				else if(type === "Integer") {
+					this.value = parseInt(v);
+				}
+				else if(type === "Real") {
+					this.value = parseFloat(v);
+				}
+			}
+			else {
+				if(!isNaN(parseFloat(value))) {
+					this.value = parseFloat(value);
+				}
+				else {
+					this.value = value;
+				}
+			}
+			break;
+		case DATA_INT:
+		case DATA_ENUM:
+		case DATA_ENUMEX:
+			this.value = value ? parseInt(value) : 0;
+			break;
+		case DATA_MANAGER:
+			this.value = value.substr(1, value.length - 2);
+			break;
+		case DATA_COLOR:
+			if(typeof value === "number" || value.charAt(0) >= '0' && value.charAt(0) <= '9') {
+				var v = parseInt(value);
+				this.value = '#' + hex(v & 0xff) + hex((v >> 8) & 0xff) + hex(v >> 16);
+			}
+			else {
+				this.value = value;
+			}
+			break;
+		case DATA_FONT:
+			this.value = {name: "Courier New", size: 8, flags: 0, color: 0, charset: 0};
+			break;
+		default:
+			this.value = value;
+	}
+	
+	if(this.parent)
+		this.parent.onpropchange(this);
+};
+
 ElementProperty.prototype.getText = function() {
 	switch(this.type) {
 		case DATA_ENUM:
@@ -109,7 +208,8 @@ ElementProperty.prototype.getInfo = function() {
 	return this.inherit + "." + this.name;
 };
 ElementProperty.prototype.setValue = function(value) {
-	this.parent.setProperty(this.name, value);
+	this.value = value;
+	this.parent.onpropchange(this);
 };
 
 ElementProperty.prototype.getTranslateValue = function() {
@@ -550,21 +650,11 @@ SdkElement.prototype.addHint = function(x, y, prop) {
 	return h;
 };
 
-SdkElement.prototype.setProperty = function(prop, value) {
-	var p = this.props[prop];
-	if(!p) {
-		p = this.sys[prop];
-	}
-	switch(p.type) {
-		case DATA_INT:
-		case DATA_ENUM:
-		case DATA_ENUMEX:
-			p.value = parseInt(value);
-			break;
-		default:
-			p.value = value;
-	}
-	this.onpropchange(p);
+SdkElement.prototype.setProperty = function(name, value) {
+	var prop = this.props[name] || this.sys[name];
+	if(!prop)
+		console.error("Property", name, "not found.")
+	prop.parse(value);
 };
 
 SdkElement.prototype.move = function (dx, dy) {
