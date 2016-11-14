@@ -70,6 +70,10 @@ Pack.prototype.getEditorsPath = function() {
     return this.getRoot() + "/editors/";
 };
 
+Pack.prototype.getSmallIcon = function() {
+    return this.getRoot() + "/icon.png";
+};
+
 Pack.prototype.load = function() {
 	$.get(this.getRoot() + "/lang/" + translate.getLang() + ".json", function(data, pack) {
 		pack.strings = JSON.parse(data);

@@ -431,6 +431,7 @@ SHATab.prototype.open = function(file, asnew) {
 		if(error === 0) {
 			__editor.createFromData(data);
 			__editor.tab.load(false);
+			__editor.tab.icon = __editor.sdkEditor.sdk.pack.getSmallIcon();
 			commander.reset();
 			__editor.manager._ontabopen(__editor);
 		}
