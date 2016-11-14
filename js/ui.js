@@ -1695,7 +1695,7 @@ function Tab(options) {
 	var sel = function() {
 		parent.parent.select(parent);
 	};
-	tab.n("div").class("icon").on("onclick", sel);
+	this._icon = tab.n("div").class("icon").on("onclick", sel);
 	this._title = tab.n("div").class("title").html(options.caption).on("onclick", sel);
 	tab.n("div").class("close").attr("title", "Close tab").html("&#10006;").on("onclick", function() {
 		parent.parent.close(parent);
@@ -1728,6 +1728,15 @@ Object.defineProperty(Tab.prototype, "title", {
 	},
 	set: function(value) {
 		this._ctl.setAttribute("title", value);
+	}
+});
+
+Object.defineProperty(Tab.prototype, "icon", {
+	get: function() {
+		return this._icon.element.style.backgroundImage;
+	},
+	set: function(value) {
+		this._icon.style("background-image", "url('" + value + "')");
 	}
 });
 
