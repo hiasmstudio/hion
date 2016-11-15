@@ -1619,7 +1619,7 @@ function Splitter(options) {
 	
 	this.onresize = function(){};
 	
-	this._ctl = new Builder().n("div").class("ui-splitter").attr("parent", this).on("onmousedown", function(event) {
+	this._ctl = new Builder().n("div").class("ui-splitter " + (options.theme || "")).attr("parent", this).on("onmousedown", function(event) {
 		__sliderManaged = this.parent.manage;
 		__sliderDragObj = {x: event.clientX, y: event.clientY, w: __sliderManaged.width, h: __sliderManaged.height, ctl: this.parent};
 		document.addEventListener("mousemove", options.edge % 2 === 1 ? __sliderMoveX : __sliderMoveY);

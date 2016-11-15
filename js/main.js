@@ -247,24 +247,19 @@ function loadWorkspace() {
 			delete this.task;
 		};
 		packMan.task = this;
-		packMan.load(["base", "webapp", "modules", "qt"]);
+		packMan.load(["base", "webapp", "modules"]);
 	}));
-//	loader.add(new LoaderTask(function(){
-//		this.parent.state("Next load...");
-//		palette.onload = function() {
-//			this.task.taskComplite("Palette loaded.");
-//			delete this.task;
-//		};
-//		palette.task = this;
-//		palette.load(packMan);
-//	}));
+
 	loader.run();
 
-	palette = new Palette({});
+	palette = new Palette({width: window.localStorage.getItem("palette_width", 142)});
 	palette.onselect = function(obj) {
 		commander.execCommand("addelement", obj);
 	};
 	workspace.add(palette);
+	var splitter = new Splitter({edge: 3});
+	splitter.setManage(palette);
+	splitter.onresize = function(){ window.localStorage.setItem("palette_width", palette.width) };
 	
 	docManager = new DocumentManageer({});
 	docManager.ontabselect = docManager.ontabopen = function(tab){
@@ -295,8 +290,11 @@ function loadWorkspace() {
 	};
 	workspace.add(docManager);
 
-	propEditor = new PropertyEditor({});
+	propEditor = new PropertyEditor({width: window.localStorage.getItem("prop_width", 173)});
 	workspace.add(propEditor);
+	var splitter = new Splitter({edge: 1, theme: "prop-splitter"});
+	splitter.setManage(propEditor);
+	splitter.onresize = function(){ window.localStorage.setItem("prop_width", propEditor.width) };
 
 	fileManager = new FileManager();
 	fileManager.onfilename = function(fileName){

@@ -67,11 +67,15 @@ function PropertyEditor(options) {
 	};
 	this.panel.appendChild(this.points.getControl());
 	
-	var iPanel = new Panel({height: 49, theme: "ui-pannel-top-left"});
+	var iPanel = new Panel({height: window.localStorage.getItem("prop_info_height", 50)});
 	iPanel.layout.setOptions({padding: 3});
 	this.infoBox = new Label({});
 	iPanel.add(this.infoBox);
 	this.add(iPanel);
+	
+	var splitter = new Splitter({edge: 0});
+	splitter.setManage(iPanel);
+	splitter.onresize = function(){ window.localStorage.setItem("prop_info_height", iPanel.height) };
 	
 	this.editor.oncheck = function(item, checked) {
 		pEditor.selMan.changePoint(item.name, checked);

@@ -81,6 +81,15 @@
 	align-content: stretch;
 	align-items: stretch;
 	flex-basis: 100%;
+	
+	> .ui-splitter {
+		border-top: 1px solid $borderLight;
+		border-right: 1px solid $borderDark;
+	}
+	.prop-splitter {
+		border-left: 1px solid $borderLight;
+		border-right: 0;
+	}
 }
 
 .ui-property-editor {

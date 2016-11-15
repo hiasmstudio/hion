@@ -1,7 +1,7 @@
 @import "config";
 
 .props {
-    border-left: 1px solid $borderLight;
+/*    border-left: 1px solid $borderLight;*/
     border-top: 1px solid $borderLight;
     width: 200px;
     vertical-align: top;
@@ -15,6 +15,7 @@
     
     .pan {
         border-bottom: 1px solid $borderDark;
+		border-left: 1px solid $borderDark;
         flex-grow: 1;
         position: relative;
         > .content { overflow: auto; position: absolute; top: 0; bottom: 0; }
@@ -32,5 +33,13 @@
 		position: absolute;
 		top: 0; bottom: 0; left: 0; right: 0;
     }
+	
+	.ui-splitter {
+		border-top: 1px solid $borderLight;
+	}
+	
+	.ui-panel {
+		border: 0;
+	}
 }
 

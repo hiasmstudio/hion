@@ -777,7 +777,7 @@ textarea {
   width: 142px; }
   .palette > .pl-body {
     border-top: 1px solid white;
-    border-right: 1px solid #dcd0c3;
+    /*border-right: 1px solid $borderDark;*/
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
@@ -810,7 +810,7 @@ textarea {
       padding-left: 5px; }
 
 .props {
-  border-left: 1px solid white;
+  /*    border-left: 1px solid $borderLight;*/
   border-top: 1px solid white;
   width: 200px;
   vertical-align: top;
@@ -826,6 +826,7 @@ textarea {
     width: 100%; }
   .props .pan {
     border-bottom: 1px solid #dcd0c3;
+    border-left: 1px solid #dcd0c3;
     flex-grow: 1;
     position: relative; }
     .props .pan > .content {
@@ -845,6 +846,10 @@ textarea {
     bottom: 0;
     left: 0;
     right: 0; }
+  .props .ui-splitter {
+    border-top: 1px solid white; }
+  .props .ui-panel {
+    border: 0; }
 
 .borderin {
   border: 1px solid white;
@@ -906,6 +911,12 @@ textarea {
   align-content: stretch;
   align-items: stretch;
   flex-basis: 100%; }
+  .ui-workspace > .ui-splitter {
+    border-top: 1px solid white;
+    border-right: 1px solid #dcd0c3; }
+  .ui-workspace .prop-splitter {
+    border-left: 1px solid white;
+    border-right: 0; }
 
 .ui-property-editor {
   cursor: default;
