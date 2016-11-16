@@ -109,7 +109,7 @@ ElementProperty.prototype.parse = function(value) {
 		case DATA_STR:
 			if(value) {
 				var c = value.charAt(0);
-				if(c === "#") {
+				if(c === "#" && value.charAt(1) !== "#") {
 					this.value = parseStringValue(value);
 				}
 				else if(c === "\"") {
@@ -538,6 +538,16 @@ SdkElement.prototype.connectToPoint = function(point) {
 };
 SdkElement.prototype.getPointInfo = function(point) {
 	return this.name + "." + point.name;	
+};
+SdkElement.prototype.showDefaultPoint = function(name) {
+	// TODO optimize
+	for(var p of this.pointsEx) {
+		if(p.name === name) {
+			return this.addPoint(name, p.type);
+		}
+	}
+	
+	return null;
 };
 
 // draw
@@ -1586,9 +1596,6 @@ MultiElementEditor.prototype.onpropchange = function(prop) {
 		this.rePosPoints();
 	}
 	else {
-		var oldW = this.w;
-		var oldH = this.h;
-
 		var arr = {WorkCount:0, EventCount:1, VarCount:2, DataCount:3};
 		var arrNames = ["doWork", "onEvent", "Var", "Data"];
 		var t = arr[prop.name];
@@ -1599,9 +1606,7 @@ MultiElementEditor.prototype.onpropchange = function(prop) {
 				for(var i = 0; i < eDelta; i++) {
 					var _name = arrNames[t] + (this.psize[newType] + 1);
 
-					var pointParent = this.parent.parentElement.addPoint(_name, t+1);
 					var point = this.addPoint(_name, newType+1);
-					this.addEvent(point, pointParent);
 				}
 			}
 			else if(eDelta < 0) {
@@ -1609,7 +1614,6 @@ MultiElementEditor.prototype.onpropchange = function(prop) {
 					var _name = arrNames[t] + this.psize[newType];
 					if(this.points[_name].isFree() && this.parent.parentElement.points[_name].isFree()) {
 						this.removePoint(_name);
-						this.parent.parentElement.removePoint(_name);
 					}
 					else {
 						prop.value += -eDelta - i;
@@ -1618,15 +1622,43 @@ MultiElementEditor.prototype.onpropchange = function(prop) {
 				}
 			}
 		}
-
-		if(this.w < oldW) {
-			this.w = oldW;
-		}
-		if(this.h < oldH) {
-			this.h = oldH;
-		}
-		this.rePosPoints();
 	}
+};
+
+MultiElementEditor.prototype.addPoint = function(name, type) {
+	var oldW = this.w;
+	var oldH = this.h;
+	
+	var newType = type < 3 ? 3 - type : 7 - type;
+	var point = SdkElement.prototype.addPoint.call(this, name, type);
+	var pointParent = this.parent.parentElement.addPoint(name, newType);
+	this.addEvent(point, pointParent);
+	
+	if(this.w < oldW) {
+		this.w = oldW;
+	}
+	if(this.h < oldH) {
+		this.h = oldH;
+	}
+	this.rePosPoints();
+	
+	return point;
+};
+
+MultiElementEditor.prototype.removePoint = function(name) {
+	var oldW = this.w;
+	var oldH = this.h;
+	
+	SdkElement.prototype.removePoint.call(this, name);
+	this.parent.parentElement.removePoint(name);
+	
+	if(this.w < oldW) {
+		this.w = oldW;
+	}
+	if(this.h < oldH) {
+		this.h = oldH;
+	}
+	this.rePosPoints();
 };
 
 //******************************************************************************
@@ -1641,9 +1673,6 @@ MultiElementEditorEx.prototype = Object.create(MultiElementEditor.prototype);
 
 MultiElementEditorEx.prototype.onpropchange = function(prop) {
 	if(prop === this.props.WorkCount || prop === this.props.EventCount || prop === this.props.VarCount || prop === this.props.DataCount) {
-		var oldW = this.w;
-		var oldH = this.h;
-
 		var arr = {WorkCount:0, EventCount:1, VarCount:2, DataCount:3};
 		var lines = prop.value.split("\n");
 		var t = arr[prop.name];
@@ -1653,10 +1682,10 @@ MultiElementEditorEx.prototype.onpropchange = function(prop) {
 		for(var line of lines) {
 			if(line) {
 				var arr = line.split("=");
-				var newPoint = this.points[arr[0]] || this.addPoint(arr[0], newType+1);
-				var pointParent = this.parent.parentElement.points[arr[0]] || this.parent.parentElement.addPoint(arr[0], t+1);
-				this.addEvent(newPoint, pointParent);
-				newPoint._dplInfo = arr[1] || "";
+				if(!this.points[arr[0]]) {
+					var newPoint = this.addPoint(arr[0], newType+1);
+					newPoint._dplInfo = arr[1] || "";
+				}
 				hash[arr[0]] = true;
 			}
 		}
@@ -1664,17 +1693,8 @@ MultiElementEditorEx.prototype.onpropchange = function(prop) {
 			var point = this.points[p];
 			if(newType == point.type-1 && hash[point.name] !== true) {
 				this.removePoint(point.name);
-				this.parent.parentElement.removePoint(point.name);
 			}
 		}
-
-		if(this.w < oldW) {
-			this.w = oldW;
-		}
-		if(this.h < oldH) {
-			this.h = oldH;
-		}
-		this.rePosPoints();
 	}
 	else {
 		MultiElementEditor.prototype.onpropchange.call(this, prop);
@@ -1683,6 +1703,19 @@ MultiElementEditorEx.prototype.onpropchange = function(prop) {
 
 MultiElementEditorEx.prototype.getPointInfo = function(point) {
 	return point._dplInfo || "";
+};
+
+MultiElementEditorEx.prototype.showDefaultPoint = function(name) {
+	if(this.points[name])
+		return this.points[name];
+	for(var p of this.pointsEx) {
+		if(p.name === name) {
+			var newType = p.type < 3 ? 3 - p.type : 7 - p.type;
+			return this.addPoint(name, newType);
+		}
+	}
+	
+	return null;
 };
 
 //******************************************************************************

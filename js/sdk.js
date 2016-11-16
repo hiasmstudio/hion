@@ -332,14 +332,8 @@ function SDK(pack) {
 				e.addHint(parseInt(hintParams[0]), parseInt(hintParams[1]), e.props[hintParams[4]] || e.sys[hintParams[4]]);
 			} else if(line.substr(0, 5) === "Point") {
 				var name = line.substr(6, line.length - 7);
-				// TODO оптимизировать
-				for(var p of e.pointsEx) {
-					if(p.name === name) {
-						e.addPoint(name, p.type);
-						break;
-					}
-				}
-				if(!e.findPointByName(name)) {
+				
+				if(!e.showDefaultPoint(name)) {
 					e.addPoint(name, pt_work);
 				}
 			} else if (e) {

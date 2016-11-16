@@ -57,7 +57,7 @@ function PropertyEditor(options) {
 			e.removePoint(item.point.name);
 		}
 		else {
-			e.addPoint(item.point.name, item.point.type);
+			e.showDefaultPoint(item.point.name);
 		}
 		pEditor.onpropchange(null);
 	};
