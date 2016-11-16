@@ -16,6 +16,9 @@ function Palette(options) {
 	
 	this.setOptions(options);
 	this.layout = new VLayout(this, {});
+	
+	this.cache = {};
+	this.currentPack = "";
 }
 
 Palette.prototype = Object.create(UIContainer.prototype);
@@ -41,7 +44,17 @@ Palette.prototype.unSelect = function() {
 };
 
 Palette.prototype.show = function(pack) {
-	this.removeAll();
+	if(this.currentPack === pack.name) {
+		return;
+	}
+	this.currentPack = pack.name;
+	this.palette.html("");
+	
+	if(this.cache[pack.name]) {
+		for(var item of this.cache[pack.name])
+			this.palette.append(item);
+		return;
+	}
 	
 	function isValidTab(tab) {
 		return tab && tab !== "*";
@@ -94,6 +107,11 @@ Palette.prototype.show = function(pack) {
 			}
 		}
 	}
+	
+	var arr = [];
+	for(var i = 0; i < this.palette.childs(); i++)
+		arr.push(this.palette.child(i));
+	this.cache[pack.name] = arr;
 	
 	// settings
 	for (var tab in tabs) {
