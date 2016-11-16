@@ -147,6 +147,9 @@ ElementProperty.prototype.parse = function(value) {
 				}
 			}
 			break;
+		case DATA_REAL:
+			this.value = value ? parseFloat(value) : 0.0;
+			break;
 		case DATA_INT:
 		case DATA_ENUM:
 		case DATA_ENUMEX:
@@ -168,6 +171,7 @@ ElementProperty.prototype.parse = function(value) {
 			this.value = {name: "Courier New", size: 8, flags: 0, color: 0, charset: 0};
 			break;
 		default:
+			console.error("Property[", this.name, "] with type", this.type, "not support.")
 			this.value = value;
 	}
 	
