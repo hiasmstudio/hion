@@ -94,7 +94,10 @@ Pack.prototype.load = function() {
 				if(pack.parent) {
 					for(var e in pack.elements) {
 						if(pack.parent.elements[e]) {
+							var old = pack.elements[e];
 							pack.elements[e] = pack.parent.elements[e];
+							for(var field in old)
+								pack.elements[e][field] = old[field];
 						}
 					}
 				}
