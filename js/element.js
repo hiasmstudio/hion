@@ -723,6 +723,8 @@ function getClass(pack, id) {
 		console.error("Element config not found: ", id);
 	}
 	if(template.class) {
+		if(!window[template.class])
+			console.error("Element class not found: ", template.class);
 		return template.class;
 	}
 	if(template.inherit) {
@@ -1152,6 +1154,43 @@ ITElement.prototype.draw = function(ctx) {
 ITElement.prototype.inPoint = function(x, y) {
 	return x >= this.x && y >= this.y && x < this.x+this.w && y < this.y+this.h &&
 			(x - this.x <= 7 || y - this.y <= 7 || this.x+this.w - x <= 7 || this.y+this.h - y <= 7);
+};
+
+//******************************************************************************
+// VTElement
+//******************************************************************************
+
+function VTElement(id) {
+	SizeElement.call(this, id);
+	
+	this.minW = 32;
+	this.minH = 18;
+}
+
+VTElement.prototype = Object.create(SizeElement.prototype);
+
+VTElement.prototype.onpropchange = function(prop) {
+	SizeElement.prototype.onpropchange.call(this, prop);
+	
+	if(prop === this.sys.Width || prop === this.sys.Height)
+		this.rePosPoints();
+};
+
+VTElement.prototype.draw = function(ctx) {
+	var offset = 2;
+	ctx.fillStyle = "white";
+	ctx.fillRect(this.x, this.y, this.w, this.h);
+	ctx.strokeStyle = this.isSelect() ? "#000" : this.sys.Color.value;
+	ctx.strokeRect(this.x, this.y, this.w, this.h);
+	ctx.rect(this.x + offset, this.y + offset, this.w - 2*offset, this.h - 2*offset);
+	
+	ctx.fillStyle = "#000";
+	ctx.font = "12px Arial";
+	var x = this.x;
+	var y = this.y + 12;
+	ctx.fillText(this.props.Lines.value, x, y);
+	
+	this.drawPoints(ctx);
 };
 
 //******************************************************************************
