@@ -94,10 +94,19 @@ Pack.prototype.load = function() {
 				if(pack.parent) {
 					for(var e in pack.elements) {
 						if(pack.parent.elements[e]) {
-							var old = pack.elements[e];
-							pack.elements[e] = pack.parent.elements[e];
-							for(var field in old)
-								pack.elements[e][field] = old[field];
+							var newElement = {};
+							// inherit parent element
+							Object.assign(newElement, pack.parent.elements[e]);
+							// overflow parent fields
+							Object.assign(newElement, pack.elements[e]);
+							pack.elements[e] = newElement;
+							
+							// create new instance of icon
+							if(pack.elements[e].icon) {
+								var icon = new Image();
+								icon.src = pack.elements[e].icon.src;
+								pack.elements[e].icon = icon;
+							}
 						}
 					}
 				}
