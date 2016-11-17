@@ -14,8 +14,10 @@ function Hint() {
 		}
 		this.timer = setTimeout(function(hint){
 			return function(){
-				hint.builder.element.move(x, y);
 				hint.builder.element.show();
+				if(y + hint.builder.element.offsetHeight + 5 > window.innerHeight)
+					y = window.innerHeight - hint.builder.element.offsetHeight - 5;
+				hint.builder.element.move(x, y);
 				_hint = hint;
 			};
 		}(this), 400);
