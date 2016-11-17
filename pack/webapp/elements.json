@@ -1738,18 +1738,5 @@
 			{ "name": "WEName", "type": 2, "def": "" },
 			{ "name": "VDName", "type": 2, "def": "" }
 		]
-	},
-	"core": { "tab": "helpers", "group": true },
-	"hcTransmitter": {
-		"tab": "helpers",
-		"class": "DPElement",
-		"sub": ",,,DataCount|Arg",
-		"points": [
-			{ "name": "doReturn", "type": 1 },
-			{ "name": "onInit", "type": 2, "args": "Array" }
-		],
-		"props": [
-			{ "name": "DataCount", "type": 1, "def": 0 }
-		]
 	}
 }
