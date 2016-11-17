@@ -256,7 +256,17 @@ UIPropertyEditor.prototype._getDisplayValue = function(item) {
 			}
 			break;
 		case DATA_FONT:
-			return item.value.name;
+			return item.value.name + ", " + item.value.size;
+		case DATA_ICON:
+			return "[Icon]";
+		case DATA_BITMAP:
+			return "[Picture]";
+		case DATA_JPEG:
+			return "[Jpeg]";
+		case DATA_STREAM:
+			return "[Stream]";
+		case DATA_ARRAY:
+			return "[Array]";
 	}
 	return value;
 };
@@ -331,6 +341,10 @@ UIPropertyEditor.prototype._fillDataList = function(item, edit, combo) {
 	}
 };
 
+UIPropertyEditor.prototype.haveTextEditor = function(prop) {
+	return !(prop.type === DATA_ARRAY || prop.type === DATA_ICON || prop.type === DATA_BITMAP || prop.type === DATA_JPEG || prop.type === DATA_STREAM || prop.type === DATA_FONT);
+};
+
 UIPropertyEditor.prototype._selectRow = function (row) {
 	if(row === this.selected) {
 		return false;
@@ -352,59 +366,64 @@ UIPropertyEditor.prototype._selectRow = function (row) {
 	var value = this._getDisplayValue(row.item);
 	
 	// input box
-	var edit = line.n("input").attr("type", "text").attr("value", value.toString());
-	edit.on("onkeyup", function() {
-		if(row.item.type == DATA_ENUM || row.item.type == DATA_ENUMEX) {
-			var index = 0;
-			for(var item of row.item.list) {
-				if(item.toLowerCase() === this.value.toLowerCase()) {
-					pEditor.onchange(row.item, index);
-					break;
+	if(this.haveTextEditor(row.item)) {
+		var edit = line.n("input").attr("type", "text").attr("value", value.toString());
+		edit.on("onkeyup", function() {
+			if(row.item.type == DATA_ENUM || row.item.type == DATA_ENUMEX) {
+				var index = 0;
+				for(var item of row.item.list) {
+					if(item.toLowerCase() === this.value.toLowerCase()) {
+						pEditor.onchange(row.item, index);
+						break;
+					}
+					index++;
 				}
-				index++;
 			}
-		}
-		else {
-			var value;
-			switch(row.item.type) {
-				case DATA_INT:
-					try {
-						value = parseInt(this.value);
-					}
-					catch(err) {
-						value = 0;
-					}
-					break;
-				case DATA_REAL:
-					try {
-						value = parseFloat(this.value);
-					}
-					catch(err) {
-						value = 0;
-					}
-					break;
-				case DATA_STR:
-				case DATA_LIST:
-					value = this.value.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
-					break;
-				case DATA_DATA:
-					if(this.value.substr(0,1) == "#") {
-						value = this.value.substr(1);
-					}
-					else {
-						value = parseFloat(this.value);
-						if(isNaN(value)) {
-							value = this.value;
+			else {
+				var value;
+				switch(row.item.type) {
+					case DATA_INT:
+						try {
+							value = parseInt(this.value);
 						}
-					}
-					break;
-				default:
-					value = this.value;
+						catch(err) {
+							value = 0;
+						}
+						break;
+					case DATA_REAL:
+						try {
+							value = parseFloat(this.value);
+						}
+						catch(err) {
+							value = 0;
+						}
+						break;
+					case DATA_STR:
+					case DATA_LIST:
+						value = this.value.replace(/\\n/g, "\n").replace(/\\r/g, "\r");
+						break;
+					case DATA_DATA:
+						if(this.value.substr(0,1) == "#") {
+							value = this.value.substr(1);
+						}
+						else {
+							value = parseFloat(this.value);
+							if(isNaN(value)) {
+								value = this.value;
+							}
+						}
+						break;
+					default:
+						value = this.value;
+				}
+				pEditor.onchange(row.item, value);
 			}
-			pEditor.onchange(row.item, value);
-		}
-	});
-	edit.element.focus();
+		});
+		edit.element.focus();
+	}
+	else {
+		line.n("div").class("advanced").html(this._getDisplayValue(row.item));
+	}
 	
 	// button
 	if(row.item.type != DATA_INT && row.item.type != DATA_REAL) {

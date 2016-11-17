@@ -20,11 +20,15 @@ var DATA_STR      = 2;
 var DATA_DATA     = 3;
 var DATA_ENUM     = 4;
 var DATA_LIST     = 5;
-var DATA_ICON     = 6;	 // no support
+var DATA_ICON     = 6; // save as binary data
 var DATA_REAL     = 7;
 var DATA_COLOR    = 8;
+var DATA_STREAM   = 10; // save as binary data
+var DATA_BITMAP   = 11; // save as binary data
+var DATA_ARRAY    = 13;
 var DATA_ENUMEX   = 14;
 var DATA_FONT     = 15;
+var DATA_JPEG     = 17; // save as binary data
 var DATA_MANAGER  = 20;
 var DATA_FLAGS    = 21;  // no support
 
@@ -79,6 +83,13 @@ ElementProperty.prototype.serialize = function() {
 			return '"' + this.value + '"';
 		case DATA_FONT:
 			return '[' + this.value.name + ',' + this.value.size + ',' + this.value.flags + ',' + this.value.color + ',' + this.value.charset + ']';
+		case DATA_ICON:
+		case DATA_BITMAP:
+		case DATA_JPEG:
+		case DATA_STREAM:
+			return '[ZIP' + this.value + ']';
+		case DATA_ARRAY:
+			return "";
 	}
 	
 	return this.value.toString();
@@ -169,6 +180,23 @@ ElementProperty.prototype.parse = function(value) {
 			break;
 		case DATA_FONT:
 			this.value = {name: "Courier New", size: 8, flags: 0, color: 0, charset: 0};
+			break;
+		case DATA_ICON:
+		case DATA_BITMAP:
+		case DATA_JPEG:
+		case DATA_STREAM:
+			var icon = value.substr(1, value.length - 2);
+			if(icon.startsWith("ZIP")) {
+				// convert from ZIP
+				this.value = icon.substr(3);
+			}
+			else {
+				this.value = icon;
+			}
+			break;
+		case DATA_ARRAY:
+			this.value = [];
+			this.value.type = parseInt(value);
 			break;
 		default:
 			console.error("Property[", this.name, "] with type", this.type, "not support.")
@@ -579,7 +607,7 @@ SdkElement.prototype.drawHints = function(ctx) {
 		
 		var text = h.prop ? h.prop.getText() : "(empty)";
 		var m = ctx.measureText(text);
-		var textOffset = h.prop.type == DATA_COLOR ? 18 : 0;
+		var textOffset = h.prop && h.prop.type == DATA_COLOR ? 18 : 0;
 		h.width = m.width + 8 + textOffset;
 		h.height = 12 + 6;
 		
@@ -627,7 +655,7 @@ SdkElement.prototype.drawHints = function(ctx) {
 		ctx.fillStyle = "black";
 		ctx.fillText(text, x + 2 + textOffset, y + 12 + 1);
 		
-		if(h.prop.type == DATA_COLOR) {
+		if(h.prop && h.prop.type == DATA_COLOR) {
 			ctx.strokeStyle = "#808080";
 			ctx.fillStyle = h.prop.value;
 			ctx.beginPath();

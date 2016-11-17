@@ -48,6 +48,7 @@ Palette.prototype.show = function(pack) {
 		return;
 	}
 	this.currentPack = pack.name;
+	this.removeAll();
 	this.palette.html("");
 	
 	if(this.cache[pack.name]) {
