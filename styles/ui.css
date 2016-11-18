@@ -825,7 +825,6 @@ textarea {
   .props .content {
     width: 100%; }
   .props .pan {
-    border-bottom: 1px solid #dcd0c3;
     border-left: 1px solid #dcd0c3;
     flex-grow: 1;
     position: relative; }
@@ -960,6 +959,9 @@ textarea {
     overflow: visible; }
     .ui-property-editor tr[selected] div.pe-value div.in input[type=text] {
       padding-left: 2px; }
+    .ui-property-editor tr[selected] div.pe-value div.in div.advanced {
+      padding-left: 2px;
+      width: 100%; }
   .ui-property-editor div.out {
     position: relative;
     height: 16px;

@@ -963,11 +963,11 @@ function SdkEditor() {
 		
 		if(!this.isObjEqual(this.oldSelection, obj)) {
 			if(this.oldSelection) {
-				delete this.oldSelection.obj.selected;
+				this.oldSelection.obj.unselect();
 				this.oldSelection = null;
 			}
 			if(obj && obj.type === 2) {
-				obj.obj.selected = true;
+				obj.obj.select();
 				this.oldSelection = obj;
 			}
 			this.draw();

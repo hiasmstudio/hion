@@ -244,6 +244,30 @@ Point.prototype.getNodes = function() {
 	return nodes;
 };
 
+Point.prototype.select = function() {
+	this.selected = true;
+	var p = this.isPrimary() ? this.point : this;
+	if(p) {
+		var res = p.parent.getLinkedPoint(p);
+		if(res !== p) {
+			res.select();
+			p = res;
+		}
+	}
+};
+
+Point.prototype.unselect = function() {
+	delete this.selected;
+	var p = this.isPrimary() ? this.point : this;
+	if(p) {
+		var res = p.parent.getLinkedPoint(p);
+		if(res !== p) {
+			res.unselect();
+			p = res;
+		}
+	}
+};
+
 function on_event(point, data) {
 	if (point) {
 		return point.onevent(on_event.arguments.length === 2 ? data : "");

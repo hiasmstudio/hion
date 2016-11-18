@@ -44,6 +44,10 @@ Palette.prototype.unSelect = function() {
 };
 
 Palette.prototype.show = function(pack) {
+	if(!pack) {
+		this.currentPack = "";
+		return;
+	}
 	if(this.currentPack === pack.name) {
 		return;
 	}

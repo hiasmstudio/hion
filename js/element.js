@@ -581,6 +581,9 @@ SdkElement.prototype.showDefaultPoint = function(name) {
 	
 	return null;
 };
+SdkElement.prototype.getLinkedPoint = function(point) {
+	return point;
+};
 
 // draw
 SdkElement.prototype.draw = function(ctx) {
@@ -594,6 +597,13 @@ SdkElement.prototype.drawBody = function(ctx) {
 	ctx.fillStyle = this.isSelect() ? "rgb(100,100,100)" : this.sys.Color.value;
 	ctx.fillRect(this.x, this.y, this.w, this.h);
 	ctx.strokeRect(this.x, this.y, this.w, this.h);
+	
+	if(this.link) {
+		ctx.fillStyle = "white";
+		var size = 4;
+		ctx.fillRect(this.x + this.w - size, this.y + this.h - size, size + 1, size + 1);
+		ctx.strokeRect(this.x + this.w - size, this.y + this.h - size, size + 1, size + 1);
+	}
 };
 SdkElement.prototype.drawIcon = function(ctx) {
 	// firefox fix: +0.5
@@ -748,6 +758,7 @@ SdkElement.prototype.initPointHandler = function(name, handler) {
 	}
 };
 
+SdkElement.prototype.makeLink = function(element) { this.link = element; };
 
 function getClass(pack, id) {
 	var template = pack.elements[id];
@@ -851,6 +862,14 @@ HubsEx.prototype.insertInLine = function(point, pos) {
 		this.move(pos.x - pointOne.pos.x, 0);
 	else if(pos.y === p2.y)
 		this.move(0, pos.y - pointOne.pos.y);
+};
+
+HubsEx.prototype.getLinkedPoint = function(point) {
+	var pointOne = this.points[this.pIndex[3]];
+	if(point !== pointOne) {
+		return pointOne;
+	}
+	return SdkElement.prototype.getLinkedPoint.call(this, point);
 };
 
 //------------------------------------------------------------------------------
@@ -1811,6 +1830,16 @@ MultiElement.prototype.loadFromTemplate = function() {
 	this.sdk.parentElement = this;
 	var offset = window.getOptionInt("opt_multi_offset", 7);
 	this.sdk.add(this.getEditorName(), offset, offset);
+};
+
+MultiElement.prototype.makeLink = function(element) {
+	SdkElement.prototype.makeLink.call(this, element);
+	
+	this.sdk = element.sdk;
+	for(var p in element.points) {
+		var point = element.points[p];
+		this.addPoint(point.name, point.type);
+	}
 };
 
 //******************************************************************************

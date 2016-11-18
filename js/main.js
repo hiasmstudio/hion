@@ -263,7 +263,7 @@ function loadWorkspace() {
 	
 	docManager = new DocumentManageer({});
 	docManager.ontabselect = docManager.ontabopen = function(tab){
-		if(tab && tab.sdkEditor.sdk) {
+		if(tab && tab.sdkEditor && tab.sdkEditor.sdk) {
 			// set palette elements
 			var pack = tab.sdkEditor.sdk.pack;
 			palette.show(pack);
@@ -285,7 +285,7 @@ function loadWorkspace() {
 			}
 		}
 		else {
-			palette.removeAll();
+			palette.show(null);
 		}
 	};
 	workspace.add(docManager);

@@ -141,7 +141,10 @@ function SDK(pack) {
 					if(p.selected || p.point.selected) {
 						ctx.lineWidth = 2;
 					}
-					ctx.strokeStyle = p.type < 3 ? "#00c" : "#c00";
+					if(p.color)
+						ctx.strokeStyle = p.color;
+					else
+						ctx.strokeStyle = p.type < 3 ? "#00c" : "#c00";
 					ctx.beginPath();
 					ctx.moveTo(p.pos.x, p.pos.y);
 					var n = p.pos.next;
@@ -266,7 +269,8 @@ function SDK(pack) {
 		var arr = text.split("\r\n"); // opera like...
 		if (arr.length < 2)
 			arr = text.split("\n");
-		var links = new Array();
+		var links = [];
+		var pointColors = [];
 		var e = null;
 		var index = start ? start : 0;
 
@@ -329,13 +333,27 @@ function SDK(pack) {
 			} else if(line.substr(0, 7) === "AddHint") {
 				var name = line.substr(8, line.length - 9);
 				var hintParams = name.split(",");
-				e.addHint(parseInt(hintParams[0]), parseInt(hintParams[1]), e.props[hintParams[4]] || e.sys[hintParams[4]]);
+				var propName = hintParams[4];
+				
+				// support hiasm4
+				if(propName === "@Hint")
+					propName = "@Comment";
+					
+				var prop = propName.startsWith("@") ? e.sys[propName.substr(1)] : e.props[propName];
+				e.addHint(parseInt(hintParams[0]), parseInt(hintParams[1]), prop);
 			} else if(line.substr(0, 5) === "Point") {
 				var name = line.substr(6, line.length - 7);
 				
 				if(!e.showDefaultPoint(name)) {
 					e.addPoint(name, pt_work);
 				}
+			} else if(line.startsWith("PColor")) {
+				var args = line.substr(7, line.length - 8).split(",");
+				pointColors.push({name: args[0], color: args[1], element: e})
+			} else if(line.startsWith("elink")) {
+				var eid = parseInt(line.substr(6, line.length - 7));
+				var le = this.getElementByEId(eid);
+				e.makeLink(le);
 			} else if (e) {
 				var ind = line.indexOf("=");
 				var name = line.substr(0, ind).trim();
@@ -345,10 +363,18 @@ function SDK(pack) {
 				else if(e.loadFromText(line)) {
 					// do nothing
 				}
-				else
-					printError("Property not found: " + name + ", " + line);
+				else {
+					// hiasm 4 support
+					if(e.sys[name])
+						e.sys[name].parse(line.substr(ind+1));
+					else {
+						printError("Property not found: " + name + ", " + line);
+						console.log("Property not found:", name, e.name)
+					}
+				}
 			}
 		}
+		// restore links
 		for (var i in links) {
 			var e1 = links[i].srce;
 			var e2 = this.findElementById(links[i].dste);
@@ -373,6 +399,21 @@ function SDK(pack) {
 			} else
 				printError("Element not found! " + links[i].dste);
 		}
+		
+		// restore point colors
+		for(var rec of pointColors) {
+			if(rec.element.points[rec.name]) {
+				if(rec.color.charAt(0) >= '0' && rec.color.charAt(0) <= '9') {
+					var v = parseInt(rec.color);
+					rec.color = 'rgb(' + (v & 0xff) + ',' + ((v >> 8) & 0xff) + ',' + (v >> 16) + ')';
+				}
+				rec.element.points[rec.name].color = rec.color;
+			}
+			else {
+				console.log("Point for color", rec.name, "not found", rec.element.name);
+			}
+		}
+		
 		return index;
 	};
 	
