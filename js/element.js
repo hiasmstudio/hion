@@ -32,6 +32,36 @@ var DATA_JPEG     = 17; // save as binary data
 var DATA_MANAGER  = 20;
 var DATA_FLAGS    = 21;  // no support
 
+function Font(name, size, flags, color, charset) {
+	this.name = name || "Courier New";
+	this.size = size || 8;
+	this.flags = flags || 0;
+	this.color = color || 0;
+	this.charset = charset || 0;
+	this.updateFont();
+}
+
+Font.prototype.updateFont = function() {
+	this.fontText = (this.isItalic() ? "italic " : "") + (this.isBold() ? "bold " : "") + this.size + "px " + this.name;
+	if(typeof this.color === "number")
+		this.fontColor = '#' + hex(this.color & 0xff) + hex((this.color >> 8) & 0xff) + hex(this.color >> 16);
+	else
+		this.fontColor = this.color;
+};
+
+Font.prototype.apply = function(ctx) {
+	ctx.fillStyle = this.fontColor;
+	ctx.font = this.fontText;
+//	ctx.textBaseline = "top";
+};
+
+Font.prototype.valueOf = function() {
+	return this.name + "," + this.size + "," + this.flags + "," + this.color + "," + this.charset;
+};
+Font.prototype.isBold = function() { return this.flags & 0x1; };
+Font.prototype.isItalic = function() { return this.flags & 0x2; };
+Font.prototype.isUnderline = function() { return false; };
+
 function ElementProperty(parent, inherit, template) {
 	this.type = template.type;
 	this.name = template.name;
@@ -82,7 +112,7 @@ ElementProperty.prototype.serialize = function() {
 		case DATA_MANAGER:
 			return '"' + this.value + '"';
 		case DATA_FONT:
-			return '[' + this.value.name + ',' + this.value.size + ',' + this.value.flags + ',' + this.value.color + ',' + this.value.charset + ']';
+			return '[' + this.value.valueOf() + ']';
 		case DATA_ICON:
 		case DATA_BITMAP:
 		case DATA_JPEG:
@@ -149,6 +179,9 @@ ElementProperty.prototype.parse = function(value) {
 					this.value = parseFloat(v);
 				}
 			}
+			else if(typeof value === "string" && value.startsWith("#")) {
+				this.value = parseStringValue(value);
+			}
 			else {
 				if(!isNaN(parseFloat(value))) {
 					this.value = parseFloat(value);
@@ -179,7 +212,13 @@ ElementProperty.prototype.parse = function(value) {
 			}
 			break;
 		case DATA_FONT:
-			this.value = {name: "Courier New", size: 8, flags: 0, color: 0, charset: 0};
+			if(value) {
+				var args = value.substr(1, value.length - 2).split(",");
+				this.value = new Font(args[0], parseInt(args[1]) || args[1], parseInt(args[2]), parseInt(args[3]), parseInt(args[4]));
+			}
+			else {
+				this.value = new Font();
+			}
 			break;
 		case DATA_ICON:
 		case DATA_BITMAP:
@@ -607,7 +646,7 @@ SdkElement.prototype.drawBody = function(ctx) {
 };
 SdkElement.prototype.drawIcon = function(ctx) {
 	// firefox fix: +0.5
-	ctx.drawImage(this.img, this.x + 4.5, this.y + 4.5);
+	ctx.drawImage(this.img, this.x + (this.w - 24)/2 + 0.5, this.y + (this.h - 24)/2 + 0.5);
 };
 SdkElement.prototype.drawHints = function(ctx) {
 	ctx.font = "12px Arial";
@@ -1169,17 +1208,16 @@ ITElement.prototype.draw = function(ctx) {
 		ctx.strokeRect(this.x, this.y, this.w, this.h);
 	ctx.rect(this.x + offset, this.y + offset, this.w - 2*offset, this.h - 2*offset);
 	ctx.clip();
-	ctx.fillStyle = "#000";
-	ctx.font = "12px Arial";
+	this.props.Font.value.apply(ctx);
 	
 	var lines = wrapText(ctx, this.props.Info.value, this.w - 2*offset);
-	var y = this.y + 12;
-	var lineHeight = 14;
+	var y = this.y + this.props.Font.value.size;
+	var lineHeight = this.props.Font.value.size + 2;
 	if(this.props.VAlign.value === 1) {
-		y += (this.h - 14*lines.length)/2;
+		y += (this.h - lineHeight*lines.length)/2 - 2;
 	}
 	else if(this.props.VAlign.value === 2) {
-		y += this.h - 14*lines.length - offset;
+		y += this.h - lineHeight*lines.length - offset - 2;
 	}
 	else {
 		y += offset;
