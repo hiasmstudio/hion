@@ -169,7 +169,8 @@ function PropertyEditor(options) {
 
 		// points
 		var names = ["func", "event", "var", "prop"];
-		for(var point of e.pointsEx) {
+		for(var pName in e.pointsEx) {
+			var point = e.pointsEx[pName];
 			var item = this.points.addIcon("img/icons/sc_" + names[point.type-1] + ".png", point.name);
 			item.point = point;
 			this.points.checked(item, e.findPointByName(point.name));

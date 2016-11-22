@@ -315,7 +315,7 @@ function SdkElement(name) {
 	this.sys = {};
 	this.hints = [];
 	
-	this.pointsEx = [];
+	this.pointsEx = {};
 	this.interfaces = [];
 
 	this.info = "el." + name;
@@ -395,15 +395,11 @@ SdkElement.prototype.loadFromTemplate = function() {
 		for(var index in template.points) {
 			var point = template.points[index];
 			if(point.flags & 0x01) {
-				element.pointsEx.push(point);
+				element.pointsEx[point.name] = point;
 			}
 			else {
-				// TODO оптимизировать
-				for(var p in element.pointsEx) {
-					if(element.pointsEx[p].name === point.name) {
-						element.pointsEx.splice(p, 1);
-						break;
-					}
+				if(element.pointsEx[point.name]) {
+					delete element.pointsEx[point.name];
 				}
 				element.addPoint(point.name, point.type).args = point.args;
 			}
@@ -617,11 +613,8 @@ SdkElement.prototype.getPointInfo = function(point) {
 	return this.name + "." + point.name;	
 };
 SdkElement.prototype.showDefaultPoint = function(name) {
-	// TODO optimize
-	for(var p of this.pointsEx) {
-		if(p.name === name) {
-			return this.addPoint(name, p.type);
-		}
+	if(this.pointsEx[name]) {
+		return this.addPoint(name, this.pointsEx[name].type);
 	}
 	
 	return null;
@@ -1843,11 +1836,11 @@ MultiElementEditorEx.prototype.getPointInfo = function(point) {
 MultiElementEditorEx.prototype.showDefaultPoint = function(name) {
 	if(this.points[name])
 		return this.points[name];
-	for(var p of this.pointsEx) {
-		if(p.name === name) {
-			var newType = p.type < 3 ? 3 - p.type : 7 - p.type;
-			return this.addPoint(name, newType);
-		}
+
+	var p = this.pointsEx[name];
+	if(p) {
+		var newType = p.type < 3 ? 3 - p.type : 7 - p.type;
+		return this.addPoint(name, newType);
 	}
 	
 	return null;

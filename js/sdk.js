@@ -223,8 +223,9 @@ function SDK(pack) {
 					text += "  @" + p + "=" + prop.serialize() + "\n";
 				}
 			}
-			for(var p of e.pointsEx) {
-				if(e.findPointByName(p.name)) {
+			for (var j in e.points) {
+				var p = e.points[j];
+				if(e.pointsEx[p.name]) {
 					propPoints += "  Point(" + p.name + ")\n";
 				}
 			}
