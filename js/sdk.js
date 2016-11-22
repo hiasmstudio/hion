@@ -200,7 +200,7 @@ function SDK(pack) {
 	};
 	
 	this.save = function (selection) {
-		var text = this.parent ? "" : "Make(" + this.pack.name + ")\n";
+		var text = this.parent || selection ? "" : "Make(" + this.pack.name + ")\n";
 		for (var e of this.imgs) {
 			if(selection && !e.isSelect()) {
 				continue;
