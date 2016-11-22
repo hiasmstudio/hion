@@ -112,5 +112,13 @@
 	
 	"ui.moveto": "Move elements in the container",
 	
-	"ui.newproject": "Create new project"
+	"ui.newproject": "Create new project",
+	
+	"ui.fonteditor": "Font editor",
+	"ui.fontname": "Name or font family",
+	"ui.bold": "Bold",
+	"ui.italic": "Italic",
+	"ui.underline": "Underline",
+	"ui.fontsize": "Size in pixels",
+	"ui.preview": "Preview"
 }

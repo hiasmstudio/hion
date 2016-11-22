@@ -29,6 +29,7 @@
 		"class": "ITElement",
 		"props": [
 			{ "name": "Info", "type": 2, "def": "InfoTip", "flags": 1 },
+			{ "name": "Font", "type": 15, "def": "[Arial,12,0,0,1]" , "editor": "fonteditor"},
 			{ "name": "Frame", "type": 4, "def": 0, "list": "Dots,Clear,Line" },
 			{ "name": "VAlign", "type": 4, "def": 0, "list": "Top,Center,Bottom" },
 			{ "name": "HAlign", "type": 4, "def": 1, "list": "Left,Center,Right" },

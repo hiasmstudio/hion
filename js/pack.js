@@ -77,7 +77,7 @@ Pack.prototype.getSmallIcon = function() {
 Pack.prototype.load = function() {
 	$.get(this.getRoot() + "/lang/" + translate.getLang() + ".json", function(data, pack) {
 		pack.strings = JSON.parse(data);
-	
+
 		$.get(pack.getRoot() + "/pack.json", function(data, pack) {
 			var js = JSON.parse(data);
 			pack.projects = js.projects;
@@ -100,7 +100,7 @@ Pack.prototype.load = function() {
 							// overflow parent fields
 							Object.assign(newElement, pack.elements[e]);
 							pack.elements[e] = newElement;
-							
+
 							// create new instance of icon
 							if(pack.elements[e].icon) {
 								var icon = new Image();
@@ -110,7 +110,11 @@ Pack.prototype.load = function() {
 						}
 					}
 				}
-				pack.loadIcons();
+				
+				$.appendScript(pack.getRoot() + "/core.js", function(){
+					pack.core = new window[pack.name]();
+					pack.loadIcons();
+				});
 			}, pack);
 		}, pack);
 	}, this);
@@ -152,4 +156,10 @@ Pack.prototype.translate = function(string) {
 		return this.parent.strings[string];
 	
 	return string;
+};
+
+Pack.prototype.initElement = function(element){
+	if(this.parent)
+		this.parent.core.init(element);
+	this.core.init(element);
 };

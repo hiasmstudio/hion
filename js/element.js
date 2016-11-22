@@ -84,7 +84,13 @@ function ElementProperty(parent, inherit, template) {
 	this.parent = parent;
 }
 
-ElementProperty.prototype.isDef = function() { return this.value === this.def; };
+ElementProperty.prototype.isDef = function() {
+	switch(this.type) {
+		case DATA_FONT:
+			return this.value.valueOf() === this.def.valueOf();
+	}
+	return this.value === this.def;
+};
 ElementProperty.prototype.isDefaultEdit = function() { return this.flags & PROP_FLAG_DEFAULT; };
 ElementProperty.prototype.isPoint = function() { return this.flags & PROP_FLAG_POINT; };
 
@@ -783,6 +789,9 @@ SdkElement.prototype.move = function (dx, dy) {
 SdkElement.prototype.isSelect = function() {
 	return this.flags & IS_SELECT;
 };
+SdkElement.prototype.canDelete = function() {
+	return (this.flags & IS_PARENT) === 0 && (this.flags & IS_NODELETE) === 0;
+};
 	
 SdkElement.prototype.onpropchange = function(prop) {};
 SdkElement.prototype.oninit = function() {};
@@ -823,9 +832,7 @@ function createElement(sdk, id, x, y) {
 	i.loadFromTemplate();
 
 	i.run = function() { return null; };
-	
-	if(sdk.pack.name == "modules")
-		initCoreElement(i);
+	sdk.pack.initElement(i);
 
 	return i;
 }

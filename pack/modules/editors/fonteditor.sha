@@ -1,0 +1,193 @@
+Make(modules)
+Add(MainForm,1,154,252)
+{
+  Width=#3:397|
+  Height=#3:193|
+  Caption=#13:ui.fonteditor|
+}
+Add(CheckBox,3,574,217)
+{
+  Left=14
+  Top=56
+  Width=#3:150|
+  Caption=#7:ui.bold|
+}
+Add(CheckBox,4,588,301)
+{
+  Left=14
+  Top=98
+  Width=#3:150|
+  Caption=#12:ui.underline|
+}
+Add(CheckBox,5,581,259)
+{
+  Left=14
+  Top=77
+  Width=#3:150|
+  Caption=#9:ui.italic|
+}
+Add(NumberEdit,6,392,168)
+{
+  Left=190
+  Top=56
+  Min=1
+  Max=1000
+}
+Add(Label,7,588,154)
+{
+  Left=245
+  Top=56
+  Width=#3:141|
+  Height=#2:21|
+  Caption=#11:ui.fontsize|
+}
+Add(Button,8,42,252)
+{
+  Left=319
+  Top=140
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#2:OK|
+  link(onClick,29:doEvent1,[])
+}
+Add(PaintBox,9,525,441)
+{
+  Left=189
+  Top=105
+  Width=#3:198|
+  Height=#2:23|
+}
+Add(DrawText,10,469,441)
+{
+}
+Add(hcTransmitter,11,98,119)
+{
+  DataCount=1
+  link(onInit,28:doRead,[])
+}
+Add(Memory,13,224,119)
+{
+  link(onData,19:doEvent1,[])
+}
+Add(Button,14,42,301)
+{
+  Left=235
+  Top=140
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#9:ui.cancel|
+  link(onClick,26:doWork3,[(123,307)])
+}
+Add(Edit,15,385,119)
+{
+  Left=14
+  Top=28
+  Width=#3:372|
+}
+Add(Label,16,154,35)
+{
+  Left=14
+  Top=7
+  Width=#3:169|
+  Caption=#11:ui.fontname|
+}
+Add(Label,17,42,350)
+{
+  Left=189
+  Top=84
+  Width=#3:204|
+  Caption=#10:ui.preview|
+}
+Add(JSON_Field,18,315,119)
+{
+  Name=#4:name|
+  AddHint(-3,-32,0,0,Name)
+  link(onGet,15:doText,[])
+}
+Add(Hub,19,280,119)
+{
+  OutCount=5
+  link(onEvent1,18:doGet,[])
+  link(onEvent2,20:doGet,[(304,132)(304,174)])
+  link(onEvent3,21:doGet,[(304,139)(304,223)])
+  link(onEvent4,23:doGet,[(304,146)(304,272)])
+  link(onEvent5,24:doGet,[(304,153)(304,321)])
+}
+Add(JSON_Field,20,315,168)
+{
+  Name=#4:size|
+  AddHint(-87,6,0,0,Name)
+  link(onGet,6:doNumber,[])
+}
+Add(JSON_Field,21,315,217)
+{
+  Name=#5:flags|
+  AddHint(-87,6,0,0,Name)
+  link(onGet,32:doEvent1,[])
+}
+Add(JSON_Field,23,315,266)
+{
+  Name=#5:color|
+  AddHint(-87,6,0,0,Name)
+  link(onGet,25:doText,[])
+}
+Add(JSON_Field,24,315,315)
+{
+  Name=#7:charset|
+  AddHint(-87,6,0,0,Name)
+}
+Add(Edit,25,406,266)
+{
+  Left=14
+  Top=119
+  Width=#3:155|
+}
+Add(HubEx,26,119,259)
+{
+  link(onEvent,1:doClose,[])
+}
+Add(ArrayRead,28,154,119)
+{
+  Index=1
+  link(onRead,13:doValue,[])
+}
+Add(Hub,29,91,252)
+{
+  link(onEvent1,34:doCalc,[(138,258)(138,356)])
+  link(onEvent2,26:doWork2,[])
+}
+Add(FormatStr,30,385,378)
+{
+  DataCount=5
+  Mask=#16:[%1,%2,%3,%4,%5]|
+  link(onFString,11:doReturn,[(449,384)(449,109)(84,109)(84,125)])
+  link(Str1,15:Text,[])
+  link(Str2,6:Number,[])
+  link(Str4,25:Text,[])
+  link(Str5,24:Result,[(419,363)(321,363)])
+}
+Add(MathParse,31,518,217)
+{
+  MathStr=#7:$X1 & 1|
+  Args=#2:X1|
+  link(onResult,3:doCheck,[])
+}
+Add(Hub,32,469,217)
+{
+  link(onEvent1,31:doCalc,[])
+  link(onEvent2,33:doCalc,[(500,230)(500,265)])
+}
+Add(MathParse,33,518,259)
+{
+  MathStr=#7:$X1 & 2|
+  Args=#2:X1|
+  link(onResult,5:doCheck,[])
+}
+Add(MathParse,34,574,350)
+{
+  MathStr=#35:($bold ? 1 : 0) | ($italic ? 2 : 0)|
+  Args=#4:bold|6:italic|
+  link(onResult,30:doString,[(620,356)(620,417)(372,417)(372,384)])
+  link(bold,3:Checked,[])
+  link(italic,5:Checked,[])
+}

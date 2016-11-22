@@ -140,7 +140,7 @@
 					input[type=text] {
 						padding-left: 2px;
 					}
-					div.advanced { padding-left: 2px; width: 100%; }
+					div.advanced { padding-left: 2px; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 				}
             }
         }

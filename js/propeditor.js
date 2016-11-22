@@ -150,6 +150,7 @@ function PropertyEditor(options) {
 				check: p.isPoint(),
 				checked: e.findPointByName("do" + p.name),
 				defvalue: p.def,
+				isdef: p.isDef(),
 				default: p.isDefaultEdit(),
 				list: p.getList(),
 				group: p.group ? p.inherit + "." + p.group : null,
@@ -285,7 +286,7 @@ UIPropertyEditor.prototype._getEditValue = function(cell, item) {
 };
 
 UIPropertyEditor.prototype._updateChanged = function(input, item) {
-	if(item.defvalue != item.value) {
+	if(!item.isdef) {
 		input.element.setAttribute("changed", "");
 	}
 	else {

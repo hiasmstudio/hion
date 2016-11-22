@@ -294,11 +294,14 @@ function SDK(pack) {
 					console.error("Pack", packName, "not found!")
 			} else if (line.substr(0, 4) === "Add(") {
 				var l = line.substr(4, line.length - 5).split(",");
-				if (this.pack.isEntry(l[0]) && this.imgs.length && this.imgs[0].name === l[0]) {
+				var isEntry = this.pack.isEntry(l[0]);
+				if (isEntry && this.imgs.length && this.imgs[0].name === l[0]) {
 					e = this.imgs[0];
 					e.move(parseInt(l[2]) - e.x, parseInt(l[3]) - e.y);
 				} else {
 					e = this.add(l[0], parseInt(l[2]), parseInt(l[3]));
+					if(isEntry && !this.parent)
+						e.flags |= window.IS_PARENT;
 				}
 				e.eid = parseInt(l[1]);
 				if (e.eid >= this.getCurrentID())

@@ -961,7 +961,10 @@ textarea {
       padding-left: 2px; }
     .ui-property-editor tr[selected] div.pe-value div.in div.advanced {
       padding-left: 2px;
-      width: 100%; }
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
   .ui-property-editor div.out {
     position: relative;
     height: 16px;

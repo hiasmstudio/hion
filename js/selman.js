@@ -91,7 +91,7 @@ function SelectManager(sdk) {
 	};
 	this.erase = function() {
 		for(var i = 0; i < this.items.length; i++) {
-			if((this.items[i].flags & window.IS_PARENT) === 0) {
+			if(this.items[i].canDelete()) {
 				for(var j = 0; j < this.sdk.imgs.length; j++) {
 					if(this.items[i] === this.sdk.imgs[j]) {
 						this.sdk.deleteElement(j);
