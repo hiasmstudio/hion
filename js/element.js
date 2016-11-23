@@ -257,6 +257,8 @@ ElementProperty.prototype.getText = function() {
 		case DATA_ENUM:
 		case DATA_ENUMEX:
 			return this.list[this.value];
+		case DATA_FONT:
+			return this.value.name + "," + this.value.size;
 	}
 	
 	return this.value.toString().replace(/</g, "&lt;");

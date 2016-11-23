@@ -1028,14 +1028,15 @@ function SdkEditor() {
 	
 	this.showHintObject = function(obj, x, y) {
 		if (obj) {
-			if(obj.type === 1) {
+			if(obj.type === OBJ_TYPE_ELEMENT) {
 				var h = this.hint.body();
-				h.n("div").class("header").html(obj.obj.name);
-				h.n("div").html(this.sdk.pack.translate(obj.obj.info));
+				var element = obj.obj;
+				h.n("div").class("header").html(element.name);
+				h.n("div").html(this.sdk.pack.translate(element.info));
 				var footer = null;
-				for(var i in obj.obj.props) {
-					var prop = obj.obj.props[i];
-					if(!prop.isDef() && prop.type !== DATA_INT) {
+				for(var i in element.props) {
+					var prop = element.props[i];
+					if(!prop.isDef()) {
 						if(!footer) {
 							footer = h.n("div").class("footer");
 						}
@@ -1043,11 +1044,11 @@ function SdkEditor() {
 						if(text.length > 300) {
 							text = text.substring(0, 300) + "...";
 						}
-						footer.n("div").html(i + " = " + text.replace(/\n/g, "<br>"));
+						footer.n("div").html("<u>" + i + "</u> = " + text.replace(/\n/g, "<br>"));
 					}
 				}
 			}
-			else if(obj.type === 2) {
+			else if(obj.type === OBJ_TYPE_POINT) {
 				var h = this.hint.body();
 				var header = h.n("div").class("header");
 				header.n("img").class("icon").attr("src", obj.obj.getIcon());
@@ -1057,7 +1058,7 @@ function SdkEditor() {
 				}
 				h.n("div").html(this.sdk.pack.translate(obj.obj.parent.getPointInfo(obj.obj)));
 			}
-			else if(obj.type === 5) {
+			else if(obj.type === OBJ_TYPE_HINT) {
 				this.hint.body().html(obj.obj.prop ? obj.obj.prop.name : "not selected");
 			}
 			else {
