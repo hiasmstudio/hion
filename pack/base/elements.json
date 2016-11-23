@@ -111,5 +111,15 @@
 			{ "name": "Caption", "type": 2, "def": "+", "flags": 1 },
 			{ "name": "Type", "type": 4, "def": 0, "list": "Work,Event,Var,Data" }
 		]
+	},
+	"Version": {
+		"tab": "helpers",
+		"class": "Version",
+		"props": [
+			{ "name": "Version", "type": 2, "def": "" },
+			{ "name": "Description", "type": 2, "def": "" },
+			{ "name": "InternalName", "type": 2, "def": "" },
+			{ "name": "E-mail", "type": 2, "def": "" }
+		]
 	}
 }
