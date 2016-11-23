@@ -1290,8 +1290,11 @@ VTElement.prototype.draw = function(ctx) {
 
 function LTElement(id) {
 	SdkElement.call(this, id);
+	
 	this.h = 18;
 	this.needCalcSize = true;
+	this.text = "";
+	this.link = "";
 }
 
 LTElement.prototype = Object.create(SdkElement.prototype);
@@ -1299,6 +1302,9 @@ LTElement.prototype = Object.create(SdkElement.prototype);
 LTElement.prototype.onpropchange = function(prop) {
 	if(prop === this.props.Link) {
 		this.needCalcSize = true;
+		var args = prop.value.split("=");
+		this.text = args.length == 2 ? args[0] : "";
+		this.link = args.length == 2 ? args[1] : args[0];
 	}
 };
 
@@ -1306,7 +1312,7 @@ LTElement.prototype.draw = function(ctx) {
 	ctx.font = "12px Arial";
 
 	if(this.needCalcSize) {
-		var metrics = ctx.measureText(this.props.Link.value);
+		var metrics = ctx.measureText(this.text);
 		this.w = metrics.width + 4;
 		this.needCalcSize = false;
 	}
@@ -1319,12 +1325,26 @@ LTElement.prototype.draw = function(ctx) {
 	}
 	
 	ctx.fillStyle = this.sys.Color.value;
-	ctx.fillText(this.props.Link.value, this.x + 2, this.y + 1 + 12);
+	ctx.fillText(this.text, this.x + 2, this.y + 1 + 12);
+	ctx.strokeStyle = this.sys.Color.value;
+	ctx.drawLine(this.x + 2, this.y + this.h - 2, this.x + this.w - 4, this.y + this.h - 2);
 };
 
 LTElement.prototype.mouseDown = function(x, y, button, flags) {
 	if(flags & 0x2) {
-		window.open(this.props.Link.value);
+		if(this.link.startsWith("multi")) {
+			var eid = parseInt(this.link.substr(8));
+			var e = this.parent.getElementByEId(eid);
+			if(e) {
+				this.parent.selMan.select(e);
+				if(e.sdk) {
+					commander.execCommand("forward");
+				}
+			}
+		}
+		else {
+			window.open(this.link);
+		}
 		return true;
 	}
 	return false;
