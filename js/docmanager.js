@@ -772,8 +772,8 @@ SHATab.prototype.moveto = function() {
 	var list = [];
 	for(var e in this.sdkEditor.sdk.pack.elements) {
 		var element = this.sdkEditor.sdk.pack.elements[e];
-		if(e == "MultiElement" || e == "MultiElementEx") {
-			list.push([this.sdkEditor.sdk.pack.getRoot() + "/icons/" + e + ".ico", e, translate.translate("el." + e)]);
+		if(element.class == "MultiElement" || element.class == "MultiElementEx") {
+			list.push([this.sdkEditor.sdk.pack.getRoot() + "/icons/" + e + ".ico", e, this.sdkEditor.sdk.pack.translate("el." + e)]);
 		}
 	}
 	var sdke = this.sdkEditor;
