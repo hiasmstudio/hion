@@ -1206,9 +1206,10 @@ function DocumentManageer(options) {
 	};
 	
 	this.open = function(fileName, title) {
+		// tab is already open?
 		var fTab = null;
 		this.tabs.each(function(tab){
-			if(tab.content && tab.content.file.location() == fileName) {
+			if(tab.content && tab.content.file && tab.content.file.location() == fileName) {
 				fTab = tab;
 			}
 		});
