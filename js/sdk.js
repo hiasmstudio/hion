@@ -232,7 +232,7 @@ function SDK(pack) {
 			text += propPoints;
 			for(var h of e.hints) {
 				if(h.prop) {
-					text += "  AddHint(" + h.x + "," + h.y + ",0,0," + h.prop.name + ")\n";
+					text += "  AddHint(" + h.x + "," + h.y + ",0,0," + (e.sys[h.prop.name] ? "@" : "") + h.prop.name + ")\n";
 				}
 			}
 			for (var j in e.points) {
