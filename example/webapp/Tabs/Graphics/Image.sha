@@ -26,7 +26,7 @@ Add(Image,8,133,56)
   Left=210
   Top=7
   Visible=0
-  URL=#11:favicon.ico|
+  URL=#28:http://hiasm.com/favicon.ico|
   link(onLoad,2:doDraw,[])
 }
 Add(For,9,252,56)

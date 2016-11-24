@@ -16,11 +16,10 @@ Add(Firebase,44,63,49)
 Add(MultiElementEx,67,140,49)
 {
   @Comment=#11:Secret room|
-  AddHint(-21,-41,0,0,Comment)
+  AddHint(-21,-41,0,0,@Comment)
   link(onEvent1,75:doWork1,[])
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,66,7,7)
 {
   EventCount=1
@@ -83,10 +82,9 @@ END_SDK
 Add(MultiElementEx,75,224,49)
 {
   @Comment=#9:Game core|
-  AddHint(-19,-41,0,0,Comment)
+  AddHint(-19,-41,0,0,@Comment)
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,74,7,7)
 {
   WorkCount=1
@@ -180,7 +178,6 @@ Add(MultiElementEx,89,294,105)
   @Comment=#11:Init matrix|
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,90,7,7)
 {
   WorkCount=1
@@ -379,7 +376,6 @@ Add(MultiElementEx,182,294,280)
   link(onEvent1,196:doValue,[])
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,181,7,7)
 {
   EventCount=1

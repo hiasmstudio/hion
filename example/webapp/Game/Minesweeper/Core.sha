@@ -62,14 +62,13 @@ Add(GetDataEx,66,161,133)
 Add(MultiElementEx,91,371,175)
 {
   @Comment=#9:Open cell|
-  AddHint(-14,62,0,0,Comment)
+  AddHint(39,89,0,0,@Comment)
   link(onEvent1,140:doWork1,[(417,181)(417,165)(298,165)])
   link(onEvent2,144:doEvent1,[(422,188)(422,69)])
   link(Data1,309:Var1,[(377,149)])
   link(Data2,107:Var2,[])
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,1,14,14)
 {
   EventCount=2
@@ -214,13 +213,11 @@ Add(HubEx,42,434,35)
 Add(MultiElementEx,44,588,98)
 {
   @Comment=#14:Check game end|
-  AddHint(45,15,0,0,Comment)
   link(onEvent1,50:doWork1,[(682,104)(682,202)])
   link(Data1,230:Var3,[(594,84)])
   link(Data2,48:Var3,[(601,63)])
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,1,7,7)
 {
   EventCount=1
@@ -341,11 +338,10 @@ END_SDK
 Add(MultiElementEx,96,161,259)
 {
   @Comment=#24:Calc bombs in near cells|
-  AddHint(58,9,0,0,Comment)
+  AddHint(80,5,0,0,@Comment)
   link(Data1,109:Var2,[])
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,1,7,7)
 {
   WorkCount=1
@@ -434,11 +430,10 @@ Add(Matrix,98,378,98)
 Add(MultiElementEx,99,126,203)
 {
   @Comment=#10:Setup bomb|
-  AddHint(-91,-43,0,0,Comment)
+  AddHint(-91,-43,0,0,@Comment)
   link(Data1,66:Var1,[(132,140)])
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,1,7,7)
 {
   WorkCount=1
@@ -463,7 +458,6 @@ Add(Memory,4,42,35)
 {
   Default=Real(35)
   @Comment=#15:Number of bombs|
-  AddHint(74,-16,0,0,Comment)
 }
 END_SDK
 Add(Hub,100,91,203)
@@ -476,12 +470,11 @@ Add(Hub,100,91,203)
 Add(MultiElementEx,102,196,301)
 {
   @Comment=#10:Draw cells|
-  AddHint(57,9,0,0,Comment)
+  AddHint(47,5,0,0,@Comment)
   link(Data1,109:Var3,[(202,245)])
   link(Data2,108:Var2,[])
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,1,7,7)
 {
   WorkCount=1

@@ -51,8 +51,11 @@ Add(Button,7,154,189)
 }
 Add(InfoTip,8,203,21)
 {
-  Info=#11:More styles|38:http://www.bestcssbuttongenerator.com/|
-  VAlign=1
+  Info=#11:More styles|
   @Width=372
-  @Height=25
+  @Height=39
+}
+Add(LinkTip,9,273,42)
+{
+  Link=#38:http://www.bestcssbuttongenerator.com/|
 }

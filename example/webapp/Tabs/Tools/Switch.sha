@@ -10,13 +10,13 @@ Add(MainForm,1,56,63)
 }
 Add(Switch,2,224,56)
 {
-  DataOn=#2:On|
-  DataOff=#3:Off|
-  Point(onOn)
+  DataOn=String(On)
+  DataOff=String(Off)
   Point(onOff)
+  Point(onOn)
   link(onSwitch,3:doCaption,[(270,62)(270,48)(154,48)(154,62)])
-  link(onOn,6:doWork2,[])
   link(onOff,6:doWork1,[])
+  link(onOn,6:doWork2,[])
 }
 Add(Button,3,168,56)
 {

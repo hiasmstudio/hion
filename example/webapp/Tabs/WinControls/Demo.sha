@@ -46,7 +46,7 @@ Add(Button,6,308,77)
   Top=49
   Width=#2:66|
   Height=#2:63|
-  URL=#32:/pack/base/icons/RadioButton.ico|
+  URL=#35:/pack/modules/icons/RadioButton.ico|
 }
 Add(Button,7,259,98)
 {
@@ -55,7 +55,7 @@ Add(Button,7,259,98)
   Width=#2:87|
   Height=#2:28|
   Caption=#5:Image|
-  URL=#11:favicon.ico|
+  URL=#12:/favicon.ico|
   Align=1
 }
 Add(CheckBox,8,98,140)

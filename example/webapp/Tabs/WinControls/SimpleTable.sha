@@ -45,7 +45,7 @@ Add(Button,6,140,154)
   Width=#2:48|
   Height=#2:20|
   Caption=#5:Clear|
-  Data=#8:2<asda>1|
+  Data=String(2<asda>1)
   link(onClick,2:doClear,[(295,160)(295,104)])
 }
 Add(Label,7,392,91)
@@ -66,6 +66,6 @@ Add(Label,8,140,14)
 }
 Add(ArrayAdd,10,252,91)
 {
-  Value=#11:img/sha.png|
+  Value=#12:/img/sha.png|
   link(onAdd,2:doAddRow,[])
 }

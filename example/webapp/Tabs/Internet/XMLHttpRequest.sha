@@ -45,7 +45,7 @@ Add(URLBuilder,11,287,98)
 }
 Add(Memory,12,287,42)
 {
-  Default=String(/examples/Tabs/Internet/XMLHttpRequest.sha)
+  Default=String(/examples/webapp/Tabs/Internet/XMLHttpRequest.sha)
 }
 Add(Loader,13,497,147)
 {
