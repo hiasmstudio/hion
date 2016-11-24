@@ -51,6 +51,7 @@ function Pack(name) {
 	this.make = [];
 	this.namesmap = {};
 	this.strings = {};
+	this.editors = {};
 	this.run = { mode: "none" };
 	this.title = "";
 }
@@ -87,6 +88,13 @@ Pack.prototype.load = function() {
 				pack.run = js.run;
 			if(js.namesmap)
 				pack.namesmap = js.namesmap;
+			if(js.editors) {
+				for(var e in js.editors) {
+					if(window[e]) {
+						pack.editors[window[e]] = js.editors[e];
+					}
+				}
+			}
 
 			$.get(pack.getRoot() + "/elements.json", function(data, pack) {
 				pack.elements = JSON.parse(data);
@@ -158,8 +166,18 @@ Pack.prototype.translate = function(string) {
 	return string;
 };
 
-Pack.prototype.initElement = function(element){
+Pack.prototype.initElement = function(element) {
 	if(this.parent)
 		this.parent.core.init(element);
 	this.core.init(element);
+};
+
+Pack.prototype.getPropertyEditor = function(propType) {
+	if(this.editors[propType])
+		return {name: this.editors[propType], path: this.getEditorsPath()};
+	
+	if(this.parent)
+		return this.parent.getPropertyEditor(propType);
+	
+	return null;
 };

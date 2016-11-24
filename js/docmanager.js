@@ -531,12 +531,21 @@ SHATab.prototype.show = function() {
 	};
 	propEditor.onadveditor = function(item) {
 		var e = __editor__.sdkEditor.sdk.selMan.items[0];
-		var customEditor = e.props[item.name] ? e.props[item.name].editor : e.sys[item.name].editor;
-		if(customEditor && customEditor.indexOf(":") != 0) {
-			if(!runners[customEditor]) {
-				runners[customEditor] = new Runner(__editor__.sdkEditor.sdk.pack.getEditorsPath() + customEditor);
+		var prop = e.props[item.name] || e.sys[item.name];
+		var customEditor = null;
+		// check self editor
+		if(prop.editor)
+			customEditor = {name: prop.editor, path: __editor__.sdkEditor.sdk.pack.getEditorsPath()};
+		// check property type editor
+		if(!customEditor) {
+			customEditor = __editor__.sdkEditor.sdk.pack.getPropertyEditor(item.type);
+		}
+		if(customEditor && customEditor.name.indexOf(":") != 0) {
+			var key = customEditor.path + customEditor.name;
+			if(!runners[key]) {
+				runners[key] = new Runner(customEditor.path + customEditor.name);
 			}
-			runners[customEditor].run([item.name, item.value, e.props], function(data) {
+			runners[key].run([item.name, item.value, e.props], function(data) {
 				__editor__.sdkEditor.sdk.selMan.setProp(item.name, data[0]);
 				__editor__.sdkEditor.onselectelement(__editor__.sdkEditor.sdk.selMan);
 				propEditor.onpropchange(null);

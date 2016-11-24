@@ -1,4 +1,7 @@
 {
 	"title": "Base pack",
-	"projects": []
+	"projects": [],
+	"editors": {
+		"DATA_FONT": "fonteditor"
+	}
 }
