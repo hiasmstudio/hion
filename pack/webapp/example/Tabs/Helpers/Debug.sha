@@ -1,0 +1,46 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Height=#2:83|
+  Caption=#10:Debug demo|
+}
+Add(Edit,2,217,14)
+{
+  Left=105
+  Top=21
+  Width=#3:176|
+  Text=#4:test|
+}
+Add(Label,3,301,112)
+{
+  Left=294
+  Top=21
+  Width=#2:71|
+  Height=#2:21|
+}
+Add(Button,4,140,112)
+{
+  Left=21
+  Top=21
+  Width=#2:66|
+  Caption=#2:Go|
+  Data=#11:Button data|
+  link(onClick,7:doEvent,[])
+}
+Add(DoData,5,217,112)
+{
+  link(onEventData,3:doCaption,[])
+  link(Data,9:Var,[])
+}
+Add(Debug,7,189,112)
+{
+  WEName=#7:Button:|
+  link(onEvent,5:doData,[])
+}
+Add(Debug,9,217,70)
+{
+  VDName=#5:Edit:|
+  link(Data,2:Text,[])
+}

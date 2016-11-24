@@ -1,0 +1,35 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Height=#3:156|
+  Theme=#13:my-style-name|
+  Caption=#20:Dialog theme example|
+}
+Add(CSS,2,224,56)
+{
+  StyleSheet=#16:.my-style-name {|23:	border: 3px solid red;|21:	border-radius: 15px;|1:}|0:|25:.my-style-name .caption {|17:	background: red;|14:	height: 20px;|1:}|0:|32:.my-style-name .caption .close {|80:    background-image: url("http://icons.hiasm.com/img/4/1499_cross_circle.png");|1:}|0:|22:.my-style-name .body {|27:	background-color: #F5F5DC;|1:}|0:|
+}
+Add(Button,3,224,112)
+{
+  Left=287
+  Top=77
+  Width=#2:80|
+  Height=#2:28|
+  Caption=#2:No|
+}
+Add(Label,4,161,56)
+{
+  Left=21
+  Top=14
+  Width=#3:365|
+  Height=#2:63|
+  Caption=#39:Are you sure want to delete windows 10?|
+}
+Add(Button,5,161,112)
+{
+  Left=196
+  Top=77
+  Width=#2:80|
+  Height=#2:28|
+  Caption=#3:Yes|
+}

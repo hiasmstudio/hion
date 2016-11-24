@@ -1,0 +1,61 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Width=#3:134|
+  Height=#3:227|
+  Caption=#7:Buttons|
+}
+Add(CSS,2,231,105)
+{
+  StyleSheet=#11:.myButton {|42:	-moz-box-shadow: 0px 0px 0px 2px #9fb4f2;|45:	-webkit-box-shadow: 0px 0px 0px 2px #9fb4f2;|37:	box-shadow: 0px 0px 0px 2px #9fb4f2;|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #7892c2), color-stop(1, #476e9e));|64:	background:-moz-linear-gradient(top, #7892c2 5%, #476e9e 100%);|67:	background:-webkit-linear-gradient(top, #7892c2 5%, #476e9e 100%);|62:	background:-o-linear-gradient(top, #7892c2 5%, #476e9e 100%);|63:	background:-ms-linear-gradient(top, #7892c2 5%, #476e9e 100%);|65:	background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#7892c2', endColorstr='#476e9e',GradientType=0);|26:	background-color:#7892c2;|25:	-moz-border-radius:10px;|28:	-webkit-border-radius:10px;|20:	border-radius:10px;|26:	border:1px solid #4e6096;|22:	display:inline-block;|16:	cursor:pointer;|15:	color:#ffffff;|19:	font-family:Arial;|16:	font-size:19px;|22:	text-decoration:none;|33:	text-shadow:0px 1px 0px #283966;|1:}|17:.myButton:hover {|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #476e9e), color-stop(1, #7892c2));|64:	background:-moz-linear-gradient(top, #476e9e 5%, #7892c2 100%);|67:	background:-webkit-linear-gradient(top, #476e9e 5%, #7892c2 100%);|62:	background:-o-linear-gradient(top, #476e9e 5%, #7892c2 100%);|63:	background:-ms-linear-gradient(top, #476e9e 5%, #7892c2 100%);|65:	background:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#476e9e', endColorstr='#7892c2',GradientType=0);|26:	background-color:#476e9e;|1:}|28:.myButton:active .ui-label {|17:	padding-top:2px;|1:}|0:|12:.myButton2 {|45:	-moz-box-shadow: 0px 10px 14px -7px #3e7327;|48:	-webkit-box-shadow: 0px 10px 14px -7px #3e7327;|40:	box-shadow: 0px 10px 14px -7px #3e7327;|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #77b55a), color-stop(1, #72b352));|64:	background:-moz-linear-gradient(top, #77b55a 5%, #72b352 100%);|67:	background:-webkit-linear-gradient(top, #77b55a 5%, #72b352 100%);|62:	background:-o-linear-gradient(top, #77b55a 5%, #72b352 100%);|63:	background:-ms-linear-gradient(top, #77b55a 5%, #72b352 100%);|65:	background:linear-gradient(to bottom, #77b55a 5%, #72b352 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77b55a', endColorstr='#72b352',GradientType=0);|26:	background-color:#77b55a;|24:	-moz-border-radius:4px;|27:	-webkit-border-radius:4px;|19:	border-radius:4px;|26:	border:1px solid #4b8f29;|22:	display:inline-block;|16:	cursor:pointer;|15:	color:#ffffff;|19:	font-family:Arial;|16:	font-size:13px;|18:	font-weight:bold;|18:	padding:6px 12px;|22:	text-decoration:none;|33:	text-shadow:0px 1px 0px #5b8a3c;|1:}|18:.myButton2:hover {|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #72b352), color-stop(1, #77b55a));|64:	background:-moz-linear-gradient(top, #72b352 5%, #77b55a 100%);|67:	background:-webkit-linear-gradient(top, #72b352 5%, #77b55a 100%);|62:	background:-o-linear-gradient(top, #72b352 5%, #77b55a 100%);|63:	background:-ms-linear-gradient(top, #72b352 5%, #77b55a 100%);|65:	background:linear-gradient(to bottom, #72b352 5%, #77b55a 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#72b352', endColorstr='#77b55a',GradientType=0);|26:	background-color:#72b352;|1:}|29:.myButton2:active .ui-label {|17:	padding-top:2px;|1:}|0:|12:.myButton3 {|47:	-moz-box-shadow:inset 0px 1px 0px 0px #9acc85;|50:	-webkit-box-shadow:inset 0px 1px 0px 0px #9acc85;|42:	box-shadow:inset 0px 1px 0px 0px #9acc85;|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #74ad5a), color-stop(1, #68a54b));|64:	background:-moz-linear-gradient(top, #74ad5a 5%, #68a54b 100%);|67:	background:-webkit-linear-gradient(top, #74ad5a 5%, #68a54b 100%);|62:	background:-o-linear-gradient(top, #74ad5a 5%, #68a54b 100%);|63:	background:-ms-linear-gradient(top, #74ad5a 5%, #68a54b 100%);|65:	background:linear-gradient(to bottom, #74ad5a 5%, #68a54b 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#74ad5a', endColorstr='#68a54b',GradientType=0);|26:	background-color:#74ad5a;|26:	border:1px solid #3b6e22;|22:	display:inline-block;|16:	cursor:pointer;|15:	color:#ffffff;|19:	font-family:Arial;|16:	font-size:13px;|18:	font-weight:bold;|18:	padding:6px 12px;|22:	text-decoration:none;|1:}|18:.myButton3:hover {|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #68a54b), color-stop(1, #74ad5a));|64:	background:-moz-linear-gradient(top, #68a54b 5%, #74ad5a 100%);|67:	background:-webkit-linear-gradient(top, #68a54b 5%, #74ad5a 100%);|62:	background:-o-linear-gradient(top, #68a54b 5%, #74ad5a 100%);|63:	background:-ms-linear-gradient(top, #68a54b 5%, #74ad5a 100%);|65:	background:linear-gradient(to bottom, #68a54b 5%, #74ad5a 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#68a54b', endColorstr='#74ad5a',GradientType=0);|26:	background-color:#68a54b;|1:}|29:.myButton3:active .ui-label {|17:	padding-top:2px;|1:}|0:|12:.myButton4 {|47:	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;|50:	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;|42:	box-shadow:inset 0px 1px 0px 0px #ffffff;|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));|64:	background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);|67:	background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);|62:	background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);|63:	background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);|65:	background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);|26:	background-color:#f9f9f9;|24:	-moz-border-radius:6px;|27:	-webkit-border-radius:6px;|19:	border-radius:6px;|26:	border:1px solid #dcdcdc;|22:	display:inline-block;|16:	cursor:pointer;|15:	color:#666666;|19:	font-family:Arial;|16:	font-size:15px;|18:	font-weight:bold;|18:	padding:6px 24px;|22:	text-decoration:none;|33:	text-shadow:0px 1px 0px #ffffff;|1:}|18:.myButton4:hover {|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));|64:	background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);|67:	background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);|62:	background:-o-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);|63:	background:-ms-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);|65:	background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9',GradientType=0);|26:	background-color:#e9e9e9;|1:}|29:.myButton4:active .ui-label {|17:	padding-top:2px;|1:}|0:|12:.myButton5 {|42:	-moz-box-shadow: 3px 4px 0px 0px #8a2a21;|45:	-webkit-box-shadow: 3px 4px 0px 0px #8a2a21;|37:	box-shadow: 3px 4px 0px 0px #8a2a21;|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #c62d1f), color-stop(1, #f24437));|64:	background:-moz-linear-gradient(top, #c62d1f 5%, #f24437 100%);|67:	background:-webkit-linear-gradient(top, #c62d1f 5%, #f24437 100%);|62:	background:-o-linear-gradient(top, #c62d1f 5%, #f24437 100%);|63:	background:-ms-linear-gradient(top, #c62d1f 5%, #f24437 100%);|65:	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c62d1f', endColorstr='#f24437',GradientType=0);|26:	background-color:#c62d1f;|25:	-moz-border-radius:18px;|28:	-webkit-border-radius:18px;|20:	border-radius:18px;|26:	border:1px solid #d02718;|22:	display:inline-block;|16:	cursor:pointer;|15:	color:#ffffff;|19:	font-family:Arial;|16:	font-size:17px;|18:	padding:7px 25px;|22:	text-decoration:none;|33:	text-shadow:0px 1px 0px #810e05;|1:}|18:.myButton5:hover {|111:	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f24437), color-stop(1, #c62d1f));|64:	background:-moz-linear-gradient(top, #f24437 5%, #c62d1f 100%);|67:	background:-webkit-linear-gradient(top, #f24437 5%, #c62d1f 100%);|62:	background:-o-linear-gradient(top, #f24437 5%, #c62d1f 100%);|63:	background:-ms-linear-gradient(top, #f24437 5%, #c62d1f 100%);|65:	background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);|114:	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f24437', endColorstr='#c62d1f',GradientType=0);|26:	background-color:#f24437;|1:}|29:.myButton5:active .ui-label {|17:	padding-top:2px;|1:}|0:|
+}
+Add(Button,3,154,21)
+{
+  Left=28
+  Top=14
+  Width=#2:80|
+  Height=#2:28|
+  Theme=#8:myButton|
+}
+Add(Button,4,154,63)
+{
+  Left=28
+  Top=49
+  Width=#2:80|
+  Height=#2:28|
+  Theme=#9:myButton2|
+}
+Add(Button,5,154,147)
+{
+  Left=28
+  Top=84
+  Width=#2:80|
+  Height=#2:28|
+  Theme=#9:myButton5|
+}
+Add(Button,6,154,105)
+{
+  Left=28
+  Top=119
+  Width=#2:80|
+  Height=#2:28|
+  Theme=#9:myButton4|
+}
+Add(Button,7,154,189)
+{
+  Left=28
+  Top=154
+  Width=#2:80|
+  Height=#2:28|
+  Theme=#9:myButton3|
+}
+Add(InfoTip,8,203,21)
+{
+  Info=#11:More styles|
+  @Width=372
+  @Height=39
+}
+Add(LinkTip,9,273,42)
+{
+  Link=#38:http://www.bestcssbuttongenerator.com/|
+}

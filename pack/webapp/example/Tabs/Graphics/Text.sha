@@ -1,0 +1,35 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:303|
+  Height=#3:226|
+  Caption=#14:Draw text demo|
+  link(onCreate,2:doDraw,[])
+}
+Add(PaintBox,2,140,56)
+{
+  Left=21
+  Top=21
+  Width=#3:261|
+  Height=#3:163|
+  link(onDraw,7:doStroke,[])
+}
+Add(DrawText,6,308,56)
+{
+  X=30
+  Y=30
+  Text=#18:Hello from HiOn!!!|
+  Type=2
+  Font=#10:30px Arial|
+}
+Add(StrokeStyle,7,196,56)
+{
+  link(onStroke,8:doFill,[])
+}
+Add(FillStyle,8,252,56)
+{
+  Color=#f88
+  link(onFill,6:doDraw,[])
+}

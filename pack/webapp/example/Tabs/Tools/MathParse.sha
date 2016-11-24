@@ -1,0 +1,201 @@
+Make(webapp)
+Add(MainForm,1,49,56)
+{
+  Left=56
+  Top=56
+  Width=#3:380|
+  Height=#3:201|
+  Caption=#16:MathParse usages|
+}
+Add(Button,11,147,91)
+{
+  Left=28
+  Top=14
+  Width=#3:108|
+  Caption=#12:Function min|
+  link(onClick,12:doCalc,[])
+}
+Add(MathParse,12,217,91)
+{
+  MathStr=#15:min($op1, $op2)|
+  Args=#3:op1|3:op2|
+  AddHint(-27,39,0,0,MathStr)
+  link(onResult,13:doCaption,[])
+  link(op1,14:Value,[(223,79)(209,79)])
+  link(op2,15:Value,[(230,79)(251,79)])
+}
+Add(Label,13,287,91)
+{
+  Left=154
+  Top=14
+  Width=#2:85|
+  Height=#2:21|
+  Caption=#1:0|
+}
+Add(Memory,14,203,35)
+{
+  Default=#1:2|
+  AddHint(-48,7,0,0,Default)
+}
+Add(Memory,15,245,35)
+{
+  Default=#1:3|
+  AddHint(63,7,0,0,Default)
+}
+Add(InfoTip,16,133,14)
+{
+  Info=#9:Functions|
+  @Width=218
+  @Height=137
+}
+Add(Button,17,147,238)
+{
+  Left=28
+  Top=56
+  Width=#3:108|
+  Caption=#10:Read array|
+  link(onClick,18:doCalc,[])
+}
+Add(MathParse,18,217,238)
+{
+  MathStr=#14:$array[$index]|
+  Args=#5:array|5:index|
+  AddHint(-13,39,0,0,MathStr)
+  link(onResult,19:doCaption,[])
+  link(array,41:Var2,[])
+  link(index,24:Value,[(230,229)(272,229)])
+}
+Add(Label,19,287,238)
+{
+  Left=154
+  Top=56
+  Width=#2:85|
+  Height=#2:21|
+  Caption=#1:0|
+}
+Add(InfoTip,22,133,161)
+{
+  Info=#10:Array read|
+  @Width=218
+  @Height=137
+}
+Add(Array,23,217,182)
+{
+  Array=#15:[111, 222, 333]|
+}
+Add(Memory,24,266,182)
+{
+  Default=#1:1|
+  AddHint(48,5,0,0,Default)
+}
+Add(Button,25,147,385)
+{
+  Left=28
+  Top=98
+  Width=#3:108|
+  Caption=#12:Create array|
+  link(onClick,26:doCalc,[])
+}
+Add(MathParse,26,217,385)
+{
+  MathStr=#16:[$item1, $item2]|
+  Args=#5:item1|5:item2|
+  AddHint(-14,39,0,0,MathStr)
+  link(onResult,27:doCaption,[])
+  link(item1,32:Value,[(223,373)(216,373)])
+  link(item2,34:Value,[(230,373)(265,373)])
+}
+Add(Label,27,287,385)
+{
+  Left=154
+  Top=98
+  Width=#2:85|
+  Height=#2:21|
+  Caption=#1:0|
+}
+Add(InfoTip,28,133,308)
+{
+  Info=#12:Create array|
+  @Width=218
+  @Height=137
+}
+Add(Memory,32,210,329)
+{
+  Default=#1:2|
+  AddHint(-48,7,0,0,Default)
+}
+Add(Memory,34,259,329)
+{
+  Default=#1:3|
+  AddHint(63,7,0,0,Default)
+}
+Add(Button,35,385,238)
+{
+  Left=245
+  Top=56
+  Width=#3:108|
+  Caption=#11:Write array|
+  link(onClick,36:doCalc,[])
+}
+Add(MathParse,36,455,238)
+{
+  MathStr=#19:$array[$index] += 2|
+  Args=#5:array|5:index|
+  AddHint(18,37,0,0,MathStr)
+  link(array,41:Var3,[(461,224)])
+  link(index,40:Value,[(468,226)(510,226)])
+}
+Add(InfoTip,38,371,161)
+{
+  Info=#11:Array write|
+  @Width=218
+  @Height=137
+}
+Add(Array,39,455,182)
+{
+  Array=#15:[111, 222, 333]|
+}
+Add(Memory,40,504,182)
+{
+  Default=#1:1|
+  AddHint(48,5,0,0,Default)
+}
+Add(GetDataEx,41,217,217)
+{
+  link(Data,23:Array,[])
+}
+Add(Button,42,147,532)
+{
+  Left=28
+  Top=140
+  Width=#3:108|
+  Caption=#13:Use GlobalVar|
+  link(onClick,43:doCalc,[])
+}
+Add(MathParse,43,217,532)
+{
+  MathStr=#9: _myvar/5|
+  Args=#0:|
+  AddHint(-11,38,0,0,MathStr)
+  link(onResult,44:doCaption,[])
+}
+Add(Label,44,287,532)
+{
+  Left=154
+  Top=140
+  Width=#2:85|
+  Height=#2:21|
+  Caption=#1:0|
+}
+Add(InfoTip,45,133,455)
+{
+  Info=#13:Use GlobalVar|
+  @Width=218
+  @Height=137
+}
+Add(GlobalVar,48,217,476)
+{
+  Name=#5:myvar|
+  Default=#2:45|
+  AddHint(75,-2,0,0,Default)
+}

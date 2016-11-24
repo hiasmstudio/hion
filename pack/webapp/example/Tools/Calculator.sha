@@ -1,0 +1,322 @@
+Make(webapp)
+Add(MainForm,32,63,14)
+{
+  Left=56
+  Top=56
+  Width=#3:276|
+  Height=#3:267|
+  Caption=#10:Calculator|
+}
+Add(Button,33,63,217)
+{
+  Left=21
+  Top=189
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:0|
+  link(onClick,46:doWork1,[])
+}
+Add(MathParse,34,483,385)
+{
+  Point(doMathStr)
+  link(onResult,69:doWork1,[(529,391)(529,230)])
+  link(X1,62:Value,[(489,365)(839,365)])
+  link(X2,90:Var2,[])
+}
+Add(Edit,35,427,119)
+{
+  Left=21
+  Top=14
+  Width=#3:234|
+  Enabled=0
+  Text=#1:0|
+}
+Add(Button,34,63,168)
+{
+  Left=21
+  Top=140
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:1|
+  link(onClick,46:doWork2,[(114,174)(114,230)])
+}
+Add(Button,34,175,168)
+{
+  Left=119
+  Top=140
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:3|
+  link(onClick,46:doWork4,[(230,174)(230,244)])
+}
+Add(Button,35,119,168)
+{
+  Left=70
+  Top=140
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:2|
+  link(onClick,46:doWork3,[(170,174)(170,237)])
+}
+Add(Button,37,63,119)
+{
+  Left=21
+  Top=91
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:4|
+  link(onClick,46:doWork5,[(109,125)(109,251)])
+}
+Add(Button,38,175,119)
+{
+  Left=119
+  Top=91
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:6|
+  link(onClick,46:doWork7,[(226,125)(226,265)])
+}
+Add(Button,39,119,119)
+{
+  Left=70
+  Top=91
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:5|
+  link(onClick,46:doWork6,[(165,125)(165,258)])
+}
+Add(Button,37,63,70)
+{
+  Left=21
+  Top=42
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:7|
+  link(onClick,46:doWork8,[(103,76)(103,272)])
+}
+Add(Button,38,175,70)
+{
+  Left=119
+  Top=42
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:9|
+  link(onClick,46:doWork10,[(221,76)(221,286)])
+}
+Add(Button,39,119,70)
+{
+  Left=70
+  Top=42
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:8|
+  link(onClick,46:doWork9,[(159,76)(159,279)])
+}
+Add(Button,34,189,315)
+{
+  Left=70
+  Top=189
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#2:00|
+  Data=#2:00|
+  link(onClick,72:doCompare,[])
+}
+Add(Button,34,63,385)
+{
+  Left=119
+  Top=189
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:.|
+  link(onClick,75:doPosition,[])
+}
+Add(Button,42,539,266)
+{
+  Left=168
+  Top=91
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:*|
+  Data=#1:*|
+  link(onClick,84:doWork2,[])
+}
+Add(Button,43,539,182)
+{
+  Left=168
+  Top=42
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:+|
+  Data=#1:+|
+  link(onClick,82:doWork2,[])
+}
+Add(Button,44,427,385)
+{
+  Left=168
+  Top=189
+  Width=#2:88|
+  Height=#2:39|
+  Caption=#1:=|
+  link(onClick,34:doCalc,[])
+}
+Add(Button,44,539,308)
+{
+  Left=217
+  Top=91
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:/|
+  Data=#1:/|
+  link(onClick,84:doWork3,[(592,314)])
+}
+Add(Button,45,539,224)
+{
+  Left=217
+  Top=42
+  Width=#2:39|
+  Height=#2:39|
+  Caption=#1:-|
+  Data=#1:-|
+  link(onClick,83:doWork2,[])
+}
+Add(ChannelToIndex,46,252,217)
+{
+  Count=10
+  link(onIndex,48:doWork2,[])
+}
+Add(StrCat,47,427,224)
+{
+  link(onStrCat,69:doWork2,[])
+  link(Str1,65:Var2,[])
+}
+Add(HubEx,48,315,217)
+{
+  link(onEvent,70:doCompare,[])
+}
+Add(Button,58,259,119)
+{
+  Left=168
+  Top=140
+  Width=#2:88|
+  Height=#2:39|
+  Caption=#5:Clear|
+  link(onClick,67:doWork2,[])
+}
+Add(HubEx,59,399,119)
+{
+  link(onEvent,35:doText,[])
+}
+Add(Memory,62,833,182)
+{
+  Default=#1:0|
+  @Comment=#10:Operator 1|
+}
+Add(Hub,63,721,182)
+{
+  OutCount=3
+  link(onEvent1,64:doData,[])
+  link(onEvent2,67:doWork1,[(751,195)(751,107)(319,107)])
+  link(onEvent3,34:doMathStr,[(750,202)(750,427)(471,427)(471,398)])
+}
+Add(DoData,64,770,182)
+{
+  link(onEventData,62:doValue,[])
+  link(Data,68:Var3,[(776,168)])
+}
+Add(GetDataEx,65,427,161)
+{
+  link(Data,35:Text,[])
+}
+Add(DoData,66,336,119)
+{
+  Data=#1:0|
+  link(onEventData,59:doWork2,[])
+}
+Add(HubEx,67,315,119)
+{
+  link(onEvent,66:doData,[])
+}
+Add(GetDataEx,68,490,161)
+{
+  Angle=3
+  link(Data,65:Var3,[])
+}
+Add(HubEx,69,476,224)
+{
+  Angle=3
+  link(onEvent,71:doWork1,[(480,188)])
+}
+Add(If_else,70,357,217)
+{
+  Op2=#1:0|
+  link(onTrue,71:doWork3,[(403,223)])
+  link(onFalse,93:doWork2,[])
+  link(Op1,65:Var1,[(363,168)])
+}
+Add(HubEx,71,399,182)
+{
+  Angle=3
+  link(onEvent,59:doWork3,[(403,176)])
+}
+Add(If_else,72,252,315)
+{
+  Type=5
+  Op2=#1:0|
+  link(onTrue,48:doWork3,[(319,321)])
+  link(Op1,78:Var2,[])
+}
+Add(Position,75,126,385)
+{
+  Search=#1:.|
+  link(onPosition,76:doCompare,[])
+  link(String,78:Var1,[(132,301)])
+}
+Add(If_else,76,189,385)
+{
+  Type=1
+  Op2=#1:0|
+  link(onTrue,77:doData,[])
+}
+Add(DoData,77,252,385)
+{
+  Data=#1:.|
+  link(onEventData,93:doWork3,[(410,391)])
+}
+Add(GetDataEx,78,252,294)
+{
+  Angle=1
+  link(Data,90:Var1,[])
+}
+Add(StrCat,80,609,182)
+{
+  Str1=#2:%1|
+  link(onStrCat,81:doStrCat,[])
+}
+Add(StrCat,81,665,182)
+{
+  Str2=#2:%2|
+  link(onStrCat,63:doEvent1,[])
+}
+Add(HubEx,82,588,182)
+{
+  link(onEvent,80:doStrCat,[])
+}
+Add(HubEx,83,588,224)
+{
+  Angle=3
+  link(onEvent,82:doWork3,[])
+}
+Add(HubEx,84,588,266)
+{
+  Angle=3
+  link(onEvent,83:doWork3,[])
+}
+Add(GetDataEx,90,490,294)
+{
+  link(Data,68:Var2,[])
+}
+Add(HubEx,93,406,224)
+{
+  link(onEvent,47:doStrCat,[])
+}

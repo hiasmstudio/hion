@@ -1,0 +1,233 @@
+Make(webapp)
+Add(MainForm,1,56,21)
+{
+  Width=#3:238|
+  Height=#3:290|
+  link(onCreate,4:doEvent1,[])
+}
+Add(PaintBox,2,196,161)
+{
+  Left=7
+  Top=35
+  Width=#3:220|
+  Height=#3:220|
+  Point(onMouseDown)
+  link(onDraw,5:doEnum,[])
+  link(onMouseDown,11:doCalc,[(247,174)(247,237)])
+}
+Add(Matrix,3,259,21)
+{
+  Width=20
+  Height=20
+  link(onClear,35:doClear,[])
+}
+Add(Hub,4,126,21)
+{
+  OutCount=3
+  link(onEvent1,3:doClear,[])
+  link(onEvent2,43:doWork1,[(214,34)])
+  link(onEvent3,14:doWork1,[(172,41)])
+}
+Add(MatrixEnum,5,259,161)
+{
+  Data=1
+  link(onEnum,8:doCompare,[])
+  link(Matrix,13:Var2,[])
+}
+Add(MathParse,6,385,161)
+{
+  MathStr=#29:point($pos[1]*11, $pos[2]*11)|
+  Args=#3:pos|
+  link(onResult,7:doDraw,[(436,167)(436,251)])
+}
+Add(Rectangle,7,455,245)
+{
+  X2=10
+  Y2=10
+  link(Canvas,2:Canvas,[(461,219)(202,219)])
+}
+Add(If_else,8,336,161)
+{
+  Op2=Real(1)
+  link(onTrue,6:doCalc,[])
+  link(Op1,5:Item,[(342,147)(300,147)(300,207)(265,207)])
+}
+Add(MathParse,11,259,231)
+{
+  MathStr=#38:[floor($pos[0]/11), floor($pos[1]/11)]|
+  Args=#3:pos|
+  link(onResult,12:doWrite,[])
+}
+Add(MatrixWrite,12,308,231)
+{
+  Value=Real(1)
+  link(onWrite,14:doWork3,[(355,237)(355,282)(172,282)])
+  link(Matrix,13:Var3,[(314,133)])
+}
+Add(GetDataEx,13,259,126)
+{
+  link(Data,37:State,[])
+}
+Add(HubEx,14,168,161)
+{
+  link(onEvent,2:doDraw,[])
+}
+Add(Button,17,70,385)
+{
+  Left=14
+  Top=7
+  Caption=#3:Run|
+  link(onClick,19:doEnum,[])
+}
+Add(Timer,18,126,406)
+{
+}
+Add(MatrixEnum,19,182,385)
+{
+  link(onEnum,22:doEnum,[])
+  link(onEnd,42:doEvent1,[(228,398)(228,449)(20,449)(20,90)])
+  link(Matrix,26:Var2,[])
+}
+Add(If_else,20,455,497)
+{
+  Op2=Real(0)
+  link(onTrue,27:doCompare,[(499,503)(499,461)])
+  link(onFalse,52:doCompare,[])
+  link(Op1,19:Item,[(461,471)(188,471)])
+}
+Add(Array,21,238,336)
+{
+  Array=#1:[|10:	[-1, -1],|9:	[-1, 0],|9:	[-1, 1],|8:	[0, 1],|8:	[1, 1],|8:	[1, 0],|9:	[1, -1],|8:	[0, -1]|1:]|
+}
+Add(ArrayEnum,22,238,385)
+{
+  link(onEnum,25:doCalc,[])
+  link(onEnd,66:doEvent1,[(286,398)(286,503)])
+  link(Array,21:Array,[])
+}
+Add(MatrixRead,23,357,385)
+{
+  link(onRead,24:doCalc,[])
+  link(Matrix,26:Var3,[(363,357)])
+}
+Add(MathParse,24,406,385)
+{
+  MathStr=#16:$result + $value|
+  Args=#5:value|
+}
+Add(MathParse,25,308,385)
+{
+  MathStr=#44:[$pos[0] + $offset[0], $pos[1] + $offset[1]]|
+  Args=#3:pos|6:offset|
+  link(onResult,23:doRead,[])
+  link(pos,29:Var2,[(314,371)(293,371)])
+}
+Add(GetDataEx,26,182,350)
+{
+  link(Data,13:Var1,[(188,133)])
+}
+Add(If_else,27,553,455)
+{
+  Op2=Real(3)
+  link(onTrue,58:doWork2,[])
+}
+Add(MatrixWrite,28,616,455)
+{
+  Value=Real(1)
+  link(Matrix,45:Var3,[(622,126)])
+  link(Index,29:Var3,[(629,434)])
+}
+Add(GetDataEx,29,287,427)
+{
+  Angle=3
+  link(Data,19:Index,[(195,434)])
+}
+Add(Matrix,35,322,21)
+{
+  Width=20
+  Height=20
+}
+Add(Switch,37,259,84)
+{
+  Point(DataOn)
+  Point(DataOff)
+  link(onSwitch,39:doSwitch,[])
+  link(DataOn,40:Var2,[])
+  link(DataOff,41:Var1,[(272,70)])
+}
+Add(Switch,39,315,84)
+{
+  Default=0
+  Point(DataOn)
+  Point(DataOff)
+  link(DataOn,40:Var3,[(321,77)])
+  link(DataOff,41:Var2,[])
+}
+Add(GetDataEx,40,259,70)
+{
+  link(Data,3:Array,[])
+}
+Add(GetDataEx,41,322,63)
+{
+  link(Data,35:Array,[])
+}
+Add(Hub,42,42,84)
+{
+  OutCount=3
+  link(onEvent1,43:doWork2,[])
+  link(onEvent2,14:doWork2,[(152,97)(152,167)])
+  link(onEvent3,44:doEnum,[(70,104)(70,188)])
+}
+Add(HubEx,43,210,84)
+{
+  link(onEvent,37:doSwitch,[])
+}
+Add(MatrixEnum,44,84,182)
+{
+  link(onEnum,46:doWrite,[])
+  link(Matrix,47:Var2,[])
+}
+Add(GetDataEx,45,315,119)
+{
+  link(Data,39:State,[])
+}
+Add(MatrixWrite,46,133,182)
+{
+  Value=Real(0)
+  link(Matrix,47:Var3,[(139,161)])
+  link(Index,44:Index,[(146,168)(122,168)(122,228)(97,228)])
+}
+Add(GetDataEx,47,84,154)
+{
+  link(Data,45:Var1,[(90,126)])
+}
+Add(If_else,52,504,504)
+{
+  Op2=Real(2)
+  link(onTrue,65:doWork2,[])
+  link(onFalse,59:doCompare,[])
+}
+Add(HubEx,58,595,455)
+{
+  link(onEvent,28:doWrite,[])
+}
+Add(If_else,59,553,511)
+{
+  Op2=Real(3)
+  link(onTrue,65:doWork3,[(599,517)])
+}
+Add(DoData,64,406,497)
+{
+  link(onEventData,20:doCompare,[])
+  link(Data,24:Result,[])
+}
+Add(HubEx,65,595,504)
+{
+  Angle=3
+  link(onEvent,58:doWork3,[])
+}
+Add(Hub,66,371,497)
+{
+  link(onEvent1,64:doData,[])
+  link(onEvent2,24:doClear,[(396,510)(396,398)])
+}

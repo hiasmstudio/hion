@@ -1,0 +1,44 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:405|
+  Height=#3:307|
+  Caption=#14:File info demo|
+}
+Add(Label,4,203,28)
+{
+  Left=168
+  Top=21
+  Width=#2:99|
+  Height=#2:42|
+  Caption=#15:Drop files here|
+}
+Add(FileInfo,2,203,84)
+{
+  link(onInfo,6:doString,[])
+}
+Add(DropBox,3,126,84)
+{
+  Left=28
+  Top=14
+  Width=#3:344|
+  link(onDropFile,2:doInfo,[])
+}
+Add(ListBox,5,336,84)
+{
+  Left=28
+  Top=84
+  Width=#3:351|
+  Height=#3:177|
+}
+Add(FormatStr,6,273,84)
+{
+  DataCount=3
+  Mask=#28:Name: %1, size: %2, type: %3|
+  link(onFString,5:doAdd,[])
+  link(Str1,2:Name,[(279,70)(244,70)(244,130)(209,130)])
+  link(Str2,2:Size,[(286,70)(251,70)(251,130)(216,130)])
+  link(Str3,2:Mime,[(293,70)(258,70)(258,130)(223,130)])
+}

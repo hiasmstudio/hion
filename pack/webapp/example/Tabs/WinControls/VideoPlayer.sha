@@ -1,0 +1,72 @@
+Make(webapp)
+Add(MainForm,1,63,161)
+{
+  Left=56
+  Top=56
+  Width=340
+  Height=275
+  Caption=Video player demo
+  link(onCreate,6:doTimer,[])
+}
+Add(VideoPlayer,2,224,63)
+{
+  Left=14
+  Top=14
+  Width=312
+  Height=171
+  URL=http://www.w3schools.com/html/mov_bbb.ogg
+  link(onPlay,11:doMessage,[])
+}
+Add(Button,3,133,63)
+{
+  Left=98
+  Top=196
+  Width=73
+  Height=28
+  Caption=Play
+  link(onClick,2:doPlay,[])
+}
+Add(Button,4,133,112)
+{
+  Left=182
+  Top=196
+  Width=73
+  Height=28
+  Caption=Pause
+  link(onClick,2:doPause,[(195,118)(195,76)])
+}
+Add(Label,5,385,161)
+{
+  Left=147
+  Top=231
+  Width=64
+  Caption=---
+}
+Add(Timer,6,161,161)
+{
+  link(onTimer,7:doEvent,[])
+}
+Add(IndexToChannel,7,224,161)
+{
+  link(Index,2:Paused,[])
+  link(onEvent1,8:doData,[])
+  link(onEvent2,10:doData,[])
+}
+Add(DoData,8,280,161)
+{
+  Data=played
+  link(onEventData,9:doWork2,[])
+}
+Add(HubEx,9,364,161)
+{
+  link(onEvent,5:doCaption,[])
+}
+Add(DoData,10,322,168)
+{
+  Data=paused
+  link(onEventData,9:doWork3,[(368,174)])
+}
+Add(Message,11,294,63)
+{
+  Text=Video was finished
+}

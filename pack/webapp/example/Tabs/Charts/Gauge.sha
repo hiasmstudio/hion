@@ -1,0 +1,57 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:358|
+  Height=#3:237|
+  Caption=#10:Gauge demo|
+}
+Add(Button,3,105,84)
+{
+  Left=28
+  Top=7
+  Caption=#4:Draw|
+  link(onClick,27:doEvent1,[])
+}
+Add(ChartData,13,287,14)
+{
+  Array=#1:[|21:  ["col 1", "col 2"],|17:  ["Static", 30],|17:  ["Dynamic", 65]|1:]|
+}
+Add(HubEx,20,336,84)
+{
+  link(onEvent,22:doDraw,[])
+}
+Add(ChartDataSet,21,287,105)
+{
+  Row=1
+  Column=1
+  link(onSet,20:doWork3,[(340,111)])
+  link(Data,29:Var2,[])
+}
+Add(ChartGauge,22,357,84)
+{
+  Left=28
+  Top=42
+  Height=#3:146|
+  link(Data,29:Var3,[(363,63)])
+}
+Add(Timer,23,189,105)
+{
+  link(onTimer,26:doCalc,[])
+}
+Add(MathParse,26,238,105)
+{
+  MathStr=#19:round(random()*100)|
+  DataCount=0
+  link(onResult,21:doSet,[])
+}
+Add(Hub,27,154,84)
+{
+  link(onEvent1,20:doWork2,[])
+  link(onEvent2,23:doTimer,[(178,97)(178,111)])
+}
+Add(GetDataEx,29,287,56)
+{
+  link(Data,13:Data,[])
+}

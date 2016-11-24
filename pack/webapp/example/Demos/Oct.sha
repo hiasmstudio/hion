@@ -1,0 +1,143 @@
+Make(webapp)
+Add(MainForm,1,42,91)
+{
+  Left=56
+  Top=56
+  Width=#3:235|
+  Height=#3:253|
+  Caption=#13:Octaider demo|
+  link(onCreate,3:doTimer,[])
+}
+Add(PaintBox,2,154,91)
+{
+  Left=14
+  Top=14
+  Width=#3:205|
+  Height=#3:205|
+  link(onDraw,27:doFill,[])
+}
+Add(Timer,3,98,91)
+{
+  Interval=10
+  link(onTimer,2:doDraw,[])
+}
+Add(For,4,406,161)
+{
+  End=720
+  Step=45
+  link(onEvent,6:doCalc,[])
+  link(onStop,5:doNext,[(457,174)(457,111)])
+}
+Add(Counter,5,469,105)
+{
+  Max=44
+}
+Add(MathParse,6,469,161)
+{
+  MathStr=#6:point(|32:  100*sin((%1 + %2)/180*PI)+100,|31:  100*cos((%1 + %2)/180*PI)+100|1:)|
+  link(onResult,9:doAdd,[])
+  link(X1,5:Value,[])
+}
+Add(Array,7,553,91)
+{
+}
+Add(Hub,8,350,91)
+{
+  OutCount=3
+  link(onEvent1,7:doClear,[])
+  link(onEvent2,4:doFor,[(385,104)(385,167)])
+  link(onEvent3,10:doFor,[(385,111)(385,230)])
+}
+Add(ArrayAdd,9,553,161)
+{
+  link(Array,13:Var2,[])
+}
+Add(For,10,406,224)
+{
+  End=8
+  link(onEvent,12:doCalc,[])
+}
+Add(Line,11,511,294)
+{
+  link(onDraw,28:doStroke,[])
+  link(Point1,20:Var2,[])
+  link(Point2,14:Result,[(531,275)(573,275)])
+}
+Add(MathParse,12,518,224)
+{
+  MathStr=#14:$nodes[$index]|
+  Args=#5:nodes|5:index|
+  link(onResult,14:doCalc,[])
+  link(nodes,16:Var2,[])
+}
+Add(GetDataEx,13,553,140)
+{
+  link(Data,7:Array,[])
+}
+Add(MathParse,14,567,224)
+{
+  MathStr=#16:$nodes[$index+1]|
+  Args=#5:nodes|5:index|
+  link(onResult,17:doCalc,[])
+  link(nodes,29:Var2,[])
+  link(index,30:Var2,[])
+}
+Add(GetDataEx,16,518,203)
+{
+  link(Data,13:Var1,[(524,147)])
+}
+Add(MathParse,17,623,224)
+{
+  MathStr=#16:$nodes[$index+4]|
+  Args=#5:nodes|5:index|
+  link(onResult,25:doStroke,[(666,230)(666,342)(448,342)(448,300)])
+  link(nodes,29:Var3,[(629,210)])
+  link(index,30:Var3,[(636,203)])
+}
+Add(Line,19,609,294)
+{
+  link(Point1,20:Var3,[(622,280)])
+  link(Point2,17:Result,[])
+}
+Add(GetDataEx,20,518,273)
+{
+  link(Data,12:Result,[])
+}
+Add(DoData,24,301,91)
+{
+  Data=#1:0|
+  link(onEventData,8:doEvent1,[])
+}
+Add(StrokeStyle,25,462,294)
+{
+  Color=yellow
+  Width=0.9
+  link(onStroke,11:doDraw,[])
+  link(Canvas,2:Canvas,[(468,277)(160,277)])
+}
+Add(Rectangle,26,252,91)
+{
+  X2=205
+  Y2=205
+  link(onDraw,24:doData,[])
+}
+Add(FillStyle,27,203,91)
+{
+  Color=#800
+  link(onFill,26:doDraw,[])
+}
+Add(StrokeStyle,28,560,294)
+{
+  Color=white
+  link(onStroke,19:doDraw,[])
+}
+Add(GetDataEx,29,567,203)
+{
+  Angle=3
+  link(Data,16:Var3,[(573,210)])
+}
+Add(GetDataEx,30,574,196)
+{
+  Angle=3
+  link(Data,10:Position,[(495,203)(495,267)(412,267)])
+}

@@ -1,0 +1,23 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:356|
+  Height=#3:130|
+  Caption=#17:Progress bar demo|
+}
+Add(ProgressBar,2,203,84)
+{
+  Left=35
+  Top=56
+  Width=#3:281|
+}
+Add(TrackBar,4,203,28)
+{
+  Left=35
+  Top=21
+  Width=#3:282|
+  Max=100
+  link(onPosition,2:doPosition,[(249,34)(249,66)(188,66)(188,90)])
+}

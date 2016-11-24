@@ -1,0 +1,35 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:410|
+  Height=#3:303|
+  Caption=#16:Open dialog demo|
+}
+Add(ODialog,2,210,56)
+{
+  Select=1
+  link(onExecute,6:doInfo,[])
+}
+Add(Button,3,140,56)
+{
+  Left=28
+  Top=14
+  Width=#3:353|
+  Height=#2:28|
+  Caption=#10:Open files|
+  link(onClick,2:doExecute,[])
+}
+Add(ListBox,5,350,56)
+{
+  Left=28
+  Top=49
+  Width=#3:353|
+  Height=#3:205|
+  link(Str,6:Name,[(356,42)(318,42)(318,102)(279,102)])
+}
+Add(FileInfo,6,273,56)
+{
+  link(onInfo,5:doAdd,[])
+}

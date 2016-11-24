@@ -1,0 +1,104 @@
+Make(webapp)
+Add(MainForm,1,70,84)
+{
+  Left=56
+  Top=56
+  Width=#3:293|
+  Caption=#12:Magic circle|
+  link(onCreate,24:doFor,[])
+}
+Add(PaintBox,2,231,182)
+{
+  Left=49
+  Top=56
+  Width=#3:200|
+  Height=#3:200|
+  link(onDraw,10:doFor,[])
+}
+Add(Line,3,490,189)
+{
+  link(Canvas,2:Canvas,[(496,179)(479,179)(479,230)(237,230)])
+  link(Point1,28:Value,[])
+}
+Add(For,10,287,182)
+{
+  Start=1
+  End=359
+  link(onEvent,12:doEvent1,[])
+}
+Add(MathParse,11,378,189)
+{
+  MathStr=#11:%1*%2 % 360|
+  link(onResult,31:doRead,[])
+  link(X2,14:Value,[(391,174)(132,174)])
+}
+Add(Hub,12,336,182)
+{
+  link(onEvent1,28:doRead,[(364,188)(364,146)])
+  link(onEvent2,11:doCalc,[])
+}
+Add(TrackBar,14,126,126)
+{
+  Left=35
+  Top=14
+  Width=#3:191|
+  TabIndex=#1:0|
+  Min=2
+  Max=128
+  Value=2
+  link(onPosition,17:doEvent1,[])
+}
+Add(Label,16,231,126)
+{
+  Left=245
+  Top=14
+  Width=#2:22|
+  Height=#2:21|
+  Caption=#1:2|
+}
+Add(Hub,17,182,126)
+{
+  link(onEvent1,16:doCaption,[])
+  link(onEvent2,18:doWork1,[(207,139)])
+}
+Add(HubEx,18,203,182)
+{
+  link(onEvent,2:doDraw,[])
+}
+Add(Array,23,231,21)
+{
+}
+Add(For,24,126,84)
+{
+  End=360
+  link(onEvent,25:doCalc,[])
+  link(onStop,18:doWork2,[(174,97)(174,188)])
+}
+Add(MathParse,25,182,84)
+{
+  MathStr=#55:point(sin(%1/180*PI)*90 + 100, cos(%1/180*PI)*90 + 100)|
+  DataCount=1
+  link(onResult,26:doAdd,[])
+}
+Add(ArrayAdd,26,231,84)
+{
+  link(Array,29:Var2,[])
+}
+Add(ArrayRead,28,497,140)
+{
+  link(Array,37:Var3,[(503,70)])
+}
+Add(GetDataEx,29,231,63)
+{
+  link(Data,23:Array,[])
+}
+Add(ArrayRead,31,434,189)
+{
+  link(onRead,3:doDraw,[])
+  link(Array,37:Var2,[])
+}
+Add(GetDataEx,37,434,63)
+{
+  Angle=3
+  link(Data,29:Var3,[])
+}

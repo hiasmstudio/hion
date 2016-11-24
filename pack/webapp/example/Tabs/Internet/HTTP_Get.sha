@@ -1,0 +1,61 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Caption=#17:URL download demo|
+}
+Add(HTTP_Get,2,224,56)
+{
+  link(onDownload,7:doWork2,[])
+  link(onError,6:doString,[(279,69)(279,97)])
+}
+Add(Memo,3,427,56)
+{
+  Left=14
+  Top=35
+  Width=#3:372|
+  Height=#3:233|
+}
+Add(Button,4,126,56)
+{
+  Left=14
+  Top=7
+  Width=#3:374|
+  Caption=#21:Download http://ya.ru|
+  Data=String(http://ya.ru)
+  link(onClick,10:doEvent1,[])
+}
+Add(FormatStr,6,301,91)
+{
+  DataCount=1
+  Mask=#25:Download error: code = %1|
+  link(onFString,7:doWork3,[(354,97)])
+}
+Add(HubEx,7,350,56)
+{
+  link(onEvent,11:doEvent1,[])
+}
+Add(Loader,8,476,126)
+{
+  Left=14
+  Top=35
+  Width=#3:372|
+  Height=#3:232|
+  Visible=0
+  Point(doVisible)
+}
+Add(ChannelToIndex,9,427,126)
+{
+  link(onIndex,8:doVisible,[])
+}
+Add(Hub,10,182,56)
+{
+  link(onEvent1,2:doDownload,[])
+  link(onEvent2,9:doWork2,[(211,69)(211,139)])
+}
+Add(Hub,11,371,56)
+{
+  link(onEvent1,3:doAdd,[])
+  link(onEvent2,9:doWork1,[(406,69)(406,132)])
+}

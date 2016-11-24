@@ -1,0 +1,90 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:603|
+  Height=#3:327|
+  Caption=#15:Line chart demo|
+}
+Add(Button,2,133,112)
+{
+  Left=14
+  Top=14
+  Caption=#4:Draw|
+  link(onClick,8:doEvent1,[])
+}
+Add(ChartLine,3,420,189)
+{
+  Left=14
+  Top=49
+  Width=#3:573|
+  Height=#3:237|
+  link(Data,11:Var2,[])
+}
+Add(For,4,224,182)
+{
+  End=361
+  Step=5
+  link(onEvent,5:doCalc,[])
+  link(onStop,3:doDraw,[])
+}
+Add(MathParse,5,273,182)
+{
+  MathStr=#31:round(sin(%1/180*PI)*1000)/1000|
+  DataCount=1
+  link(onResult,21:doBuild,[])
+}
+Add(ChartData,6,420,21)
+{
+}
+Add(ChartDataAddColumn,7,224,112)
+{
+  Title=#5:Angle|
+  Type=1
+  AddHint(-67,-37,0,0,Title)
+  link(onAdd,12:doAdd,[])
+  link(Data,9:Var1,[(230,70)])
+}
+Add(Hub,8,189,112)
+{
+  link(onEvent1,7:doAdd,[])
+  link(onEvent2,4:doFor,[(213,125)(213,188)])
+}
+Add(GetDataEx,9,420,63)
+{
+  link(Data,6:Data,[])
+}
+Add(ChartDataAddRow,10,371,182)
+{
+  link(Data,11:Var1,[(377,168)])
+}
+Add(GetDataEx,11,420,161)
+{
+  link(Data,9:Var2,[])
+}
+Add(ChartDataAddColumn,12,280,112)
+{
+  Title=#5:Value|
+  Type=1
+  AddHint(51,-33,0,0,Title)
+}
+Add(ArrayBuilder,21,322,182)
+{
+  Items=#5:Angle|5:Value|
+  link(onBuild,10:doAdd,[])
+  link(Angle,4:Position,[(328,168)(264,168)(264,225)(230,225)])
+}
+Add(InfoTip,22,217,42)
+{
+  Info=#7:Columns|
+  @Width=106
+  @Height=109
+}
+Add(InfoTip,23,217,161)
+{
+  Info=#4:Rows|
+  VAlign=2
+  @Width=197
+  @Height=81
+}

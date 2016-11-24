@@ -1,0 +1,71 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:387|
+  Height=#3:302|
+  Caption=#10:Table demo|
+}
+Add(SimpleTable,2,315,91)
+{
+  Left=14
+  Top=63
+  Width=#3:358|
+  Height=#3:205|
+  TabIndex=#1:1|
+  Columns=#207:[{"title":"Column 1","width":"90px","align":"center"},{"title":"Column 2"},{"title":"Check","width":"40px","type":"checkbox","align":"center"},{"title":"Icon","width":"40px","type":"image","align":"center"}]|
+  link(onSelect,7:doCaption,[])
+}
+Add(Button,3,140,91)
+{
+  Left=14
+  Top=7
+  Width=#2:48|
+  Height=#2:20|
+  Caption=#3:Add|
+  link(onClick,5:doSplit,[])
+}
+Add(Edit,4,196,14)
+{
+  Left=98
+  Top=7
+  Width=#3:274|
+  Text=#15:Item 1,Item 2,0|
+}
+Add(ArraySplit,5,196,91)
+{
+  link(onSplit,10:doAdd,[])
+  link(String,4:Text,[])
+}
+Add(Button,6,140,154)
+{
+  Left=14
+  Top=35
+  Width=#2:48|
+  Height=#2:20|
+  Caption=#5:Clear|
+  Data=String(2<asda>1)
+  link(onClick,2:doClear,[(295,160)(295,104)])
+}
+Add(Label,7,392,91)
+{
+  Left=168
+  Top=35
+  Width=#2:43|
+  Height=#2:21|
+  Caption=#2:-1|
+}
+Add(Label,8,140,14)
+{
+  Left=98
+  Top=35
+  Width=#2:64|
+  Height=#2:21|
+  Caption=#11:Select row:|
+}
+Add(ArrayAdd,10,252,91)
+{
+  Value=#12:/img/sha.png|
+  link(onAdd,2:doAddRow,[])
+}
