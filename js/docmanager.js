@@ -646,6 +646,7 @@ SHATab.prototype.updateCommands = function(commander) {
 		commander.enabled("sha_source");
 		commander.enabled("statistic");
 		commander.enabled("paste");
+		commander.enabled("linecolor");
 
 		if(this.sdkEditor.canFormEdit()) commander.enabled("formedit");
 		
@@ -888,6 +889,13 @@ SHATab.prototype.run = function() {
 	}
 }
 
+SHATab.prototype.setLineColor = function() {
+	var ed = this;
+	new Runner("coloreditor", function(data){
+		ed.sdkEditor.setLineColor(data[0]);
+	}).run(this.sdkEditor.pasteObj.point.color || "transparent");
+};
+
 SHATab.prototype.execCommand = function(cmd, data) {
     switch(cmd) {
     	case "addelement":
@@ -961,6 +969,8 @@ SHATab.prototype.execCommand = function(cmd, data) {
         case "paste_debug": this.sdkEditor.pasteLineElement("Debug"); break;
         case "paste_dodata": this.sdkEditor.pasteLineElement("DoData"); break;
         case "paste_hub": this.sdkEditor.pasteLineElement("Hub"); break;
+        
+		case "linecolor": this.setLineColor(); break;
         
         case "share": new Runner("share", function(){}).run([this.file.location(), 0]); break;
         

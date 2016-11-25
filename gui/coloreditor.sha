@@ -1,0 +1,151 @@
+Make(modules)
+Add(MainForm,1,266,203)
+{
+  Width=#3:362|
+  Height=#3:164|
+  Caption=#14:ui.colordialog|
+}
+Add(TrackBar,2,350,49)
+{
+  Left=42
+  Top=14
+  Width=#3:212|
+  Max=255
+  PColor(onPosition,rgb(0,171,0))
+  link(onPosition,13:doWork1,[(417,55)])
+}
+Add(TrackBar,3,357,98)
+{
+  Left=42
+  Top=42
+  Width=#3:212|
+  Max=255
+  link(onPosition,13:doWork2,[])
+}
+Add(TrackBar,4,364,147)
+{
+  Left=42
+  Top=70
+  Width=#3:212|
+  Max=255
+  link(onPosition,14:doWork2,[])
+}
+Add(Label,5,476,203)
+{
+  Left=273
+  Top=21
+  Width=#2:57|
+  Height=#2:56|
+  Caption=#0:|
+}
+Add(Label,6,161,49)
+{
+  Left=21
+  Top=14
+  Width=#2:22|
+  Height=#2:21|
+  Caption=#1:R|
+}
+Add(Label,7,161,98)
+{
+  Left=21
+  Top=42
+  Width=#2:22|
+  Height=#2:21|
+  Caption=#1:G|
+}
+Add(Label,8,161,147)
+{
+  Left=21
+  Top=70
+  Width=#2:22|
+  Height=#2:21|
+  Caption=#1:B|
+}
+Add(RGB,9,350,203)
+{
+  link(onRGB,30:doWork2,[])
+  link(R,2:Value,[])
+  link(G,3:Value,[])
+  link(B,4:Value,[])
+}
+Add(FormatStr,10,413,203)
+{
+  DataCount=1
+  Mask=#69:<div style="background-color: %1; width: 100%; height: 100px;"></div>|
+  link(onFString,5:doCaption,[])
+}
+Add(HubEx,13,413,98)
+{
+  Angle=1
+  PColor(onEvent,rgb(0,171,0))
+  link(onEvent,14:doWork1,[])
+}
+Add(HubEx,14,413,147)
+{
+  Angle=1
+  PColor(onEvent,rgb(0,171,0))
+  link(onEvent,9:doRGB,[(417,188)(336,188)(336,209)])
+}
+Add(hcTransmitter,18,350,273)
+{
+  DataCount=1
+  link(onInit,30:doWork3,[(396,279)])
+  link(Arg1,9:Color,[])
+}
+Add(MultiElementEx,22,161,266)
+{
+  link(onEvent1,28:doEvent1,[])
+  link(onEvent2,29:doWork2,[(209,279)(209,221)(209,216)])
+}
+BEGIN_SDK
+Add(MultiElementEditor,23,7,7)
+{
+  EventCount=2
+  @VOffset=84
+}
+Add(Panel,24,21,35)
+{
+  Left=196
+  Top=105
+  Shrink=0
+  Width=#0:|
+  Height=#2:36|
+  Theme=#11:panel-clear|
+  Layout=1
+  JustifyContent=1
+}
+Add(Button,25,112,140)
+{
+  Left=112
+  Top=91
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#9:ui.cancel|
+  link(onClick,23:onEvent2,[(226,146)(226,104)])
+}
+Add(Button,26,112,91)
+{
+  Left=168
+  Top=91
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#2:OK|
+  link(onClick,23:onEvent1,[])
+}
+END_SDK
+Add(Hub,28,224,266)
+{
+  link(onEvent1,29:doWork3,[(249,272)])
+  link(onEvent2,18:doReturn,[])
+}
+Add(HubEx,29,245,210)
+{
+  link(onEvent,1:doClose,[(249,216)])
+}
+Add(HubEx,30,392,203)
+{
+  link(onEvent,10:doString,[])
+}

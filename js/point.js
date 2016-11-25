@@ -268,6 +268,18 @@ Point.prototype.unselect = function() {
 	}
 };
 
+Point.prototype.setColor = function(value) {
+	this.color = value;
+	var p = this.isPrimary() ? this.point : this;
+	if(p) {
+		var res = p.parent.getLinkedPoint(p);
+		if(res !== p) {
+			res.setColor(value);
+			p = res;
+		}
+	}
+};
+
 function on_event(point, data) {
 	if (point) {
 		return point.onevent(on_event.arguments.length === 2 ? data : "");

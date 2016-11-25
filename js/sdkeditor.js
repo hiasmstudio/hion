@@ -1410,6 +1410,11 @@ SdkEditor.prototype = Object.create(UIControl.prototype);
 
 //SdkEditor.prototype.getControl = function(){ return this.control; };
 
+SdkEditor.prototype.setLineColor = function(color) {
+	this.pasteObj.point.setColor(color);
+	this.draw();
+};
+
 SdkEditor.prototype.resize = function(){
 	if(this.sdk) {
 		this.updateScrolls();

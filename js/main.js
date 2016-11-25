@@ -185,7 +185,7 @@ function loadWorkspace() {
 	
 		popupElement = createPopup(["copy", "cut", "comment", "-", "delete", "-", "bringtofront", "sendtoback"]);
 		popupSDK = createPopup(["paste", "selectall", "statistic", "-", "undo", "redo"]);
-		popupLine = createPopup(["paste_debug", "paste_dodata", "paste_hub"]);
+		popupLine = createPopup(["paste_debug", "paste_dodata", "paste_hub", "-", "linecolor"]);
 
 	 	var mmCommands = {
 	 		file: ["new", "open", "save", "saveas", "-", "share", "-", "capture", "sha_source"],
@@ -398,7 +398,8 @@ function loadWorkspace() {
 		moveto: {  },
 		bind_rect: { icon: 41 },
 		bind_center: { icon: 36 },
-		bind_padding: { icon: 46 }
+		bind_padding: { icon: 46 },
+		linecolor: { icon: 32 }
 	});
 	commander.onupdate = function() {
 		docManager.updateCommands(commander);

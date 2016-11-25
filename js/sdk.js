@@ -208,6 +208,7 @@ function SDK(pack) {
 			text += "Add(" + e.name + "," + e.eid + "," + e.x + "," + e.y + ")\n";
 			text += "{\n";
 			var propPoints = "";
+			var pointColors = "";
 			for (var p in e.props) {
 				var prop = e.props[p];
 				if(!prop.isDef()) {
@@ -228,8 +229,12 @@ function SDK(pack) {
 				if(e.pointsEx[p.name]) {
 					propPoints += "  Point(" + p.name + ")\n";
 				}
+				if(p.color) {
+					pointColors += "  PColor(" + p.name + "," + p.color + ")\n";
+				}
 			}
 			text += propPoints;
+			text += pointColors;
 			for(var h of e.hints) {
 				if(h.prop) {
 					text += "  AddHint(" + h.x + "," + h.y + ",0,0," + (e.sys[h.prop.name] ? "@" : "") + h.prop.name + ")\n";
@@ -352,8 +357,9 @@ function SDK(pack) {
 					e.addPoint(name, pt_work);
 				}
 			} else if(line.startsWith("PColor")) {
-				var args = line.substr(7, line.length - 8).split(",");
-				pointColors.push({name: args[0], color: args[1], element: e})
+				var val = line.substr(7, line.length - 8);
+				var i = val.indexOf(",");
+				pointColors.push({name: val.substr(0, i), color: val.substr(i+1), element: e})
 			} else if(line.startsWith("elink")) {
 				var eid = parseInt(line.substr(6, line.length - 7));
 				var le = this.getElementByEId(eid);

@@ -57,6 +57,7 @@
 	"cmd.statistic": "Statistic",
 	"cmd.output": "Output window",
 	"cmd.moveto": "Move to...",
+	"cmd.linecolor": "Line color",
 	
 	"ui.close": "Close",
 	"ui.cancel": "Cancel",
@@ -120,5 +121,7 @@
 	"ui.italic": "Italic",
 	"ui.underline": "Underline",
 	"ui.fontsize": "Size in pixels",
-	"ui.preview": "Preview"
+	"ui.preview": "Preview",
+	
+	"ui.colordialog": "Color dialog"
 }
