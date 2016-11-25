@@ -58,6 +58,7 @@
 	"cmd.output": "Output window",
 	"cmd.moveto": "Move to...",
 	"cmd.linecolor": "Line color",
+	"cmd.sendbug": "Send bug",
 	
 	"ui.close": "Close",
 	"ui.cancel": "Cancel",

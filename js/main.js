@@ -192,7 +192,7 @@ function loadWorkspace() {
 	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "moveto", "-", "tools"],
 	 		editor: ["undo", "redo", "-", "slidedown", "slideright", "-", "zoomin", "zoomout", "-", "selectall", "-", "makehint", "remove_lh"],
 	 		view: ["formedit", "statistic", "-", "output"],
-	 		help: ["forum", "mail", "-", "about"]
+	 		help: ["forum", "mail", "sendbug", "-", "about"]
 	 	};
 		mainMenu = createMainmenu(mmCommands);
 		userMenu = new MainMenu([{
@@ -399,7 +399,11 @@ function loadWorkspace() {
 		bind_rect: { icon: 41 },
 		bind_center: { icon: 36 },
 		bind_padding: { icon: 46 },
-		linecolor: { icon: 32 }
+		linecolor: { icon: 32 },
+		sendbug: {
+			def: true,
+			exec: function(){ window.open("http://forum.hiasm.com/userissues/0#7", '_blank'); }
+		}
 	});
 	commander.onupdate = function() {
 		docManager.updateCommands(commander);
