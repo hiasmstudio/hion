@@ -56,23 +56,15 @@ function FileManager() {
 	this.btn.addListener("click", function(){
 		var folder = prompt("Enter folder name", "");
 		if(folder) {
-			var fileName = __files__.location + "/" + folder;
-			if(fileName.startsWith("/local")) {
-				var key = __files__.location.replace(/\//g, "_");
-				var list = window.localStorage[key] ? JSON.parse(window.localStorage[key]) : {};
-				list[folder] = 1;
-				window.localStorage[key] = JSON.stringify(list);
-			}
-			else {
-				$.post("server/core.php", {mkdir: fileName}, function(data) {
-					if(data) {
-						__files__.onerror(JSON.parse(data));
-					}
-					else {
-						__files__.navigate(fileName);
-					}
-				});
-			}
+			var node = getFileNode(__files__.location + "/" + folder);
+			node.mkdir(function(error) {
+				if(error) {
+					__files__.onerror({code: error, info: node.location()});
+				}
+				else {
+					__files__.navigate(node.location());
+				}
+			});
 		}
 	});
 	hpanel.add(this.btn);
@@ -124,10 +116,21 @@ function FileManager() {
 	};
 	this.listBox.addListener("keydown", function(event) {
 		if(event.keyCode === 46) {
-			var f = __files__.location + "/" + __files__.listBox.getSelectText();
-			$.post("server/core.php", {rm: f}, function(){
+			var row = __files__.listBox.getSelectionRow();
+			if(row) {
+				var node = getFileNode(__files__.location + "/" + row.data[1]);
 				
-			});
+				node.remove(function(error) {
+					if(error) {
+						__files__.onerror({code: error, info: node.location()});
+					}
+					else {
+						__files__.listBox.removeSelection();
+						if(row.index < __files__.listBox.size())
+							__files__.listBox.selectIndex(row.index);
+					}
+				});
+			}
 		}
 	});
 	hpanel.add(this.listBox);
@@ -192,42 +195,18 @@ function FileManager() {
 		this.form.show();
 	};
 	
-	this._loadList = function(folder, data) {
+	this._loadList = function(list) {
 		this.listBox.clear();
-		// if(folder.lastIndexOf("/") > 0) {
-		// 	this.listBox.addIcon("img/mime-folder.png", "..").directory = true;
-		// 	this.listBox.addRow("", "..").directory = true;
-		// }
-		var lines = JSON.parse(data);
-		if(lines.push) {
-			for(var node of lines) {
-				var size = 0;
-				if(node.size < 1024) {
-					size = node.size;
+
+		for(var node of list) {
+			var icon = node.isFile ? "img/mime-none.png" : "img/mime-folder.png";
+			if(node.name.indexOf(".") > 0) {
+				var ext = node.name.split(".").pop();
+				if(ext === "sha") {
+					icon = "img/sha.png";
 				}
-				else if(node.size < 1024*1024) {
-					size = Math.floor(node.size / 1024 * 10)/10 + "Kb";
-				}
-				else if(node.size < 1024*1024*1024) {
-					size = Math.floor(node.size / (1024*1024) * 10)/10 + "Mb";
-				}
-				var icon = "img/mime-none.png";
-				if(node.folder) {
-					icon = "img/mime-folder.png";
-				}
-				else if(node.name.indexOf(".") > 0) {
-					var ext = node.name.split(".").pop();
-					if(ext === "sha") {
-						icon = "img/sha.png";
-					}
-				}
-				this.listBox.addRow([icon, node.name, node.folder ? "" : size, node.date.substr(0, 10), node.folder]);
 			}
-		}
-		else {
-			for(var i in lines) {
-				this.listBox.addRow([lines[i] ? "img/mime-folder.png" : "img/mime-none.png", i, "", "", lines[i]]);
-			}
+			this.listBox.addRow([icon, node.name, node.isFile ? node.sizeDisplay() : "", node.date.substr(0, 10), !node.isFile]);
 		}
 	};
 	
@@ -235,16 +214,14 @@ function FileManager() {
 		this.listBox.clear();
 		this.setAddress(folder);
 		
-		if(folder.startsWith("/local")) {
-			var key = folder.replace(/\//g, "_");
-			this._loadList(folder, window.localStorage[key] || "{}");
-		}
-		else {
-			$.get("server/core.php?dir=" + folder, function(data){
-				if(__files__.location === folder) {
-					__files__._loadList(folder, data);
-				}
-			});
-		}
+		var node = getFileNode(folder);
+		node.list(function(error, list) {
+			if(error) {
+				__files__.onerror({code: error, info: node.location()});
+			}
+			else {
+				__files__._loadList(list);
+			}
+		});
 	};
 }

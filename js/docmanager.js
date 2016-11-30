@@ -53,6 +53,31 @@ FSNode.prototype.write = function(data, callback) {
 	this.fs.write(this.location(), data, callback);
 };
 
+FSNode.prototype.remove = function(callback) {
+	this.fs.remove(this.location(), callback);
+};
+
+FSNode.prototype.list = function(callback) {
+	this.fs.list(this.location(), callback);
+};
+
+FSNode.prototype.mkdir = function(callback) {
+	this.fs.mkdir(this.location(), callback);
+};
+
+FSNode.prototype.sizeDisplay = function() {
+	var size = 0;
+	if(this.size < 1024) {
+		size = this.size;
+	}
+	else if(this.size < 1024*1024) {
+		size = Math.floor(this.size / 1024 * 10)/10 + "Kb";
+	}
+	else if(this.size < 1024*1024*1024) {
+		size = Math.floor(this.size / (1024*1024) * 10)/10 + "Mb";
+	}
+	return size;
+};
 
 function DesktopFSNode(desktopFile) {
 	FSNode.call(this, null);
@@ -148,7 +173,13 @@ LocalFS.prototype._loadList = function(folder, data) {
 		node.name = i;
 		node.isFile = lines[i] == 0;
 		node.path = folder;
+		node.size = 0;
+		node.date = "";
 		nodes.push(node);
+		node.read(function(error, data){
+			if(error === 0)
+				node.size = data.length;
+		});
 	}
 	return nodes;
 };
@@ -157,9 +188,6 @@ LocalFS.prototype.list = function(dir, callback) {
 	var key = this.__getKey(dir);
 	if(window.localStorage[key]) {
 		callback(0, this._loadList(dir, window.localStorage[key]));
-	}
-	else {
-		callback(1);
 	}
 };
 
@@ -201,6 +229,8 @@ LocalFS.prototype.remove = function(file, callback) {
 		var list = JSON.parse(window.localStorage[key]);
 		delete list[node.name];
 		window.localStorage[key] = JSON.stringify(list);
+		key = this.__getKey(file);
+		delete window.localStorage[key];
 		callback(0);
 	}
 	else {
@@ -223,7 +253,7 @@ LocalFS.prototype.write = function(file, data, callback) {
 	var node = this.getPath(file);
 	var key1 = this.__getKey(node.path);
 	var fList = window.localStorage[key1];
-	if(!fList && key1 === "_local") {
+	if(!fList) {
 		fList = "{}";
 	}
 	if(fList) {
@@ -249,12 +279,14 @@ RemoteFS.prototype = Object.create(FS.prototype);
 
 RemoteFS.prototype._loadList = function(folder, data) {
 	var nodes = [];
-	var lines = JSON.parse(data);
-	for(var i in lines) {
+	var files = JSON.parse(data);
+	for(var file of files) {
 		var node = new FSNode(this);
-		node.name = i;
-		node.isFile = lines[i] == 0;
+		node.name = file.name;
+		node.isFile = file.folder === 0;
 		node.path = folder;
+		node.size = file.size;
+		node.date = file.date;
 		nodes.push(node);
 	}
 	return nodes;
@@ -560,7 +592,7 @@ SHATab.prototype.show = function() {
 				lineNumbers: window.getOptionBool("opt_ce_line_numbers", 1),
 				lineWrapping: window.getOptionBool("opt_ce_line_wrapping", 0),
 				matchBrackets: true,
-				mode: {name: customEditor ? customEditor.substring(1) : ''},
+				mode: {name: customEditor ? customEditor.name.substring(1) : ''},
 				extraKeys: {"Ctrl-Space": "autocomplete"},
 				indentUnit: 4, // Длина отступа в пробелах.
 				indentWithTabs: true,
@@ -636,7 +668,8 @@ SHATab.prototype.updateCommands = function(commander) {
     	commander.enabled("addelement");
     	
 		commander.enabled("saveas");
-		commander.enabled("run");
+		if(user.uid > 1 || this.sdkEditor.sdk.pack.run.mode == "internal")
+			commander.enabled("run");
 		commander.enabled("selectall");
 		commander.enabled("slidedown");
 		commander.enabled("slideright");
@@ -650,7 +683,8 @@ SHATab.prototype.updateCommands = function(commander) {
 
 		if(this.sdkEditor.canFormEdit()) commander.enabled("formedit");
 		
-		if(this.file && this.file.path.startsWith("/home")) commander.enabled("share");
+		if(this.file && this.file.path.startsWith("/home") && window.user.plan.share == 1)
+			commander.enabled("share");
 		
 		if(this.sdkEditor.canZoomIn()) commander.enabled("zoomin");
 		if(this.sdkEditor.canZoomOut()) commander.enabled("zoomout");
