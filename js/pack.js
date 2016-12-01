@@ -98,6 +98,14 @@ Pack.prototype.load = function() {
 
 			$.get(pack.getRoot() + "/elements.json", function(data, pack) {
 				pack.elements = JSON.parse(data);
+				for(var e in pack.elements) {
+					var element = pack.elements[e];
+					if(element.points) {
+						for(var point of element.points) {
+							point.inherit = e;
+						}
+					}
+				}
 				// inherit elements from base package
 				if(pack.parent) {
 					for(var e in pack.elements) {

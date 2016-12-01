@@ -403,7 +403,7 @@ SdkElement.prototype.loadFromTemplate = function() {
 				if(element.pointsEx[point.name]) {
 					delete element.pointsEx[point.name];
 				}
-				element.addPoint(point.name, point.type).args = point.args;
+				element.addPointFromTemplate(point);
 			}
 		}
 		// create propertyes
@@ -559,6 +559,12 @@ SdkElement.prototype.addPoint = function(name, type) {
 	
 	return point;
 };
+SdkElement.prototype.addPointFromTemplate = function(template) {
+	var point = this.addPoint(template.name, template.type);
+	point.args = template.args;
+	point.inherit = template.inherit;
+	return point;
+};
 SdkElement.prototype.removePoint = function(name) {
 	this.points[name].clear();
 	this.psize[this.points[name].type - 1]--;
@@ -612,11 +618,11 @@ SdkElement.prototype.connectToPoint = function(point) {
 	}
 };
 SdkElement.prototype.getPointInfo = function(point) {
-	return this.name + "." + point.name;	
+	return point.inherit + "." + point.name;	
 };
 SdkElement.prototype.showDefaultPoint = function(name) {
 	if(this.pointsEx[name]) {
-		return this.addPoint(name, this.pointsEx[name].type);
+		return this.addPointFromTemplate(this.pointsEx[name]);
 	}
 	
 	return null;
