@@ -668,8 +668,7 @@ SHATab.prototype.updateCommands = function(commander) {
     	commander.enabled("addelement");
     	
 		commander.enabled("saveas");
-		if(user.uid > 1 || this.sdkEditor.sdk.pack.run.mode == "internal")
-			commander.enabled("run");
+		commander.enabled("run");
 		commander.enabled("selectall");
 		commander.enabled("slidedown");
 		commander.enabled("slideright");
@@ -710,7 +709,7 @@ SHATab.prototype.updateCommands = function(commander) {
 				commander.checked("bind_padding");
 		}
 		
-		if(user.uid > 1 && this.buildMode) {
+		if(this.buildMode) {
 			commander.enabled("build");
 			commander.enabled("make");
 //			if(this.buildMode === 0)
@@ -749,6 +748,8 @@ SHATab.prototype.saveSDKtoFile = function() {
 		}
 		else {
  			displayError({code: error});
+			if(error == 6)
+				new Runner("plan").run();
  		}
 		__editor.tab.save(false);
 	});
@@ -879,35 +880,45 @@ SHATab.prototype.moveto = function() {
 };
 
 SHATab.prototype.build = function(mode, callback) {
+	if(user.plan.builds <= user.plan.totalbuilds) {
+		new Runner("plan").run();
+		return;
+	}
+		
 	this.manager.state.set("Build...");
 	var state = this.manager.state;
 	var name = this.file ? this.file.name : "Project.sha";
 	$.post("server/core.php", {build: name, mode: mode, code: this.sdkEditor.getMainSDK().save(false)}, function(data, file) {
 		state.clear();
-		for(var line of data.split("\n")) {
-			if(line.startsWith("CODEGEN")) {
-				var text = line.substring(9);
-				var color = "";
-				if(text.startsWith("~")) {
-					color = "gray";
+		if(this.status === 200) {
+			for(var line of data.split("\n")) {
+				if(line.startsWith("CODEGEN")) {
+					var text = line.substring(9);
+					var color = "";
+					if(text.startsWith("~")) {
+						color = "gray";
+					}
+					else if(text.startsWith("@")) {
+						color = "silver";
+					}
+					else if(text.startsWith("!")) {
+						color = "red";
+					}
+					else if(text.startsWith("#")) {
+						color = "blue";
+					}
+					state.add(text.substring(1), color);
 				}
-				else if(text.startsWith("@")) {
-					color = "silver";
+				else {
+					state.add(line);
 				}
-				else if(text.startsWith("!")) {
-					color = "red";
-				}
-				else if(text.startsWith("#")) {
-					color = "blue";
-				}
-				state.add(text.substring(1), color);
 			}
-			else {
-				state.add(line);
-			}
+			if(callback)
+				callback();
 		}
-		if(callback)
-			callback();
+		else {
+			state.add(this.statusText, "red");
+		}
 	}, name.substring(0, name.length - 4));
 };
 

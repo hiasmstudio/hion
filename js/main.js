@@ -197,7 +197,7 @@ function loadWorkspace() {
 		mainMenu = createMainmenu(mmCommands);
 		userMenu = new MainMenu([{
 			title: user.login,
-			items: makeItems(["login", "profile", "-", "logout"])
+			items: makeItems(["login", "profile", "-", "plan", "-", "logout"])
 		}]);
 		
 		$("toolbar").appendChild(mainMenu.control);
@@ -340,6 +340,12 @@ function loadWorkspace() {
 			icon: 54,
 			exec: function() {
 				new Runner("login", changeUser).run();
+			}
+		},
+		plan: {
+			def: true,
+			exec: function() {
+				new Runner("plan").run();
 			}
 		},
 		logout: {
