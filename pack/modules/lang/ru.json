@@ -44,7 +44,14 @@
 	"wincontrol.splitter": "Разделитель",
 	"wincontrol.Edge": "Сторона элемента, к которой присоединить разделитель",
 	"wincontrol.SplitterSize": "Размер разделителя в пикселях",
+	
 	"wincontainer.layout": "Слой",
+	"wincontainer.Layout": "Тип слоя",
+	"wincontainer.Wrap": "Перенос элементов слоя на следующую строку",
+	"wincontainer.JustifyContent": "Выравнивание элементов по основной оси",
+	"wincontainer.AlignItems": "Выравнивание элементов по поперечной оси",
+	"wincontainer.AlignContent": "Выравнивание строк при заданном свойстве Wrap",
+	"wincontainer.Padding": "Отступ элементов от краев родительского контейнера",
 	
 	"element.Color": "Цвет элемента в редакторе",
 	"element.Comment": "Комментарий к элементу",
