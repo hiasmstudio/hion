@@ -1388,6 +1388,19 @@ UISimpleTable.prototype.size = function() {
 	return this.body.childs();
 };
 
+UISimpleTable.prototype.getSelectionRow = function() {
+	return this.selected;
+};
+
+UISimpleTable.prototype.removeSelection = function() {
+	if(this.selected) {
+		this.body.element.removeChild(this.selected);
+		for(var i = this.selected.index; i < this.size(); i++)
+			this.body.child(i).index --;
+		this.selected = null;
+	}
+};
+
 //******************************************************************************
 // Canvas
 //******************************************************************************
