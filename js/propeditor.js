@@ -150,7 +150,6 @@ function PropertyEditor(options) {
 				check: p.isPoint(),
 				checked: e.findPointByName("do" + p.name),
 				defvalue: p.def,
-				isdef: p.isDef(),
 				default: p.isDefaultEdit(),
 				list: p.getList(),
 				group: p.group ? p.inherit + "." + p.group : null,
@@ -287,7 +286,8 @@ UIPropertyEditor.prototype._getEditValue = function(cell, item) {
 };
 
 UIPropertyEditor.prototype._updateChanged = function(input, item) {
-	if(!item.isdef) {
+	var def = item.type == DATA_FONT ? item.defvalue.valueOf() == item.value.valueOf() : item.defvalue == item.value;
+	if(!def) {
 		input.element.setAttribute("changed", "");
 	}
 	else {
