@@ -691,7 +691,7 @@ function SdkEditor() {
 			},
 			up: function(editor, x, y, button, obj) {
 				if(editor.sdk.undo) {
-					editor.sdk.undo.changeLinkEnd(obj.point);
+					editor.sdk.undo.changeLinkEnd(null);
 				}
 				return true;
 			},
@@ -1412,6 +1412,11 @@ SdkEditor.prototype = Object.create(UIControl.prototype);
 
 SdkEditor.prototype.setLineColor = function(color) {
 	this.pasteObj.point.setColor(color);
+	this.draw();
+};
+
+SdkEditor.prototype.setLineInfo = function(data) {
+	this.pasteObj.point.setInfo(data);
 	this.draw();
 };
 

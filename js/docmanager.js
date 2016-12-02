@@ -941,6 +941,14 @@ SHATab.prototype.setLineColor = function() {
 	}).run(this.sdkEditor.pasteObj.point.color || "transparent");
 };
 
+SHATab.prototype.setLineInfo = function() {
+	var ed = this;
+	var info = this.sdkEditor.pasteObj.point.getInfo();
+	new Runner("lineinfo", function(data){
+		ed.sdkEditor.setLineInfo({text: data[0], direction: data[1]});
+	}).run([info.text, info.direction]);
+};
+
 SHATab.prototype.execCommand = function(cmd, data) {
     switch(cmd) {
     	case "addelement":
@@ -1016,6 +1024,7 @@ SHATab.prototype.execCommand = function(cmd, data) {
         case "paste_hub": this.sdkEditor.pasteLineElement("Hub"); break;
         
 		case "linecolor": this.setLineColor(); break;
+		case "lineinfo": this.setLineInfo(); break;
         
         case "share": new Runner("share", function(){}).run([this.file.location(), 0]); break;
         

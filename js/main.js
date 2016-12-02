@@ -185,7 +185,7 @@ function loadWorkspace() {
 	
 		popupElement = createPopup(["copy", "cut", "comment", "-", "delete", "-", "bringtofront", "sendtoback"]);
 		popupSDK = createPopup(["paste", "selectall", "statistic", "-", "undo", "redo"]);
-		popupLine = createPopup(["paste_debug", "paste_dodata", "paste_hub", "-", "linecolor"]);
+		popupLine = createPopup(["paste_debug", "paste_dodata", "paste_hub", "-", "linecolor", "lineinfo"]);
 
 	 	var mmCommands = {
 	 		file: ["new", "open", "save", "saveas", "-", "share", "-", "capture", "sha_source"],
@@ -406,6 +406,7 @@ function loadWorkspace() {
 		bind_center: { icon: 36 },
 		bind_padding: { icon: 46 },
 		linecolor: { icon: 32 },
+		lineinfo: { def: true },
 		sendbug: {
 			def: true,
 			exec: function(){ window.open("http://forum.hiasm.com/userissues/0#7", '_blank'); }

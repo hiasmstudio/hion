@@ -1,0 +1,98 @@
+Make(modules)
+Add(MainForm,1,252,210)
+{
+  Width=#3:399|
+  Height=#3:201|
+  Caption=#11:ui.lineinfo|
+}
+Add(Button,2,126,210)
+{
+  Left=315
+  Top=140
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#2:OK|
+  link(onClick,8:doEvent1,[])
+}
+Add(Memo,3,252,98)
+{
+  Left=14
+  Top=14
+  Width=#3:372|
+  Height=#2:93|
+}
+Add(RadioButton,4,126,49)
+{
+  Left=14
+  Top=112
+  Caption=#4:Left|
+  link(onCheck,9:doWork1,[])
+}
+Add(RadioButton,5,126,91)
+{
+  Left=168
+  Top=112
+  Width=#2:66|
+  Caption=#6:Center|
+  link(onCheck,9:doWork2,[(177,97)(177,62)])
+}
+Add(RadioButton,6,126,133)
+{
+  Left=322
+  Top=112
+  Width=#2:59|
+  Caption=#5:Right|
+  link(onCheck,9:doWork3,[(177,139)(177,69)])
+}
+Add(hcTransmitter,7,252,161)
+{
+  DataCount=2
+  link(onInit,12:doEvent1,[])
+  link(Arg1,3:Text,[])
+  link(Arg2,10:Value,[])
+}
+Add(Hub,8,189,210)
+{
+  link(onEvent1,7:doReturn,[(227,216)(227,167)])
+  link(onEvent2,1:doClose,[])
+}
+Add(ChannelToIndex,9,196,49)
+{
+  Count=3
+  link(onIndex,16:doWork2,[])
+}
+Add(Memory,10,259,49)
+{
+}
+Add(ArrayRead,11,343,161)
+{
+  link(onRead,3:doText,[(387,167)(387,144)(236,144)(236,111)])
+}
+Add(Hub,12,308,161)
+{
+  link(onEvent1,11:doRead,[])
+  link(onEvent2,13:doRead,[(332,174)(332,216)])
+}
+Add(ArrayRead,13,343,210)
+{
+  Index=1
+  link(onRead,15:doEvent1,[])
+}
+Add(IndexToChannel,14,56,49)
+{
+  Count=3
+  Data=Real(1)
+  link(onEvent1,4:doCheck,[])
+  link(onEvent2,5:doCheck,[(107,62)(107,97)])
+  link(onEvent3,6:doCheck,[(107,69)(107,139)])
+}
+Add(Hub,15,399,210)
+{
+  link(onEvent1,16:doWork1,[(426,216)(426,42)(242,42)])
+  link(onEvent2,14:doEvent,[(435,223)(435,33)(44,33)(44,55)])
+}
+Add(HubEx,16,238,49)
+{
+  link(onEvent,10:doValue,[])
+}

@@ -280,6 +280,17 @@ Point.prototype.setColor = function(value) {
 	}
 };
 
+Point.prototype.setInfo = function(data) {
+	if(data.text)
+		this.info = data;
+	else if(this.info)
+		delete this.info;
+};
+
+Point.prototype.getInfo = function() {
+	return this.info || {text:"", direction: 0};
+};
+
 function on_event(point, data) {
 	if (point) {
 		return point.onevent(on_event.arguments.length === 2 ? data : "");

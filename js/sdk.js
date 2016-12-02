@@ -156,6 +156,50 @@ function SDK(pack) {
 					if(p.selected || p.point.selected) {
 						ctx.lineWidth = 1;
 					}
+					
+					if(p.info) {
+						ctx.font = "8px monospace";
+						var lines = p.info.text.split("\n");
+						var wl = [];
+						var maxW = 0;
+						if(p.info.wl) {
+							wl = p.info.wl;
+							maxW = p.info.maxW;
+						}
+						else {
+							for(var line of lines) {
+								var m = ctx.measureText(line);
+								wl.push(m.width);
+								if(m.width > maxW)
+									maxW = m.width;
+							}
+							p.info.wl = wl;
+							p.info.maxW = maxW;
+						}
+						var n = p.pos;
+						do {
+							var delta = Math.abs(n.next.x - n.x);
+							if(maxW + 4 < delta) {
+								var y = n.y;
+								for(var l in lines) {
+									var x = Math.min(n.next.x, n.x);
+									if(p.info.direction == 1) {
+										x += delta/2 - wl[l]/2;
+									}
+									else if(p.info.direction == 2) {
+										x += delta - wl[l] - 4;
+									}
+									ctx.fillStyle = "white";
+									ctx.fillRect(x + 2, y - 9, wl[l], 8);
+									ctx.fillStyle = "black";
+									ctx.fillText(lines[l], x + 2, y - 2);
+									y += 10;
+								}
+								break;
+							}
+							n = n.next
+						} while(n.next);
+					}
 				}
 			}
 		}
@@ -209,6 +253,7 @@ function SDK(pack) {
 			text += "{\n";
 			var propPoints = "";
 			var pointColors = "";
+			var pointInfo = "";
 			for (var p in e.props) {
 				var prop = e.props[p];
 				if(!prop.isDef()) {
@@ -232,9 +277,13 @@ function SDK(pack) {
 				if(p.color) {
 					pointColors += "  PColor(" + p.name + "," + p.color + ")\n";
 				}
+				if(p.info) {
+					pointInfo += "  PInfo(" + p.name + "," + p.info.direction + "," + p.info.text.replace("\n", "\\n") + ")\n";
+				}
 			}
 			text += propPoints;
 			text += pointColors;
+			text += pointInfo;
 			for(var h of e.hints) {
 				if(h.prop) {
 					text += "  AddHint(" + h.x + "," + h.y + ",0,0," + (e.sys[h.prop.name] ? "@" : "") + h.prop.name + ")\n";
@@ -277,6 +326,7 @@ function SDK(pack) {
 			arr = text.split("\n");
 		var links = [];
 		var pointColors = [];
+		var pointInfo = [];
 		var e = null;
 		var index = start ? start : 0;
 
@@ -360,6 +410,10 @@ function SDK(pack) {
 				var val = line.substr(7, line.length - 8);
 				var i = val.indexOf(",");
 				pointColors.push({name: val.substr(0, i), color: val.substr(i+1), element: e})
+			} else if(line.startsWith("PInfo")) {
+				var val = line.substr(6, line.length - 7);
+				var i = val.indexOf(",");
+				pointInfo.push({name: val.substr(0, i), direction: val.substr(i+1, 1), text: val.substr(i+3).replace("\\n", "\n"), element: e})
 			} else if(line.startsWith("elink")) {
 				var eid = parseInt(line.substr(6, line.length - 7));
 				var le = this.getElementByEId(eid);
@@ -421,6 +475,15 @@ function SDK(pack) {
 			}
 			else {
 				console.log("Point for color", rec.name, "not found", rec.element.name);
+			}
+		}
+		// restore point info
+		for(var rec of pointInfo) {
+			if(rec.element.points[rec.name]) {
+				rec.element.points[rec.name].info = {text: rec.text, direction: rec.direction};
+			}
+			else {
+				console.log("Point for info", rec.name, "not found", rec.element.name);
 			}
 		}
 		
