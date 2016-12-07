@@ -573,7 +573,7 @@ Add(AudioPlayer,143,560,77)
   Left=371
   Top=238
   Visible=0
-  URL=#34:/example/Game/Minesweeper/bomb.ogg|
+  URL=#41:/example/webapp/Game/Minesweeper/bomb.ogg|
 }
 Add(Hub,144,448,63)
 {
