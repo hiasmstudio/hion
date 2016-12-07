@@ -20,14 +20,14 @@ Add(Matrix,3,259,56)
 {
   Width=5
   Height=5
+  PInfo(onClear,1,init)
   link(onClear,10:doWork1,[])
 }
-Add(MultiElementEx,10,322,56)
+Add(MultiElementEx,10,329,56)
 {
   @Comment=#11:Init matrix|
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,11,7,7)
 {
   WorkCount=1
@@ -55,6 +55,7 @@ Add(Memory,16,28,70)
 Add(MatrixWrite,19,196,70)
 {
   Value=Real(1)
+  PInfo(Matrix,1,matrix)
   link(Matrix,16:Value,[(202,56)(74,56)(74,116)(34,116)])
 }
 END_SDK
@@ -119,7 +120,8 @@ Add(MathParse,29,329,308)
 }
 Add(MatrixWrite,30,595,308)
 {
-  link(Matrix,33:Var3,[(601,280)])
+  PInfo(Matrix,1,matrix)
+  link(Matrix,33:Var3,[(601,294)])
   link(Index,39:Result,[(608,294)(636,294)(636,354)(440,354)])
 }
 Add(GetDataEx,31,322,105)
@@ -132,7 +134,7 @@ Add(MatrixRead,32,483,308)
   link(onRead,34:doCalc,[])
   link(Matrix,33:Var2,[])
 }
-Add(GetDataEx,33,483,273)
+Add(GetDataEx,33,483,287)
 {
   link(Data,31:Var3,[(489,112)])
 }
@@ -157,6 +159,7 @@ Add(Array,37,378,252)
 }
 Add(ArrayEnum,38,378,308)
 {
+  PInfo(onEnd,1,check end)
   link(onEnum,39:doCalc,[])
   link(onEnd,41:doEnum,[(418,321)(418,359)(42,359)(42,230)])
   link(Array,37:Array,[])
@@ -195,6 +198,7 @@ Add(GetDataEx,45,259,105)
 }
 Add(Hub,46,217,224)
 {
+  PInfo(onEvent2,1,init game)
   link(onEvent1,44:doMessage,[])
   link(onEvent2,47:doWork3,[(244,237)(244,208)(165,208)])
 }
