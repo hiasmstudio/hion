@@ -2132,6 +2132,17 @@ function modules() {
 					this.parent.onTranslate.call(text);
 				};
 				break;
+			case "hcUser":
+				i.Name.onevent = function() {
+					return window.user.name;
+				};
+				i.UID.onevent = function() {
+					return window.user.uid;
+				};
+				i.Plan.onevent = function() {
+					return window.user.plan;
+				};
+				break;
 			case "Converter":
 				i.doConvert.onevent = function(data) {
 					var result = "";

@@ -485,6 +485,15 @@
 			{ "name": "Key", "type": 4 }
 		]
 	},
+	"environment": { "tab": "ide", "group": true },
+	"hcUser": {
+		"tab": "ide",
+		"points": [
+			{ "name": "Name", "type": 3, "data": 2 },
+			{ "name": "UID", "type": 3, "data": 1 },
+			{ "name": "Plan", "type": 3 }
+		]
+	},
 	
 	"chartdata": { "tab": "googlechart", "group": true },
 	"ChartData": {
