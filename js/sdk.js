@@ -141,10 +141,7 @@ function SDK(pack) {
 					if(p.selected || p.point.selected) {
 						ctx.lineWidth = 2;
 					}
-					if(p.color)
-						ctx.strokeStyle = p.color;
-					else
-						ctx.strokeStyle = p.type < 3 ? "#00c" : "#c00";
+					ctx.strokeStyle = p.getColor();
 					ctx.beginPath();
 					ctx.moveTo(p.pos.x, p.pos.y);
 					var n = p.pos.next;

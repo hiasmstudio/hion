@@ -269,7 +269,11 @@ Point.prototype.unselect = function() {
 };
 
 Point.prototype.setColor = function(value) {
-	this.color = value;
+	value = value.toLowerCase();
+	if(value === this.getDefaultColor())
+		delete this.color;
+	else
+		this.color = value;
 	var p = this.isPrimary() ? this.point : this;
 	if(p) {
 		var res = p.parent.getLinkedPoint(p);
@@ -278,6 +282,14 @@ Point.prototype.setColor = function(value) {
 			p = res;
 		}
 	}
+};
+
+Point.prototype.getDefaultColor = function() {
+	return this.type < 3 ? "#00c" : "#c00"
+};
+
+Point.prototype.getColor = function() {
+	return this.color || this.getDefaultColor();
 };
 
 Point.prototype.setInfo = function(data) {

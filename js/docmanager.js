@@ -938,7 +938,7 @@ SHATab.prototype.setLineColor = function() {
 	var ed = this;
 	new Runner("coloreditor", function(data){
 		ed.sdkEditor.setLineColor(data[0]);
-	}).run(this.sdkEditor.pasteObj.point.color || "transparent");
+	}).run(this.sdkEditor.pasteObj.point.getColor());
 };
 
 SHATab.prototype.setLineInfo = function() {

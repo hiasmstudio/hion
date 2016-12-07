@@ -427,6 +427,10 @@ function modules() {
 				};
 				break;
 			case "RGB":
+				function componentToHex(c) {
+					var hex = c.toString(16);
+					return hex.length == 1 ? "0" + hex : hex;
+				}
 				i.doRGB.onevent=  function(data) {
 					var d = this.parent.d(data);
 					var r = d.readInt("R");
@@ -442,6 +446,9 @@ function modules() {
 							break;
 						case 2:
 							this.parent.color = r + (g << 8) + (b << 16);
+							break;
+						case 3:
+							this.parent.color = "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 							break;
 					}
 					this.parent.onRGB.call(this.parent.color);
