@@ -680,7 +680,11 @@ SHATab.prototype.updateCommands = function(commander) {
 		commander.enabled("paste");
 		commander.enabled("linecolor");
 
-		if(this.sdkEditor.canFormEdit()) commander.enabled("formedit");
+		if(this.sdkEditor.canFormEdit()) {
+			commander.enabled("formedit");
+			if(this.fEditor)
+				commander.checked("formedit");
+		}
 		
 		if(this.file && this.file.path.startsWith("/home") && window.user.plan.share == 1)
 			commander.enabled("share");
