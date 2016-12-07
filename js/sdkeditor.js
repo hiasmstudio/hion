@@ -1412,11 +1412,13 @@ SdkEditor.prototype = Object.create(UIControl.prototype);
 
 SdkEditor.prototype.setLineColor = function(color) {
 	this.pasteObj.point.setColor(color);
+	this.onsdkchange();
 	this.draw();
 };
 
 SdkEditor.prototype.setLineInfo = function(data) {
 	this.pasteObj.point.setInfo(data);
+	this.onsdkchange();
 	this.draw();
 };
 

@@ -158,7 +158,7 @@ function SDK(pack) {
 					}
 					
 					if(p.info) {
-						ctx.font = "8px monospace";
+						ctx.font = "9px monospace";
 						var lines = p.info.text.split("\n");
 						var wl = [];
 						var maxW = 0;

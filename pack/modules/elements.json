@@ -1625,6 +1625,32 @@
 			{ "name": "onLocation", "type": 2, "args": "Latitude, Longitude" }
 		]
 	},
+	"Window": {
+		"tab": "controls",
+		"props": [
+			{ "name": "URL", "type": 2, "def": "" },
+			{ "name": "Name", "type": 2, "def": "" },
+			{ "name": "Toolbar", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
+			{ "name": "Location", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
+			{ "name": "Directoties", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
+			{ "name": "Status", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
+			{ "name": "Menubar", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
+			{ "name": "Scrollbars", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
+			{ "name": "Resizable", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
+			{ "name": "Width", "type": 1, "def": 0 },
+			{ "name": "Height", "type": 1, "def": 0 }
+		],
+		"points": [
+			{ "name": "doOpen", "type": 1 },
+			{ "name": "doClose", "type": 1 },
+			{ "name": "onOpen", "type": 2 },
+			{ "name": "Location", "type": 3, "data": 2 },
+			{ "name": "URL", "type": 4, "data": 2 },
+			{ "name": "Name", "type": 4, "data": 2 },
+			{ "name": "Width", "type": 4, "data": 1, "flags": 1 },
+			{ "name": "Height", "type": 4, "data": 1, "flags": 1 }
+		]
+	},
 	
 	"Host": {
 		"tab": "remote",

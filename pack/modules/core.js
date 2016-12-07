@@ -1339,6 +1339,34 @@ function modules() {
 					});
 				};
 				break;
+			case "Window":
+				i.doOpen.onevent = function(data){
+					var props = this.parent.props;
+					var f = [];
+					var opt = ["Toolbar", "Location", "Directoties", "Status", "Menubar", "Scrollbars", "Resizable"];
+					for(var o of opt) {
+						if(!props[o].isDef())
+							f.push(o.toLocaleString() + "=1");
+					}
+					
+					if(!props.Width.isDef())
+						f.push("width=" + props.Width.value); 
+					if(!props.Height.isDef())
+						f.push("height=" + props.Height.value); 
+					
+					this.parent.wnd = window.open(props.URL.value, props.Name.value, f.join(","));
+					this.parent.onOpen.call();
+				};
+				i.doClose.onevent = function(data){
+					if(this.parent.wnd)
+						this.parent.wnd.close();
+					else
+						window.close();
+				};
+				i.Location.onevent = function(){
+					return window.location.href;
+				};
+				break;
 			case "MainForm":
 				i.doShow.onevent = function() {
 					this.parent.ctl.show({noCenter: !this.parent.props.Position.isDef()});
