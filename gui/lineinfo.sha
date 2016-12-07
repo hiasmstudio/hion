@@ -35,6 +35,7 @@ Add(RadioButton,5,126,91)
   Top=112
   Width=#2:66|
   Caption=#6:Center|
+  Checked=1
   link(onCheck,9:doWork2,[(177,97)(177,62)])
 }
 Add(RadioButton,6,126,133)
@@ -64,6 +65,7 @@ Add(ChannelToIndex,9,196,49)
 }
 Add(Memory,10,259,49)
 {
+  Default=Real(1)
 }
 Add(ArrayRead,11,343,161)
 {

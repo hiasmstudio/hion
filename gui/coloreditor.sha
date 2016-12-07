@@ -1,8 +1,8 @@
 Make(modules)
-Add(MainForm,1,266,203)
+Add(MainForm,1,266,273)
 {
-  Width=#3:362|
-  Height=#3:164|
+  Width=#3:364|
+  Height=#3:207|
   Caption=#14:ui.colordialog|
 }
 Add(TrackBar,2,350,49)
@@ -11,7 +11,7 @@ Add(TrackBar,2,350,49)
   Top=14
   Width=#3:212|
   Max=255
-  PColor(onPosition,rgb(0,171,0))
+  PInfo(onPosition,1,R)
   link(onPosition,13:doWork1,[(417,55)])
 }
 Add(TrackBar,3,357,98)
@@ -20,6 +20,7 @@ Add(TrackBar,3,357,98)
   Top=42
   Width=#3:212|
   Max=255
+  PInfo(onPosition,1,G)
   link(onPosition,13:doWork2,[])
 }
 Add(TrackBar,4,364,147)
@@ -28,15 +29,8 @@ Add(TrackBar,4,364,147)
   Top=70
   Width=#3:212|
   Max=255
+  PInfo(onPosition,1,B)
   link(onPosition,14:doWork2,[])
-}
-Add(Label,5,476,203)
-{
-  Left=273
-  Top=21
-  Width=#2:57|
-  Height=#2:56|
-  Caption=#0:|
 }
 Add(Label,6,161,49)
 {
@@ -64,39 +58,32 @@ Add(Label,8,161,147)
 }
 Add(RGB,9,350,203)
 {
-  link(onRGB,30:doWork2,[])
+  Type=3
+  link(onRGB,35:doWork2,[])
   link(R,2:Value,[])
   link(G,3:Value,[])
   link(B,4:Value,[])
 }
-Add(FormatStr,10,413,203)
-{
-  DataCount=1
-  Mask=#69:<div style="background-color: %1; width: 100%; height: 100px;"></div>|
-  link(onFString,5:doCaption,[])
-}
 Add(HubEx,13,413,98)
 {
   Angle=1
-  PColor(onEvent,rgb(0,171,0))
   link(onEvent,14:doWork1,[])
 }
 Add(HubEx,14,413,147)
 {
   Angle=1
-  PColor(onEvent,rgb(0,171,0))
-  link(onEvent,9:doRGB,[(417,188)(336,188)(336,209)])
+  link(onEvent,9:doRGB,[(417,189)(336,189)(336,209)])
 }
-Add(hcTransmitter,18,350,273)
+Add(hcTransmitter,18,350,329)
 {
   DataCount=1
-  link(onInit,30:doWork3,[(396,279)])
-  link(Arg1,9:Color,[])
+  link(onInit,35:doWork3,[(396,335)])
+  link(Arg1,32:Text,[])
 }
-Add(MultiElementEx,22,161,266)
+Add(MultiElementEx,22,161,322)
 {
   link(onEvent1,28:doEvent1,[])
-  link(onEvent2,29:doWork2,[(209,279)(209,221)(209,216)])
+  link(onEvent2,29:doWork2,[(210,335)(210,286)])
 }
 BEGIN_SDK
 Add(MultiElementEditor,23,7,7)
@@ -107,7 +94,7 @@ Add(MultiElementEditor,23,7,7)
 Add(Panel,24,21,35)
 {
   Left=196
-  Top=105
+  Top=147
   Shrink=0
   Width=#0:|
   Height=#2:36|
@@ -136,16 +123,82 @@ Add(Button,26,112,91)
   link(onClick,23:onEvent1,[])
 }
 END_SDK
-Add(Hub,28,224,266)
+Add(Hub,28,224,322)
 {
-  link(onEvent1,29:doWork3,[(249,272)])
+  link(onEvent1,29:doWork3,[(249,328)])
   link(onEvent2,18:doReturn,[])
 }
-Add(HubEx,29,245,210)
+Add(HubEx,29,245,280)
 {
-  link(onEvent,1:doClose,[(249,216)])
+  link(onEvent,1:doClose,[])
 }
-Add(HubEx,30,392,203)
+Add(Edit,32,350,273)
 {
-  link(onEvent,10:doString,[])
+  Left=77
+  Top=119
+  Width=#3:176|
+  link(onChange,36:doWork2,[])
+}
+Add(Label,31,7,105)
+{
+  Left=14
+  Top=119
+  Width=#2:57|
+  Height=#2:21|
+  Caption=#7:ui.name|
+  HAlign=2
+}
+Add(Figure,33,70,182)
+{
+  Left=14
+  Top=98
+  Width=#3:338|
+  Height=#2:16|
+  Shape=2
+  Stroke=Grey
+}
+Add(Hub,34,413,203)
+{
+  link(onEvent1,36:doWork1,[(452,209)])
+  link(onEvent2,32:doText,[(440,216)(440,260)(336,260)(336,279)])
+}
+Add(HubEx,35,392,203)
+{
+  link(onEvent,34:doEvent1,[])
+}
+Add(HubEx,36,448,273)
+{
+  link(onEvent,44:doEvent1,[])
+}
+Add(CSS,38,70,49)
+{
+  StyleSheet=#10:.preview {|25:	border: 1px solid white;|1:}|
+}
+Add(PaintBox,39,511,273)
+{
+  Left=273
+  Top=21
+  Width=#2:65|
+  Height=#2:65|
+}
+Add(Rectangle,40,609,329)
+{
+  X2=65
+  Y2=65
+  Type=2
+}
+Add(FillStyle,41,511,329)
+{
+  link(onFill,42:doStroke,[])
+  link(Canvas,39:Canvas,[])
+}
+Add(StrokeStyle,42,560,329)
+{
+  Color=White
+  link(onStroke,40:doDraw,[])
+}
+Add(Hub,44,476,273)
+{
+  link(onEvent1,39:doDraw,[])
+  link(onEvent2,41:doFill,[(500,286)(500,335)])
 }

@@ -42,6 +42,7 @@ Add(ListBox,11,343,84)
   Top=49
   Width=#3:127|
   Height=#0:|
+  Edge=3
   Point(Icon)
   link(onSelect,31:doEvent1,[])
   link(Str,80:Result,[])

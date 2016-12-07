@@ -1,0 +1,261 @@
+Make(modules)
+Add(MainForm,1,105,98)
+{
+  Width=#3:369|
+  Height=#3:337|
+  Caption=#14:ui.currentplan|
+  link(onCreate,6:doEnum,[])
+}
+Add(SimpleTable,2,805,238)
+{
+  Left=14
+  Top=56
+  Width=#3:337|
+  Height=#3:205|
+  Columns=#92:[{"title":"ui.option","width":"200px","align":"left"},{"title":"ui.value","align":"center"}]|
+}
+Add(ArrayBuilder,3,756,238)
+{
+  Items=#5:title|5:value|
+  link(onBuild,2:doAddRow,[])
+  link(title,19:Value,[])
+}
+Add(StrList,5,189,42)
+{
+  Strings=#8:localprj|9:remoteprj|5:share|7:history|7:storage|6:builds|7:support|7:catalog|
+}
+Add(ArrayEnum,6,196,98)
+{
+  PInfo(onEnd,1,name)
+  link(onEnum,8:doEvent1,[])
+  link(onEnd,69:doGet,[(239,111)(239,125)])
+  link(Array,5:Array,[])
+}
+Add(StrCat,7,658,154)
+{
+  Str1=#3:ui.|
+  link(onStrCat,18:doTranslate,[])
+}
+Add(Hub,8,245,98)
+{
+  OutCount=3
+  link(onEvent1,71:doGet,[])
+  link(onEvent2,7:doStrCat,[(279,111)(279,160)])
+  link(onEvent3,36:doEvent,[(273,118)(273,209)])
+}
+Add(Memory,10,574,98)
+{
+}
+Add(Label,11,28,42)
+{
+  Left=14
+  Top=35
+  Width=#3:337|
+  Height=#2:21|
+  Caption=#19:ui.currentplan.info|
+}
+Add(Button,12,28,98)
+{
+  Left=280
+  Top=273
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#8:ui.close|
+  link(onClick,1:doClose,[(83,104)(83,111)])
+}
+Add(HubEx,15,714,238)
+{
+  link(onEvent,3:doBuild,[])
+}
+Add(DoData,16,644,203)
+{
+  Data=String(∞)
+  link(onEventData,15:doWork1,[(718,209)])
+}
+Add(hcTranslator,18,707,154)
+{
+  link(onTranslate,19:doValue,[])
+}
+Add(Memory,19,756,154)
+{
+}
+Add(IndexToChannel,23,574,301)
+{
+  link(Index,58:Var2,[])
+  link(onEvent1,25:doData,[])
+  link(onEvent2,26:doData,[])
+}
+Add(DoData,25,630,301)
+{
+  Data=String(no)
+  link(onEventData,27:doWork2,[])
+}
+Add(DoData,26,651,308)
+{
+  Data=String(yes)
+  link(onEventData,27:doWork3,[(718,314)])
+}
+Add(HubEx,27,714,301)
+{
+  Angle=3
+  link(onEvent,46:doWork3,[])
+}
+Add(IndexToChannel,36,287,203)
+{
+  Count=8
+  PInfo(onEvent1,0,localprj)
+  PInfo(onEvent2,1,\ntotalprj)
+  PInfo(onEvent5,1,totalstorage)
+  PInfo(onEvent6,1,totalbuilds)
+  link(Index,6:Index,[(293,181)(209,181)])
+  link(onEvent1,16:doData,[])
+  link(onEvent2,72:doGet,[])
+  link(onEvent3,39:doWork1,[(345,223)])
+  link(onEvent4,39:doWork2,[])
+  link(onEvent5,76:doGet,[(329,237)(329,335)])
+  link(onEvent6,73:doGet,[(364,244)(364,272)])
+  link(onEvent7,41:doWork2,[])
+  link(onEvent8,42:doWork2,[])
+}
+Add(GetDataEx,37,574,182)
+{
+  link(Data,10:Value,[])
+}
+Add(HubEx,39,341,224)
+{
+  Angle=1
+  link(onEvent,41:doWork1,[])
+}
+Add(HubEx,41,341,245)
+{
+  Angle=1
+  link(onEvent,42:doWork1,[])
+}
+Add(HubEx,42,341,252)
+{
+  Angle=1
+  link(onEvent,23:doEvent,[(345,307)])
+}
+Add(FormatStr,43,490,210)
+{
+  Mask=#7:%1 / %2|
+  link(onFString,50:doWork2,[])
+  link(Str2,37:Var1,[(503,189)])
+}
+Add(HubEx,46,714,266)
+{
+  Angle=3
+  link(onEvent,15:doWork3,[])
+}
+Add(FormatStr,47,497,266)
+{
+  Mask=#7:%1 / %2|
+  link(onFString,55:doWork2,[])
+  link(Str2,59:Var1,[(510,252)])
+}
+Add(HubEx,50,553,210)
+{
+  link(onEvent,46:doWork2,[(638,216)(638,272)])
+}
+Add(FormatStr,52,511,329)
+{
+  Mask=#10:%1 / %2 MB|
+  link(onFString,55:doWork3,[(557,335)])
+  link(Str2,58:Var1,[(524,280)])
+}
+Add(HubEx,55,553,266)
+{
+  Angle=3
+  link(onEvent,50:doWork3,[(557,272)])
+}
+Add(MathParse,56,455,329)
+{
+  MathStr=#22:round($X1/(1024*1024))|
+  Args=#2:X1|
+  link(onResult,52:doString,[])
+}
+Add(GetDataEx,58,574,273)
+{
+  link(Data,59:Var2,[])
+}
+Add(GetDataEx,59,574,245)
+{
+  link(Data,37:Var2,[])
+}
+Add(Label,62,511,119)
+{
+  Left=14
+  Top=7
+  Width=#3:337|
+  Height=#2:28|
+  Theme=#9:plan-name|
+  Caption=#8:planmane|
+}
+Add(CSS,65,105,42)
+{
+  StyleSheet=#12:.plan-name {|19:	font-weight: bold;|17:	font-size: 20px;|1:}|
+}
+Add(Button,66,28,147)
+{
+  Left=196
+  Top=273
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#9:ui.change|
+  link(onClick,67:doOpen,[])
+}
+Add(Window,67,105,147)
+{
+  URL=#28:http://forum.hiasm.com/plan/|
+}
+Add(JSON_Field,69,462,119)
+{
+  Name=#4:name|
+  link(onGet,62:doCaption,[])
+  link(Object,78:Var3,[(468,84)])
+}
+Add(hcUser,70,287,35)
+{
+}
+Add(JSON_Field,71,287,98)
+{
+  link(onGet,10:doValue,[])
+  link(Object,74:Var1,[(293,84)])
+}
+Add(JSON_Field,72,441,210)
+{
+  Name=#8:totalprj|
+  link(onGet,43:doString,[])
+  link(Object,75:Var3,[(447,189)])
+}
+Add(JSON_Field,73,434,266)
+{
+  Name=#11:totalbuilds|
+  link(onGet,47:doString,[])
+  link(Object,77:Var2,[])
+}
+Add(GetDataEx,74,301,77)
+{
+  link(Data,70:Plan,[])
+}
+Add(GetDataEx,75,434,182)
+{
+  link(Data,78:Var2,[])
+}
+Add(JSON_Field,76,406,329)
+{
+  Name=#12:totalstorage|
+  link(onGet,56:doCalc,[])
+  link(Object,77:Var1,[(412,259)])
+}
+Add(GetDataEx,77,434,252)
+{
+  link(Data,75:Var2,[])
+}
+Add(GetDataEx,78,434,77)
+{
+  Angle=3
+  link(Data,74:Var3,[(440,84)])
+}

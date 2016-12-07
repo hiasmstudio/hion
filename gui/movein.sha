@@ -26,7 +26,6 @@ Add(MultiElementEx,5,105,119)
   link(onEvent2,23:doWork2,[(156,132)(156,181)])
 }
 BEGIN_SDK
-Make(webapp)
 Add(MultiElementEditor,4,7,7)
 {
   EventCount=2
