@@ -58,7 +58,9 @@
 	"cmd.output": "Output window",
 	"cmd.moveto": "Move to...",
 	"cmd.linecolor": "Line color",
+	"cmd.lineinfo": "Line info",
 	"cmd.sendbug": "Send bug",
+	"cmd.plan": "My plan",
 	
 	"ui.close": "Close",
 	"ui.cancel": "Cancel",
@@ -124,5 +126,20 @@
 	"ui.fontsize": "Size in pixels",
 	"ui.preview": "Preview",
 	
-	"ui.colordialog": "Color dialog"
+	"ui.colordialog": "Color dialog",
+	
+	"ui.currentplan": "Current plan",
+	"ui.option": "Option",
+	"ui.localprj": "Local project",
+	"ui.remoteprj": "Remote project",
+	"ui.share": "Sharing",
+	"ui.history": "Change history",
+	"ui.storage": "Space on disk",
+	"ui.builds": "Builds in day",
+	"ui.support": "Support",
+	"ui.catalog": "Public in catalog",
+	"ui.currentplan.info": "Information about current plan",
+	"ui.change": "Change",
+	
+	"ui.lineinfo": "Hint to the link"
 }

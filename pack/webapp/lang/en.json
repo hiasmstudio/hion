@@ -26,5 +26,34 @@
 	"group.fbnode": "Node",
 	"group.fbuser": "User",
 	"tab.vk": "VK",
-	"group.audiolist": "Audio"
+	"group.audiolist": "Audio",
+	
+	"wincontrol.Left": "Left position",
+	"wincontrol.Top": "Top position",
+	"wincontrol.Width": "Control width",
+	"wincontrol.Height": "Control height",
+	"wincontrol.position": "Control position",
+	"wincontrol.Grow": "It specifies what amount of space inside the flex container the item should take up",
+	"wincontrol.Shrink": "Property specifies the flex shrink factor of a flex item",
+	"wincontrol.AlignSelf": "This property overriding the AlignItems value of the parent container",
+	"wincontrol.Margin": "Offset element from edges and other elements",
+	"wincontrol.Enabled": "Elements available to the user control",
+	"wincontrol.Visible": "Visibility on the form element",
+	"wincontrol.Hint": "Hint to the element",
+	"wincontrol.TabIndex": "The procedure for transferring the focus element",
+	"wincontrol.Theme": "The CSS class name",
+	"wincontrol.splitter": "Splitter",
+	"wincontrol.Edge": "Side element to which to attach a splitter",
+	"wincontrol.SplitterSize": "The pixel size of the separator",
+
+	"wincontainer.layout": "Layout",
+	"wincontainer.Layout": "Layout type",
+	"wincontainer.Wrap": "Specifies whether flex items are forced into a single line or can be wrapped onto multiple lines",
+	"wincontainer.JustifyContent": "Defines how the container distributes space between and around flex items along the main-axis of their container.",
+	"wincontainer.AlignItems": "Defines how the container distributes space between and around flex items along the cross-axis of their container",
+	"wincontainer.AlignContent": "Aligns a flex container's lines within the flex container when there is extra space on the cross-axis",
+	"wincontainer.Padding": "Indent items from the edges of the parent container",
+	
+	"element.Color": "Element color in the editor",
+	"element.Comment": "Comments to the element"
 }
