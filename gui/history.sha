@@ -1,0 +1,150 @@
+Make(modules)
+Add(MainForm,1,168,105)
+{
+  Width=#3:477|
+  Height=#3:302|
+  Layout=2
+  Padding=5
+  Caption=#18:ui.project.history|
+}
+Add(SimpleTable,2,700,154)
+{
+  Left=7
+  Top=7
+  Grow=1
+  Width=#0:|
+  Height=#3:240|
+  Columns=#140:[{"title":"ui.revision","align":"right","width":"40px"},{"title":"ui.date","width":"140px","align":"center"},{"title":"ui.info","width":""}]|
+  Select=1
+  link(onSelect,20:doWork1,[(760,160)(760,40)(33,40)(33,62)])
+}
+Add(hcTransmitter,4,168,56)
+{
+  DataCount=1
+  link(onInit,5:doRead,[])
+}
+Add(ArrayRead,5,224,56)
+{
+  link(onRead,6:doBuild,[])
+}
+Add(URLBuilder,6,280,56)
+{
+  Args=#7:history|
+  link(onBuild,17:doEvent1,[])
+}
+Add(JSON,8,420,56)
+{
+  link(onConvert,9:doEnum,[])
+}
+Add(ArrayEnum,9,476,56)
+{
+  link(onEnum,12:doEvent1,[])
+}
+Add(JSON_Field,10,560,56)
+{
+  Name=#3:rev|
+}
+Add(JSON_Field,11,560,105)
+{
+  Name=#4:date|
+}
+Add(Hub,12,525,56)
+{
+  OutCount=3
+  link(onEvent1,10:doGet,[])
+  link(onEvent2,11:doGet,[(549,69)(549,111)])
+  link(onEvent3,13:doGet,[(549,76)(549,160)])
+}
+Add(JSON_Field,13,560,154)
+{
+  Name=#4:info|
+  link(onGet,14:doBuild,[])
+}
+Add(ArrayBuilder,14,644,154)
+{
+  Items=#3:rev|4:date|4:info|
+  link(onBuild,2:doAddRow,[])
+  link(rev,10:Result,[(650,98)(566,98)])
+  link(date,11:Result,[(657,146)(566,146)])
+}
+Add(XMLHttpRequest,16,364,56)
+{
+  Method=1
+  URL=#15:server/core.php|
+  link(onLoad,8:doConvert,[])
+}
+Add(Hub,17,329,56)
+{
+  link(onEvent1,16:doOpen,[])
+  link(onEvent2,16:doSend,[])
+}
+Add(MultiElementEx,20,49,56)
+{
+  link(onEvent1,29:doEvent1,[])
+  link(onEvent2,30:doWork2,[(99,69)(99,118)])
+}
+BEGIN_SDK
+Add(MultiElementEditor,21,7,7)
+{
+  EventCount=2
+  WorkCount=1
+  @VOffset=84
+  link(doWork1,26:doRead,[])
+}
+Add(Panel,22,21,35)
+{
+  Left=161
+  Top=280
+  Shrink=0
+  Width=#0:|
+  Height=#2:36|
+  Theme=#11:panel-clear|
+  Layout=1
+  JustifyContent=1
+}
+Add(Button,24,161,91)
+{
+  Left=168
+  Top=91
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Enabled=0
+  Caption=#7:ui.open|
+  Point(doEnabled)
+  link(onClick,27:doData,[])
+}
+Add(DoData,25,105,91)
+{
+  Data=Real(1)
+  link(onEventData,24:doEnabled,[])
+}
+Add(Button,23,161,140)
+{
+  Left=112
+  Top=91
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#8:ui.close|
+  link(onClick,21:onEvent2,[(287,146)(287,104)])
+}
+Add(ArrayRead,26,49,91)
+{
+  link(onRead,25:doData,[])
+}
+Add(DoData,27,217,91)
+{
+  link(onEventData,21:onEvent1,[])
+  link(Data,26:Value,[(223,77)(147,77)(147,138)(55,138)])
+}
+END_SDK
+Add(Hub,29,112,56)
+{
+  link(onEvent1,4:doReturn,[])
+  link(onEvent2,30:doWork1,[(144,69)])
+}
+Add(HubEx,30,140,112)
+{
+  link(onEvent,1:doClose,[])
+}

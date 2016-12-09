@@ -61,6 +61,7 @@
 	"cmd.lineinfo": "Line info",
 	"cmd.sendbug": "Send bug",
 	"cmd.plan": "My plan",
+	"cmd.history": "Project history",
 	
 	"ui.close": "Close",
 	"ui.cancel": "Cancel",
@@ -141,5 +142,10 @@
 	"ui.currentplan.info": "Information about current plan",
 	"ui.change": "Change",
 	
-	"ui.lineinfo": "Hint to the link"
+	"ui.lineinfo": "Hint to the link",
+	
+	"ui.project.history": "Project history",
+	"ui.revision": "Rev",
+	"ui.date": "Date",
+	"ui.open": "Open"
 }

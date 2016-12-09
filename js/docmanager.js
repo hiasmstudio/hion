@@ -686,8 +686,12 @@ SHATab.prototype.updateCommands = function(commander) {
 				commander.checked("formedit");
 		}
 		
-		if(this.file && this.file.path.startsWith("/home") && window.user.plan.share == 1)
-			commander.enabled("share");
+		if(this.file && this.file.path.startsWith("/home")) {
+			if(window.user.plan.share == 1)
+				commander.enabled("share");
+			if(window.user.plan.history == 1)
+				commander.enabled("history");
+		}
 		
 		if(this.sdkEditor.canZoomIn()) commander.enabled("zoomin");
 		if(this.sdkEditor.canZoomOut()) commander.enabled("zoomout");
@@ -953,6 +957,13 @@ SHATab.prototype.setLineInfo = function() {
 	}).run([info.text, info.direction]);
 };
 
+SHATab.prototype.loadFromHistory = function() {
+	var ed = this;
+	new Runner("history", function(data){
+		ed.manager.open("/history/" + data[0], ed.file.name + "(rev: " + data[0] + ")");
+	}).run([this.file.location()]);
+};
+
 SHATab.prototype.execCommand = function(cmd, data) {
     switch(cmd) {
     	case "addelement":
@@ -1045,6 +1056,8 @@ SHATab.prototype.execCommand = function(cmd, data) {
 		case "bind_rect": this.bindFlags ^= 0x1; this.fEditor.setBindFlags(this.bindFlags); commander.reset(); break;
 		case "bind_center": this.bindFlags ^= 0x2; this.fEditor.setBindFlags(this.bindFlags); commander.reset(); break;
 		case "bind_padding": this.bindFlags ^= 0x4; this.fEditor.setBindFlags(this.bindFlags); commander.reset(); break;
+		
+		case "history": this.loadFromHistory(); break;
         
         default:
             DocumentTab.prototype.execCommand.call(this, cmd, data);

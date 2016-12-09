@@ -191,7 +191,7 @@ function loadWorkspace() {
 	 		file: ["new", "open", "save", "saveas", "-", "share", "-", "capture", "sha_source"],
 	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "moveto", "-", "tools"],
 	 		editor: ["undo", "redo", "-", "slidedown", "slideright", "-", "zoomin", "zoomout", "-", "selectall", "-", "makehint", "remove_lh"],
-	 		view: ["formedit", "statistic", "-", "output"],
+	 		view: ["formedit", "statistic", "-", "history", "-", "output"],
 	 		help: ["forum", "mail", "sendbug", "-", "about"]
 	 	};
 		mainMenu = createMainmenu(mmCommands);
@@ -399,6 +399,7 @@ function loadWorkspace() {
 			}
 		},
 		build: { icon: 58 },
+		history: { },
 		make: { },
 		output: {  },
 		moveto: {  },
