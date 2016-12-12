@@ -76,7 +76,8 @@ function FileManager() {
 	hpanel.add(this.places = new ListBox({theme: "borderin"}));
 	this.places.width = 100;
 	this.places.onselect = function(item, text){
-		__files__.navigate("/" + text.toLowerCase());
+		if(!__files__.selectOnly)
+			__files__.navigate("/" + text.toLowerCase());
 	};
 	
 	this.listBox = new UISimpleTable({theme: "borderin", showgrid: false, lineheight: 13,
@@ -182,7 +183,16 @@ function FileManager() {
 		if(i > 0) {
 			var file = addr.substr(i+1);
 			this.fileName.text = file;
-			this.navigate(addr.substr(0, i));
+			var place = addr.substr(0, i);
+			for(var i = 0; i < this.places.size(); i++) {
+				if(place.startsWith("/" + this.places.items[i].toLowerCase())) {
+					this.selectOnly = true;
+					this.places.selectIndex(i);
+					delete this.selectOnly;
+					break;
+				}
+			}
+			this.navigate(place);
 		}
 		else {
 			this.navigate("/home");
