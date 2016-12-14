@@ -121,5 +121,16 @@
 			{ "name": "InternalName", "type": 2, "def": "" },
 			{ "name": "E-mail", "type": 2, "def": "" }
 		]
+	},
+	"PointHint": {
+		"tab": "helpers",
+		"inherit": "InfoTip",
+		"class": "PointHint",
+		"points": [
+			{ "name": "Method", "type": 1 },
+			{ "name": "Event", "type": 2 },
+			{ "name": "Var", "type": 3 },
+			{ "name": "Data", "type": 4 }
+		]
 	}
 }

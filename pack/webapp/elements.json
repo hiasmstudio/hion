@@ -1725,6 +1725,7 @@
 	"GetDataEx": {},
 	"LineBreak": {},
 	"LineBreakEx": {},
+	"PointHint": {},
 	"Debug": {
 		"tab": "helpers",
 		"class": "Debug",

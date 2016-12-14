@@ -813,6 +813,7 @@ function getClass(pack, id) {
 	var template = pack.elements[id];
 	if(!template) {
 		console.error("Element config not found: ", id);
+		return null;
 	}
 	if(template.class) {
 		if(!window[template.class])
@@ -1251,6 +1252,25 @@ ITElement.prototype.draw = function(ctx) {
 ITElement.prototype.inPoint = function(x, y) {
 	return x >= this.x && y >= this.y && x < this.x+this.w && y < this.y+this.h &&
 			(x - this.x <= 7 || y - this.y <= 7 || this.x+this.w - x <= 7 || this.y+this.h - y <= 7);
+};
+
+//******************************************************************************
+// PointHint
+//******************************************************************************
+
+function PointHint(id) {
+	ITElement.call(this, id);
+}
+
+PointHint.prototype = Object.create(ITElement.prototype);
+
+PointHint.prototype.rePosPoints = function() {
+	ITElement.prototype.rePosPoints.call(this);
+	
+	if(this.Data) {
+		this.Event.pos.y = this.Method.pos.y = this.y + Math.round(this.h/2) + POINT_OFF;
+		this.Var.pos.x = this.Data.pos.x = this.x + Math.round(this.w/2) + POINT_OFF;
+	}
 };
 
 //******************************************************************************
