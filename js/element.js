@@ -1914,8 +1914,11 @@ MultiElement.prototype.loadFromTemplate = function() {
 	this.sdk = new SDK(this.parent.pack);
 	this.sdk.parent = this.parent;
 	this.sdk.parentElement = this;
-	var offset = window.getOptionInt("opt_multi_offset", 7);
-	this.sdk.add(this.getEditorName(), offset, offset);
+	var editor = this.getEditorName();
+	if(editor) {
+		var offset = window.getOptionInt("opt_multi_offset", 7);
+		this.sdk.add(editor, offset, offset);
+	}
 };
 
 MultiElement.prototype.makeLink = function(element) {
