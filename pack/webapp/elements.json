@@ -906,6 +906,7 @@
 	"logic": { "tab": "tools", "group": true },
 	"If_else": {
 		"tab": "tools",
+		"class": "IfElse",
 		"points": [
 			{ "name": "doCompare", "type": 1 },
 			{ "name": "onTrue", "type": 2 },

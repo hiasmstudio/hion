@@ -2285,6 +2285,44 @@ function Version(id) {
 
 Version.prototype = Object.create(SdkElement.prototype);
 
+
+//******************************************************************************
+// IfElse
+//******************************************************************************
+
+function IfElse(id) {
+	SdkElement.call(this, id);
+}
+
+IfElse.prototype = Object.create(SdkElement.prototype);
+
+IfElse.prototype.drawIcon = function(ctx) {
+	ctx.font = "10px Arial";
+
+	var x = this.x;
+	var y = this.y + this.h/2 + 4;
+	var text, len;
+	ctx.fillStyle = "navy";
+	if(!this.props.Op1.isDef()) {
+		text = this.props.Op1.value;
+		len = ctx.measureText(text).width;
+		if(len < 32) {
+			ctx.fillText(text, x + (this.w - len)/2, y - 8);
+		}
+	}
+	if(!this.props.Op2.isDef()) {
+		text = this.props.Op2.value;
+		len = ctx.measureText(text).width;
+		if(len < 32) {
+			ctx.fillText(text, x + (this.w - len)/2, y + 8);
+		}
+	}
+	ctx.fillStyle = "#000";
+	text = this.props.Type.getText();
+	len = ctx.measureText(text).width;
+	ctx.fillText(text, x + (this.w - len)/2, y);
+};
+
 //******************************************************************************
 // WinElement
 //******************************************************************************
