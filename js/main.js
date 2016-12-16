@@ -191,7 +191,7 @@ function loadWorkspace() {
 	 		file: ["new", "open", "save", "saveas", "-", "share", "-", "capture", "sha_source"],
 	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "moveto", "-", "tools"],
 	 		editor: ["undo", "redo", "-", "slidedown", "slideright", "-", "zoomin", "zoomout", "-", "selectall", "-", "makehint", "remove_lh"],
-	 		view: ["formedit", "statistic", "-", "history", "-", "output"],
+	 		view: ["formedit", "statistic", "-", "history", "-", "output", "showgraph"],
 	 		help: ["forum", "mail", "sendbug", "-", "about"]
 	 	};
 		mainMenu = createMainmenu(mmCommands);
@@ -408,6 +408,7 @@ function loadWorkspace() {
 		bind_padding: { icon: 46 },
 		linecolor: { icon: 32 },
 		lineinfo: { def: true },
+		showgraph: { def: false },
 		sendbug: {
 			def: true,
 			exec: function(){ window.open("http://forum.hiasm.com/userissues/0#7", '_blank'); }

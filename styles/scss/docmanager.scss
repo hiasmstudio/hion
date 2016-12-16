@@ -66,7 +66,6 @@
         justify-content: center;
         background-color: $inputBgColor;
         border: 0;
-		border-bottom: 1px solid $borderDark;
 
         > .content {
             justify-content: center;
@@ -161,7 +160,39 @@
         }
     }
     
-    .doc-code {
+	.graph {
+		font-size: $fontSize;
+		overflow: auto;
+		flex-shrink: 0;
+		background-color: $inputBgColor;
+		.node {
+			display: flex; align-items: center;
+			.item {
+				cursor: pointer;
+				display: flex; align-items: center;
+
+				&:hover { background-color: $bgColorHover; }
+				div { margin-left: 7px; }
+			}
+		}
+		.cell {
+			width: 24px; height: 24px;
+		}
+		.tree {
+			width: 24px; height: 24px;
+			background-image: url('../img/tree.png');
+		}
+		.tree-end {
+			width: 24px; height: 24px;
+			background-image: url('../img/tree-end.png');
+		}
+		.tree-center {
+			width: 24px; height: 24px;
+			background-image: url('../img/tree-center.png');
+		}
+	}
+
+	.doc-code {
         position: relative;
         display: flex;
         flex-grow: 1;
@@ -188,6 +219,7 @@
 	}
 	
 	.ui-splitter {
+		border-top: 1px solid $borderDark;
 		background-color: white;
 	}
 }

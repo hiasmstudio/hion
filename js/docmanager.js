@@ -409,7 +409,7 @@ function SHATab(file) {
     this.loader = new UILoader({size: 64, radius: 5});
     this.container.add(this.loader);
     
-    this.statusBar = new Panel({height: 20, theme: "statusbar"});
+    this.statusBar = new Panel({theme: "statusbar"});
     this.statusBar.hide();
     this.container.add(this.statusBar);
     this.address = new Panel({theme: "panel-clear"});
@@ -629,6 +629,26 @@ SHATab.prototype.hide = function() {
 	propEditor.onpropchange = function() {};
 	propEditor.onadveditor = function() {};
 	propEditor.show(null);
+};
+
+SHATab.prototype.goInto = function(element) {
+	// return into root
+	while(this.sdkEditor.canBack())
+		this.sdkEditor.back();
+	
+	// create path from elements
+	var path = [];
+	var sdk = element.parent;
+	while(element) {
+		path.push(element);
+		element = element.parent.parentElement;
+	}
+	
+	// goto container
+	for(var i = path.length-1; i >= 0; i--) {
+		this.sdkEditor.sdk.selMan.select(path[i]);
+		commander.execCommand("forward");
+	}
 };
 
 SHATab.prototype.updateAddress = function() {
@@ -1198,6 +1218,64 @@ StatePanel.prototype.clear = function() {
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
+function ShaGraph(options) {
+	this.body = new Builder().n("div").class("graph");
+	this._ctl = this.body.element;
+	
+	this.sdkTab = null;
+	
+	this.setOptions(options);
+}
+
+ShaGraph.prototype = Object.create(UIControl.prototype);
+
+ShaGraph.prototype.clear = function() {
+	this.body.html('');
+};
+
+ShaGraph.prototype.parse = function(sdk) {
+	this.clear();
+	
+	var ed = this;
+	
+	function parse(sdk, level) {
+		for(var e of sdk.imgs) {
+			if(e.sdk) {
+				var node = ed.body.n("div").class("node").attr("level", level);
+				for(var i = 0; i < level; i++)
+					node.n("div").class("cell");
+				var item = node.n("div").class("item").attr("element", e).on("onclick", function(){
+					ed.sdkTab.goInto(this.element);
+				});
+				item.n("img").attr("src", e.img.src);
+				item.n("div").html(e.sys.Comment.value || e.name);
+				for(var l = ed.body.childs()-1; l > 0 && ed.body.child(l).level >= level; l--) {
+					var cls = ed.body.child(l).childNodes[level-1].className;
+					if(cls == "cell")
+						ed.body.child(l).childNodes[level-1].className = l == ed.body.childs()-1 ? "tree-end" : "tree";
+					else if(cls == "tree-end")
+						ed.body.child(l).childNodes[level-1].className = "tree-center";
+				}
+				parse(e.sdk, level + 1);
+			}
+		}
+	}
+
+	for(var e of sdk.imgs) {
+		if(e.flags & IS_PARENT) {
+			var node = this.body.n("div").class("node").n("div").class("item").attr("element", e).on("onclick", function(){
+				ed.sdkTab.goInto(this.element);
+			});
+			node.n("img").attr("src", e.img.src);
+			node.n("div").html(e.name);
+			parse(sdk, 1);
+			break;
+		}
+	}
+};
+
+//------------------------------------------------------------------------------
+
 function DocumentManageer(options) {
 	UIContainer.call(this);
 	
@@ -1237,17 +1315,22 @@ function DocumentManageer(options) {
 		if(dm.currentTab) {
 			dm.currentTab.show();
 			commander.reset();
+			if(dm.graph.visible === "true")
+				dm.showGraph(true);
 		}
 
 		dm.saveOpenTabs();
 		dm.ontabselect(tab ? tab.content : null);
 	};
 	
-	this.state = new StatePanel({});
-	var h = window.localStorage.getItem("prop_state_height");
-	if(h) {
-		this.state.height = h;
-	}
+	this.graph = new ShaGraph({height: window.localStorage.getItem("prop_graph_height", 140)});
+	this.add(this.graph);
+	this.splitter2 = new Splitter({edge: 0});
+	this.splitter2.setManage(this.graph);
+	this.splitter2.onresize = function(){ window.localStorage.setItem("prop_graph_height", dm.graph.height) };
+	this.showGraph(false);
+	
+	this.state = new StatePanel({height: window.localStorage.getItem("prop_state_height", 140)});
 	this.add(this.state);
 	this.splitter = new Splitter({edge: 0});
 	this.splitter.setManage(this.state);
@@ -1258,7 +1341,7 @@ function DocumentManageer(options) {
 
     this._showTab = function(tab) {
         this.currentTab = tab;
-        this.insert(tab, this.splitter);
+        this.insert(tab, this.splitter2);
     };
 
 	this.openByType = function(Class, file, title, asnew) {
@@ -1329,11 +1412,13 @@ function DocumentManageer(options) {
             case "new": this.openNew(); break;
             case "output": this.showState(this.state.visible == "false"); break;
             case "build": if(this.state.visible == "false") this.showState(true); break;
-        }
+			case "showgraph": this.showGraph(this.graph.visible == "false"); break;
+       }
 	};
 	
 	this.updateCommands = function(commander) {
 		commander.enabled("output");
+		commander.enabled("showgraph");
 
 		this.currentTab.updateCommands(commander);
 	};
@@ -1457,4 +1542,15 @@ DocumentManageer.prototype = Object.create(UIContainer.prototype);
 DocumentManageer.prototype.showState = function(value) {
 	this.state.setVisible(value);
 	this.splitter.setVisible(value);
+}
+
+DocumentManageer.prototype.showGraph = function(value) {
+	if(value && this.currentTab.sdkEditor) {
+		this.graph.parse(this.currentTab.sdkEditor.getMainSDK());
+		this.graph.sdkTab = this.currentTab;
+	}
+	else
+		this.graph.clear();
+	this.graph.setVisible(value);
+	this.splitter2.setVisible(value);
 }

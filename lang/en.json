@@ -62,6 +62,7 @@
 	"cmd.sendbug": "Send bug",
 	"cmd.plan": "My plan",
 	"cmd.history": "Project history",
+	"cmd.showgraph": "Project tree",
 	
 	"ui.close": "Close",
 	"ui.cancel": "Cancel",

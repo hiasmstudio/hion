@@ -585,8 +585,7 @@ textarea {
     display: flex;
     justify-content: center;
     background-color: white;
-    border: 0;
-    border-bottom: 1px solid #dcd0c3; }
+    border: 0; }
     .docmanager .doc-sha > .content {
       justify-content: center; }
       .docmanager .doc-sha > .content > .canvas {
@@ -692,6 +691,37 @@ textarea {
       margin: 10px; }
       .docmanager .startup .button:hover {
         background-color: #92604b; }
+  .docmanager .graph {
+    font-size: 12px;
+    overflow: auto;
+    flex-shrink: 0;
+    background-color: white; }
+    .docmanager .graph .node {
+      display: flex;
+      align-items: center; }
+      .docmanager .graph .node .item {
+        cursor: pointer;
+        display: flex;
+        align-items: center; }
+        .docmanager .graph .node .item:hover {
+          background-color: #efe9e3; }
+        .docmanager .graph .node .item div {
+          margin-left: 7px; }
+    .docmanager .graph .cell {
+      width: 24px;
+      height: 24px; }
+    .docmanager .graph .tree {
+      width: 24px;
+      height: 24px;
+      background-image: url("../img/tree.png"); }
+    .docmanager .graph .tree-end {
+      width: 24px;
+      height: 24px;
+      background-image: url("../img/tree-end.png"); }
+    .docmanager .graph .tree-center {
+      width: 24px;
+      height: 24px;
+      background-image: url("../img/tree-center.png"); }
   .docmanager .doc-code {
     position: relative;
     display: flex;
@@ -717,6 +747,7 @@ textarea {
     -moz-user-select: text;
     -webkit-user-select: text; }
   .docmanager .ui-splitter {
+    border-top: 1px solid #dcd0c3;
     background-color: white; }
 
 @keyframes tab {
