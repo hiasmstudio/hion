@@ -723,9 +723,9 @@ SdkElement.prototype.drawHints = function(ctx) {
 	}
 };
 SdkElement.prototype.drawPoints = function(ctx) {
-	ctx.fillStyle = "#0f0";
-	ctx.strokeStyle = "rgb(150,150,150)";
 	if(!this.hidePoints) {
+		ctx.fillStyle = "#0f0";
+		ctx.strokeStyle = "rgb(150,150,150)";
 		for (var j in this.points) {
 			var p = this.points[j].pos;
 			if(this.points[j].selected) {
@@ -1268,9 +1268,15 @@ PointHint.prototype.rePosPoints = function() {
 	ITElement.prototype.rePosPoints.call(this);
 	
 	if(this.Data) {
-		this.Event.pos.y = this.Method.pos.y = this.y + Math.round(this.h/2) + POINT_OFF;
-		this.Var.pos.x = this.Data.pos.x = this.x + Math.round(this.w/2) + POINT_OFF;
+		this.Event.pos.y = this.Method.pos.y = this.y + Math.round(this.h/2);
+		this.Var.pos.x = this.Data.pos.x = this.x + Math.round(this.w/2);
 	}
+};
+
+PointHint.prototype.draw = function(ctx) {
+	ITElement.prototype.draw.call(this, ctx);
+	if(this.isSelect())
+		SdkElement.prototype.drawPoints.call(this, ctx);
 };
 
 //******************************************************************************
