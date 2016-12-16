@@ -697,7 +697,7 @@
 	"el.XMLHttpRequest": "AJAX запрос",
 	"XMLHttpRequest.doOpen": "Открывает соединение с указанным URL",
 	"XMLHttpRequest.doSend": "Отправляет данные на сервер",
-	"XMLHttpRequest.onLoad": "Событие происходит всякий раз после успешно�� загрузки данных и выдает их в поток",
+	"XMLHttpRequest.onLoad": "Событие происходит всякий раз после успешной загрузки данных и выдает их в поток",
 	"XMLHttpRequest.URL": "Определяет URL, на который отправляются данные",
 	"XMLHttpRequest.Content": "Определяет данные для отправки",
 	"XMLHttpRequest.Data": "Содержит данные полученные от сервера",

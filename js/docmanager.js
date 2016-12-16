@@ -711,6 +711,8 @@ SHATab.prototype.updateCommands = function(commander) {
 				commander.enabled("share");
 			if(window.user.plan.history == 1)
 				commander.enabled("history");
+			if(window.user.plan.catalog == 1)
+				commander.enabled("addcatalog");
 		}
 		
 		if(this.sdkEditor.canZoomIn()) commander.enabled("zoomin");
@@ -1062,6 +1064,7 @@ SHATab.prototype.execCommand = function(cmd, data) {
 		case "lineinfo": this.setLineInfo(); break;
         
         case "share": new Runner("share", function(){}).run([this.file.location(), 0]); break;
+        case "addcatalog": new Runner("catalog", function(){}).run(this.file.location()); break;
         
         case "undo": this.sdkEditor.undo(); commander.reset(); break;
         case "redo": this.sdkEditor.redo(); commander.reset(); break;

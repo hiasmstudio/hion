@@ -188,7 +188,7 @@ function loadWorkspace() {
 		popupLine = createPopup(["paste_debug", "paste_dodata", "paste_hub", "-", "linecolor", "lineinfo"]);
 
 	 	var mmCommands = {
-	 		file: ["new", "open", "save", "saveas", "-", "share", "-", "capture", "sha_source"],
+	 		file: ["new", "open", "save", "saveas", "-", "share", "addcatalog", "-", "capture", "sha_source"],
 	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "moveto", "-", "tools"],
 	 		editor: ["undo", "redo", "-", "slidedown", "slideright", "-", "zoomin", "zoomout", "-", "selectall", "-", "makehint", "remove_lh"],
 	 		view: ["formedit", "statistic", "-", "history", "-", "output", "showgraph"],
@@ -412,7 +412,8 @@ function loadWorkspace() {
 		sendbug: {
 			def: true,
 			exec: function(){ window.open("http://forum.hiasm.com/userissues/0#7", '_blank'); }
-		}
+		},
+		addcatalog: { }
 	});
 	commander.onupdate = function() {
 		docManager.updateCommands(commander);
