@@ -11,7 +11,7 @@ Add(SimpleTable,7,287,77)
   Top=14
   Width=#3:226|
   Height=#3:170|
-  Columns=#78:[{"title":"ui.category"},{"title":"ui.value","width":"40px","align":"center"}]|
+  Columns=#78:[{"title":"ui.category"},{"title":"ui.value","width":"50px","align":"center"}]|
 }
 Add(hcTransmitter,8,119,77)
 {

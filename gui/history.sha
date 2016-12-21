@@ -6,6 +6,7 @@ Add(MainForm,1,168,105)
   Layout=2
   Padding=5
   Caption=#18:ui.project.history|
+  Resize=1
 }
 Add(SimpleTable,2,700,154)
 {
@@ -43,10 +44,12 @@ Add(ArrayEnum,9,476,56)
 Add(JSON_Field,10,560,56)
 {
   Name=#3:rev|
+  AddHint(66,-3,0,0,Name)
 }
 Add(JSON_Field,11,560,105)
 {
   Name=#4:date|
+  AddHint(-94,7,0,0,Name)
 }
 Add(Hub,12,525,56)
 {
@@ -58,6 +61,7 @@ Add(Hub,12,525,56)
 Add(JSON_Field,13,560,154)
 {
   Name=#4:info|
+  AddHint(-93,7,0,0,Name)
   link(onGet,14:doBuild,[])
 }
 Add(ArrayBuilder,14,644,154)

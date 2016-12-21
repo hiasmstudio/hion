@@ -162,5 +162,18 @@
 	"ui.project.history": "История изменений проекта",
 	"ui.revision": "Рев.",
 	"ui.date": "Дата",
-	"ui.open": "Открыть"
+	"ui.open": "Открыть",
+	
+	"ui.catalog": "Публикация приложения в каталоге",
+	"ui.cat.settings": "Настройки приложения",
+	"ui.cat.title": "Заголовок:",
+	"ui.cat.version": "Версия:",
+	"ui.cat.offline": "Работа в offline",
+	"ui.cat.source": "Публиковать схему",
+	"ui.cat.appicon": "Иконка приложения",
+	"ui.cat.fromdisk": "Загрузить с диска",
+	"ui.terms": "Показать условия предоставления услуг",
+	"ui.termsagree": "Согласиться со всеми условиями и продолжить",
+	"ui.cat.publish": "Публиковать",
+	"ui.send": "Отправить"
 }

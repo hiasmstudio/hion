@@ -149,5 +149,18 @@
 	"ui.project.history": "Project history",
 	"ui.revision": "Rev",
 	"ui.date": "Date",
-	"ui.open": "Open"
+	"ui.open": "Open",
+	
+	"ui.catalog": "Public app in catalog",
+	"ui.cat.settings": "Application settings",
+	"ui.cat.title": "Title:",
+	"ui.cat.version": "Version:",
+	"ui.cat.offline": "Work in offline",
+	"ui.cat.source": "Public source",
+	"ui.cat.appicon": "Application icon",
+	"ui.cat.fromdisk": "Load from local disk",
+	"ui.terms": "View the Terms of Service",
+	"ui.termsagree": "I agree with all the terms and conditions",
+	"ui.cat.publish": "Publish",
+	"ui.send": "Send"
 }
