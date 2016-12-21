@@ -1700,6 +1700,7 @@
 			{ "name": "doOpen", "type": 1 },
 			{ "name": "doSend", "type": 1 },
 			{ "name": "onLoad", "type": 2, "args": "Data" },
+			{ "name": "onError", "type": 2, "args": "Code" },
 			{ "name": "Data", "type": 3 },
 			{ "name": "URL", "type": 4, "data": 2 },
 			{ "name": "Content", "type": 4, "data": 2 }

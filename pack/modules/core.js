@@ -1485,8 +1485,13 @@ function modules() {
 				i.doSend.onevent = function(data) {
 					this.parent.xhr.send(this.parent.d(data).read("Content"));
 					this.parent.xhr.onload = function() {
-						i.data = this.responseText;
-						i.onLoad.call(i.data);
+						if(this.status != 200) {
+							i.onError.call(this.status);
+						}
+						else {
+							i.data = this.responseText;
+							i.onLoad.call(i.data);
+						}
 					};
 				};
 				i.Data.onevent = function(data) {
