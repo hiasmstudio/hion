@@ -88,9 +88,10 @@ Add(Memory,47,385,196)
 }
 Add(ComboBox,48,350,336)
 {
-  Left=49
-  Top=301
-  Width=#3:212|
+  Left=63
+  Top=294
+  Width=#3:233|
+  Height=#2:27|
   Strings=#8:(select)|5:Other|4:Game|5:Tools|4:Demo|7:Editors|10:Electronic|4:Math|
   Point(doSelectIndex)
 }
@@ -130,7 +131,7 @@ Add(Edit,53,294,35)
   Left=77
   Top=77
   Width=#3:211|
-  PlaceHolder=#15:3-64 characters|
+  PlaceHolder=#15:3-24 characters|
 }
 Add(Button,55,266,490)
 {
