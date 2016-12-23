@@ -67,10 +67,13 @@
 @media(max-width: 840px){
 	.hion-toolbar {
 		.hion { display: none; }
-		.ui-toolbar { display: none !important; }
+		.ui-toolbar {
+			&:nth-child(2) { display: none !important; }
+			&:nth-child(6) { display: inherit; }
+		}
 	}
 	.palette { width: 100px !important; }
-	.props { width: 160px !important; }
+	.props { position: fixed; right: 0; top: 0; bottom: 0; background-color: $controlColor; }
 	.ui-workspace { >.ui-splitter { display: none; } }
 	.dialog {
 		left: 0 !important;

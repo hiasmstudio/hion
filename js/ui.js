@@ -2066,7 +2066,7 @@ FlexLayout.prototype.addChild = function(child) {
 
 FlexLayout.prototype.setOptions = function(options) {
 	var style = this.parent.getContainer().style;
-	style.display = "flex";
+	this.parent.getContainer().classList.add("ui-layout-flex");
 	if(options.wrap) {
 		style.flexWrap = ["nowrap", "wrap", "wrap-reverse"][options.wrap];
 	}

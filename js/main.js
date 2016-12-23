@@ -200,11 +200,18 @@ function loadWorkspace() {
 			items: makeItems(["login", "profile", "-", "plan", "-", "logout"])
 		}]);
 		
+		var propsToolBar = new ToolBar([{
+			icon: 40,
+			title: "",
+			click: function() { propEditor.visible = true; }
+		}]);
+		
 		$("toolbar").appendChild(mainMenu.control);
 		$("toolbar").appendChild(mainToolBar.getControl());
 		$("toolbar").appendChild(new Builder().n("div").class("separator").element);
 		$("toolbar").appendChild(new Builder().n("div").class("user").append(userMenu.control).element);
 		$("toolbar").appendChild(new Builder().n("div").class("hion").attr("title", "hion v1.5").element);
+		$("toolbar").appendChild(propsToolBar.getControl());
 	
 		commander.reset();
 

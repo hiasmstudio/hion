@@ -28,6 +28,9 @@ function PopupMenu(items) {
 		if(y + popup.offsetHeight > window.innerHeight) {
 			y = window.innerHeight - popup.offsetHeight;
 		}
+		if(x + popup.offsetWidth > window.innerWidth) {
+			x = window.innerWidth - popup.offsetWidth;
+		}
 		popup.move(x, y);
 	};
 	for(var i in items) {

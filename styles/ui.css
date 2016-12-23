@@ -198,6 +198,9 @@ textarea {
   .ui-simple-table[headers=false] tbody {
     top: 0; }
 
+.ui-layout-flex {
+  display: flex; }
+
 .ui-switcher {
   background-color: #c9b9ab;
   border: 1px solid gray;
@@ -406,7 +409,8 @@ textarea {
     font-size: 12px;
     padding: 2px;
     padding-right: 7px;
-    display: flex; }
+    display: flex;
+    white-space: nowrap; }
     .popup .item .icon {
       width: 16px;
       height: 16px;
@@ -799,6 +803,8 @@ textarea {
     background: #c9b9ab url("../img/hion.png") no-repeat 11px 3px;
     box-shadow: 0px 0px 4px 1px #323232;
     width: 23px; }
+  .hion-toolbar .ui-toolbar:nth-child(6) {
+    display: none; }
   .hion-toolbar .user {
     padding-right: 10px; }
 
@@ -940,14 +946,20 @@ textarea {
 @media (max-width: 840px) {
   .hion-toolbar .hion {
     display: none; }
-  .hion-toolbar .ui-toolbar {
+  .hion-toolbar .ui-toolbar:nth-child(2) {
     display: none !important; }
+  .hion-toolbar .ui-toolbar:nth-child(6) {
+    display: inherit; }
 
   .palette {
     width: 100px !important; }
 
   .props {
-    width: 160px !important; }
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #efe9e3; }
 
   .ui-workspace > .ui-splitter {
     display: none; }

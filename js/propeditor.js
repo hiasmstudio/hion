@@ -27,6 +27,8 @@ function PropertyEditor(options) {
 			tag: "props",
 			icon: 40,
 			click: function(){
+				if(tb.getButtonByTag("props").checked == "true")
+					pEditor.visible = false;
 				pEditor.points.hide();
 				pEditor.editor.show();
 				tb.getButtonByTag("props").checked = true;
