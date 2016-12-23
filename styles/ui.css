@@ -410,6 +410,7 @@ textarea {
     padding: 2px;
     padding-right: 7px;
     display: flex;
+    align-items: center;
     white-space: nowrap; }
     .popup .item .icon {
       width: 16px;
@@ -950,6 +951,10 @@ textarea {
     display: none !important; }
   .hion-toolbar .ui-toolbar:nth-child(6) {
     display: inherit; }
+  .hion-toolbar .user {
+    padding-right: 0; }
+  .hion-toolbar .mainmenu .item {
+    padding: 5px 4px; }
 
   .palette {
     width: 100px !important; }
@@ -968,7 +973,14 @@ textarea {
     left: 0 !important;
     position: fixed;
     right: 0;
-    max-width: 99% !important; } }
+    max-width: 99% !important; }
+
+  .frm-editor .frm-edit-grip {
+    width: 9px;
+    height: 9px; }
+
+  .popup .item {
+    height: 20px; } }
 .ui-workspace {
   align-content: stretch;
   align-items: stretch;

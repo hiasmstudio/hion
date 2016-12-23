@@ -71,6 +71,8 @@
 			&:nth-child(2) { display: none !important; }
 			&:nth-child(6) { display: inherit; }
 		}
+		.user { padding-right: 0; }
+		.mainmenu .item { padding: 5px 4px; }
 	}
 	.palette { width: 100px !important; }
 	.props { position: fixed; right: 0; top: 0; bottom: 0; background-color: $controlColor; }
@@ -81,6 +83,10 @@
 		right: 0;
 		max-width: 99% !important;
 	}
+	.frm-editor {
+		.frm-edit-grip { width: 9px; height: 9px; }
+	}
+	.popup .item { height: 20px; }
 }
 
 // ::-webkit-scrollbar {
