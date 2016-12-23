@@ -937,6 +937,26 @@ textarea {
   @page {
     size: auto;
     margin: 0; } }
+@media (max-width: 840px) {
+  .hion-toolbar .hion {
+    display: none; }
+  .hion-toolbar .ui-toolbar {
+    display: none !important; }
+
+  .palette {
+    width: 100px !important; }
+
+  .props {
+    width: 160px !important; }
+
+  .ui-workspace > .ui-splitter {
+    display: none; }
+
+  .dialog {
+    left: 0 !important;
+    position: fixed;
+    right: 0;
+    max-width: 99% !important; } }
 .ui-workspace {
   align-content: stretch;
   align-items: stretch;

@@ -63,6 +63,23 @@
     }
 }
 
+
+@media(max-width: 840px){
+	.hion-toolbar {
+		.hion { display: none; }
+		.ui-toolbar { display: none !important; }
+	}
+	.palette { width: 100px !important; }
+	.props { width: 160px !important; }
+	.ui-workspace { >.ui-splitter { display: none; } }
+	.dialog {
+		left: 0 !important;
+		position: fixed;
+		right: 0;
+		max-width: 99% !important;
+	}
+}
+
 // ::-webkit-scrollbar {
 //     width: 10px;
 //     height: 10px;
