@@ -171,8 +171,8 @@ ElementProperty.prototype.parse = function(value) {
 			}
 			break;
 		case DATA_DATA:
-			var i = typeof value === "string" ? value.indexOf("(") : 0;
-			if(i > 0) {
+			if(typeof value === "string" && (value.startsWith("Integer(") || value.startsWith("String(") || value.startsWith("Real("))) {
+				var i = value.indexOf("(");
 				var type = value.substr(0, i);
 				var v = value.substr(i + 1, value.length - i - 2);
 				if(type === "String") {
