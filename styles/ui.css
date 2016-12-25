@@ -975,9 +975,9 @@ textarea {
     right: 0;
     max-width: 99% !important; }
 
-  .frm-editor .frm-edit-grip {
-    width: 9px;
-    height: 9px; }
+  .frm-edit-grip {
+    width: 11px !important;
+    height: 11px !important; }
 
   .popup .item {
     height: 20px; } }
