@@ -1,5 +1,25 @@
 'use strict';
 
+function toRGB(color) {
+	if(typeof color === "number") {
+		return {r: color & 0xff, g: (color >> 8) & 0xff, b: (color >> 16) & 0xff, a: 1.0};
+	}
+	else if(color.startsWith("#")) {
+		var value = parseInt(color.substring(1), 16);
+		return {b: value & 0xff, g: (value >> 8) & 0xff, r: (value >> 16) & 0xff, a: 1.0};
+	}
+	else if(color.startsWith("rgba")) {
+		var arr = color.substring(5, color.length - 1).split(",");
+		return {r: parseInt(arr[0]), g: parseInt(arr[1]), b: parseInt(arr[2]), a: parseInt(arr[3])};
+	}
+	else if(color.startsWith("rgb")) {
+		var arr = color.substring(4, color.length - 1).split(",");
+		return {r: parseInt(arr[0]), g: parseInt(arr[1]), b: parseInt(arr[2]), a: 1.0};
+	}
+	
+	return {r: 0, g: 0, b: 0, a: 1.0};
+}
+
 function modules() {
 	this.init = function(i) {
 		switch (i.name) {
@@ -320,6 +340,158 @@ function modules() {
 					this.parent.onDraw.call(canvas);
 				};
 				break;
+			case "RoundRectangle":
+				i.doDraw.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point1 = d.read("Point1");
+					var point2 = d.read("Point2");
+					var radius = d.readFloat("Radius");
+					var props = this.parent.props;
+					var x1 = point1.x || props.X1.value;
+					var y1 = point1.y || props.Y1.value;
+					var x2 = point2.x || props.X2.value;
+					var y2 = point2.y || props.Y2.value;
+					
+					if(radius > (x2 - x1)/2) radius = (x2 - x1)/2;
+					if(radius > (y2 - y1)/2) radius = (y2 - y1)/2;
+					canvas.beginPath();
+					canvas.moveTo(x1 + radius, y1);
+					canvas.lineTo(x2 - radius, y1);
+					canvas.quadraticCurveTo(x2, y1, x2, y1 + radius);
+					canvas.lineTo(x2, y2 - radius);
+					canvas.quadraticCurveTo(x2, y2, x2 - radius, y2);
+					canvas.lineTo(x1 + radius, y2);
+					canvas.quadraticCurveTo(x1, y2, x1, y2 - radius);
+					canvas.lineTo(x1, y1 + radius);
+					canvas.quadraticCurveTo(x1, y1, x1 + radius, y1);
+					canvas.closePath();
+					
+					if(this.parent.props.Type.value !== 1) {
+						canvas.fill();
+					}
+					if(this.parent.props.Type.value !== 0) {
+						canvas.stroke();
+					}
+					this.parent.onDraw.call(canvas);
+				};
+				break;
+			case "DrawPixel":
+				i.doDraw.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point = d.read("Point");
+					var props = this.parent.props;
+					var x = point.x || props.X.value;
+					var y = point.y || props.Y.value;
+					
+					if(!this.idata) {
+						this.idata = canvas.createImageData(1,1);
+					}
+					var d = this.idata.data;
+					//canvas.fillStyle
+					d[0] = 0;
+					d[1] = 0;
+					d[2] = 0;
+					d[3] = 255;
+					canvas.putImageData(this.idata, x, y);    
+					this.parent.onDraw.call(canvas);
+				};
+				break;
+			case "FloodFill":
+				i.doDraw.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point = d.read("Point");
+					var smooth = 255*d.readFloat("Threshold")/100;
+					var props = this.parent.props;
+					var x = point.x || props.X.value;
+					var y = point.y || props.Y.value;
+
+					var data = canvas.getImageData(0,0,canvas.canvas.width,canvas.canvas.height);
+					var d = data.data;
+					var list = [];
+					list.push({x: x, y: y});
+					
+					var color = toRGB(canvas.fillStyle);
+					var r = color.r;
+					var g = color.g;
+					var b = color.b;
+					var fIndex = y*4*data.width + x*4;
+					var rf = d[fIndex+0];
+					var gf = d[fIndex+1];
+					var bf = d[fIndex+2];
+					var af = d[fIndex+3];
+					
+					function isOriginPixel(index) {
+						if(smooth)
+							return Math.abs(d[index + 0] - rf) <= smooth && Math.abs(d[index + 1] - gf) <= smooth &&
+									Math.abs(d[index + 2] - bf) <= smooth && Math.abs(d[index + 3] - af) <= smooth;
+						return d[index + 0] == rf && d[index + 1] == gf && d[index + 2] == bf && d[index + 3] == af;
+					}
+					
+					if(Math.abs(r - rf) <= smooth && Math.abs(g - gf) <= smooth && Math.abs(b - bf) <= smooth) {
+						// do nothing
+					}
+					else {
+						var coord = 0;
+						while(coord < list.length) {
+							var p = list[coord];
+							coord++;
+							var left = false;
+							var right = false;
+							for(var l = p.y-1; l >= 0; l--) {
+								var index = l*4*data.width + p.x*4;
+								if(!isOriginPixel(index))
+									break;
+								p.y--;
+							}
+							for(var i = p.y; i < data.height; i++) {
+								var index = i*4*data.width + p.x*4;
+								if(!isOriginPixel(index))
+									break;
+								d[index + 0] = r;
+								d[index + 1] = g;
+								d[index + 2] = b;
+								d[index + 3] = 255;
+
+								if(p.x - 1 >= 0) {
+									if(isOriginPixel(index - 4)) {
+										if(!left)
+											list.push({x: p.x-1, y: i});
+										left = true;
+									}
+									else left = false;
+								}
+								if(p.x + 1 < data.width) {
+									if(isOriginPixel(index + 4)) {
+										if(!right)
+											list.push({x: p.x+1, y: i});
+										right = true;
+									}
+									else right = false;
+								}
+							}
+						}
+						canvas.putImageData(data, 0, 0);
+					}
+					this.parent.onDraw.call(canvas);
+				};
+				break;
+			case "GetPixel":
+				i.doGetPixel.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point = d.read("Point");
+					var props = this.parent.props;
+					var x = point.x || props.X.value;
+					var y = point.y || props.Y.value;
+					
+					var data = canvas.getImageData(x, y, 1, 1);
+					var d = data.data;
+					this.parent.onGetPixel.call("rgba(" + d[0] + "," + d[1] + "," + d[2] + "," + (d[3]/255) + ")");
+				};
+				break;
 			case "Circle":
 				i.doDraw.onevent = function(data) {
 					var d = this.parent.d(data);
@@ -410,7 +582,7 @@ function modules() {
 				};
 				break;
 			case "FillStyle":
-				i.doFill.onevent=  function(data) {
+				i.doFill.onevent = function(data) {
 					var d = this.parent.d(data);
 					var canvas = d.read("Canvas");
 					canvas.fillStyle = d.read("Color");
@@ -418,12 +590,172 @@ function modules() {
 				};
 				break;
 			case "StrokeStyle":
-				i.doStroke.onevent=  function(data) {
+				i.doStroke.onevent = function(data) {
 					var d = this.parent.d(data);
 					var canvas = d.read("Canvas");
 					canvas.strokeStyle = d.read("Color");
 					canvas.lineWidth = d.read("Width");
 					this.parent.onStroke.call(canvas);
+				};
+				break;
+			case "PathCreator":
+				i.doPath.onevent = function(data) {
+					var canvas = this.parent.d(data).read("Canvas");
+					if(this.parent.props.Mode.isDef())
+						canvas.beginPath();
+					else
+						canvas.closePath();
+					this.parent.onPath.call(canvas);
+				};
+				break;
+			case "RectPath":
+				i.doRect.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point1 = d.read("Point1");
+					var point2 = d.read("Point2");
+					var props = this.parent.props;
+					var x1 = point1.x || props.X1.value;
+					var y1 = point1.y || props.Y1.value;
+					var x2 = point2.x || props.X2.value;
+					var y2 = point2.y || props.Y2.value;
+					canvas.rect(x1, y1, x2, y2);
+					this.parent.onRect.call(canvas);
+				};
+				break;
+			case "ArcPath":
+				i.doArc.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point = d.read("Point");
+					var radius = d.read("Radius");
+					var startAngle = d.readFloat("StartAngle");
+					var endAngle = d.readFloat("EndAngle");
+					var props = this.parent.props;
+					var x = point.x || props.X.value;
+					var y = point.y || props.Y.value;
+
+					canvas.arc(x, y, radius, startAngle, endAngle);
+					this.parent.onArc.call(canvas);
+				};
+				break;
+			case "DrawQuadraticCurve":
+				i.doDraw.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point1 = d.read("CPoint");
+					var point2 = d.read("Point");
+					var props = this.parent.props;
+					var x1 = point1.x || props.CX.value;
+					var y1 = point1.y || props.CY.value;
+					var x2 = point2.x || props.X.value;
+					var y2 = point2.y || props.Y.value;
+
+					canvas.quadraticCurveTo(x1, y1, x2, y2);
+					this.parent.onDraw.call(canvas);
+				};
+				break;
+			case "DrawBezierCurve":
+				i.doDraw.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point1 = d.read("CPoint1");
+					var point2 = d.read("CPoint2");
+					var point = d.read("Point");
+					var props = this.parent.props;
+					var x1 = point1.x || props.CX1.value;
+					var y1 = point1.y || props.CY1.value;
+					var x2 = point2.x || props.CX2.value;
+					var y2 = point2.y || props.CY2.value;
+					var x = point.x || props.X.value;
+					var y = point.y || props.Y.value;
+
+					canvas.bezierCurveTo(x1, y1, x2, y2, x, y);
+					this.parent.onDraw.call(canvas);
+				};
+				break;
+			case "PathDrawer":
+				i.doDrawPath.onevent = function(data) {
+					var canvas = this.parent.d(data).read("Canvas");
+					switch(this.parent.props.Mode.value) {
+						case 0: canvas.fill(); break;
+						case 1: canvas.stroke(); break;
+						case 2: canvas.clip(); break;
+					}
+					this.parent.onDrawPath.call(canvas);
+				};
+				break;
+			case "MoveTo":
+				i.doMoveTo.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point = d.read("Point");
+					var props = this.parent.props;
+					var x = point.x || props.X.value;
+					var y = point.y || props.Y.value;
+					canvas.moveTo(x, y);
+					
+					this.parent.onMoveTo.call(canvas);
+				};
+				break;
+			case "LineTo":
+				i.doLineTo.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point = d.read("Point");
+					var props = this.parent.props;
+					var x = point.x || props.X.value;
+					var y = point.y || props.Y.value;
+					canvas.lineTo(x, y);
+					
+					this.parent.onLineTo.call(canvas);
+				};
+				break;
+			case "CanvasTranslate":
+				i.doTranslate.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var x = d.readFloat("X");
+					var y = d.readFloat("Y");
+					canvas.translate(x, y);
+					
+					this.parent.onTranslate.call(canvas);
+				};
+				break;
+			case "CanvasRotate":
+				i.doRotate.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var a = d.readFloat("Angle");
+					canvas.rotate(a);
+					
+					this.parent.onRotate.call(canvas);
+				};
+				break;
+			case "CanvasScale":
+				i.doScale.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var x = d.readFloat("X");
+					var y = d.readFloat("Y");
+					canvas.scale(x, y);
+					
+					this.parent.onScale.call(canvas);
+				};
+				break;
+			case "CanvasState":
+				i.doState.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					if(this.parent.props.Mode.value != 1)
+						canvas.save();
+					else if(this.parent.props.Mode.value == 1)
+						canvas.restore();
+					
+					this.parent.onState.call(canvas);
+					
+					if(this.parent.props.Mode.value == 2)
+						canvas.restore();
 				};
 				break;
 			case "RGB":
@@ -455,6 +787,26 @@ function modules() {
 				};
 				i.Color.onevent = function(){
 					return this.parent.color;
+				};
+				break;
+			case "ToRGB":
+				i.doGetRGB.onevent=  function(data) {
+					var d = this.parent.d(data);
+					var color = d.read("Color");
+					this.parent.result = toRGB(color);
+					this.parent.onRGB.call([this.parent.result.r, this.parent.result.g, this.parent.result.b, this.parent.result.a]);
+				};
+				i.R.onevent = function(){
+					return this.parent.result.r;
+				};
+				i.G.onevent = function(){
+					return this.parent.result.r;
+				};
+				i.B.onevent = function(){
+					return this.parent.result.r;
+				};
+				i.A.onevent = function(){
+					return this.parent.result.r;
 				};
 				break;
 			case "ProgressBar":

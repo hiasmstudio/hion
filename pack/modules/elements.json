@@ -754,7 +754,33 @@
 			{ "name": "Type", "type": 4, "def": 0, "list": "RGB,RGBA,Number,HEX" }
 		]
 	},
+	"ToRGB": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doGetRGB", "type": 1 },
+			{ "name": "onRGB", "type": 2, "args": "R,G,B,A" },
+			{ "name": "R", "type": 3, "data": 1 },
+			{ "name": "G", "type": 3, "data": 1 },
+			{ "name": "B", "type": 3, "data": 1 },
+			{ "name": "A", "type": 3, "data": 7 },
+			{ "name": "Color", "type": 4 }
+		],
+		"props": [
+			{ "name": "Color", "type": 8, "def": "#000" }
+		]
+	},
 	"shapes": { "tab": "graphics", "group": true },
+	"DrawPixel": {
+		"tab": "graphics",
+		"inherit": "canvasfigure",
+		"points": [
+			{ "name": "Point", "type": 4 }
+		],
+		"props": [
+			{ "name": "X", "type": 1, "def": 0 },
+			{ "name": "Y", "type": 1, "def": 0 }
+		]
+	},
 	"Line": {
 		"tab": "graphics",
 		"inherit": "canvasfigure",
@@ -763,10 +789,10 @@
 			{ "name": "Point2", "type": 4 }
 		],
 		"props": [
-			{ "name": "X1", "type": 1, "def": 0 },
-			{ "name": "Y1", "type": 1, "def": 0 },
-			{ "name": "X2", "type": 1, "def": 0 },
-			{ "name": "Y2", "type": 1, "def": 0 }
+			{ "name": "X1", "type": 7, "def": 0 },
+			{ "name": "Y1", "type": 7, "def": 0 },
+			{ "name": "X2", "type": 7, "def": 0 },
+			{ "name": "Y2", "type": 7, "def": 0 }
 		]
 	},
 	"Rectangle": {
@@ -777,10 +803,27 @@
 			{ "name": "Point2", "type": 4 }
 		],
 		"props": [
-			{ "name": "X1", "type": 1, "def": 0 },
-			{ "name": "Y1", "type": 1, "def": 0 },
-			{ "name": "X2", "type": 1, "def": 0 },
-			{ "name": "Y2", "type": 1, "def": 0 },
+			{ "name": "X1", "type": 7, "def": 0 },
+			{ "name": "Y1", "type": 7, "def": 0 },
+			{ "name": "X2", "type": 7, "def": 0 },
+			{ "name": "Y2", "type": 7, "def": 0 },
+			{ "name": "Type", "type": 4, "def": 0, "list": "Fill,Stroke,Both" }
+		]
+	},
+	"RoundRectangle": {
+		"tab": "graphics",
+		"inherit": "canvasfigure",
+		"points": [
+			{ "name": "Point1", "type": 4 },
+			{ "name": "Point2", "type": 4 },
+			{ "name": "Radius", "type": 4, "data": 7 }
+		],
+		"props": [
+			{ "name": "X1", "type": 7, "def": 0 },
+			{ "name": "Y1", "type": 7, "def": 0 },
+			{ "name": "X2", "type": 7, "def": 0 },
+			{ "name": "Y2", "type": 7, "def": 0 },
+			{ "name": "Radius", "type": 7, "def": 0 },
 			{ "name": "Type", "type": 4, "def": 0, "list": "Fill,Stroke,Both" }
 		]
 	},
@@ -789,11 +832,11 @@
 		"inherit": "canvasfigure",
 		"points": [
 			{ "name": "Point", "type": 4 },
-			{ "name": "Radius", "type": 4 }
+			{ "name": "Radius", "type": 4, "data": 7 }
 		],
 		"props": [
-			{ "name": "X", "type": 1, "def": 0 },
-			{ "name": "Y", "type": 1, "def": 0 },
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 },
 			{ "name": "Radius", "type": 1, "def": 0 },
 			{ "name": "Type", "type": 4, "def": 0, "list": "Fill,Stroke,Both" }
 		]
@@ -803,11 +846,11 @@
 		"inherit": "canvasfigure",
 		"points": [
 			{ "name": "Point", "type": 4 },
-			{ "name": "Text", "type": 4 }
+			{ "name": "Text", "type": 4, "data": 2 }
 		],
 		"props": [
-			{ "name": "X", "type": 1, "def": 0 },
-			{ "name": "Y", "type": 1, "def": 0 },
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 },
 			{ "name": "Text", "type": 2, "def": "" },
 			{ "name": "Type", "type": 4, "def": 0, "list": "Fill,Stroke,Both" },
 			{ "name": "Font", "type": 2, "def": "12px Arial" },
@@ -822,8 +865,8 @@
 			{ "name": "Image", "type": 4 }
 		],
 		"props": [
-			{ "name": "X", "type": 1, "def": 0 },
-			{ "name": "Y", "type": 1, "def": 0 }
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 }
 		]
 	},
 	"DrawImageRegion": {
@@ -834,12 +877,205 @@
 			{ "name": "Image", "type": 4 }
 		],
 		"props": [
-			{ "name": "X", "type": 1, "def": 0 },
-			{ "name": "Y", "type": 1, "def": 0 },
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 },
 			{ "name": "SourceX", "type": 1, "def": 0, "flags": 2 },
 			{ "name": "SourceY", "type": 1, "def": 0, "flags": 2 },
 			{ "name": "SourceWidth", "type": 1, "def": 0 },
 			{ "name": "SourceHeight", "type": 1, "def": 0 }
+		]
+	},
+	"FloodFill": {
+		"tab": "graphics",
+		"inherit": "canvasfigure",
+		"points": [
+			{ "name": "Point", "type": 4 },
+			{ "name": "Threshold", "type": 4, "data": 7 }
+		],
+		"props": [
+			{ "name": "X", "type": 1, "def": 0 },
+			{ "name": "Y", "type": 1, "def": 0 },
+			{ "name": "Threshold", "type": 7, "def": 0 }
+		]
+	},
+	"GetPixel": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doGetPixel", "type": 1 },
+			{ "name": "onGetPixel", "type": 2, "args": "Color" },
+			{ "name": "Canvas", "type": 4 },
+			{ "name": "Point", "type": 4 }
+		],
+		"props": [
+			{ "name": "X", "type": 1, "def": 0 },
+			{ "name": "Y", "type": 1, "def": 0 }
+		]
+	},
+	"path": { "tab": "graphics", "group": true },
+	"PathCreator": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doPath", "type": 1 },
+			{ "name": "onPath", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 }
+		],
+		"props": [
+			{ "name": "Mode", "type": 4, "def": 0, "list": "Begin,End" }
+		]
+	},
+	"MoveTo": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doMoveTo", "type": 1 },
+			{ "name": "onMoveTo", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 },
+			{ "name": "Point", "type": 4 }
+		],
+		"props": [
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 }
+		]
+	},
+	"LineTo": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doLineTo", "type": 1 },
+			{ "name": "onLineTo", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 },
+			{ "name": "Point", "type": 4 }
+		],
+		"props": [
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 }
+		]
+	},
+	"ArcPath": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doArc", "type": 1 },
+			{ "name": "onArc", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 },
+			{ "name": "Point", "type": 4 },
+			{ "name": "Radius", "type": 4, "data": 7 },
+			{ "name": "StartAngle", "type": 4, "data": 7, "flags": 1 },
+			{ "name": "EndAngle", "type": 4, "data": 7, "flags": 1 }
+		],
+		"props": [
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 },
+			{ "name": "Radius", "type": 7, "def": 0 },
+			{ "name": "StartAngle", "type": 7, "def": 0 },
+			{ "name": "EndAngle", "type": 7, "def": 0 }
+		]
+	},
+	"RectPath": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doRect", "type": 1 },
+			{ "name": "onRect", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 },
+			{ "name": "Point1", "type": 4 },
+			{ "name": "Point2", "type": 4 }
+		],
+		"props": [
+			{ "name": "X1", "type": 7, "def": 0 },
+			{ "name": "Y1", "type": 7, "def": 0 },
+			{ "name": "X2", "type": 7, "def": 0 },
+			{ "name": "Y2", "type": 7, "def": 0 }
+		]
+	},
+	"DrawQuadraticCurve": {
+		"tab": "graphics",
+		"inherit": "canvasfigure",
+		"points": [
+			{ "name": "CPoint", "type": 4 },
+			{ "name": "Point", "type": 4 }
+		],
+		"props": [
+			{ "name": "CX", "type": 7, "def": 0 },
+			{ "name": "CY", "type": 7, "def": 0 },
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 }
+		]
+	},
+	"DrawBezierCurve": {
+		"tab": "graphics",
+		"inherit": "canvasfigure",
+		"points": [
+			{ "name": "CPoint1", "type": 4 },
+			{ "name": "CPoint2", "type": 4 },
+			{ "name": "Point", "type": 4 }
+		],
+		"props": [
+			{ "name": "CX1", "type": 7, "def": 0 },
+			{ "name": "CY1", "type": 7, "def": 0 },
+			{ "name": "CX2", "type": 7, "def": 0 },
+			{ "name": "CY2", "type": 7, "def": 0 },
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 }
+		]
+	},
+	"PathDrawer": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doDrawPath", "type": 1 },
+			{ "name": "onDrawPath", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 }
+		],
+		"props": [
+			{ "name": "Mode", "type": 4, "def": 0, "list": "Fill,Stroke,Clip" }
+		]
+	},
+	"drawmatrix": { "tab": "graphics", "group": true },
+	"CanvasTranslate": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doTranslate", "type": 1 },
+			{ "name": "onTranslate", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 },
+			{ "name": "X", "type": 4, "data": 7 },
+			{ "name": "Y", "type": 4, "data": 7 }
+		],
+		"props": [
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 }
+		]
+	},
+	"CanvasRotate": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doRotate", "type": 1 },
+			{ "name": "onRotate", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 },
+			{ "name": "Angle", "type": 4, "data": 7 }
+		],
+		"props": [
+			{ "name": "Angle", "type": 7, "def": 0 }
+		]
+	},
+	"CanvasScale": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doScale", "type": 1 },
+			{ "name": "onScale", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 },
+			{ "name": "X", "type": 4, "data": 7 },
+			{ "name": "Y", "type": 4, "data": 7 }
+		],
+		"props": [
+			{ "name": "X", "type": 7, "def": 0 },
+			{ "name": "Y", "type": 7, "def": 0 }
+		]
+	},
+	"CanvasState": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doState", "type": 1 },
+			{ "name": "onState", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 }
+		],
+		"props": [
+			{ "name": "Mode", "type": 4, "def": 0, "list": "Save,Restore,SaveRestore" }
 		]
 	},
 	
