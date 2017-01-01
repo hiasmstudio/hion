@@ -735,6 +735,24 @@
 			{ "name": "Width", "type": 7, "def": 1 }
 		]
 	},
+	"ShadowStyle": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doShadow", "type": 1 },
+			{ "name": "onShadow", "type": 2, "args": "Canvas" },
+			{ "name": "Canvas", "type": 4 },
+			{ "name": "Blur", "type": 4, "data": 7 },
+			{ "name": "Color", "type": 4, "data": 8, "flags": 1 },
+			{ "name": "OffsetX", "type": 4, "data": 7, "flags": 1 },
+			{ "name": "OffsetY", "type": 4, "data": 7, "flags": 1 }
+		],
+		"props": [
+			{ "name": "Blur", "type": 7, "def": 0 },
+			{ "name": "Color", "type": 8, "def": "#000" },
+			{ "name": "OffsetX", "type": 7, "def": 0 },
+			{ "name": "OffsetY", "type": 7, "def": 0 }
+		]
+	},
 	"RGB": {
 		"tab": "graphics",
 		"points": [

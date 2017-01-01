@@ -598,6 +598,17 @@ function modules() {
 					this.parent.onStroke.call(canvas);
 				};
 				break;
+			case "ShadowStyle":
+				i.doShadow.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					canvas.shadowBlur = d.readFloat("Blur");
+					canvas.shadowColor = d.read("Color");
+					canvas.shadowOffsetX = d.readFloat("OffsetX");
+					canvas.shadowOffsetY = d.readFloat("OffsetY");
+					this.parent.onShadow.call(canvas);
+				};
+				break;
 			case "PathCreator":
 				i.doPath.onevent = function(data) {
 					var canvas = this.parent.d(data).read("Canvas");
