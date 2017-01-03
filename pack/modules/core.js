@@ -595,6 +595,10 @@ function modules() {
 					var canvas = d.read("Canvas");
 					canvas.strokeStyle = d.read("Color");
 					canvas.lineWidth = d.read("Width");
+					if(!this.parent.props.Cap.isDef())
+						canvas.lineCap = this.parent.props.Cap.getText().toLowerCase();
+					if(!this.parent.props.Join.isDef())
+						canvas.lineJoin = this.parent.props.Join.getText().toLowerCase();
 					this.parent.onStroke.call(canvas);
 				};
 				break;
@@ -607,6 +611,74 @@ function modules() {
 					canvas.shadowOffsetX = d.readFloat("OffsetX");
 					canvas.shadowOffsetY = d.readFloat("OffsetY");
 					this.parent.onShadow.call(canvas);
+				};
+				break;
+			case "CompositeOperation":
+				i.doSet.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					canvas.globalCompositeOperation = this.parent.props.Type.getText();
+					this.parent.onSet.call(canvas);
+				};
+				break;
+			case "FillPattern":
+				i.doCreate.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var image = d.read("Image");
+					this.parent.pattern = canvas.createPattern(image, this.parent.props.Repetition.getText());
+					this.parent.onCreate.call(canvas);
+				};
+				i.Pattern.onevent = function() {
+					return this.parent.pattern;
+				};
+				break;
+			case "LinearGradient":
+				i.doCreate.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point1 = d.read("Point1");
+					var point2 = d.read("Point2");
+					var props = this.parent.props;
+					var x1 = point1.x || props.X1.value;
+					var y1 = point1.y || props.Y1.value;
+					var x2 = point2.x || props.X2.value;
+					var y2 = point2.y || props.Y2.value;
+					this.parent.gradient = canvas.createLinearGradient(x1, y1, x2, y2);
+					this.parent.onCreate.call(this.parent.gradient);
+				};
+				i.Gradient.onevent = function() {
+					return this.parent.gradient;
+				};
+				break;
+			case "RadialGradient":
+				i.doCreate.onevent = function(data) {
+					var d = this.parent.d(data);
+					var canvas = d.read("Canvas");
+					var point1 = d.read("Point1");
+					var r1 = d.readFloat("Radius1");
+					var point2 = d.read("Point2");
+					var r2 = d.readFloat("Radius2");
+					var props = this.parent.props;
+					var x1 = point1.x || props.X1.value;
+					var y1 = point1.y || props.Y1.value;
+					var x2 = point2.x || props.X2.value;
+					var y2 = point2.y || props.Y2.value;
+					this.parent.gradient = canvas.createRadialGradient(x1, y1, r1, x2, y2, r2);
+					this.parent.onCreate.call(this.parent.gradient);
+				};
+				i.Gradient.onevent = function() {
+					return this.parent.gradient;
+				};
+				break;
+			case "GradientStopColor":
+				i.doAdd.onevent = function(data) {
+					var d = this.parent.d(data);
+					var grad = d.read("Gradient");
+					var index = d.readInt("Index");
+					var color = d.read("Color");
+					grad.addColorStop(index, color);
+					this.parent.onAdd.call(grad);
 				};
 				break;
 			case "PathCreator":
