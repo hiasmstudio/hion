@@ -2142,7 +2142,7 @@ LineBreak.prototype.onpropchange = function(prop) {
 			else {
 				this.addPoint("In", pt_work).onevent = function(data) {
 					if(this.parent.second) {
-						this.parent.second.onEvent.call(data);
+						this.parent.second.Out.call(data);
 					}
 				};
 			}
