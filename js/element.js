@@ -2225,6 +2225,59 @@ LineBreak.prototype.loadFromText = function(line) {
 	return CapElement.prototype.loadFromText.call(this, line);
 };
 
+LineBreak.prototype.drawBody = function(ctx) {
+	if(this.props.Type.isDef()) {
+		var offset = 3;
+		if(this.second) {
+//			ctx.moveTo(this.x-1, this.y-1);
+//			ctx.lineTo(this.x + this.w-1, this.y-1);
+//			ctx.lineTo(this.x + this.w-1, this.y + this.h+1);
+//			ctx.lineTo(this.x, this.y + this.h+1);
+		}
+		else {
+			ctx.save();
+			ctx.beginPath();
+			ctx.moveTo(this.x, this.y-1);
+			ctx.lineTo(this.x + this.w + 1, this.y-1);
+			ctx.lineTo(this.x + this.w + 1, this.y + this.h + 1);
+			ctx.lineTo(this.x, this.y + this.h + 1);
+			ctx.lineTo(this.x + offset, this.y + this.h/2);
+			ctx.closePath();
+			ctx.clip();
+		}
+	}
+
+	CapElement.prototype.drawBody.call(this, ctx);
+
+	if(this.props.Type.isDef()) {
+		if(this.second) {
+			ctx.beginPath();
+			ctx.moveTo(this.x + this.w - 1, this.y);
+			ctx.lineTo(this.x + this.w, this.y);
+			ctx.lineTo(this.x + this.w + offset, this.y + this.h/2);
+			ctx.lineTo(this.x + this.w, this.y + this.h);
+			ctx.lineTo(this.x + this.w - 1, this.y + this.h);
+			ctx.closePath();
+			ctx.fill();
+			ctx.beginPath();
+			ctx.moveTo(this.x + this.w - 1, this.y);
+			ctx.lineTo(this.x + this.w, this.y);
+			ctx.lineTo(this.x + this.w + offset, this.y + this.h/2);
+			ctx.lineTo(this.x + this.w, this.y + this.h);
+			ctx.lineTo(this.x + this.w - 1, this.y + this.h);
+			ctx.stroke();
+		}
+		else {
+			ctx.restore();
+			ctx.beginPath();
+			ctx.moveTo(this.x, this.y);
+			ctx.lineTo(this.x + offset, this.y + this.h/2);
+			ctx.lineTo(this.x, this.y + this.h);
+			ctx.stroke();
+		}
+	}
+};
+
 //******************************************************************************
 // LineBreakEx
 //******************************************************************************
@@ -2273,7 +2326,7 @@ LineBreakEx.prototype.oninit = function() {
 	if(this.props.Type.value % 2 == 0) {
 		var prop = this.props.Type.value == 0 ? 1 : 3;
 		for(var e of this.parent.imgs) {
-			if(e.name == this.name && e.props.Type.value == prop) {
+			if(e.name == this.name && e.props.Type.value == prop && e.props.Caption.value == this.props.Caption.value) {
 				this.pair = e;
 				break;
 			}
