@@ -892,6 +892,22 @@ function modules() {
 					return this.parent.result.r;
 				};
 				break;
+			case "RenderFrameTimer":
+				i.doTimer.onevent = function(data) {
+					function render() {
+						i.fps ++;
+						i.onTimer.call();
+						requestAnimationFrame(render);
+					};
+					requestAnimationFrame(render);
+				};
+				i.FPS.onevent = function(data) {
+					var f = this.parent.fps;
+					this.parent.fps = 0;
+					return f;
+				};
+				i.run = function() { this.fps = 0; };
+				break;
 			case "ProgressBar":
 				i.doPosition.onevent = function (data) {
 					this.parent.ctl.position = data;

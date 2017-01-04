@@ -743,6 +743,14 @@
 			{ "name": "Color", "type": 8, "def": "#000" }
 		]
 	},
+	"RenderFrameTimer": {
+		"tab": "graphics",
+		"points": [
+			{ "name": "doTimer", "type": 1 },
+			{ "name": "onTimer", "type": 2 },
+			{ "name": "FPS", "type": 3, "data": 1 }
+		]
+	},
 	"drawsettings": { "tab": "graphics", "group": true },
 	"FillStyle": {
 		"tab": "graphics",
