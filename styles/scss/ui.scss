@@ -66,16 +66,21 @@
 
 @media(max-width: 840px){
 	.hion-toolbar {
+		flex-wrap: wrap;
+		height: auto;
 		.hion { display: none; }
 		.ui-toolbar {
-			&:nth-child(2) { display: none !important; }
+			&:nth-child(2) {
+				order: 10;
+				.button:nth-child(5), .button:nth-child(20), .splitter:nth-child(1), .splitter:nth-child(19) { display: none; }
+			}
 			&:nth-child(6) { display: inherit; }
 		}
 		.user { padding-right: 0; }
 		.mainmenu .item { padding: 5px 4px; }
 	}
-	.palette { width: 100px !important; }
-	.props { position: fixed; right: 0; top: 0; bottom: 0; background-color: $controlColor; }
+	.palette { width: 100px !important; border-right: 1px solid $borderDark; }
+	.props { width: 180px; position: fixed; right: 0; top: 0; bottom: 0; background-color: $controlColor; border-left: 1px solid $borderLight; border-top: 0; }
 	.ui-workspace { >.ui-splitter { display: none; } }
 	.dialog {
 		left: 0 !important;
@@ -85,6 +90,7 @@
 	}
 	.frm-edit-grip { width: 11px !important; height: 11px !important; }
 	.popup .item { height: 20px; }
+	.logo { background-size: 300px auto !important; width: 300px !important; height: auto !important; div { margin-top: 157px !important; } }
 }
 
 // ::-webkit-scrollbar {
