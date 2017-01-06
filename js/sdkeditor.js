@@ -607,7 +607,6 @@ function SdkEditor() {
 					var ty = ctl.scrollTop;
 					var dx = 0;
 					var dy = 0;
-					console.trace(editor.emouse.curY, editor.height, ctl.clientHeight)
 					var cY = editor.emouse.curY*editor.scale;
 					var cX = editor.emouse.curX*editor.scale;
 					if(cY > editor.height + ty - 20 && ctl.clientHeight + ctl.scrollTop + 5 <= ctl.scrollHeight) {
