@@ -607,26 +607,29 @@ function SdkEditor() {
 					var ty = ctl.scrollTop;
 					var dx = 0;
 					var dy = 0;
-					if(editor.emouse.curY > editor.height + ty - 20 && ctl.clientHeight + ctl.scrollTop + 5 <= ctl.scrollHeight) {
+					console.trace(editor.emouse.curY, editor.height, ctl.clientHeight)
+					var cY = editor.emouse.curY*editor.scale;
+					var cX = editor.emouse.curX*editor.scale;
+					if(cY > editor.height + ty - 20 && ctl.clientHeight + ctl.scrollTop + 5 <= ctl.scrollHeight) {
 						dy = 5;
 					}
-					else if(ty > 0 && editor.emouse.curY < ty + 20) {
+					else if(ty > 0 && cY < ty + 20) {
 						dy = -Math.min(5, ty);
 					}
-					if(editor.emouse.curX > editor.width + tx - 20 && ctl.clientWidth + ctl.scrollLeft + 5 <= ctl.scrollWidth) {
+					if(cX > editor.width + tx - 20 && ctl.clientWidth + ctl.scrollLeft + 5 <= ctl.scrollWidth) {
 						dx = 5;
 					}
-					else if(tx > 0 && editor.emouse.curX < tx + 20) {
+					else if(tx > 0 && cX < tx + 20) {
 						dx = -Math.min(5, tx);
 					}
 					
 					if(dy) {
 						ctl.scrollTop += dy;
-						editor.emouse.curY += dy;
+						editor.emouse.curY += dy/editor.scale;
 					}
 					if(dx) {
 						ctl.scrollLeft += dx;
-						editor.emouse.curX += dx;
+						editor.emouse.curX += dx/editor.scale;
 					}
 					if(dx || dy) {
 						editor.draw();
