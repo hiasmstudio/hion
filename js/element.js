@@ -1331,11 +1331,16 @@ function LTElement(id) {
 
 LTElement.prototype = Object.create(SdkElement.prototype);
 
+LTElement.prototype.loadFromTemplate = function() {
+	SdkElement.prototype.loadFromTemplate.call(this);
+	this.onpropchange(this.props.Link);
+};
+
 LTElement.prototype.onpropchange = function(prop) {
 	if(prop === this.props.Link) {
 		this.needCalcSize = true;
 		var args = prop.value.split("=");
-		this.text = args.length == 2 ? args[0] : "";
+		this.text = args[0];
 		this.link = args.length == 2 ? args[1] : args[0];
 	}
 };
@@ -1359,7 +1364,7 @@ LTElement.prototype.draw = function(ctx) {
 	ctx.fillStyle = this.sys.Color.value;
 	ctx.fillText(this.text, this.x + 2, this.y + 1 + 12);
 	ctx.strokeStyle = this.sys.Color.value;
-	ctx.drawLine(this.x + 2, this.y + this.h - 2, this.x + this.w - 4, this.y + this.h - 2);
+	ctx.drawLine(this.x + 2, this.y + this.h - 2, this.x + this.w - 2, this.y + this.h - 2);
 };
 
 LTElement.prototype.mouseDown = function(x, y, button, flags) {

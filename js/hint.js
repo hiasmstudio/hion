@@ -9,7 +9,7 @@ function Hint() {
 		return this.builder.html("");
 	};
 	
-	this.show = function(x, y) {console.log("show")
+	this.show = function(x, y) {
 		_hintPrepare = this;
 		if(this.timer) {
 			clearTimeout(this.timer);
