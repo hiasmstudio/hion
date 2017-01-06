@@ -15,6 +15,8 @@ function Hint() {
 		this.timer = setTimeout(function(hint){
 			return function(){
 				hint.builder.element.show();
+				if(x + hint.builder.element.offsetWidth + 5 > window.innerWidth)
+					x = window.innerWidth - hint.builder.element.offsetWidth - 5;
 				if(y + hint.builder.element.offsetHeight + 5 > window.innerHeight)
 					y = window.innerHeight - hint.builder.element.offsetHeight - 5;
 				hint.builder.element.move(x, y);
