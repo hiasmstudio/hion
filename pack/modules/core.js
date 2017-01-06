@@ -897,9 +897,9 @@ function modules() {
 					function render() {
 						i.fps ++;
 						i.onTimer.call();
-						requestAnimationFrame(render);
+						i.rid = requestAnimationFrame(render);
 					};
-					requestAnimationFrame(render);
+					this.parent.rid = requestAnimationFrame(render);
 				};
 				i.FPS.onevent = function(data) {
 					var f = this.parent.fps;
@@ -907,6 +907,7 @@ function modules() {
 					return f;
 				};
 				i.run = function() { this.fps = 0; };
+				i.onfree = function() { cancelAnimationFrame(this.rid); };
 				break;
 			case "ProgressBar":
 				i.doPosition.onevent = function (data) {
