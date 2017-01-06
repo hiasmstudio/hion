@@ -80,7 +80,14 @@
 		.mainmenu .item { padding: 5px 4px; }
 	}
 	.palette { width: 100px !important; border-right: 1px solid $borderDark; }
-	.props { width: 180px; position: fixed; right: 0; top: 0; bottom: 0; background-color: $controlColor; border-left: 1px solid $borderLight; border-top: 0; }
+	.props {
+		width: 180px;
+		position: fixed; right: 0; top: 0; bottom: 0;
+		background-color: $controlColor;
+		border-left: 1px solid $borderLight;
+		border-top: 0;
+		box-shadow: 0 0 5px #888;
+	}
 	.ui-workspace { >.ui-splitter { display: none; } }
 	.dialog {
 		left: 0 !important;
