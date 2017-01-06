@@ -601,7 +601,12 @@ function SdkEditor() {
 		{
 			timerId: 0,
 			begin: function(editor) {
+				var obj = this;
 				this.timerId = setInterval(function(){
+					if(editor.emouse.state != ME_SELRECT) {
+						clearInterval(obj.timerId);
+						return;
+					}
 					var ctl = editor.getControl().firstChild;
 					var tx = ctl.scrollLeft;
 					var ty = ctl.scrollTop;
@@ -909,6 +914,15 @@ function SdkEditor() {
 		var p1 = GetPos(this);
 		var x = event.touches[0].clientX - p1.left - document.body.scrollLeft;
 		var y = event.touches[0].clientY - p1.top - document.body.scrollTop;
+		// move editor if two finger detected
+		if(event.touches.length >= 2) {
+			var dx = event.touches[0].clientX - event.touches[1].clientX;
+			var dy = event.touches[0].clientY - event.touches[1].clientY;
+			this.editor.emouse.scaleFactor = Math.sqrt(dx*dx + dy*dy);
+			this.editor.beginOperation(ME_SCROLL_EDITOR, null);
+		}
+		event.preventDefault();
+		
 		return this.editor.onmousedown({layerX: x, layerY: y, button: 0});
 	};
 	this.onmousedown = function (event) {
@@ -950,6 +964,22 @@ function SdkEditor() {
 		var p1 = GetPos(this);
 		var x = event.touches[0].clientX - p1.left - document.body.scrollLeft;
 		var y = event.touches[0].clientY - p1.top - document.body.scrollTop;
+		// scale editor if two finger detected
+		if(event.touches.length >= 2) {
+			var dx = event.touches[0].clientX - event.touches[1].clientX;
+			var dy = event.touches[0].clientY - event.touches[1].clientY;
+			var scaleFactor = Math.sqrt(dx*dx + dy*dy);
+			var ds = (scaleFactor - this.editor.emouse.scaleFactor)/200;
+			var step = 0.0001;
+			if(ds > step && this.editor.scale < 4 || ds < -step && this.editor.scale > 0.2) {
+				this.editor.scale += ds;
+				if(Math.abs(1 - this.editor.scale) < step)
+					this.editor.scale = 1;
+				this.editor.emouse.scaleFactor = scaleFactor;
+				this.editor.draw();
+			}
+		}
+		
 		this.editor.onmousemove({layerX: x, layerY: y, button: 0});
 	};
 	this.onmousemove = function(event) {

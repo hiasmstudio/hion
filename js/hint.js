@@ -1,4 +1,5 @@
 var _hint = null;
+var _hintPrepare = null;
 function Hint() {
 	this.builder = new Builder().n("div").class("hint");
 	this.builder.element.hide();
@@ -8,7 +9,8 @@ function Hint() {
 		return this.builder.html("");
 	};
 	
-	this.show = function(x, y) {
+	this.show = function(x, y) {console.log("show")
+		_hintPrepare = this;
 		if(this.timer) {
 			clearTimeout(this.timer);
 		}
@@ -35,11 +37,15 @@ function Hint() {
 }
 
 var html = document.getElementsByTagName("html")[0];
-function closeHint() {
+html.addEventListener("mousemove", function(){
 	if(_hint) {
 		_hint.close();
 		_hint = null;
 	}
-}
-html.addEventListener("mousemove", closeHint, false);
-html.addEventListener("touchstart", closeHint, false);
+}, false);
+html.addEventListener("touchstart", function(){
+	if(_hintPrepare) {
+		_hintPrepare.close();
+		_hintPrepare = null;
+	}
+}, false);
