@@ -191,8 +191,8 @@ function loadWorkspace() {
 	 		file: ["new", "open", "save", "saveas", "-", "share", "addcatalog", "-", "capture", "sha_source"],
 	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "moveto", "-", "tools"],
 	 		editor: ["undo", "redo", "-", "slidedown", "slideright", "-", "zoomin", "zoomout", "-", "selectall", "-", "makehint", "remove_lh"],
-	 		view: ["formedit", "statistic", "-", "history", "-", "output", "showgraph"],
-	 		help: ["forum", "mail", "sendbug", "-", "about"]
+	 		view: ["fullscreen", "-", "formedit", "statistic", "-", "history", "-", "output", "showgraph"],
+	 		help: ["forum", "opencatalog", "mail", "sendbug", "-", "about"]
 	 	};
 		mainMenu = createMainmenu(mmCommands);
 		userMenu = new MainMenu([{
@@ -420,7 +420,20 @@ function loadWorkspace() {
 			def: true,
 			exec: function(){ window.open("http://forum.hiasm.com/userissues/0#7", '_blank'); }
 		},
-		addcatalog: { }
+		addcatalog: { },
+		opencatalog: { icon: 13, def: true,
+			exec: function() {
+				window.open("http://apps.hiasm.com/main/", '_blank');
+			}
+		},
+		fullscreen: { def: true,
+			exec: function() {
+				if(isInFullscreen())
+					fullScreenCancel();
+				else
+					fullScreen(document.body);
+			}
+		},
 	});
 	commander.onupdate = function() {
 		docManager.updateCommands(commander);
@@ -485,3 +498,28 @@ window.getOptionBool = function(name, defValue) {
 window.getOptionInt = function(name, defValue) {
 	return parseInt(window.getOption(name, defValue));
 };
+
+// Fullscreen WEB API polyfill
+function fullScreen(element) {
+  if(element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if(element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  } else if(element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();
+  }
+}
+
+function fullScreenCancel() {
+  if(document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if(document.webkitExitFullscreen ) {
+    document.webkitExitFullscreen();
+  } else if(document.mozCancelFullScreen) {
+    document.mozCancelFullScreen();
+  }
+}
+
+function isInFullscreen() {
+	return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement;
+}

@@ -107,6 +107,13 @@
 //     box-shadow: inset 0 0 1px rgba(0,0,0,0.3);
 // }
 
+#workspace {
+	background-color: $controlColor;
+	display: flex; align-content: stretch; align-items: stretch; flex-direction: column;
+	height: 100%;
+	@include user-select();
+}
+
 .ui-workspace {
 	align-content: stretch;
 	align-items: stretch;

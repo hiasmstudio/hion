@@ -64,6 +64,8 @@
 	"cmd.history": "Project history",
 	"cmd.showgraph": "Project tree",
 	"cmd.addcatalog": "Publish to catalog",
+	"cmd.opencatalog": "HiAsm apps",
+	"cmd.fullscreen": "Full screen",
 	
 	"ui.close": "Close",
 	"ui.cancel": "Cancel",

@@ -3,7 +3,7 @@
 // native
 
 html { height: 100%; font-family: Arial, Helvetica, sans-serif; color: $textColor; }
-body { height: 100%; margin: 0; background-color: $controlColor; }
+body { height: 100%; width: 100%; margin: 0; }
 input { padding: 0; margin: 0; font-family: Arial, Helvetica, sans-serif; }
 textarea { resize: none; margin: 0; padding: 0; }
 
