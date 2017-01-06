@@ -35,10 +35,11 @@ function Hint() {
 }
 
 var html = document.getElementsByTagName("html")[0];
-html.addEventListener("mousemove", function(){
+function closeHint() {
 	if(_hint) {
 		_hint.close();
 		_hint = null;
 	}
-}, false);
-
+}
+html.addEventListener("mousemove", closeHint, false);
+html.addEventListener("touchstart", closeHint, false);
