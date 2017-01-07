@@ -186,6 +186,7 @@ Add(Rectangle,40,609,329)
   X2=65
   Y2=65
   Type=2
+  link(onDraw,46:doGetPixel,[])
 }
 Add(FillStyle,41,511,329)
 {
@@ -201,4 +202,47 @@ Add(Hub,44,476,273)
 {
   link(onEvent1,39:doDraw,[])
   link(onEvent2,41:doFill,[(500,286)(500,335)])
+}
+Add(ToRGB,45,721,329)
+{
+  link(onRGB,49:doEvent1,[])
+}
+Add(GetPixel,46,665,329)
+{
+  X=10
+  Y=10
+  link(onGetPixel,45:doGetRGB,[])
+}
+Add(CableWork,47,861,329)
+{
+  Wire=#1:r|1:g|1:b|
+  link(onCable,52:doCable,[(888,335)(888,34)(263,34)(263,55)])
+}
+Add(ArrayRead,48,805,329)
+{
+  link(onRead,47:r,[])
+}
+Add(Hub,49,770,329)
+{
+  OutCount=3
+  link(onEvent1,48:doRead,[])
+  link(onEvent2,50:doRead,[])
+  link(onEvent3,51:doRead,[])
+}
+Add(ArrayRead,50,805,336)
+{
+  Index=1
+  link(onRead,47:g,[])
+}
+Add(ArrayRead,51,805,343)
+{
+  Index=2
+  link(onRead,47:b,[])
+}
+Add(CableEvent,52,280,49)
+{
+  Wire=#1:r|1:g|1:b|
+  link(r,2:doPosition,[])
+  link(g,3:doPosition,[(325,62)(325,104)])
+  link(b,4:doPosition,[(318,69)(318,153)])
 }

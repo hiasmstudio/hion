@@ -92,7 +92,7 @@ Add(ComboBox,48,350,336)
   Top=294
   Width=#3:233|
   Height=#2:27|
-  Strings=#8:(select)|5:Other|4:Game|5:Tools|4:Demo|7:Editors|10:Electronic|4:Math|
+  Strings=#8:(select)|5:Other|4:Game|5:Tools|4:Demo|7:Editors|10:Electronic|4:Math|3:WEB|
   Point(doSelectIndex)
 }
 Add(Label,49,147,196)
