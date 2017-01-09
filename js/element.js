@@ -1848,6 +1848,10 @@ MultiElementEditor.prototype.removePoint = function(name) {
 	this.rePosPoints();
 };
 
+MultiElementEditor.prototype.getPointInfo = function(point) {
+	return "";
+};
+
 //******************************************************************************
 // MultiElementEditorEx
 //******************************************************************************
@@ -1940,6 +1944,10 @@ MultiElement.prototype.makeLink = function(element) {
 		var point = element.points[p];
 		this.addPoint(point.name, point.type);
 	}
+};
+
+MultiElement.prototype.getPointInfo = function(point) {
+	return "";
 };
 
 //******************************************************************************
