@@ -886,13 +886,13 @@ function modules() {
 					return this.parent.result.r;
 				};
 				i.G.onevent = function(){
-					return this.parent.result.r;
+					return this.parent.result.g;
 				};
 				i.B.onevent = function(){
-					return this.parent.result.r;
+					return this.parent.result.b;
 				};
 				i.A.onevent = function(){
-					return this.parent.result.r;
+					return this.parent.result.a;
 				};
 				break;
 			case "RenderFrameTimer":
