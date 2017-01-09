@@ -802,7 +802,7 @@
 		"tab": "graphics",
 		"points": [
 			{ "name": "doSet", "type": 1 },
-			{ "name": "onSet", "type": 2 },
+			{ "name": "onSet", "type": 2, "args": "Canvas" },
 			{ "name": "Canvas", "type": 4 }
 		],
 		"props": [

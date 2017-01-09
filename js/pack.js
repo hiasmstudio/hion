@@ -105,6 +105,15 @@ Pack.prototype.load = function() {
 							point.inherit = e;
 						}
 					}
+					// lang info generator
+					// var k = "el." + e;
+					// if(element.points && pack.translate(k) === k) {
+					// 	var info = '"' + k + '": "",\n';
+					// 	for(var point of element.points) {
+					// 		info += '"' + e + "." + point.name + '": "",\n';
+					// 	}
+					// 	console.log(info);
+					// }
 				}
 				// inherit elements from base package
 				if(pack.parent) {

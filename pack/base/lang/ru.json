@@ -5,12 +5,47 @@
 	
 	"element.Color": "Цвет элемента в редакторе",
 	"element.Comment": "Комментарий к элементу",
+	
+	"el.VisualStrings": "Отображение текста в редакторе",
+	"VisualStrings.doPrint": "Выводит отображаемый текст в поток",
+	"VisualStrings.onPrint": "Событие происходит всякий раз после вывода текста и выдает и его в поток",
+	"VisualStrings.Text": "Содержит отображаемый в редакторе текст",
 
 	"el.GetDataEx": "Доступ к данным",
+	"GetDataEx.Data": "Получение данных",
+	"GetDataEx.Var1": "Запрос данных",
+	"GetDataEx.Var2": "Запрос данных",
+	"GetDataEx.Var3": "Запрос данных",
+	
 	"el.HubEx": "Хаб",
+	"HubEx.onEvent": "Событие происходит всякий раз после вызова любого из методов doWork",
+	"HubEx.doWork1": "Вызывает событие onEvent",
+	"HubEx.doWork2": "Вызывает событие onEvent",
+	"HubEx.doWork3": "Вызывает событие onEvent",
+	
 	"el.InfoTip": "Надпись в редакторе",
 	"el.LinkTip": "Гиперссылка в редакторе",
 	"el.PictureTip": "Отображение картинки в редакторе",
+	
+	"el.PointHint": "Подсказка к точке элемента",
+	"PointHint.Method": "Метод",
+	"PointHint.Event": "Событие",
+	"PointHint.Var": "Свойство",
+	"PointHint.Data": "Данные",
+	
+	"el.Version": "Версия проекта",
+	
+	"el.LineBreak": "Разрыв связи один к одному",
+	"LineBreak.In": "Входной поток",
+	"LineBreak.Out": "Выходной поток",
+	"LineBreak.Var": "Выходной поток данных",
+	"LineBreak.Data": "Входной поток данных",
+	
+	"el.LineBreakEx": "Разрыв связи многие к одному",
+	"LineBreakEx.doWork": "Входной поток",
+	"LineBreakEx.onEvent": "Выходной поток",
+	"LineBreakEx.getVar": "Выходной поток данных",
+	"LineBreakEx._Data": "Входной поток данных",
 	
 	"el.hcTransmitter": "Передача данных из Hion в приложение",
 	"hcTransmitter.doReturn": "Возвращает данные обратно в ядро Hion",
