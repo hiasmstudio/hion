@@ -2140,12 +2140,14 @@ LineBreak.prototype.onpropchange = function(prop) {
 	
 	if(prop === this.props.Type) {
 		this.removePoints();
+		var point;
 		if(prop.isDef()) {
 			if(this.primary) {
-				this.addPoint("Out", pt_event);
+				point = this.addPoint("Out", pt_event);
 			}
 			else {
-				this.addPoint("In", pt_work).onevent = function(data) {
+				point = this.addPoint("In", pt_work);
+				point.onevent = function(data) {
 					if(this.parent.second) {
 						this.parent.second.Out.call(data);
 					}
@@ -2154,16 +2156,18 @@ LineBreak.prototype.onpropchange = function(prop) {
 		}
 		else {
 			if(this.primary) {
-				this.addPoint("Data", pt_data);
+				point = this.addPoint("Data", pt_data);
 			}
 			else {
-				this.addPoint("Var", pt_var).onevent = function(data) {
+				point = this.addPoint("Var", pt_var);
+				point.onevent = function(data) {
 					if(this.parent.second) {
 						return this.parent.second.Data.call(data);
 					}
 				};
 			}
 		}
+		point.inherit = this.name;
 		
 		var se = this.second || this.primary;
 		if(se && se.props.Type.value != prop.value) {
@@ -2298,27 +2302,31 @@ LineBreakEx.prototype.onpropchange = function(prop) {
 	
 	if(prop === this.props.Type) {
 		this.removePoints();
+		var point;
 		switch(prop.value) {
 			case 0:
-				this.addPoint("doWork", pt_work).onevent = function(data) {
+				point = this.addPoint("doWork", pt_work);
+				point.onevent = function(data) {
 					if(this.parent.pair) {
 						this.parent.pair.onEvent.call(data);
 					}
 				};
 				break;
 			case 1:
-				this.addPoint("onEvent", pt_event);
+				point = this.addPoint("onEvent", pt_event);
 				break;
 			case 2:
-				this.addPoint("getVar", pt_var).onevent = function(data) {
+				point = this.addPoint("getVar", pt_var);
+				point.onevent = function(data) {
 					if(this.parent.pair) {
 						return this.parent.pair._Data.call(data);
 					}
 				};
 				break;
 			case 3:
-				this.addPoint("_Data", pt_data);
+				point = this.addPoint("_Data", pt_data);
 		}
+		point.inherit = this.name;
 	}
 };
 
