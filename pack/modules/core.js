@@ -424,13 +424,16 @@ function modules() {
 					var af = d[fIndex+3];
 					
 					function isOriginPixel(index) {
-						if(smooth)
+						if(smooth) {
+							if(d[index + 0] === r && d[index + 1] === g && d[index + 2] === b)
+								return false;
 							return Math.abs(d[index + 0] - rf) <= smooth && Math.abs(d[index + 1] - gf) <= smooth &&
 									Math.abs(d[index + 2] - bf) <= smooth && Math.abs(d[index + 3] - af) <= smooth;
+						}
 						return d[index + 0] == rf && d[index + 1] == gf && d[index + 2] == bf && d[index + 3] == af;
 					}
 					
-					if(Math.abs(r - rf) <= smooth && Math.abs(g - gf) <= smooth && Math.abs(b - bf) <= smooth) {
+					if(Math.abs(r - rf) == 0 && Math.abs(g - gf) == 0 && Math.abs(b - bf) == 0) {
 						// do nothing
 					}
 					else {
