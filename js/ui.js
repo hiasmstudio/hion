@@ -1769,7 +1769,11 @@ Object.defineProperty(Tab.prototype, "active", {
 function TabControl(options) {
 	UIContainer.call(this);
 	
-	this._tabController = new Builder().n("div").class("tabs");
+	this._tabController = new Builder().n("div").attr("parent", this).on("onmousewheel", function(event) {
+		var y = -(event.deltaY/2);
+		this.parent.scroll(y);
+	}).class("tabs").n("div").class("body");
+	this._ctl = this._tabController.element.parentNode;
 
 	this.onselect = function() { };
 	this.onclose = function() { return true; };
@@ -1783,8 +1787,22 @@ function TabControl(options) {
 
 TabControl.prototype = Object.create(UIContainer.prototype);
 
-TabControl.prototype.getControl = function() {
+TabControl.prototype.getContainer = function() {
 	return this._tabController.element;
+};
+
+TabControl.prototype.scroll = function(delta) {
+	if(delta > 0 && this.getContainer().offsetLeft + delta > 0)
+		delta = -this.getContainer().offsetLeft;
+	else if(delta < 0 && this.getContainer().offsetLeft + delta + this.getContainer().offsetWidth < this._ctl.offsetWidth-2)
+		delta = this._ctl.offsetWidth-2 - (this.getContainer().offsetLeft + this.getContainer().offsetWidth);
+	
+	if(this.getContainer().offsetWidth < this._ctl.offsetWidth-2) {
+		if(this.getContainer().offsetLeft)
+			this.getContainer().style.left = "0px";
+	}
+	else
+		this.getContainer().style.left = (this.getContainer().offsetLeft + delta).toString() + "px";
 };
 
 TabControl.prototype.select = function(tab) {
@@ -1817,6 +1835,9 @@ TabControl.prototype.close = function(tab) {
 		else {
 			this.onselect(null);
 		}
+		var d = this._ctl.offsetWidth-2 - (this.getContainer().offsetLeft + this.getContainer().offsetWidth);
+		if(d > 0)
+			this.scroll(d);
 	}
 };
 
@@ -1831,6 +1852,7 @@ TabControl.prototype.addTab = function(name, title, control) {
 		this.control.parentNode.appendChild(control);
 		tab.control = control;
 	}
+	this.scroll(-4096);
 	
 	return tab;
 };

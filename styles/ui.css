@@ -517,70 +517,81 @@ textarea {
   border-right: 1px solid #dcd0c3;
   flex-grow: 1; }
   .docmanager .tabs {
-    padding: 2px;
-    display: flex;
-    height: 21px;
+    padding: 2px 0;
+    height: 22px;
     padding-bottom: 0;
     background-color: #efe9e3;
     border-top: 1px solid white;
     border-left: 1px solid white;
-    border-bottom: 1px solid #dcd0c3;
     flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
     user-select: none;
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none; }
-    .docmanager .tabs .tab {
-      cursor: default;
-      color: gray;
-      display: flex;
-      align-items: center;
-      margin-bottom: -1px;
-      background-color: #efe9e3;
-      border: 1px solid #dcd0c3;
-      font-size: 12px;
-      padding: 2px 5px;
-      width: 100px;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
-      margin-right: 2px;
-      animation: tab 0.3s;
-      height: 16px; }
-      .docmanager .tabs .tab:hover {
-        color: black; }
-      .docmanager .tabs .tab .title {
-        flex-basis: 100%;
-        flex-grow: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-right: 4px;
-        white-space: nowrap; }
-      .docmanager .tabs .tab .icon {
-        background-image: url("../img/sha.png");
-        width: 16px;
-        height: 16px;
-        flex-shrink: 0;
-        margin-right: 3px;
-        opacity: 0.5; }
-      .docmanager .tabs .tab .close {
-        width: 14px;
-        height: 14px;
+    .docmanager .tabs:after {
+      border-bottom: 1px solid #dcd0c3;
+      width: 100%;
+      display: block;
+      height: 1px;
+      content: ' ';
+      margin-top: 20px; }
+    .docmanager .tabs .body {
+      position: absolute;
+      transition: left 0.2s ease-out;
+      margin-left: 2px; }
+      .docmanager .tabs .body .tab {
+        cursor: default;
         color: gray;
+        display: flex;
+        align-items: center;
+        margin-bottom: -1px;
+        background-color: #efe9e3;
+        border: 1px solid #dcd0c3;
         font-size: 12px;
-        text-align: center;
-        flex-shrink: 0;
-        border-radius: 8px; }
-        .docmanager .tabs .tab .close:hover {
-          background-color: #dcd0c3;
-          color: white; }
-      .docmanager .tabs .tab[save=true] .close {
-        content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfgAwcHHzjg8FPOAAAAc0lEQVQY02NgoD9ghDEUpRjS/oX+Zfi9+tes988gYswwScFiz3o3UWNRUYcLX34fgIgxwST/hiow3GW4ziDH8DMUJgaX/M3wj+E3w0+Gvwx/GTAkf66+waDAoMFwk4FhNYbLuKXYGhiuMlxlaGCQYhhAAAB6vR9+Z/piugAAAABJRU5ErkJggg=="); }
-      .docmanager .tabs .tab[active=true] {
-        color: black;
-        background-color: white;
-        border-bottom: 1px solid white; }
-        .docmanager .tabs .tab[active=true] .icon {
-          opacity: 1.0; }
+        padding: 2px 5px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        margin-right: 2px;
+        animation: tab 0.3s;
+        height: 16px;
+        max-width: 200px; }
+        .docmanager .tabs .body .tab:hover {
+          color: black; }
+        .docmanager .tabs .body .tab .title {
+          flex-basis: 100%;
+          flex-grow: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          margin-right: 4px;
+          white-space: nowrap; }
+        .docmanager .tabs .body .tab .icon {
+          background-image: url("../img/sha.png");
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+          margin-right: 3px;
+          opacity: 0.5; }
+        .docmanager .tabs .body .tab .close {
+          width: 14px;
+          height: 14px;
+          color: gray;
+          font-size: 12px;
+          text-align: center;
+          flex-shrink: 0;
+          border-radius: 8px; }
+          .docmanager .tabs .body .tab .close:hover {
+            background-color: #dcd0c3;
+            color: white; }
+        .docmanager .tabs .body .tab[save=true] .close {
+          content: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfgAwcHHzjg8FPOAAAAc0lEQVQY02NgoD9ghDEUpRjS/oX+Zfi9+tes988gYswwScFiz3o3UWNRUYcLX34fgIgxwST/hiow3GW4ziDH8DMUJgaX/M3wj+E3w0+Gvwx/GTAkf66+waDAoMFwk4FhNYbLuKXYGhiuMlxlaGCQYhhAAAB6vR9+Z/piugAAAABJRU5ErkJggg=="); }
+        .docmanager .tabs .body .tab[active=true] {
+          color: black;
+          background-color: white;
+          border-bottom: 1px solid white; }
+          .docmanager .tabs .body .tab[active=true] .icon {
+            opacity: 1.0; }
   .docmanager[drop] {
     opacity: 0.5;
     outline: 2px solid black; }

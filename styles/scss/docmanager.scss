@@ -5,54 +5,69 @@
 	flex-grow: 1;
 
     .tabs {
-        padding: 2px;
-        display: flex;
-        height: 21px;
+        padding: 2px 0;
+        height: 22px;
         padding-bottom: 0;
         background-color: $controlColor;
         border-top: 1px solid $borderLight;
         border-left: 1px solid $borderLight;
-        border-bottom: 1px solid $borderDark;
         flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
         @include user-select();
+        
+        &:after {
+            border-bottom: 1px solid $borderDark;
+            width: 100%;
+            display: block;
+            height: 1px;
+            content: ' ';
+            margin-top: 20px;
+        }
 
-        .tab {
-            cursor: default;
-            color: gray;
-            display: flex;
-            align-items: center;
-            margin-bottom: -1px;
-            background-color: $controlColor;
-            border: 1px solid $borderDark;
-            font-size: 12px;
-            padding: 2px 5px;
-            width: 100px;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
-            margin-right: 2px;
-            animation: tab 0.3s; height: 16px;
+        .body {
+            position: absolute;
+            transition: left 0.2s ease-out;
+            margin-left: 2px;
             
-            &:hover { color: $textColor; }
-            
-            .title { flex-basis: 100%; flex-grow: 1; overflow: hidden; text-overflow: ellipsis; margin-right: 4px; white-space: nowrap; }
-            .icon { background-image: url('../img/sha.png'); width: 16px; height: 16px; flex-shrink: 0; margin-right: 3px; opacity: 0.5; }
-            .close {
-                width: 14px; height: 14px; color: gray; font-size: $fontSize; text-align: center; flex-shrink: 0; border-radius: 8px;
-                &:hover { background-color: $borderDark; color: $selectedButtonText; }
-            }
-            &[save=true] {
-                .close {
-                    content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfgAwcHHzjg8FPOAAAAc0lEQVQY02NgoD9ghDEUpRjS/oX+Zfi9+tes988gYswwScFiz3o3UWNRUYcLX34fgIgxwST/hiow3GW4ziDH8DMUJgaX/M3wj+E3w0+Gvwx/GTAkf66+waDAoMFwk4FhNYbLuKXYGhiuMlxlaGCQYhhAAAB6vR9+Z/piugAAAABJRU5ErkJggg==');
-                }
-            }
-            
-            
-            &[active=true] {
-                color: $textColor;
-                background-color: $inputBgColor;
-                border-bottom: 1px solid $inputBgColor;
+            .tab {
+                cursor: default;
+                color: gray;
+                display: flex;
+                align-items: center;
+                margin-bottom: -1px;
+                background-color: $controlColor;
+                border: 1px solid $borderDark;
+                font-size: 12px;
+                padding: 2px 5px;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                margin-right: 2px;
+                animation: tab 0.3s; height: 16px;
+                max-width: 200px;
                 
-                .icon { opacity: 1.0; }
+                &:hover { color: $textColor; }
+                
+                .title { flex-basis: 100%; flex-grow: 1; overflow: hidden; text-overflow: ellipsis; margin-right: 4px; white-space: nowrap; }
+                .icon { background-image: url('../img/sha.png'); width: 16px; height: 16px; flex-shrink: 0; margin-right: 3px; opacity: 0.5; }
+                .close {
+                    width: 14px; height: 14px; color: gray; font-size: $fontSize; text-align: center; flex-shrink: 0; border-radius: 8px;
+                    &:hover { background-color: $borderDark; color: $selectedButtonText; }
+                }
+                &[save=true] {
+                    .close {
+                        content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfgAwcHHzjg8FPOAAAAc0lEQVQY02NgoD9ghDEUpRjS/oX+Zfi9+tes988gYswwScFiz3o3UWNRUYcLX34fgIgxwST/hiow3GW4ziDH8DMUJgaX/M3wj+E3w0+Gvwx/GTAkf66+waDAoMFwk4FhNYbLuKXYGhiuMlxlaGCQYhhAAAB6vR9+Z/piugAAAABJRU5ErkJggg==');
+                    }
+                }
+                
+                
+                &[active=true] {
+                    color: $textColor;
+                    background-color: $inputBgColor;
+                    border-bottom: 1px solid $inputBgColor;
+                    
+                    .icon { opacity: 1.0; }
+                }
             }
         }
     }
