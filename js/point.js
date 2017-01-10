@@ -245,8 +245,10 @@ Point.prototype.getNodes = function() {
 };
 
 Point.prototype.select = function() {
+	if(this.selected)
+		return;
 	this.selected = true;
-	var p = this.isPrimary() ? this.point : this;
+	var p = this.point;
 	if(p) {
 		var res = p.parent.getLinkedPoint(p);
 		if(res !== p) {
@@ -257,13 +259,15 @@ Point.prototype.select = function() {
 };
 
 Point.prototype.unselect = function() {
-	delete this.selected;
-	var p = this.isPrimary() ? this.point : this;
-	if(p) {
-		var res = p.parent.getLinkedPoint(p);
-		if(res !== p) {
-			res.unselect();
-			p = res;
+	if(this.selected) {
+		delete this.selected;
+		var p = this.point;
+		if(p) {
+			var res = p.parent.getLinkedPoint(p);
+			if(res !== p) {
+				res.unselect();
+				p = res;
+			}
 		}
 	}
 };

@@ -2295,6 +2295,32 @@ LineBreak.prototype.drawBody = function(ctx) {
 	}
 };
 
+LineBreak.prototype.getFirstFreePoint = function(type) {
+	if(this.second) {
+		if(this.props.Type.isDef() && type == pt_event || !this.props.Type.isDef() && type == pt_data)
+			return this.second.getFirstFreePoint(type);
+	}
+	
+	return CapElement.prototype.getFirstFreePoint.call(this, type);
+};
+
+LineBreak.prototype.getLinkedPoint = function(point) {
+	if(this.second) {
+		if(point.type == pt_work)
+			return this.second.points["Out"].point;
+		if(point.type == pt_var)
+			return this.second.points["Data"].point;
+	}
+	if(this.primary) {
+		if(point.type == pt_event)
+			return this.primary.points["In"].point;
+		if(point.type == pt_data)
+			return this.primary.points["Var"].point;
+	}
+	
+	return SdkElement.prototype.getLinkedPoint.call(this, point);
+};
+
 //******************************************************************************
 // LineBreakEx
 //******************************************************************************
@@ -2353,6 +2379,19 @@ LineBreakEx.prototype.oninit = function() {
 			}
 		}
 	}
+};
+
+LineBreakEx.prototype.getLinkedPoint = function(point) {
+	if(this.props.Type.value % 2 == 0) {
+		var prop = this.props.Type.value == 0 ? 1 : 3;
+		for(var e of this.parent.imgs) {
+			if(e.name == this.name && e.props.Type.value == prop && e.props.Caption.value == this.props.Caption.value) {
+				return e.points[prop == 1 ? "onEvent" : "_Data"].point;
+			}
+		}
+	}
+	
+	return SdkElement.prototype.getLinkedPoint.call(this, point);
 };
 
 //******************************************************************************
