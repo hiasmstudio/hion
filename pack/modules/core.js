@@ -20,6 +20,11 @@ function toRGB(color) {
 	return {r: 0, g: 0, b: 0, a: 1.0};
 }
 
+function componentToHex(c) {
+	var hex = c.toString(16);
+	return hex.length == 1 ? "0" + hex : hex;
+}
+
 function modules() {
 	this.init = function(i) {
 		switch (i.name) {
@@ -845,10 +850,6 @@ function modules() {
 				};
 				break;
 			case "RGB":
-				function componentToHex(c) {
-					var hex = c.toString(16);
-					return hex.length == 1 ? "0" + hex : hex;
-				}
 				i.doRGB.onevent=  function(data) {
 					var d = this.parent.d(data);
 					var r = d.readInt("R");
