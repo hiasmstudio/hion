@@ -394,11 +394,11 @@ function modules() {
 						this.idata = canvas.createImageData(1,1);
 					}
 					var d = this.idata.data;
-					//canvas.fillStyle
-					d[0] = 0;
-					d[1] = 0;
-					d[2] = 0;
-					d[3] = 255;
+					var color = toRGB(canvas.fillStyle);
+					d[0] = color.r;
+					d[1] = color.g;
+					d[2] = color.b;
+					d[3] = color.a*255;
 					canvas.putImageData(this.idata, x, y);    
 					this.parent.onDraw.call(canvas);
 				};
