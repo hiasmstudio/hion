@@ -1705,11 +1705,11 @@ function Tab(options) {
 		tab.attr("title", options.title);
 	}
 	var parent = this;
-	var sel = function() {
+	tab.on("onmousedown", function() {
 		parent.parent.select(parent);
-	};
-	this._icon = tab.n("div").class("icon").on("onclick", sel);
-	this._title = tab.n("div").class("title").html(options.caption).on("onclick", sel);
+	});
+	this._icon = tab.n("div").class("icon");
+	this._title = tab.n("div").class("title").html(options.caption);
 	tab.n("div").class("close").attr("title", "Close tab").html("&#10006;").on("onclick", function() {
 		parent.parent.close(parent);
 	});
