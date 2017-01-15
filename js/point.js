@@ -49,6 +49,33 @@ Point.prototype.connect = function(pair) {
 	return this;
 };
 
+// find best link
+Point.prototype.connectWithPath = function(pairs) {
+	var best = null;
+	var bestLevel = 0;
+	for(var pair of pairs) {
+		if(pair.isFree()) {
+			this.clear();
+			this.connect(pair).createPath();
+			var pp = this.pos;
+			var bl = 0;
+			while(pp.next) {
+				bl++;
+				pp = pp.next;
+			}
+			if(!best || bl < bestLevel) {
+				best = pair;
+				bestLevel = bl;
+			}
+		}
+	}
+
+	if(best && best != this.point) {
+		this.clear();
+		this.connect(best).createPath();
+	}
+};
+
 function addLinePoint(lp, x, y) {
 	var np = {};
 

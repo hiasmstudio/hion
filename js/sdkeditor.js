@@ -509,8 +509,7 @@ function SdkEditor() {
 				editor.draw();
 			},
 			up: function(editor, x, y, button, obj) {
-				
-				if(obj && obj.type === 3) {
+				if(obj && obj.type === OBJ_TYPE_LINE) {
 					// insert hubex
 					
 					var e = editor.sdk.add(obj.point.type == 2 ? "HubEx" : "GetDataEx", toStep(x), toStep(y));
@@ -521,6 +520,29 @@ function SdkEditor() {
 						editor.sdk.undo.addElement(e);
 						editor.sdk.undo.makeLink(editor.emouse.obj);
 					}
+					return true;
+				}
+				if(obj && obj.type === OBJ_TYPE_LINEPOINT) {
+					// link point
+					var pt = obj.point.pos;
+					while (pt.next !== obj.obj)
+						pt = pt.next;
+					pt.next = pt.next.next;
+					pt.next.prev = pt;
+
+					var e = editor.sdk.add(obj.point.type == 2 ? "HubEx" : "GetDataEx", toStep(pt.x), toStep(pt.y));
+					e.insertInLine(obj.point, obj.obj);
+					var points = [];
+					for(var i = 1; i <= 3; i++)
+						points.push(e.points[(obj.point.type == 2 ? "doWork" : "Var") + i]);
+					obj.point.connectWithPath(points);
+					editor.emouse.obj.connectWithPath(points);
+					editor.onsdkchange();
+					if(editor.sdk.undo) {
+					 	editor.sdk.undo.addElement(e);
+					 	editor.sdk.undo.makeLink(editor.emouse.obj);
+					}
+
 					return true;
 				}
 				
@@ -544,15 +566,15 @@ function SdkEditor() {
 			},
 			cursor: function(editor, x, y, obj) {
 				if(obj) {
-					if(obj.type === 1) {
+					if(obj.type === OBJ_TYPE_ELEMENT) {
 						if(obj.obj.getFirstFreePoint(editor.emouse.obj.getPair())) {
 							return "url('img/cursor/6.cur'), auto";
 						}
 					}
-					if(obj.type === 2) {
+					if(obj.type === OBJ_TYPE_POINT) {
 						return "url('img/cursor/6.cur'), auto";
 					}
-					if(obj.type === 3) {
+					if(obj.type === OBJ_TYPE_LINE || obj.type === OBJ_TYPE_LINEPOINT) {
 						return "url('img/cursor/9.cur'), auto";
 					}
 				}
