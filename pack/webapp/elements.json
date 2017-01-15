@@ -775,7 +775,7 @@
 			{ "name": "Canvas", "type": 4 }
 		],
 		"props": [
-			{ "name": "Type", "type": 4, "def": 0, "list": "source-over,source-in,source-out,source-atop,destination-over,destination-in,destination-out,destination-atop,copy,lighter,xor,multiply,screen,overlay,darken,lighten,color-dodge,color-burn,hard-light,soft-light,difference,exclusion,hue,saturation,color,luminosity" }
+			{ "name": "Type", "type": 14, "def": 0, "list": "source-over,source-in,source-out,source-atop,destination-over,destination-in,destination-out,destination-atop,copy,lighter,xor,multiply,screen,overlay,darken,lighten,color-dodge,color-burn,hard-light,soft-light,difference,exclusion,hue,saturation,color,luminosity" }
 		]
 	},
 	"FillPattern": {
@@ -788,7 +788,7 @@
 			{ "name": "Image", "type": 4}
 		],
 		"props": [
-			{ "name": "Repetition", "type": 4, "def": 0, "list": "repeat,repeat-x,repeat-y,no-repeat" }
+			{ "name": "Repetition", "type": 14, "def": 0, "list": "repeat,repeat-x,repeat-y,no-repeat" }
 		]
 	},
 	"LinearGradient": {
