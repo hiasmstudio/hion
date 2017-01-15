@@ -189,8 +189,9 @@ ElementProperty.prototype.parse = function(value) {
 				this.value = parseStringValue(value);
 			}
 			else {
-				if(!isNaN(parseFloat(value))) {
-					this.value = parseFloat(value);
+				var pvalue = parseFloat(value);
+				if(!isNaN(pvalue) && value == pvalue) {
+					this.value = pvalue;
 				}
 				else {
 					this.value = value;
