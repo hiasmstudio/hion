@@ -15,6 +15,7 @@ var ME_MOVE_LH			= 11; // move link hint
 var ME_ADDELEMENT_POINT	= 12; // add new element and link with point
 var ME_POPUP_MENU		= 13; // show popup menu
 var ME_SCROLL_EDITOR	= 14; // change scroll bars positions
+var ME_SCALE_EDITOR		= 15; // change editor scale factor
 
 var POPUP_MENU_ELEMENT	= 1;
 var POPUP_MENU_SDK		= 2;
@@ -436,6 +437,11 @@ function SdkEditor() {
 							editor.sdk.selMan.clear();
 						}
 						editor.beginOperation(ME_SELRECT, null);
+						setTimeout(function(){
+							if(Math.abs(editor.emouse.curX - x) < 5 && Math.abs(editor.emouse.curY - y) < 5) {
+								editor.beginOperation(ME_SCROLL_EDITOR, null);
+							}
+						}, 300);
 					}
 					else if(button === 2) {
 						editor.sdk.selMan.clear();
@@ -923,6 +929,13 @@ function SdkEditor() {
 			},
 			up: function(editor, x, y, button) { return true; },
 			cursor: function(editor, x, y, obj) { return "move"; }
+		},
+		// editor scale
+		{
+			down: function(editor, x, y, button, obj) { },
+			move: function(editor, x, y) { },
+			up: function(editor, x, y, button) { return true; },
+			cursor: function(editor, x, y, obj) { return "move"; }
 		}
 	];
 
@@ -941,7 +954,7 @@ function SdkEditor() {
 			var dx = event.touches[0].clientX - event.touches[1].clientX;
 			var dy = event.touches[0].clientY - event.touches[1].clientY;
 			this.editor.emouse.scaleFactor = Math.sqrt(dx*dx + dy*dy);
-			this.editor.beginOperation(ME_SCROLL_EDITOR, null);
+			this.editor.beginOperation(ME_SCALE_EDITOR, null);
 		}
 		event.preventDefault();
 		
@@ -994,11 +1007,11 @@ function SdkEditor() {
 			var ds = (scaleFactor - this.editor.emouse.scaleFactor)/200;
 			var step = 0.0001;
 			if(ds > step && this.editor.scale < 4 || ds < -step && this.editor.scale > 0.2) {
-				this.editor.scale += ds;
-				if(Math.abs(1 - this.editor.scale) < step)
-					this.editor.scale = 1;
+				var newScale = this.editor.scale + ds;
+				if(Math.abs(1 - newScale) < step)
+					newScale = 1;
 				this.editor.emouse.scaleFactor = scaleFactor;
-				this.editor.draw();
+				this.editor.zoom(newScale);
 			}
 		}
 		
@@ -1426,8 +1439,19 @@ function SdkEditor() {
 	};
 	
 	this.zoom = function(value) {
+		var dx = value - this.scale;
+		var oW = this.control.parentNode.offsetWidth/2*dx;
+		var oH = this.control.parentNode.offsetHeight/2*dx;
 		this.scale = value;
+		if(dx < 0) {
+			this.control.parentNode.scrollLeft += oW;
+			this.control.parentNode.scrollTop += oH;
+		}
 		this.updateScrolls();
+		if(dx > 0) {
+			this.control.parentNode.scrollLeft += oW;
+			this.control.parentNode.scrollTop += oH;
+		}
 		this.draw();
 	};
 
