@@ -438,7 +438,7 @@ function SdkEditor() {
 						}
 						editor.beginOperation(ME_SELRECT, null);
 						setTimeout(function(){
-							if(Math.abs(editor.emouse.curX - x) < 5 && Math.abs(editor.emouse.curY - y) < 5) {
+							if(editor.emouse.state === ME_SELRECT && Math.abs(editor.emouse.curX - x) < 5 && Math.abs(editor.emouse.curY - y) < 5) {
 								editor.beginOperation(ME_SCROLL_EDITOR, null);
 							}
 						}, 300);
