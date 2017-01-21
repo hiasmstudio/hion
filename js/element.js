@@ -2621,6 +2621,11 @@ WinElement.prototype.run = function(flags) {
 			return false;
 		});
 	}
+	if(this['HTMLElement']) {
+		this.HTMLElement.onevent = function() {
+			return this.parent.ctl.getControl();
+		}
+	}
 	
 	return this.ctl;
 };
