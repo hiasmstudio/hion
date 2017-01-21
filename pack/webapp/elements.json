@@ -1475,6 +1475,31 @@
 			{ "name": "Object", "type": 3 }
 		]
 	},
+	"ObjectToArray": {
+		"tab": "tools",
+		"props": [
+			{ "name": "Fields", "type": 5, "def": "", "flags": 1 }
+		],
+		"points": [
+			{ "name": "doConvert", "type": 1 },
+			{ "name": "onConvert", "type": 2, "args": "Array" },
+			{ "name": "Array", "type": 3 },
+			{ "name": "Object", "type": 4 }
+		]
+	},
+	"ObjectReader": {
+		"tab": "tools",
+		"class": "DPLElement",
+		"sub": ",EventFields,VarFields,",
+		"props": [
+			{ "name": "EventFields", "type": 5, "def": "", "flags": 1 },
+			{ "name": "VarFields", "type": 5, "def": "" }
+		],
+		"points": [
+			{ "name": "doRead", "type": 1 },
+			{ "name": "Object", "type": 4 }
+		]
+	},
 	"cables": { "tab": "tools", "group": true },
 	"CableWork": {
 		"tab": "tools",

@@ -1197,6 +1197,44 @@ function modules() {
 				};
 				i.run = function(){ this.result = {}; };
 				break;
+			case "ObjectToArray":
+				i.doConvert.onevent = function(data) {
+					var d = this.parent.d(data);
+					var object = d.read("Object");
+
+					this.parent.array = [];
+					for(var item of this.parent.props.Fields.value.split("\n"))
+						this.parent.array.push(object[item]);
+					this.parent.onConvert.call(this.parent.array);
+				};
+				i.Array.onevent = function(data) {
+					return this.parent.array;
+				};
+				i.run = function(){ this.array = []; };
+				break;
+			case "ObjectReader":
+				i.doRead.onevent = function(data) {
+					var d = this.parent.d(data);
+					var object = d.read("Object");
+
+					this.parent.object = object;
+					for(var p in this.parent.points) {
+						var point = this.parent.points[p];
+						if(point.type == pt_event) {
+							point.call(object[point.name.substring(2)]);
+						}
+					}
+				};
+				i.addPoint = function(name, type) {
+					var point = DPLElement.prototype.addPoint.call(this, name, type);
+					if(point.type == pt_var) {
+						point.onevent = function() {
+							return this.parent.object[this.name];
+						};
+					}
+					return point;
+				};
+				break;
 			case "FormatStr":
 				i.doString.onevent = function(data) {
 					var r = this.parent.d(data);
