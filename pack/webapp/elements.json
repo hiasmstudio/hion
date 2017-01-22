@@ -177,7 +177,7 @@
 			{ "name": "Number", "type": 1, "def": 0, "flags": 1 },
 			{ "name": "Min", "type": 1, "def": 0 },
 			{ "name": "Max", "type": 1, "def": 10 },
-			{ "name": "Step", "type": 1, "def": 1 },
+			{ "name": "Step", "type": 7, "def": 1 },
 			{ "name": "Width", "def": 50 },
 			{ "name": "Height", "def": 21 }
 		]
