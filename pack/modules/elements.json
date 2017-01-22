@@ -292,6 +292,36 @@
 			{ "name": "Height", "def": 20 }
 		]
 	},
+	"DatePicker": {
+		"tab": "interface",
+		"inherit": "wincontrol",
+		"points": [
+			{ "name": "doDate", "type": 1 },
+			{ "name": "onSelect", "type": 2, "args": "Date" },
+			{ "name": "SelectDate", "type": 3, "data": 2 },
+			{ "name": "Date", "type": 4, "data": 2 }
+		],
+		"props": [
+			{ "name": "Min", "type": 2, "def": "" },
+			{ "name": "Max", "type": 2, "def": "" },
+			{ "name": "Width", "def": 128 },
+			{ "name": "Height", "def": 20 }
+		]
+	},
+	"ColorButton": {
+		"tab": "interface",
+		"inherit": "wincontrol",
+		"points": [
+			{ "name": "doColor", "type": 1 },
+			{ "name": "onSelect", "type": 2, "args": "Color" },
+			{ "name": "SelectColor", "type": 3, "data": 2 },
+			{ "name": "Color", "type": 4, "data": 2 }
+		],
+		"props": [
+			{ "name": "Width", "def": 37 },
+			{ "name": "Height", "def": 20 }
+		]
+	},
 	"PaintBox": {
 		"tab": "interface",
 		"inherit": "wincontrol",

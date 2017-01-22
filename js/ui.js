@@ -370,6 +370,63 @@ Object.defineProperty(NumberEdit.prototype, "number", {
 		this._ctl.value = value;
 	}
 });
+
+//******************************************************************************
+// UIDatePicker
+//******************************************************************************
+
+function UIDatePicker(options) {
+	this._ctl = new Builder().n("input").attr("type", "date").class("ui-datepicker").element;
+
+	if(options) {
+		this.date = options.date || "";
+		if(options.min) {
+			this._ctl.min = options.min;
+		}
+		if(options.max) {
+			this._ctl.max = options.max;
+		}
+	}
+	
+	this.setOptions(options);
+}
+
+UIDatePicker.prototype = new UIControl();
+
+defineProxy(UIDatePicker.prototype, "placeHolder", "_ctl", "placeholder");
+Object.defineProperty(UIDatePicker.prototype, "date", {
+	get: function() {
+	  return this._ctl.value;
+	},
+	set: function(value) {
+		this._ctl.value = value;
+	}
+});
+
+//******************************************************************************
+// UIColorButton
+//******************************************************************************
+
+function UIColorButton(options) {
+	this._ctl = new Builder().n("input").attr("type", "color").class("ui-colorbutton").element;
+
+	if(options) {
+		this.color = options.color || "";
+	}
+	
+	this.setOptions(options);
+}
+
+UIColorButton.prototype = new UIControl();
+
+Object.defineProperty(UIColorButton.prototype, "color", {
+	get: function() {
+	  return this._ctl.value;
+	},
+	set: function(value) {
+		this._ctl.value = value;
+	}
+});
 	
 //******************************************************************************
 // Memo

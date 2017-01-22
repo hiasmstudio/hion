@@ -134,6 +134,41 @@ function modules() {
 					return WinElement.prototype.run.call(this, flags);
 				};
 				break;
+			case "DatePicker":
+				i.doDate.onevent = function (data) {
+					this.parent.ctl.date = this.parent.d(data).read("Date");
+				};
+				i.SelectDate.onevent = function () {
+					return this.parent.ctl.date;
+				};
+				i.run = function (flags) {
+					this.ctl = new UIDatePicker({
+						min: this.props.Min.value,
+						max: this.props.Max.value
+					});
+					this.ctl.addListener("input", function () {
+						i.onSelect.call(i.ctl.date);
+					});
+
+					return WinElement.prototype.run.call(this, flags);
+				};
+				break;
+			case "ColorButton":
+				i.doColor.onevent = function (data) {
+					this.parent.ctl.color = this.parent.d(data).read("Color");
+				};
+				i.SelectColor.onevent = function () {
+					return this.parent.ctl.color;
+				};
+				i.run = function (flags) {
+					this.ctl = new UIColorButton({});
+					this.ctl.addListener("input", function () {
+						i.onSelect.call(i.ctl.color);
+					});
+
+					return WinElement.prototype.run.call(this, flags);
+				};
+				break;
 			case "Memo":
 				i.doAdd.onevent = function (data) {
 					this.parent.ctl.add(readProperty(data, this.parent.Str));
