@@ -1495,7 +1495,7 @@ function DocumentManageer(options) {
     document.addEventListener("paste", function(e) {
         if((!document.activeElement || document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA")) {
         	commander.execCommand("paste", e.clipboardData);
-			event.preventDefault();
+			e.preventDefault();
 			return false;
 		}
 		return true;
@@ -1503,7 +1503,7 @@ function DocumentManageer(options) {
     document.addEventListener("copy", function(e) {
         if((!document.activeElement || document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA")) {
         	commander.execCommand("copy", e.clipboardData);
-        	event.preventDefault();
+        	e.preventDefault();
 			return false;
 		}
 		return true;
@@ -1512,7 +1512,7 @@ function DocumentManageer(options) {
         if((!document.activeElement || document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA")) {
         	commander.execCommand("copy", e.clipboardData);
         	commander.execCommand("delete");
-        	event.preventDefault();
+        	e.preventDefault();
 			return false;
 		}
 		return true;
