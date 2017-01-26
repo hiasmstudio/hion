@@ -278,7 +278,7 @@ Point.prototype.select = function() {
 	var p = this.point;
 	if(p) {
 		var res = p.parent.getLinkedPoint(p);
-		if(res !== p) {
+		if(res && res !== p) {
 			res.select();
 			p = res;
 		}
@@ -291,7 +291,7 @@ Point.prototype.unselect = function() {
 		var p = this.point;
 		if(p) {
 			var res = p.parent.getLinkedPoint(p);
-			if(res !== p) {
+			if(res && res !== p) {
 				res.unselect();
 				p = res;
 			}
