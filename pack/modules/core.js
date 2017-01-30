@@ -718,7 +718,7 @@ function modules() {
 				i.doAdd.onevent = function(data) {
 					var d = this.parent.d(data);
 					var grad = d.read("Gradient");
-					var index = d.readInt("Index");
+					var index = d.readFloat("Index");
 					var color = d.read("Color");
 					grad.addColorStop(index, color);
 					this.parent.onAdd.call(grad);

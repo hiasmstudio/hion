@@ -901,7 +901,7 @@
 			{ "name": "Color", "type": 4}
 		],
 		"props": [
-			{ "name": "Index", "type": 1, "def": 0 },
+			{ "name": "Index", "type": 7, "def": 0 },
 			{ "name": "Color", "type": 8, "def": "black" }
 		]
 	},
