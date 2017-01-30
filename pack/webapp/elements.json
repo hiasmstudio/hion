@@ -19,7 +19,8 @@
 			{ "name": "onMouseWheel", "type": 2, "args": "X,Y,Delta,Flags", "flags": 1 },
 			{ "name": "onFocus", "type": 2, "flags": 1 },
 			{ "name": "onBlur", "type": 2, "flags": 1 },
-			{ "name": "onContextMenu", "type": 2, "flags": 1 }
+			{ "name": "onContextMenu", "type": 2, "flags": 1 },
+			{ "name": "HTMLElement", "type": 3, "flags": 1 }
 		],
 		"props": [
 			{ "name": "Left", "type": 1, "def": 0, "flags": 2, "group": "position", "visible": "Parent.Layout=0" },
@@ -839,7 +840,7 @@
 			{ "name": "Color", "type": 4}
 		],
 		"props": [
-			{ "name": "Index", "type": 1, "def": 0 },
+			{ "name": "Index", "type": 7, "def": 0 },
 			{ "name": "Color", "type": 8, "def": "black" }
 		]
 	},
@@ -1237,7 +1238,7 @@
 			{ "name": "Result", "type": 3, "data": 7 }
 		],
 		"props": [
-			{ "name": "MathStr", "type": 2, "def": "$X1 + $X2", "flags": 3 },
+			{ "name": "MathStr", "type": 5, "def": "$X1 + $X2", "flags": 3 },
 			{ "name": "DataCount", "type": 1, "def": 2 },
 			{ "name": "Args", "type": 5, "def": "X1\nX2" },
 			{ "name": "Default", "type": 7, "def": 0 }
@@ -1328,7 +1329,8 @@
 		"sub": ",Count|onEvent,,",
 		"points": [
 			{ "name": "doEvent", "type": 1 },
-			{ "name": "Index", "type": 4, "data": 1 }
+			{ "name": "Index", "type": 4, "data": 1 },
+			{ "name": "Data", "type": 4 }
 		],
 		"props": [
 			{ "name": "Count", "type": 1, "def": 2},
