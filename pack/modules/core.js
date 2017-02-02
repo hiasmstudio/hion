@@ -1822,18 +1822,20 @@ function modules() {
 						this.parent.auto = this.parent.props.AutoStop.value - 1;
 						this.parent.start();
 					} else {
-						clearInterval(this.id);
+						clearInterval(this.parent.id);
 						this.parent.id = setInterval(function () {
 							f.func.call(f);
 						}, this.parent.props.Interval.value);
 					}
 				};
 				i.doStop.onevent = function (data) {
-					clearInterval(this.parent.id);
+					if(this.parent.id) {
+						clearInterval(this.parent.id);
+						this.parent.id = 0;
+					}
 				};
-				i.run = function () {
+				i.onfree = function () {
 					clearInterval(this.id);
-					return null;
 				};
 
 				i.start = function () {
