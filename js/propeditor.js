@@ -480,7 +480,9 @@ UIPropertyEditor.prototype._selectRow = function (row) {
 		});
 		
 		if(row.item.type === DATA_ENUM || row.item.type === DATA_ENUMEX || row.item.type === DATA_COLOR || row.item.type === DATA_MANAGER) {
-			var combo = line.n("div").class("combo");
+			var combo = line.n("div").class("combo").on("onmousedown", function(event){
+				event.stopPropagation();
+			});
 			combo.element.hide();
 			edit.on("ondblclick", function() {
 				switch(row.item.type) {
