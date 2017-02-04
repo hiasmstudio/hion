@@ -691,34 +691,60 @@ function SdkEditor() {
 				pos.y = y;
 				
 				if(pos.prev && !pos.prev.prev) {
-					if(Math.abs(pos.y - pos.prev.y) <= 5) {
+					var dy = Math.abs(pos.y - pos.prev.y);
+					var dx = Math.abs(pos.x - pos.prev.x);
+					if(dy <= 10 && dx <= 10) {
+						// do nothing
+					}
+					else if(dy <= 5) {
 						pos.y = pos.prev.y;
 					}
-					if(Math.abs(pos.x - pos.prev.x) <= 5) {
+					else if(dx <= 5) {
 						pos.x = pos.prev.x;
 					}
 				}
-				else if(pos.next && !pos.next.next) {
-					if(Math.abs(pos.y - pos.next.y) <= 5) {
+				if(pos.next && !pos.next.next) {
+					var dy = Math.abs(pos.y - pos.next.y);
+					var dx = Math.abs(pos.x - pos.next.x);
+					if(dy <= 10 && dx <= 10) {
+						// do nothing
+					}
+					else if(dy <= 5) {
 						pos.y = pos.next.y;
 					}
-					if(Math.abs(pos.x - pos.next.x) <= 5) {
+					else if(dx <= 5) {
 						pos.x = pos.next.x;
 					}
 				}
 				
 				var no = pos.next;
+				var flagx = false;
+				var flagy = false;
 				if (no.next) {
-					if (Math.abs(oldX - no.x) < 10)
+					var dx = Math.abs(oldX - no.x);
+					var dy = Math.abs(oldY - no.y);
+					if(dx < 10 && dy < 10) {
+						// do nothing
+					}
+					else if (dx < 10) {
 						no.x = x;
-					else if (Math.abs(oldY - no.y) < 10)
+						flagx = true;
+					}
+					else if (dy < 10) {
 						no.y = y;
+						flagy = true;
+					}
 				}
 				no = pos.prev;
 				if (no.prev) {
-					if (Math.abs(oldX - no.x) < 10)
+					var dx = Math.abs(oldX - no.x);
+					var dy = Math.abs(oldY - no.y);
+					if(dx < 10 && dy < 10) {
+						// do nothing
+					}
+					else if (dx < 10 && !flagx)
 						no.x = x;
-					else if (Math.abs(oldY - no.y) < 10)
+					else if (dy < 10 && !flagy)
 						no.y = y;
 				}
 				editor.draw();
