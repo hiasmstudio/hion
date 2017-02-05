@@ -472,7 +472,7 @@
 			{ "name": "Data", "type": 3 }
 		],
 		"props": [
-			{ "name": "Array", "type": 2, "def" : "", "flags": 1, "editor": ":javascript"}
+			{ "name": "Array", "type": 5, "def" : "", "flags": 1, "editor": ":javascript"}
 		]
 	},
 	"ChartDataSet": {
