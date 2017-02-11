@@ -207,7 +207,7 @@ ElementProperty.prototype.parse = function(value) {
 			this.value = value ? parseInt(value) : 0;
 			break;
 		case DATA_MANAGER:
-			this.value = value.substr(1, value.length - 2);
+			this.value = value.indexOf('"') == 0 ? value.substr(1, value.length - 2) : value;
 			break;
 		case DATA_COLOR:
 			if(typeof value === "number" || value.charAt(0) >= '0' && value.charAt(0) <= '9') {
@@ -283,6 +283,17 @@ ElementProperty.prototype.getList = function() {
 			return list;
 	}
 	return this.list;
+};
+ElementProperty.prototype.getElement = function() {
+	var sdk = this.parent.parent;
+	for(var item of this.list) {
+		for(var e of sdk.imgs) {
+			if(e.name === item && e.props.Name.value === this.value) {
+				return e;
+			}
+		}
+	}
+	return null;
 };
 ElementProperty.prototype.getInfo = function() {
 	return this.inherit + "." + this.name;
