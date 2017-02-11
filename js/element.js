@@ -833,7 +833,7 @@ function getClass(pack, id) {
 		return template.class;
 	}
 	if(template.inherit) {
-		return getClass(pack, template.inherit);
+		return getClass(pack, template.inherit.split(",")[0]);
 	}
 	return null;
 }
@@ -1513,6 +1513,8 @@ DPElement.prototype.loadFromTemplate = function() {
 	SdkElement.prototype.loadFromTemplate.call(this);
 	
 	var template = this.parent.pack.elements[this.name];
+	while(!template.sub && template.inherit)
+		template = this.parent.pack.elements[template.inherit.split(",")[0]];
 	var arr = template.sub.split(",");
 	this.dyn = {};
 	for(var i in arr) {
