@@ -2008,6 +2008,8 @@ function modules() {
 				i.doOpen.onevent = function(data) {
 					this.parent.xhr = new XMLHttpRequest();
 					var method = this.parent.props.Method.getText();
+					if(!this.parent.props.ResponseType.isDef())
+						this.parent.xhr.responseType = this.parent.props.ResponseType.getText().toLowerCase();
 					this.parent.xhr.open(method, this.parent.d(data).read("URL"), true);
 					if(method === "POST") {
 						this.parent.xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -2020,7 +2022,12 @@ function modules() {
 							i.onError.call(this.status);
 						}
 						else {
-							i.data = this.responseText;
+							if(i.props.ResponseType.isDef())
+								i.data = this.responseText;
+							else if(i.props.ResponseType.value == 3)
+								i.data = this.responseXML;
+							else
+								i.data = this.response;
 							i.onLoad.call(i.data);
 						}
 					};
@@ -2832,6 +2839,211 @@ function modules() {
 					this.initPointHandler("Artist", function() { return this.parent.audio.artist; });
 					this.initPointHandler("LyricsID", function() { return this.parent.audio.lyrics_id; });
 					this.initPointHandler("GenreID", function() { return this.parent.audio.genre; });
+				};
+				break;
+			case "AudioContext":
+				i.run = function(flags) {
+					if(flags & FLAG_USE_RUN)
+						this.context = new AudioContext();
+				};
+				i.onfree = function() {
+					if(this.context) {
+						this.context.close();
+						this.context = null;
+					}
+				};
+				break;
+			case "AudioDestination":
+				i.run = function(flags){
+					if(flags & FLAG_USE_RUN)
+						this.dest = this.props.AudioContext.getElement().context.destination;
+				};
+				i.Input.onevent = function() {
+					return this.parent.dest;
+				};
+				break;
+			case "AudioAnalyser":
+				i.run = function(flags){
+					if(flags & FLAG_USE_RUN) {
+						this.analyser = this.props.AudioContext.getElement().context.createAnalyser();
+						this.analyser.fftSize = 512;
+						switch(this.props.Type.value) {
+							case 0: this.array = new Float32Array(this.analyser.frequencyBinCount); break;
+							case 1:
+							case 2: this.array = new Uint8Array(this.analyser.frequencyBinCount); break;
+						}
+					}
+				};
+				i.doGetData.onevent = function() {
+					switch(this.parent.props.Type.value) {
+						case 0: this.parent.analyser.getFloatFrequencyData(this.parent.array); break;
+						case 1: this.parent.analyser.getByteFrequencyData(this.parent.array); break;
+						case 2: this.parent.analyser.getByteTimeDomainData(this.parent.array); break;
+					}
+					this.parent.onData.call(this.parent.array);
+				};
+				i.Input.onevent = function() {
+					return this.parent.analyser;
+				};
+				break;
+			case "AudioOscillator":
+				i.oninit = function(){
+					this.initPointHandler("doFrequency", function(data) {
+						this.parent.osc.frequency.value = data;
+					});
+				};
+				i.doStart.onevent = function(data) {
+					this.parent.osc = this.parent.props.AudioContext.getElement().context.createOscillator();
+					this.parent.osc.type = this.parent.props.Type.getText();
+					this.parent.osc.frequency.value = this.parent.props.Frequency.value;
+					this.parent.osc.detune.value = this.parent.props.Detune.value;
+					for(var t = 1; t <= this.parent.props.OutputNumber.value; t++) {
+						var out = this.parent.d("").read("Output" + t);
+						if(out instanceof AudioNode)
+							this.parent.osc.connect(out);
+					}
+					this.parent.osc.onended = function(){
+						i.onStop.call();
+					};
+					this.parent.osc.start();
+					if(!this.parent.props.Delay.isDef())
+						this.parent.osc.stop(this.parent.osc.context.currentTime + this.parent.props.Delay.value);
+					this.parent.onStart.call();
+				};
+				i.doStop.onevent = function() {
+					if(this.parent.osc) {
+						this.parent.osc.stop();
+						this.parent.osc = null;
+					}
+				};
+				i.onfree = function(){
+					this.doStop.onevent();
+				};
+				break;
+			case "AudioGain":
+				i.run = function(flags) {
+					if(flags & FLAG_USE_RUN)
+						this.gain = this.props.AudioContext.getElement().context.createGain();
+				};
+				i.oninit = function(){
+					this.initPointHandler("doGain", function(data) {
+						this.parent.gain.gain.value = data;
+					});
+					for(var i = 1; i <= this.props.OutputNumber.value; i++) {
+						var out = this.d("").read("Output" + i);
+						if(out instanceof AudioNode)
+							this.gain.connect(out);
+					}
+				};
+				i.Input.onevent = function() {
+					return this.parent.gain;
+				};
+				break;
+			case "AudioDelay":
+				i.run = function(flags) {
+					if(flags & FLAG_USE_RUN) {
+						this.delay = this.props.AudioContext.getElement().context.createDelay();
+						this.delay.delayTime.value = this.props.Time.value;
+					}
+				};
+				i.oninit = function(){
+					this.initPointHandler("doTime", function(data) {
+						this.parent.delay.delayTime.value = data;
+					});
+					for(var i = 1; i <= this.props.OutputNumber.value; i++) {
+						var out = this.d("").read("Output" + i);
+						if(out instanceof AudioNode)
+							this.delay.connect(out);
+					}
+				};
+				i.Input.onevent = function() {
+					return this.parent.delay;
+				};
+				break;
+			case "AudioFilter":
+				i.run = function(flags) {
+					if(flags & FLAG_USE_RUN) {
+						this.filter = this.props.AudioContext.getElement().context.createBiquadFilter();
+						this.filter.type = this.props.Type.getText();
+						this.filter.gain.value = this.props.Gain.value;
+						this.filter.frequency.value = this.props.Frequency.value;
+						this.filter.frequency.Q = this.props.Q.value;
+					}
+				};
+				i.oninit = function(){
+					this.initPointHandler("doGain", function(data) {
+						this.parent.filter.gain.value = data;
+					});
+					this.initPointHandler("doFrequency", function(data) {
+						this.parent.filter.frequency.value = data;
+					});
+					this.initPointHandler("doQ", function(data) {
+						this.parent.filter.frequency.Q = data;
+					});
+					for(var i = 1; i <= this.props.OutputNumber.value; i++) {
+						var out = this.d("").read("Output" + i);
+						if(out instanceof AudioNode)
+							this.filter.connect(out);
+					}
+				};
+				i.Input.onevent = function() {
+					return this.parent.filter;
+				};
+				break;
+			case "AudioConvolver":
+				i.run = function(flags) {
+					if(flags & FLAG_USE_RUN)
+						this.convolver = this.props.AudioContext.getElement().context.createConvolver();
+				};
+				i.oninit = function() {
+					for(var i = 1; i <= this.props.OutputNumber.value; i++) {
+						var out = this.d("").read("Output" + i);
+						if(out instanceof AudioNode)
+							this.convolver.connect(out);
+					}
+				};
+				i.doBuffer.onevent = function(data) {
+					this.parent.convolver.buffer = data;
+				};
+				i.Input.onevent = function() {
+					return this.parent.convolver;
+				};
+				break;
+			case "AudioDecodeData":
+				i.doDecode.onevent = function(data) {
+					this.parent.props.AudioContext.getElement().context.decodeAudioData(this.parent.d(data).read("Data"), function(buffer) {
+						i.buffer = buffer;
+						i.onDecode.call(buffer);
+					});
+				};
+				i.Buffer.onevent = function() {
+					return this.parent.buffer;
+				};
+				break;
+			case "AudioBufferSource":
+				i.doStart.onevent = function(data) {
+					this.parent.source = this.parent.props.AudioContext.getElement().context.createBufferSource();
+					this.parent.source.buffer = data;
+					this.parent.source.loop = !this.parent.props.Loop.isDef();
+					for(var t = 1; t <= this.parent.props.OutputNumber.value; t++) {
+						var out = this.parent.d("").read("Output" + t);
+						if(out instanceof AudioNode)
+							this.parent.source.connect(out);
+					}
+					this.parent.source.onended = function(){
+						i.onStop.call();
+					};
+					this.parent.source.start();
+					this.parent.onStart.call();
+				};
+				i.doStop.onevent = function(data) {
+					if(this.parent.source) {
+						this.parent.source.stop();
+						this.parent.source = null;
+					}
+				};
+				i.onfree = function(){
+					i.doStop.onevent();
 				};
 				break;
 		}
