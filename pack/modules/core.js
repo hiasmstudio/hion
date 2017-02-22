@@ -564,6 +564,7 @@ function modules() {
 					var props = this.parent.props;
 					var x = point.x || props.X.value;
 					var y = point.y || props.Y.value;
+					canvas.font = props.Font.value;
 					if(this.parent.props.Align.value == 1) {
 						x -= canvas.measureText(text).width/2;
 					}
@@ -573,7 +574,6 @@ function modules() {
 					if(this.parent.props.Align.value == 1) {
 
 					}
-					canvas.font = props.Font.value;
 					if(this.parent.props.Type.value !== 1) {
 						canvas.fillText(text, x, y);
 					}
