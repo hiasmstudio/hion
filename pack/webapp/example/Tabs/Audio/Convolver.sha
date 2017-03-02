@@ -1,0 +1,191 @@
+Make(webapp)
+Add(MainForm,1,91,308)
+{
+  Width=#3:227|
+  Height=#3:232|
+  Caption=#10:Audio demo|
+  link(onCreate,32:doEvent1,[])
+}
+Add(AudioContext,3,91,259)
+{
+  Name=#13:AudioContext1|
+}
+Add(AudioDestination,4,357,203)
+{
+  AudioContext="AudioContext1"
+}
+Add(Label,9,91,210)
+{
+  Left=21
+  Top=7
+  Width=#3:274|
+  Caption=#21:Impulse response demo|
+}
+Add(AudioDecodeData,20,266,308)
+{
+  AudioContext="AudioContext1"
+  link(onDecode,24:doStart,[])
+}
+Add(XMLHttpRequest,21,210,308)
+{
+  URL=#45:/example/webapp/Tabs/Audio/data/voicefull.mp3|
+  ResponseType=1
+  link(onLoad,20:doDecode,[])
+}
+Add(Hub,22,182,308)
+{
+  link(onEvent1,21:doOpen,[])
+  link(onEvent2,21:doSend,[])
+}
+Add(AudioBufferSource,24,357,308)
+{
+  AudioContext="AudioContext1"
+  link(Output1,33:Input,[])
+}
+Add(XMLHttpRequest,25,427,413)
+{
+  ResponseType=1
+  link(onLoad,27:doDecode,[])
+}
+Add(Hub,26,399,413)
+{
+  link(onEvent1,25:doOpen,[])
+  link(onEvent2,25:doSend,[])
+}
+Add(AudioDecodeData,27,476,413)
+{
+  AudioContext="AudioContext1"
+  link(onDecode,48:doAdd,[])
+}
+Add(Hub,32,147,308)
+{
+  link(onEvent1,22:doEvent1,[])
+  link(onEvent2,55:doWork1,[(172,321)])
+}
+Add(AudioConvolver,33,357,259)
+{
+  AudioContext="AudioContext1"
+  link(Output1,4:Input,[])
+}
+Add(RadioButton,34,147,35)
+{
+  Left=35
+  Top=56
+  Caption=#4:echo|
+  link(onCheck,57:doWork1,[(209,41)(209,125)])
+}
+Add(RadioButton,35,147,70)
+{
+  Left=35
+  Top=77
+  Caption=#6:spring|
+  link(onCheck,57:doWork2,[(209,76)(209,132)])
+}
+Add(Label,39,84,35)
+{
+  Left=21
+  Top=35
+  Caption=#7:Impulse|
+}
+Add(StrList,42,294,357)
+{
+  Strings=#8:echo.wav|10:spring.wav|11:muffler.wav|13:telephone.wav|12:basement.wav|8:1950.wav|9:wheel.wav|
+}
+Add(StrCat,44,350,413)
+{
+  Str1=#32:/example/webapp/Tabs/Audio/data/|
+  link(onStrCat,26:doEvent1,[])
+}
+Add(Array,47,532,196)
+{
+}
+Add(ArrayAdd,48,532,413)
+{
+  link(onAdd,55:doWork3,[(574,419)(574,455)(172,455)])
+  link(Array,59:Var2,[])
+}
+Add(ArrayRead,50,301,413)
+{
+  link(onRead,44:doStrCat,[])
+  link(Array,42:Array,[])
+  link(Index,56:Var3,[(314,399)])
+}
+Add(Counter,51,245,357)
+{
+}
+Add(If_else,52,245,413)
+{
+  Type=1
+  Op2=Real(7)
+  link(onTrue,50:doRead,[])
+  link(onFalse,65:doWork3,[(291,426)(291,450)(209,450)])
+  link(Op1,56:Var2,[])
+}
+Add(Hub,54,203,413)
+{
+  link(onEvent1,52:doCompare,[])
+  link(onEvent2,51:doNext,[(231,426)(231,363)])
+}
+Add(HubEx,55,168,413)
+{
+  link(onEvent,54:doEvent1,[])
+}
+Add(GetDataEx,56,245,392)
+{
+  link(Data,51:Value,[])
+}
+Add(ChannelToIndex,57,238,119)
+{
+  Count=7
+  link(onIndex,58:doRead,[(289,125)(289,265)])
+}
+Add(ArrayRead,58,308,259)
+{
+  link(onRead,33:doBuffer,[])
+  link(Array,59:Var1,[(314,245)])
+}
+Add(GetDataEx,59,532,238)
+{
+  link(Data,47:Array,[])
+}
+Add(RadioButton,60,147,105)
+{
+  Left=35
+  Top=98
+  Caption=#7:muffler|
+  link(onCheck,57:doWork3,[(209,111)(209,139)])
+}
+Add(RadioButton,61,147,140)
+{
+  Left=35
+  Top=119
+  Caption=#9:telephone|
+  link(onCheck,57:doWork4,[])
+}
+Add(RadioButton,62,147,175)
+{
+  Left=35
+  Top=140
+  Caption=#8:basement|
+  link(onCheck,57:doWork5,[(209,181)(209,153)])
+}
+Add(RadioButton,63,147,210)
+{
+  Left=35
+  Top=161
+  Caption=#4:1950|
+  link(onCheck,57:doWork6,[(209,216)(209,160)])
+}
+Add(RadioButton,64,147,245)
+{
+  Left=35
+  Top=182
+  Caption=#5:wheel|
+  Checked=1
+  link(onCheck,65:doWork2,[])
+}
+Add(HubEx,65,205,245)
+{
+  Angle=3
+  link(onEvent,57:doWork7,[(209,167)])
+}

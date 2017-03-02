@@ -1,0 +1,44 @@
+Make(webapp)
+Add(MainForm,1,147,224)
+{
+  Width=#3:370|
+  Height=#3:119|
+  Caption=#10:Audio demo|
+  link(onCreate,22:doEvent1,[])
+}
+Add(AudioContext,3,147,161)
+{
+  Name=#13:AudioContext1|
+}
+Add(AudioDestination,4,364,161)
+{
+  AudioContext="AudioContext1"
+}
+Add(Label,9,147,98)
+{
+  Left=21
+  Top=21
+  Width=#3:274|
+  Caption=#24:Load and play audio data|
+}
+Add(AudioDecodeData,20,301,224)
+{
+  AudioContext="AudioContext1"
+  link(onDecode,24:doStart,[])
+}
+Add(XMLHttpRequest,21,238,224)
+{
+  URL=#45:/example/webapp/Tabs/Audio/data/voicefull.mp3|
+  ResponseType=1
+  link(onLoad,20:doDecode,[])
+}
+Add(Hub,22,203,224)
+{
+  link(onEvent1,21:doOpen,[])
+  link(onEvent2,21:doSend,[])
+}
+Add(AudioBufferSource,24,364,224)
+{
+  AudioContext="AudioContext1"
+  link(Output1,4:Input,[])
+}

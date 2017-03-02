@@ -1,0 +1,61 @@
+Make(webapp)
+Add(MainForm,1,147,196)
+{
+  Width=#3:370|
+  Height=#3:123|
+  Caption=#10:Audio demo|
+  link(onCreate,5:doStart,[])
+}
+Add(AudioContext,3,147,147)
+{
+  Name=#13:AudioContext1|
+}
+Add(AudioDestination,4,322,98)
+{
+  AudioContext="AudioContext1"
+}
+Add(AudioOscillator,5,322,196)
+{
+  AudioContext="AudioContext1"
+  Frequency=2000
+  link(Output1,13:Input,[])
+}
+Add(Label,9,147,98)
+{
+  Left=21
+  Top=21
+  Width=#3:274|
+  Caption=#23:Create simple gain node|
+}
+Add(TrackBar,10,147,245)
+{
+  Left=21
+  Top=63
+  Width=#3:275|
+  Max=100
+  Value=100
+  link(onPosition,14:doCalc,[])
+}
+Add(Label,11,322,252)
+{
+  Left=308
+  Top=63
+  Caption=#1:1|
+}
+Add(AudioGain,13,322,147)
+{
+  AudioContext="AudioContext1"
+  Point(doGain)
+  link(Output1,4:Input,[])
+}
+Add(MathParse,14,203,245)
+{
+  MathStr=#6:$g/100|
+  Args=#1:g|
+  link(onResult,15:doEvent1,[])
+}
+Add(Hub,15,259,245)
+{
+  link(onEvent1,13:doGain,[(297,251)(297,153)])
+  link(onEvent2,11:doCaption,[])
+}

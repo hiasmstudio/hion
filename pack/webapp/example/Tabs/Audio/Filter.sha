@@ -1,0 +1,61 @@
+Make(webapp)
+Add(MainForm,1,147,224)
+{
+  Width=#3:370|
+  Height=#3:107|
+  Caption=#10:Audio demo|
+  link(onCreate,21:doEvent1,[])
+}
+Add(AudioContext,3,147,161)
+{
+  Name=#13:AudioContext1|
+}
+Add(AudioDestination,4,357,105)
+{
+  AudioContext="AudioContext1"
+}
+Add(Label,9,147,98)
+{
+  Left=21
+  Top=21
+  Width=#3:274|
+  Caption=#25:Create simple filter node|
+}
+Add(AudioDecodeData,19,294,224)
+{
+  AudioContext="AudioContext1"
+  link(onDecode,22:doStart,[])
+}
+Add(XMLHttpRequest,20,231,224)
+{
+  URL=#45:/example/webapp/Tabs/Audio/data/voicefull.mp3|
+  ResponseType=1
+  link(onLoad,19:doDecode,[])
+}
+Add(Hub,21,196,224)
+{
+  link(onEvent1,20:doOpen,[])
+  link(onEvent2,20:doSend,[])
+}
+Add(AudioBufferSource,22,357,224)
+{
+  AudioContext="AudioContext1"
+  link(Output1,23:Input,[])
+}
+Add(AudioFilter,23,357,161)
+{
+  AudioContext="AudioContext1"
+  Type=1
+  Frequency=5000
+  Point(doFrequency)
+  link(Output1,4:Input,[])
+}
+Add(TrackBar,24,294,161)
+{
+  Left=21
+  Top=49
+  Width=#3:198|
+  Max=5000
+  Value=5000
+  link(onPosition,23:doFrequency,[])
+}

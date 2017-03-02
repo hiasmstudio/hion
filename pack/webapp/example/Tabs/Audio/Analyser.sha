@@ -1,0 +1,149 @@
+Make(webapp)
+Add(MainForm,1,147,224)
+{
+  Width=#3:299|
+  Height=#3:257|
+  Caption=#10:Audio demo|
+  link(onCreate,22:doEvent1,[])
+}
+Add(AudioContext,3,147,161)
+{
+  Name=#13:AudioContext1|
+}
+Add(AudioDestination,4,364,105)
+{
+  AudioContext="AudioContext1"
+}
+Add(Label,9,238,63)
+{
+  Left=21
+  Top=21
+  Width=#3:274|
+  Caption=#19:Audio data analyser|
+}
+Add(AudioDecodeData,20,301,224)
+{
+  AudioContext="AudioContext1"
+  link(onDecode,24:doStart,[])
+}
+Add(XMLHttpRequest,21,245,224)
+{
+  URL=#45:/example/webapp/Tabs/Audio/data/voicefull.mp3|
+  ResponseType=1
+  link(onLoad,20:doDecode,[])
+}
+Add(Hub,22,203,224)
+{
+  OutCount=3
+  link(onEvent1,21:doOpen,[])
+  link(onEvent2,21:doSend,[])
+  link(onEvent3,35:doTimer,[(230,244)(230,167)])
+}
+Add(AudioBufferSource,24,364,224)
+{
+  AudioContext="AudioContext1"
+  OutputNumber=3
+  link(Output1,4:Input,[])
+  link(Output2,25:Input,[])
+  link(Output3,43:Input,[])
+}
+Add(AudioAnalyser,25,371,161)
+{
+  AudioContext="AudioContext1"
+  Type=1
+  link(onData,44:doWork2,[])
+}
+Add(PaintBox,26,567,161)
+{
+  Left=21
+  Top=84
+  Width=#3:256|
+  Height=#3:128|
+  link(onDraw,29:doMoveTo,[])
+}
+Add(ArrayEnum,27,665,161)
+{
+  link(onEnum,31:doCalc,[])
+  link(onEnd,32:doDrawPath,[(716,174)(716,237)])
+  link(Array,28:Value,[(671,145)(495,145)(495,206)(461,206)])
+}
+Add(Memory,28,455,161)
+{
+  link(onData,39:doCalc,[])
+}
+Add(MoveTo,29,616,161)
+{
+  link(onMoveTo,27:doEnum,[])
+  link(Point,39:Result,[(629,152)(505,152)(505,206)(517,206)])
+}
+Add(LineTo,30,784,161)
+{
+  link(Canvas,38:Var3,[(790,147)(826,147)(826,214)])
+}
+Add(MathParse,31,735,161)
+{
+  MathStr=#27:point($i, 128 - $v/256*100)|
+  Args=#1:i|1:v|
+  link(onResult,30:doLineTo,[])
+  link(i,27:Index,[(741,152)(709,152)(709,204)(678,204)])
+}
+Add(PathDrawer,32,735,231)
+{
+  Mode=1
+  link(Canvas,38:Var2,[])
+}
+Add(RenderFrameTimer,35,245,161)
+{
+  link(onTimer,42:doEvent,[])
+}
+Add(GetDataEx,38,735,207)
+{
+  Angle=3
+  link(Data,26:Canvas,[(573,214)])
+}
+Add(MathParse,39,511,161)
+{
+  MathStr=#31:point(0, 128 - $arr[0]/256*100)|
+  Args=#3:arr|
+  link(onResult,26:doDraw,[])
+}
+Add(IndexToChannel,42,315,161)
+{
+  link(Index,45:Value,[])
+  link(onEvent1,25:doGetData,[])
+  link(onEvent2,43:doGetData,[])
+}
+Add(AudioAnalyser,43,378,168)
+{
+  AudioContext="AudioContext1"
+  Type=2
+  link(onData,44:doWork3,[(424,174)])
+}
+Add(HubEx,44,420,161)
+{
+  link(onEvent,28:doValue,[])
+}
+Add(Memory,45,315,105)
+{
+  Default=Real(0)
+}
+Add(RadioButton,46,147,63)
+{
+  Left=21
+  Top=49
+  Caption=#9:Frequency|
+  Checked=1
+  link(onCheck,48:doWork1,[(209,69)(209,111)])
+}
+Add(RadioButton,47,147,112)
+{
+  Left=140
+  Top=49
+  Width=#3:108|
+  Caption=#11:Time domain|
+  link(onCheck,48:doWork2,[])
+}
+Add(ChannelToIndex,48,238,105)
+{
+  link(onIndex,45:doValue,[])
+}

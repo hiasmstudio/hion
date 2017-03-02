@@ -1153,7 +1153,120 @@
 			{ "name": "Mode", "type": 4, "def": 0, "list": "Save,Restore,SaveRestore" }
 		]
 	},
-	
+	"AudioContext": {
+		"tab": "audio",
+		"interfaces": "AudioContext",
+		"props": [
+			{ "name": "Name", "type": 2, "def": "AudioContext" }
+		]
+	},
+	"AudioInput": {
+		"points": [
+			{ "name": "Input", "type": 3 }
+		],
+		"props": [
+			{ "name": "AudioContext", "type": 20, "def": "(empty)", "list": "AudioContext" }
+		]
+	},
+	"AudioOutput": {
+		"class": "DPElement",
+		"sub": ",,,OutputNumber|Output",
+		"props": [
+			{ "name": "AudioContext", "type": 20, "def": "(empty)", "list": "AudioContext" },
+			{ "name": "OutputNumber", "type": 1, "def": 1 }
+		]
+	},
+	"AudioDestination": {
+		"tab": "audio",
+		"inherit": "AudioInput"
+	},
+	"AudioAnalyser": {
+		"tab": "audio",
+		"inherit": "AudioInput",
+		"points": [
+			{ "name": "doGetData", "type": 1 },
+			{ "name": "onData", "type": 2, "args": "Array" }
+		],
+		"props": [
+			{ "name": "Type", "type": 4, "def": 0, "list": "FloatFrequency,ByteFrequency,ByteTimeDomain" }
+		]
+	},
+	"audiosource": { "tab": "audio", "group": true },
+	"AudioOscillator": {
+		"tab": "audio",
+		"inherit": "AudioOutput",
+		"points": [
+			{ "name": "doStart", "type": 1 },
+			{ "name": "doStop", "type": 1 },
+			{ "name": "onStart", "type": 2 },
+			{ "name": "onStop", "type": 2 }
+		],
+		"props": [
+			{ "name": "AudioContext", "type": 20, "def": "(empty)", "list": "AudioContext" },
+			{ "name": "Frequency", "type": 1, "def": 0, "flags": 2 },
+			{ "name": "Detune", "type": 1, "def": 0 },
+			{ "name": "Type", "type": 14, "def": 0, "list": "sine,square,sawtooth,triangle" },
+			{ "name": "Delay", "type": 7, "def": 0 }
+		]
+	},
+	"AudioBufferSource": {
+		"tab": "audio",
+		"inherit": "AudioOutput",
+		"points": [
+			{ "name": "doStart", "type": 1 },
+			{ "name": "doStop", "type": 1 },
+			{ "name": "onStart", "type": 2 },
+			{ "name": "onStop", "type": 2 }
+		],
+		"props": [
+			{ "name": "Loop", "type": 4, "def": 0, "list": "false,true" }
+		]
+	},
+	"AudioDecodeData": {
+		"tab": "audio",
+		"points": [
+			{ "name": "doDecode", "type": 1 },
+			{ "name": "onDecode", "type": 2, "args": "Buffer" },
+			{ "name": "Buffer", "type": 3 },
+			{ "name": "Data", "type": 4 }
+		],
+		"props": [
+			{ "name": "AudioContext", "type": 20, "def": "(empty)", "list": "AudioContext" }
+		]
+	},
+	"audiomodify": { "tab": "audio", "group": true },
+	"AudioGain": {
+		"tab": "audio",
+		"inherit": "AudioOutput,AudioInput",
+		"props": [
+			{ "name": "Gain", "type": 7, "def": 1, "flags": 2 }
+		]
+	},
+	"AudioDelay": {
+		"tab": "audio",
+		"inherit": "AudioOutput,AudioInput",
+		"props": [
+			{ "name": "Time", "type": 7, "def": 0, "flags": 2 }
+		]
+	},
+	"AudioFilter": {
+		"tab": "audio",
+		"inherit": "AudioOutput,AudioInput",
+		"props": [
+			{ "name": "Type", "type": 14, "def": 0, "list": "lowpass,highpass,bandpass,lowshelf,highshelf,peaking,notch,allpass" },
+			{ "name": "Gain", "type": 7, "def": 0, "flags": 2 },
+			{ "name": "Frequency", "type": 1, "def": 0, "flags": 2 },
+			{ "name": "Q", "type": 7, "def": 1, "flags": 2 }
+		]
+	},
+	"AudioConvolver": {
+		"tab": "audio",
+		"inherit": "AudioOutput,AudioInput",
+		"points": [
+			{ "name": "doBuffer", "type": 1 }
+		]
+	},
+
 	"Converter": {
 		"tab": "tools",
 		"points": [
@@ -2044,7 +2157,8 @@
 		"props": [
 			{ "name": "Method", "type": 14, "def": 0, "list": "GET,POST" },
 			{ "name": "URL", "type": 2, "def": "" },
-			{ "name": "Content", "type": 2, "def": "" }
+			{ "name": "Content", "type": 2, "def": "" },
+			{ "name": "ResponseType", "type": 14, "def": 0, "list": "Text,ArrayBuffer,Blob,Document,Json" }
 		]
 	},
 	

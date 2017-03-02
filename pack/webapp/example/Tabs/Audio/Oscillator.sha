@@ -1,0 +1,51 @@
+Make(webapp)
+Add(MainForm,1,147,196)
+{
+  Width=#3:370|
+  Height=#3:123|
+  Caption=#10:Audio demo|
+  link(onCreate,5:doStart,[])
+}
+Add(AudioContext,3,147,140)
+{
+  Name=#13:AudioContext1|
+}
+Add(AudioDestination,4,252,140)
+{
+  AudioContext="AudioContext1"
+}
+Add(AudioOscillator,5,252,196)
+{
+  AudioContext="AudioContext1"
+  Frequency=2000
+  Point(doFrequency)
+  link(Output1,4:Input,[])
+}
+Add(Label,9,147,70)
+{
+  Left=21
+  Top=21
+  Width=#3:274|
+  Caption=#23:Create simple sine wave|
+}
+Add(TrackBar,10,147,245)
+{
+  Left=21
+  Top=63
+  Width=#3:275|
+  Min=50
+  Max=10000
+  Value=2000
+  link(onPosition,12:doEvent1,[])
+}
+Add(Label,11,252,252)
+{
+  Left=308
+  Top=63
+  Caption=#4:2000|
+}
+Add(Hub,12,196,245)
+{
+  link(onEvent1,5:doFrequency,[(216,251)(216,216)])
+  link(onEvent2,11:doCaption,[])
+}

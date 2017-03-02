@@ -18,6 +18,12 @@
 	"group.drawmatrix": "Система координат",
 	"group.tools": "Инструменты",
 	"group.shapes": "Фигуры",
+	"tab.audio": "Аудио",
+	"tab.helpers": "Помощники",
+	"group.audiosource": "Источники",
+	"group.audiomodify": "Модификаторы",
+	"group.design": "Дизайн",
+	"group.spheme": "Схема",
 	"group.core": "Ядро",
 	"group.json": "JSON",
 	"group.matrix": "Матрица",
@@ -431,7 +437,6 @@
 	"DrawImageRegion.doSourceX": "Задает координату X левого верхнего угла исходного изображения для отрисовки",
 	"DrawImageRegion.doSourceY": "Задает координату Y левого верхнего угла исходного изображения для отрисовки",
 	
-	
 	"el.FloodFill": "Заливка фигуры по ее контуру",
 	"FloodFill.Point": "Опредяет точку, начиная с которой фигура будет залита",
 	"FloodFill.Threshold": "Определяет разницу, меньше которой цвета начального пикселя и текущего будут считаться одинаковыми",
@@ -513,6 +518,46 @@
 	"CanvasState.doState": "Восстанавливает/сохраняет текущее состояние канвы",
 	"CanvasState.onState": "Событие происходит всякий раз после изменения состояния канвы и выдает её в поток",
 	"CanvasState.Canvas": "Определяет канву для сохранения/восстановления её состояния",
+
+	"AudioInput.Input": "Входной канал",
+
+	"el.AudioContext": "Аудио контекст",
+	
+	"el.AudioDestination": "Вывод аудио на колонки",
+
+	"el.AudioAnalyser": "Анализ аудио потока",
+	"AudioAnalyser.doGetData": "Получает данные аудиопотока",
+	"AudioAnalyser.onData": "Событие происходит всякий раз после получения данных и выдает их в поток",
+
+	"el.AudioOscillator": "Генератор звукового сигнала",
+	"AudioOscillator.doStart": "Создает генератор звукового сигнала и запускает его",
+	"AudioOscillator.doStop": "Останавливает последний запущенный генератор",
+	"AudioOscillator.onStart": "Событие происходит всякий раз после запуска генератора",
+	"AudioOscillator.onStop": "Событие происходит всякий раз после остановки звукового сигнала",
+	"AudioOscillator.Output": "Выходной канал",
+
+	"el.AudioBufferSource": "Источник звука из буфера",
+	"AudioBufferSource.doStart": "Создает источник звука для заданного аудио буфера и запускает его",
+	"AudioBufferSource.doStop": "Останавливает последний запущенный источник звука",
+	"AudioBufferSource.onStart": "Событие происходит всякий раз после запуска источника звука",
+	"AudioBufferSource.onStop": "Событие происходит всякий раз после остановки звукового сигнала",
+	"AudioBufferSource.Output": "Выходной канал",
+
+	"el.AudioDecodeData": "Преобразование массива данных в звук",
+	"AudioDecodeData.doDecode": "Преобразует массив данных в буфер звуковых данных",
+	"AudioDecodeData.onDecode": "Событие происходит всякий раз после преобразования и выдает созданный буфер в поток",
+	"AudioDecodeData.Buffer": "Содержит буфер со звуковыми данными",
+	"AudioDecodeData.Data": "Определяет массив звуковый данных",
+
+	"el.AudioConvolver": "Свертка",
+	"AudioConvolver.doBuffer": "Задает буфер с данными сиглана свертки",
+	"AudioConvolver.Output": "Выходной канал",
+	"el.AudioGain": "Усилитель",
+	"AudioGain.Output": "Выходной канал",
+	"el.AudioDelay": "Задержка",
+	"AudioDelay.Output": "Выходной канал",
+	"el.AudioFilter": "Частоный фильтр",
+	"AudioFilter.Output": "Выходной канал",
 	
 	"el.Converter": "Преобразование данных",
 	"Converter.doConvert": "Преобразует исходные данные в заданный тип",

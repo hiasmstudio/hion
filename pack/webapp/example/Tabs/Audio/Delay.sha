@@ -1,0 +1,41 @@
+Make(webapp)
+Add(MainForm,1,147,224)
+{
+  Width=#3:370|
+  Height=#2:82|
+  Caption=#10:Audio demo|
+  link(onCreate,5:doStart,[])
+}
+Add(AudioContext,3,147,161)
+{
+  Name=#13:AudioContext1|
+}
+Add(AudioDestination,4,217,98)
+{
+  AudioContext="AudioContext1"
+}
+Add(AudioOscillator,5,217,224)
+{
+  AudioContext="AudioContext1"
+  Frequency=2000
+  link(Output1,17:Var2,[])
+}
+Add(Label,9,147,98)
+{
+  Left=21
+  Top=21
+  Width=#3:274|
+  Caption=#24:Create simple delay node|
+}
+Add(AudioDelay,16,217,161)
+{
+  AudioContext="AudioContext1"
+  OutputNumber=2
+  Time=0.05
+  link(Output1,4:Input,[])
+  link(Output2,17:Var3,[(230,147)(258,147)(258,210)])
+}
+Add(GetDataEx,17,217,203)
+{
+  link(Data,16:Input,[])
+}
