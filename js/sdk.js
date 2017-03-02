@@ -508,8 +508,11 @@ function SDK(pack) {
 			}
 		}
 		for(var e of this.imgs) {
-			e.oninit();
+			if(e !== prn)
+				e.oninit();
 		}
+		if(prn)
+			prn.oninit();
 		return prn ? prn.getChild() : parent;
 	};
 	
