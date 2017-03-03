@@ -386,7 +386,7 @@ function SdkEditor() {
 									if(editor.sdk.undo) {
 										editor.sdk.undo.delLink(obj.obj);
 									}
-									p.clear();
+									obj.obj.parent.clearPoint(obj.obj);
 								}
 								editor.beginOperation(ME_POINTLINK, o);
 								editor.emouse.startX = o.pos.x;
@@ -556,13 +556,13 @@ function SdkEditor() {
 				
 				if (!obj || obj && obj.obj.point)
 					return true;
-				if(obj.type === 1) {
-					var freePoint = obj.obj.getFirstFreePoint(editor.emouse.obj.getPair());
+				if(obj.type === OBJ_TYPE_ELEMENT) {
+					var freePoint = obj.obj.getPointToLink(editor.emouse.obj.getPair());
 					if(freePoint) {
-						obj = {obj: freePoint, type: 2};
+						obj = {obj: freePoint, type: OBJ_TYPE_POINT};
 					}
 				}
-				var sum = (obj && obj.obj !== editor.emouse.obj && obj.type === 2) ? (editor.emouse.obj.type + obj.obj.type) : 0;
+				var sum = (obj && obj.obj !== editor.emouse.obj && obj.type === OBJ_TYPE_POINT) ? (editor.emouse.obj.type + obj.obj.type) : 0;
 				if (sum === 3 || sum === 7) {
 					obj.obj.connect(editor.emouse.obj).createPath();
 					if(editor.sdk.undo) {

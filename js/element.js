@@ -644,6 +644,18 @@ SdkElement.prototype.showDefaultPoint = function(name) {
 SdkElement.prototype.getLinkedPoint = function(point) {
 	return point;
 };
+/**
+ * Get a point for the new connection in the editor after dropping
+ */
+SdkElement.prototype.getPointToLink = function(type) {
+	return this.getFirstFreePoint(type);
+};
+/**
+ * Removing the connection between points in the editor
+ */
+SdkElement.prototype.clearPoint = function(point) {
+	point.clear();
+};
 
 // draw
 SdkElement.prototype.draw = function(ctx) {
@@ -1634,6 +1646,43 @@ DPElement.prototype._getPointInfo = function(point, data) {
 	return this.name + "." + data.pname;
 };
 
+DPElement.prototype.clearPoint = function(point) {
+	SdkElement.prototype.clearPoint.call(this, point);
+	
+	var last = null;
+	for(var p in this.points) {
+		var pt = this.points[p];
+		if(pt.type === point.type) {
+			last = pt;
+		}
+	}
+	
+	if(last == point) {
+		var prop = null;
+		for(var d in this.dyn) {
+			if(this.dyn[d] && this.dyn[d].index === point.type-1) {
+				this.props[d].value--;
+				this.onpropchange(this.props[d]);
+			}
+		}
+	}
+};
+
+DPElement.prototype.getPointToLink = function(type) {
+	var point = this.getFirstFreePoint(type);
+	if(point)
+		return point;
+	
+	for(var d in this.dyn) {
+		if(this.dyn[d] && this.dyn[d].index === type-1) {
+			this.props[d].value++;
+			this.onpropchange(this.props[d]);
+			return this.getFirstFreePoint(type);
+		}
+	}
+	return null;
+};
+
 //******************************************************************************
 // DPLElement
 //******************************************************************************
@@ -1665,6 +1714,14 @@ DPLElement.prototype._changePoints = function(prop, data) {
 
 DPLElement.prototype._getPointInfo = function(point, data) {
 	return point._dplInfo;
+};
+
+DPLElement.prototype.clearPoint = function(point) {
+	SdkElement.prototype.clearPoint.call(this, point);
+};
+
+DPLElement.prototype.getPointToLink = function(type) {
+	return SdkElement.prototype.getPointToLink.call(this, type);
 };
 
 //******************************************************************************
