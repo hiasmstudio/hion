@@ -12,6 +12,8 @@ var PROP_FLAG_POINT   = 0x02;	// can create point by property
 // element config
 var POINT_OFF = 3;
 var POINT_SPACE = 7;
+var ELEMENT_BORDER_COLOR = "rgb(150,150,150)";
+var ELEMENT_SELECT_COLOR = "rgb(100,100,100)";
 
 //const
 var DATA_NONE     = 0;
@@ -651,8 +653,8 @@ SdkElement.prototype.draw = function(ctx) {
 	this.drawPoints(ctx);
 };
 SdkElement.prototype.drawBody = function(ctx) {
-	ctx.strokeStyle = "rgb(150,150,150)";
-	ctx.fillStyle = this.isSelect() ? "rgb(100,100,100)" : this.sys.Color.value;
+	ctx.strokeStyle = ELEMENT_BORDER_COLOR;
+	ctx.fillStyle = this.isSelect() ? ELEMENT_SELECT_COLOR : this.sys.Color.value;
 	ctx.fillRect(this.x, this.y, this.w, this.h);
 	ctx.strokeRect(this.x, this.y, this.w, this.h);
 	
@@ -811,6 +813,69 @@ SdkElement.prototype.oninit = function() {};
 SdkElement.prototype.onfree = function() {};
 
 SdkElement.prototype.loadFromText = function(line) { return false; };
+SdkElement.prototype.save = function(selection, tab) {
+	var text = "Add(" + this.name + "," + this.eid + "," + this.x + "," + this.y + ")\n";
+	text += "{\n";
+	var propPoints = "";
+	var pointColors = "";
+	var pointInfo = "";
+	for (var p in this.props) {
+		var prop = this.props[p];
+		if(!prop.isDef()) {
+			text += "  " + p + "=" + prop.serialize() + "\n";
+		}
+		if(prop.isPoint() && this.findPointByName("do" + prop.name)) {
+			propPoints += "  Point(do" + prop.name + ")\n";
+		}
+	}
+	for (var p in this.sys) {
+		var prop = this.sys[p];
+		if(!prop.isDef()) {
+			text += "  @" + p + "=" + prop.serialize() + "\n";
+		}
+	}
+	for (var j in this.points) {
+		var p = this.points[j];
+		if(this.pointsEx[p.name]) {
+			propPoints += "  Point(" + p.name + ")\n";
+		}
+		if(p.color) {
+			pointColors += "  PColor(" + p.name + "," + p.color + ")\n";
+		}
+		if(p.info) {
+			pointInfo += "  PInfo(" + p.name + "," + p.info.direction + "," + p.info.text.replace("\n", "\\n") + ")\n";
+		}
+	}
+	text += propPoints;
+	text += pointColors;
+	text += pointInfo;
+	for(var h of this.hints) {
+		if(h.prop) {
+			text += "  AddHint(" + h.x + "," + h.y + ",0,0," + (this.sys[h.prop.name] ? "@" : "") + h.prop.name + ")\n";
+		}
+	}
+	for (var j in this.points) {
+		var p = this.points[j];
+		if (p.type % 2 === 0 && p.point && (!selection || p.point.parent.isSelect())) {
+			text += "  link(" + p.name + "," + p.point.parent.eid + ":" + p.point.name + ",[";
+			var n = p.pos.next;
+			while (n.next) {
+				text += "(" + n.x + "," + n.y + ")";
+				n = n.next;
+			}
+			text += "])\n";
+		}
+	}
+	text += this.saveToText();
+	text += "}\n";
+	if(this.sdk) {
+		text += "BEGIN_SDK\n";
+		text += this.sdk.save();
+		text += "END_SDK\n";
+	}
+
+	return text;
+};
 SdkElement.prototype.saveToText = function() { return ""; };
 
 SdkElement.prototype.initPointHandler = function(name, handler) {
@@ -2231,6 +2296,15 @@ LineBreak.prototype.erase = function() {
 	}
 };
 
+LineBreak.prototype.save = function(selection, tab) {
+	if(this.primary || !selection || this.second.isSelect()) {
+		return SdkElement.prototype.save.call(this, selection, tab);
+	}
+	else {
+		return this.second.save(selection, tab);
+	}
+};
+
 LineBreak.prototype.saveToText = function() {
 	var text = CapElement.prototype.saveToText.call(this);
 	if(this.primary) {
@@ -2257,55 +2331,36 @@ LineBreak.prototype.loadFromText = function(line) {
 };
 
 LineBreak.prototype.drawBody = function(ctx) {
-	if(this.props.Type.isDef()) {
-		var offset = 3;
-		if(this.second) {
-//			ctx.moveTo(this.x-1, this.y-1);
-//			ctx.lineTo(this.x + this.w-1, this.y-1);
-//			ctx.lineTo(this.x + this.w-1, this.y + this.h+1);
-//			ctx.lineTo(this.x, this.y + this.h+1);
-		}
-		else {
-			ctx.save();
-			ctx.beginPath();
-			ctx.moveTo(this.x, this.y-1);
-			ctx.lineTo(this.x + this.w + 1, this.y-1);
-			ctx.lineTo(this.x + this.w + 1, this.y + this.h + 1);
-			ctx.lineTo(this.x, this.y + this.h + 1);
-			ctx.lineTo(this.x + offset, this.y + this.h/2);
-			ctx.closePath();
-			ctx.clip();
-		}
+	if(!this.ctx) {
+		this.ctx = ctx;
+		this.onpropchange(this.prop);
 	}
 
-	CapElement.prototype.drawBody.call(this, ctx);
-
 	if(this.props.Type.isDef()) {
+		var offset = 3;
+		ctx.strokeStyle = ELEMENT_BORDER_COLOR;
+		ctx.fillStyle = this.isSelect() ? ELEMENT_SELECT_COLOR : this.sys.Color.value;
+		ctx.beginPath();
 		if(this.second) {
-			ctx.beginPath();
-			ctx.moveTo(this.x + this.w - 1, this.y);
+			ctx.moveTo(this.x, this.y);
 			ctx.lineTo(this.x + this.w, this.y);
 			ctx.lineTo(this.x + this.w + offset, this.y + this.h/2);
 			ctx.lineTo(this.x + this.w, this.y + this.h);
-			ctx.lineTo(this.x + this.w - 1, this.y + this.h);
-			ctx.closePath();
-			ctx.fill();
-			ctx.beginPath();
-			ctx.moveTo(this.x + this.w - 1, this.y);
-			ctx.lineTo(this.x + this.w, this.y);
-			ctx.lineTo(this.x + this.w + offset, this.y + this.h/2);
-			ctx.lineTo(this.x + this.w, this.y + this.h);
-			ctx.lineTo(this.x + this.w - 1, this.y + this.h);
-			ctx.stroke();
+			ctx.lineTo(this.x, this.y + this.h);
 		}
 		else {
-			ctx.restore();
-			ctx.beginPath();
 			ctx.moveTo(this.x, this.y);
-			ctx.lineTo(this.x + offset, this.y + this.h/2);
+			ctx.lineTo(this.x + this.w, this.y);
+			ctx.lineTo(this.x + this.w, this.y + this.h);
 			ctx.lineTo(this.x, this.y + this.h);
-			ctx.stroke();
+			ctx.lineTo(this.x + offset, this.y + this.h/2);
 		}
+		ctx.closePath();
+		ctx.fill();
+		ctx.stroke();
+	}
+	else {
+		CapElement.prototype.drawBody.call(this, ctx);
 	}
 };
 

@@ -246,65 +246,7 @@ function SDK(pack) {
 			if(selection && !e.isSelect()) {
 				continue;
 			}
-			text += "Add(" + e.name + "," + e.eid + "," + e.x + "," + e.y + ")\n";
-			text += "{\n";
-			var propPoints = "";
-			var pointColors = "";
-			var pointInfo = "";
-			for (var p in e.props) {
-				var prop = e.props[p];
-				if(!prop.isDef()) {
-					text += "  " + p + "=" + prop.serialize() + "\n";
-				}
-				if(prop.isPoint() && e.findPointByName("do" + prop.name)) {
-					propPoints += "  Point(do" + prop.name + ")\n";
-				}
-			}
-			for (var p in e.sys) {
-				var prop = e.sys[p];
-				if(!prop.isDef()) {
-					text += "  @" + p + "=" + prop.serialize() + "\n";
-				}
-			}
-			for (var j in e.points) {
-				var p = e.points[j];
-				if(e.pointsEx[p.name]) {
-					propPoints += "  Point(" + p.name + ")\n";
-				}
-				if(p.color) {
-					pointColors += "  PColor(" + p.name + "," + p.color + ")\n";
-				}
-				if(p.info) {
-					pointInfo += "  PInfo(" + p.name + "," + p.info.direction + "," + p.info.text.replace("\n", "\\n") + ")\n";
-				}
-			}
-			text += propPoints;
-			text += pointColors;
-			text += pointInfo;
-			for(var h of e.hints) {
-				if(h.prop) {
-					text += "  AddHint(" + h.x + "," + h.y + ",0,0," + (e.sys[h.prop.name] ? "@" : "") + h.prop.name + ")\n";
-				}
-			}
-			for (var j in e.points) {
-				var p = e.points[j];
-				if (p.type % 2 === 0 && p.point && (!selection || p.point.parent.isSelect())) {
-					text += "  link(" + p.name + "," + p.point.parent.eid + ":" + p.point.name + ",[";
-					var n = p.pos.next;
-					while (n.next) {
-						text += "(" + n.x + "," + n.y + ")";
-						n = n.next;
-					}
-					text += "])\n";
-				}
-			}
-			text += e.saveToText();
-			text += "}\n";
-			if(e.sdk) {
-				text += "BEGIN_SDK\n";
-				text += e.sdk.save();
-				text += "END_SDK\n";
-			}
+			text += e.save(selection, "");
 		}
 		return text;
 	};
