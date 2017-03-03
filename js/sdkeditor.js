@@ -70,7 +70,9 @@ UndoManager.prototype._exec = function(obj) {
 			e.eid = obj.id;
 			break;
 		case UCMD_LOAD_FROM_TEXT:
+			var eid = this.sdk.getCurrentID();
 			this.sdk.load(obj.data, 0);
+			this.sdk.setID(eid);
 			break;
 		case UCMD_DEL_ELEMENTS:
 			for(var id of obj.ids) {
@@ -1340,6 +1342,16 @@ function SdkEditor() {
 		}
 		this.draw();
 		this.onsdkchange();
+
+		this.pasteX += POINT_SPACE;
+		this.pasteY += POINT_SPACE;
+
+		for(var e1 of this.sdk.imgs) {
+			for(var e2 of this.sdk.imgs) {
+				if(e1 != e2 && e1.eid == e2.eid)
+					console.log("Dup:", e1, e2);
+			}
+		}
 	};
 	
 	this.addElement = function(name, x, y) {
