@@ -1825,7 +1825,7 @@ function modules() {
 						clearInterval(this.parent.id);
 						this.parent.id = setInterval(function () {
 							f.func.call(f);
-						}, this.parent.props.Interval.value);
+						}, this.parent.interval);
 					}
 				};
 				i.doStop.onevent = function (data) {
@@ -1834,6 +1834,16 @@ function modules() {
 						this.parent.id = 0;
 					}
 				};
+				i.oninit = function() {
+					this.interval = this.props.Interval.value;
+					this.initPointHandler("doInterval", function(data) {
+						this.parent.interval = data;
+						if(this.parent.id) {
+							this.parent.doStop.onevent();
+							this.parent.doTimer.onevent();
+						}
+					});
+				};
 				i.onfree = function () {
 					clearInterval(this.id);
 				};
@@ -1841,7 +1851,7 @@ function modules() {
 				i.start = function () {
 					setTimeout(function () {
 						f.func.call(f);
-					}, this.props.Interval.value);
+					}, this.interval);
 				};
 				break;
 			case "GeoLocation":
