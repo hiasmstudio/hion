@@ -16,7 +16,7 @@ Add(Label,2,98,56)
   Height=#2:21|
   Caption=#12:Simple Label|
 }
-Add(ToolBar,3,168,14)
+Add(ToolBar,3,161,14)
 {
   Left=7
   Top=7
@@ -252,24 +252,24 @@ Add(Button,35,427,392)
   Width=#2:80|
   Height=#2:28|
   Caption=#10:Child form|
-  link(onClick,38:doWork1,[])
+  link(onClick,52:doShow,[])
 }
 Add(ODialog,36,483,350)
 {
 }
-Add(MultiElementEx,38,483,392)
+Add(MultiElementEx,52,483,392)
 {
-  @Comment=#10:Child form|
 }
 BEGIN_SDK
-Add(MultiElementEditor,37,7,7)
+Add(MultiElementEditorEx,51,7,7)
 {
-  WorkCount=1
-  @VOffset=35
-  @Height=130
-  link(doWork1,39:doShow,[])
+  WorkCount=#6:doShow|
+  @VOffset=28
+  @Width=286
+  @Height=144
+  link(doShow,53:doShow,[])
 }
-Add(MainForm,39,63,42)
+Add(MainForm,53,42,35)
 {
   Left=63
   Top=42
@@ -280,16 +280,27 @@ Add(MainForm,39,63,42)
   Padding=4
   Caption=#10:Child form|
   Resize=1
-  link(onCreate,49:doFor,[])
+  link(onCreate,60:doFor,[])
 }
-Add(MultiElementEx,43,63,91)
+Add(For,60,105,35)
+{
+  Start=1
+  End=50
+  link(onEvent,61:doStrCat,[])
+}
+Add(StrCat,61,168,35)
+{
+  Str1=#5:Item |
+  link(onStrCat,59:doAdd,[])
+}
+Add(MultiElementEx,63,42,84)
 {
 }
 BEGIN_SDK
-Add(MultiElementEditor,42,7,7)
+Add(MultiElementEditorEx,62,7,7)
 {
 }
-Add(Panel,44,91,35)
+Add(Panel,64,35,35)
 {
   Left=7
   Top=14
@@ -299,7 +310,7 @@ Add(Panel,44,91,35)
   Theme=#11:panel-clear|
   Layout=2
 }
-Add(Memo,46,161,35)
+Add(Memo,65,119,35)
 {
   Left=175
   Top=84
@@ -307,7 +318,7 @@ Add(Memo,46,161,35)
   Width=#0:|
   Height=#0:|
 }
-Add(Memo,47,161,84)
+Add(Memo,66,119,91)
 {
   Left=161
   Top=77
@@ -317,7 +328,7 @@ Add(Memo,47,161,84)
   Edge=2
 }
 END_SDK
-Add(ListBox,48,245,42)
+Add(ListBox,59,224,35)
 {
   Left=280
   Top=14
@@ -325,16 +336,5 @@ Add(ListBox,48,245,42)
   Width=#3:127|
   Height=#0:|
   Edge=1
-}
-Add(For,49,126,42)
-{
-  Start=1
-  End=50
-  link(onEvent,50:doStrCat,[])
-}
-Add(StrCat,50,189,42)
-{
-  Str1=#5:Item |
-  link(onStrCat,48:doAdd,[])
 }
 END_SDK

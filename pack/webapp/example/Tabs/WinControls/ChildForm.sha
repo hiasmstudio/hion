@@ -7,22 +7,6 @@ Add(MainForm,1,56,56)
   Height=#3:110|
   Caption=#9:Main form|
 }
-Add(MultiElementEx,3,231,56)
-{
-}
-BEGIN_SDK
-Add(MultiElementEditor,4,7,7)
-{
-  WorkCount=1
-  link(doWork1,5:doShow,[(42,13)(42,76)])
-}
-Add(MainForm,5,77,70)
-{
-  Left=161
-  Top=70
-  Caption=#8:Sub form|
-}
-END_SDK
 Add(Button,6,154,56)
 {
   Left=28
@@ -30,5 +14,22 @@ Add(Button,6,154,56)
   Width=#3:213|
   Height=#2:42|
   Caption=#15:Show child form|
-  link(onClick,3:doWork1,[])
+  link(onClick,8:doShow,[])
 }
+Add(MultiElementEx,8,231,56)
+{
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,7,7,7)
+{
+  WorkCount=#6:doShow|
+  @VOffset=49
+  link(doShow,9:doShow,[])
+}
+Add(MainForm,9,42,56)
+{
+  Left=161
+  Top=70
+  Caption=#8:Sub form|
+}
+END_SDK
