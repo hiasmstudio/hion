@@ -1264,7 +1264,6 @@
 			{ "name": "onStop", "type": 2 }
 		],
 		"props": [
-			{ "name": "AudioContext", "type": 20, "def": "(empty)", "list": "AudioContext" },
 			{ "name": "Frequency", "type": 1, "def": 0, "flags": 2 },
 			{ "name": "Detune", "type": 1, "def": 0 },
 			{ "name": "Type", "type": 14, "def": 0, "list": "sine,square,sawtooth,triangle" },
@@ -2153,7 +2152,7 @@
 			{ "name": "Name", "type": 2, "def": "" },
 			{ "name": "Toolbar", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
 			{ "name": "Location", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
-			{ "name": "Directoties", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
+			{ "name": "Directories", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
 			{ "name": "Status", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
 			{ "name": "Menubar", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },
 			{ "name": "Scrollbars", "type": 4, "def": 1, "list": "Yes,No", "group": "features" },

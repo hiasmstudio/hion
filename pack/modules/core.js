@@ -1865,7 +1865,7 @@ function modules() {
 				i.doOpen.onevent = function(data){
 					var props = this.parent.props;
 					var f = [];
-					var opt = ["Toolbar", "Location", "Directoties", "Status", "Menubar", "Scrollbars", "Resizable"];
+					var opt = ["Toolbar", "Location", "Directories", "Status", "Menubar", "Scrollbars", "Resizable"];
 					for(var o of opt) {
 						if(!props[o].isDef())
 							f.push(o.toLocaleString() + "=1");

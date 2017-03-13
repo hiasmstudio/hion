@@ -114,6 +114,21 @@ Pack.prototype.load = function() {
 					// 	}
 					// 	console.log(info);
 					// }
+					// check translation 
+					// if(pack.name == "modules") {
+					// 	if(element.points) {
+					// 		for(var point of element.points) {
+					// 			if(pack.translate(e + "." + point.name) === e + "." + point.name)
+					// 				console.log(e, point.name);
+					// 		}
+					// 	}
+					// 	if(element.props) {
+					// 		for(var prop of element.props) {
+					// 			if(pack.translate(e + "." + prop.name) === e + "." + prop.name)
+					// 				console.log(e, prop.name);
+					// 		}
+					// 	}
+					// }
 				}
 				// inherit elements from base package
 				if(pack.parent) {

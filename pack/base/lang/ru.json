@@ -47,7 +47,20 @@
 	"LineBreakEx.getVar": "Выходной поток данных",
 	"LineBreakEx._Data": "Входной поток данных",
 	
+	"el.MultiElementEditor": "Редактор контейнера с цифровыми точками",
+	"MultiElementEditor.EventCount": "Определяет количество событий",
+	"MultiElementEditor.WorkCount": "Определяет количество методов",
+	"MultiElementEditor.DataCount": "Определяет количество данных",
+	"MultiElementEditor.VarCount": "Определяет количество свойств",
+
+	"el.MultiElementEditorEx": "Редактор контейнера с именными точками",
+	"MultiElementEditorEx.EventCount": "Определяет список событий",
+	"MultiElementEditorEx.WorkCount": "Определяет список методов",
+	"MultiElementEditorEx.DataCount": "Определяет список данных",
+	"MultiElementEditorEx.VarCount": "Определяет список свойств",
+
 	"el.hcTransmitter": "Передача данных из Hion в приложение",
 	"hcTransmitter.doReturn": "Возвращает данные обратно в ядро Hion",
-	"hcTransmitter.onInit": "Событие происходит всякий раз после загрузки приложения ядром Hion и выдает в поток переданные параметры"
+	"hcTransmitter.onInit": "Событие происходит всякий раз после загрузки приложения ядром Hion и выдает в поток переданные параметры",
+	"hcTransmitter.DataCount": "Определяет количество аргументов передаваемых в среду"
 }
