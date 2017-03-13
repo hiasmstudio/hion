@@ -3031,10 +3031,17 @@ function modules() {
 				};
 				break;
 			case "AudioBufferSource":
+				i.oninit = function(){
+					this.initPointHandler("doRate", function(data) {
+						this.parent.source.playbackRate.value = data;
+					});
+				};
 				i.doStart.onevent = function(data) {
 					this.parent.source = this.parent.props.AudioContext.getElement().context.createBufferSource();
 					this.parent.source.buffer = data;
+					this.parent.source.playbackRate.value = this.parent.props.Rate.value;
 					this.parent.source.loop = !this.parent.props.Loop.isDef();
+					
 					for(var t = 1; t <= this.parent.props.OutputNumber.value; t++) {
 						var out = this.parent.d("").read("Output" + t);
 						if(out instanceof AudioNode)
