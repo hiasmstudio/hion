@@ -1219,7 +1219,8 @@
 			{ "name": "onStop", "type": 2 }
 		],
 		"props": [
-			{ "name": "Loop", "type": 4, "def": 0, "list": "false,true" }
+			{ "name": "Loop", "type": 4, "def": 0, "list": "false,true" },
+			{ "name": "Rate", "type": 7, "def": 1, "flags": 2 }
 		]
 	},
 	"AudioDecodeData": {
