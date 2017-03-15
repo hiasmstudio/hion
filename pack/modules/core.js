@@ -1786,7 +1786,7 @@ function modules() {
 					};
 					switch(this.parent.props.Type.value) {
 						case 0: reader.readAsText(file); break;
-						case 1: reader.readAsBinaryString(file); break;
+						case 1: reader.readAsArrayBuffer(file); break;
 						case 2: reader.readAsDataURL(file); break;
 					}
 				};
