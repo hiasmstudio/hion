@@ -918,6 +918,7 @@ SHATab.prototype.build = function(mode, callback) {
 	this.manager.state.set("Build...");
 	var state = this.manager.state;
 	var name = this.file ? this.file.name : "Project.sha";
+	var _editor_ = this;
 	$.post("server/core.php", {build: name, mode: mode, code: this.sdkEditor.getMainSDK().save(false)}, function(data, file) {
 		state.clear();
 		if(this.status === 200) {
@@ -954,12 +955,16 @@ SHATab.prototype.build = function(mode, callback) {
 
 SHATab.prototype.run = function() {
 	var run = this.sdkEditor.sdk.pack.run;
+	var _editor_ = this;
 	if(run.mode == "internal")
 		this.sdkEditor.run();
 	else if(run.mode == "url") {
 		var url = run.url.replace("%uid%", user.uid).replace("%pname%", this.getTitle().toLowerCase());
 		this.build(this.buildMode, function(){
-			window.open(window.location.origin + url);
+			if(!_editor_.runapp || _editor_.runapp.closed)
+				_editor_.runapp = window.open(window.location.origin + url);
+			else
+				_editor_.runapp.location = window.location.origin + url;
 		});
 	}
 }
