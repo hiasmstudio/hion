@@ -1,0 +1,25 @@
+Make(webapp)
+Add(MainForm,1,35,105)
+{
+  link(onCreate,2:doStrCat,[])
+}
+Add(StrCat,2,133,105)
+{
+  link(onStrCat,3:doCaption,[])
+  link(Str1,4:Value,[])
+  link(Str2,6:Value,[(146,86)(195,86)])
+}
+Add(Label,3,210,105)
+{
+  Left=42
+  Top=56
+  Width=#3:218|
+}
+Add(Memory,4,133,35)
+{
+  Default=Real(23)
+}
+Add(Memory,6,189,35)
+{
+  Default=Real(34)
+}

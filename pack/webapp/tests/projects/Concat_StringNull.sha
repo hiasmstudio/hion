@@ -1,0 +1,15 @@
+Make(webapp)
+Add(MainForm,1,56,56)
+{
+  link(onCreate,2:doStrCat,[])
+}
+Add(StrCat,2,133,56)
+{
+  Str1=#5:hello|
+  link(onStrCat,3:doCaption,[])
+}
+Add(Label,3,210,56)
+{
+  Left=210
+  Top=56
+}

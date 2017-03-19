@@ -1,0 +1,36 @@
+Make(webapp)
+Add(MainForm,1,35,105)
+{
+  link(onCreate,17:doWork,[])
+}
+Add(MultiElementEx,17,119,105)
+{
+  link(onEvent,19:doCaption,[])
+  link(Data,18:Value,[])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,16,7,7)
+{
+  WorkCount=#6:doWork|
+  EventCount=#7:onEvent|
+  DataCount=#4:Data|
+  @VOffset=63
+  @HOffset=112
+  link(doWork,20:doData,[])
+}
+Add(DoData,20,119,70)
+{
+  link(onEventData,16:onEvent,[])
+  link(Data,16:Data,[])
+}
+END_SDK
+Add(Memory,18,119,42)
+{
+  Default=String(Hello world)
+}
+Add(Label,19,203,105)
+{
+  Left=28
+  Top=112
+  Width=#3:225|
+}

@@ -1,0 +1,34 @@
+Make(webapp)
+Add(MainForm,1,35,105)
+{
+  link(onCreate,9:doEvent1,[])
+}
+Add(StrCat,2,133,105)
+{
+  link(Str1,11:Value,[])
+  link(Str2,12:Value,[(146,86)(195,86)])
+}
+Add(Label,3,224,154)
+{
+  Left=42
+  Top=56
+  Width=#3:218|
+}
+Add(Hub,9,84,105)
+{
+  link(onEvent1,2:doStrCat,[])
+  link(onEvent2,10:doData,[(114,118)(114,160)])
+}
+Add(DoData,10,133,154)
+{
+  link(onEventData,3:doCaption,[])
+  link(Data,2:Result,[])
+}
+Add(Memory,11,133,35)
+{
+  Default=String(hello)
+}
+Add(Memory,12,189,35)
+{
+  Default=Real(1)
+}

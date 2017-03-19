@@ -1,0 +1,20 @@
+Make(webapp)
+Add(MainForm,1,35,105)
+{
+  link(onCreate,15:doRead,[])
+}
+Add(Array,13,126,28)
+{
+  Array=#1:[|9:	"hello",|8:	"world"|1:]|
+}
+Add(Label,14,189,105)
+{
+  Left=175
+  Top=98
+}
+Add(ArrayRead,15,126,105)
+{
+  Index=1
+  link(onRead,14:doCaption,[])
+  link(Array,13:Array,[])
+}

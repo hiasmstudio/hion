@@ -1,0 +1,27 @@
+Make(webapp)
+Add(MainForm,1,35,105)
+{
+  link(onCreate,2:doStrCat,[])
+}
+Add(StrCat,2,133,105)
+{
+  link(onStrCat,3:doCaption,[])
+  link(Str1,7:Value,[])
+  link(Str2,8:Value,[(146,86)(188,86)])
+}
+Add(Label,3,210,105)
+{
+  Left=42
+  Top=56
+  Width=#3:218|
+}
+Add(TrackBar,7,133,35)
+{
+  Left=63
+  Top=35
+}
+Add(TrackBar,8,182,35)
+{
+  Left=238
+  Top=35
+}

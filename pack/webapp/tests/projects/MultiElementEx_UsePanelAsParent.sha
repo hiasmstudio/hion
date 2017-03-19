@@ -1,0 +1,47 @@
+Make(webapp)
+Add(MainForm,1,35,105)
+{
+}
+Add(MultiElementEx,25,112,105)
+{
+  link(onEvent,31:doCaption,[])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,26,7,7)
+{
+  EventCount=#7:onEvent|
+  @VOffset=63
+  @HOffset=112
+}
+Add(Panel,27,28,35)
+{
+  Left=119
+  Top=70
+  Width=#3:120|
+  Height=#2:48|
+}
+Add(Button,28,133,70)
+{
+  Left=7
+  Top=14
+  Data=Real(1)
+  link(onClick,30:doWork2,[])
+}
+Add(Button,29,133,112)
+{
+  Left=63
+  Top=14
+  Data=Real(2)
+  link(onClick,30:doWork3,[(193,118)])
+}
+Add(HubEx,30,189,70)
+{
+  link(onEvent,26:onEvent,[])
+}
+END_SDK
+Add(Label,31,175,105)
+{
+  Left=70
+  Top=28
+  Width=#3:225|
+}
