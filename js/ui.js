@@ -609,7 +609,15 @@ function TrackBar(options) {
 
 TrackBar.prototype = new UIControl();
 
-defineProxy(TrackBar.prototype, "position", "_ctl", "value");
+Object.defineProperty(TrackBar.prototype, "position", {
+	get: function() {
+		return this._ctl.value;
+	},
+	set: function(value) {
+		this._ctl.value = value;
+		this._ctl.dispatchEvent(new Event('input'));
+	}
+});
 
 //******************************************************************************
 // Image
@@ -1095,7 +1103,7 @@ ComboBox.prototype.select = function(item) {
 
 ComboBox.prototype.selectIndex = function(index) {
 	this._ctl.selectedIndex = index;
-	//this.select(this._ctl.childNodes[index]);
+	this.onselect(this._ctl.options[index], this.items[index]);
 };
 
 ComboBox.prototype.selectString = function(string) {
