@@ -13,6 +13,7 @@ var OBJ_TYPE_HINT		= 5;
 function SDK(pack) {
 	this.imgs = new Array();
 	this.pack = pack;
+	this.buildCounter = 0;
 	/**
 	 * {SelectManager}
 	 */
@@ -242,6 +243,8 @@ function SDK(pack) {
 	
 	this.save = function (selection) {
 		var text = this.parent || selection ? "" : "Make(" + this.pack.name + ")\n";
+		if(this.buildCounter)
+			text += "Build(" + this.buildCounter + ")\n";
 		for (var e of this.imgs) {
 			if(selection && !e.isSelect()) {
 				continue;
@@ -287,6 +290,8 @@ function SDK(pack) {
 				this.pack = packMan.getPack(packName);
 				if(!this.pack)
 					console.error("Pack", packName, "not found!")
+			} else if (line.startsWith("Build(")) {
+				this.buildCounter = parseInt(line.substr(6, line.length - 7));
 			} else if (line.substr(0, 4) === "Add(") {
 				var l = line.substr(4, line.length - 5).split(",");
 				var isEntry = this.pack.isEntry(l[0]);

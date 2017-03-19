@@ -1570,3 +1570,16 @@ SdkEditor.prototype.canFormEdit = function() {
 	
 	return false;
 };
+
+SdkEditor.prototype.getBuild = function() {
+	var sdk = this.getMainSDK();
+	return sdk.buildCounter || 0;
+};
+
+SdkEditor.prototype.build = function() {
+	var sdk = this.getMainSDK();
+	if(sdk.buildCounter)
+		sdk.buildCounter++;
+	else
+		sdk.buildCounter = 1;
+};

@@ -918,39 +918,46 @@ SHATab.prototype.build = function(mode, callback) {
 	this.manager.state.set("Build...");
 	var state = this.manager.state;
 	var name = this.file ? this.file.name : "Project.sha";
-	var _editor_ = this;
-	$.post("server/core.php", {build: name, mode: mode, code: this.sdkEditor.getMainSDK().save(false)}, function(data, file) {
-		state.clear();
-		if(this.status === 200) {
-			for(var line of data.split("\n")) {
-				if(line.startsWith("CODEGEN")) {
-					var text = line.substring(9);
-					var color = "";
-					if(text.startsWith("~")) {
-						color = "gray";
+	this.sdkEditor.build();
+	$.post("server/core.php", {
+			build: name,
+			mode: mode,
+			code: this.sdkEditor.getMainSDK().save(false)
+		},
+		function(data, file) {
+			state.clear();
+			if(this.status === 200) {
+				for(var line of data.split("\n")) {
+					if(line.startsWith("CODEGEN")) {
+						var text = line.substring(9);
+						var color = "";
+						if(text.startsWith("~")) {
+							color = "gray";
+						}
+						else if(text.startsWith("@")) {
+							color = "silver";
+						}
+						else if(text.startsWith("!")) {
+							color = "red";
+						}
+						else if(text.startsWith("#")) {
+							color = "blue";
+						}
+						state.add(text.substring(1), color);
 					}
-					else if(text.startsWith("@")) {
-						color = "silver";
+					else {
+						state.add(line);
 					}
-					else if(text.startsWith("!")) {
-						color = "red";
-					}
-					else if(text.startsWith("#")) {
-						color = "blue";
-					}
-					state.add(text.substring(1), color);
 				}
-				else {
-					state.add(line);
-				}
+				if(callback)
+					callback();
 			}
-			if(callback)
-				callback();
-		}
-		else {
-			state.add(this.statusText, "red");
-		}
-	}, name.substring(0, name.length - 4));
+			else {
+				state.add(this.statusText, "red");
+			}
+		},
+		name.substring(0, name.length - 4)
+	);
 };
 
 SHATab.prototype.run = function() {
@@ -962,9 +969,9 @@ SHATab.prototype.run = function() {
 		var url = run.url.replace("%uid%", user.uid).replace("%pname%", this.getTitle().toLowerCase());
 		this.build(this.buildMode, function(){
 			if(!_editor_.runapp || _editor_.runapp.closed)
-				_editor_.runapp = window.open(window.location.origin + url);
+				_editor_.runapp = window.open(window.location.origin + url + "?b=" + _editor_.sdkEditor.getBuild());
 			else
-				_editor_.runapp.location = window.location.origin + url;
+				_editor_.runapp.location = window.location.origin + url + "?b=" + _editor_.sdkEditor.getBuild();
 		});
 	}
 }
