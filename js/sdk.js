@@ -242,8 +242,9 @@ function SDK(pack) {
 	};
 	
 	this.save = function (selection) {
-		var text = this.parent || selection ? "" : "Make(" + this.pack.name + ")\n";
-		if(this.buildCounter)
+		var savePart = this.parent || selection;
+		var text = savePart ? "" : "Make(" + this.pack.name + ")\n";
+		if(this.buildCounter && !savePart)
 			text += "Build(" + this.buildCounter + ")\n";
 		for (var e of this.imgs) {
 			if(selection && !e.isSelect()) {
