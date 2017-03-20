@@ -3,8 +3,16 @@ Add(MainForm,23,56,56)
 {
   Left=56
   Top=56
-  Height=#3:152|
+  Height=#3:154|
   Caption=#9:cmd.about|
+}
+Add(Panel,31,56,105)
+{
+  Left=7
+  Top=7
+  Width=#3:387|
+  Height=#2:37|
+  Theme=#7:my-logo|
 }
 Add(Image,24,140,56)
 {
@@ -20,7 +28,7 @@ Add(Label,25,203,56)
   Top=14
   Width=#3:344|
   Height=#2:21|
-  Caption=#40:Hion - Constructor of the program online|
+  Caption=#40:<strong>Hion</strong> - HiAsm Online IDE|
 }
 Add(Label,26,203,98)
 {
@@ -34,7 +42,18 @@ Add(Label,27,203,140)
 {
   Left=21
   Top=105
-  Width=#3:365|
+  Width=#3:176|
   Theme=#10:color-gray|
   Caption=#16:Copyright 2017 ©|
+}
+Add(CSS,32,56,147)
+{
+  StyleSheet=#10:.my-logo {|26:	background-color: silver;|1:}|
+}
+Add(Label,28,287,98)
+{
+  Left=266
+  Top=105
+  Width=#3:120|
+  Caption=#17:support@hiasm.com|
 }
