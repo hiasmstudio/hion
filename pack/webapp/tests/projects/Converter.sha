@@ -1,0 +1,89 @@
+Make(webapp)
+Build(6)
+Add(MainForm,1,56,56)
+{
+  link(onCreate,5:doEvent1,[])
+}
+Add(Converter,2,217,56)
+{
+  link(onConvert,3:doCaption,[])
+}
+Add(Label,3,280,56)
+{
+  Left=266
+  Top=56
+}
+Add(DoData,4,161,56)
+{
+  Data=Real(12)
+  link(onEventData,2:doConvert,[])
+}
+Add(Hub,5,119,56)
+{
+  OutCount=5
+  link(onEvent1,4:doData,[])
+  link(onEvent2,8:doData,[(147,69)(147,111)])
+  link(onEvent3,11:doData,[(147,76)(147,160)])
+  link(onEvent4,14:doData,[(147,83)(147,209)])
+  link(onEvent5,17:doData,[(147,90)(147,258)])
+}
+Add(Converter,6,217,105)
+{
+  Mode=1
+  link(onConvert,7:doCaption,[])
+}
+Add(Label,7,280,105)
+{
+  Left=266
+  Top=77
+}
+Add(DoData,8,161,105)
+{
+  Data=String(1234f)
+  link(onEventData,6:doConvert,[])
+}
+Add(Converter,9,217,154)
+{
+  Mode=2
+  link(onConvert,10:doCaption,[])
+}
+Add(Label,10,280,154)
+{
+  Left=266
+  Top=98
+}
+Add(DoData,11,161,154)
+{
+  Data=Real(12.89)
+  link(onEventData,9:doConvert,[])
+}
+Add(Converter,12,217,203)
+{
+  Mode=3
+  link(onConvert,13:doCaption,[])
+}
+Add(Label,13,280,203)
+{
+  Left=266
+  Top=119
+}
+Add(DoData,14,161,203)
+{
+  Data=String(a)
+  link(onEventData,12:doConvert,[])
+}
+Add(Converter,15,217,252)
+{
+  Mode=4
+  link(onConvert,16:doCaption,[])
+}
+Add(Label,16,280,252)
+{
+  Left=266
+  Top=140
+}
+Add(DoData,17,161,252)
+{
+  Data=Real(97)
+  link(onEventData,15:doConvert,[])
+}
