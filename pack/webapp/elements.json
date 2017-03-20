@@ -2015,7 +2015,7 @@
 			{ "name": "File", "type": 4 }
 		],
 		"props": [
-			{ "name": "Type", "type": 4, "def": 0, "list": "Text,BinaryString,DataURL" }
+			{ "name": "Type", "type": 4, "def": 0, "list": "Text,ArrayBuffer,DataURL" }
 		]
 	},
 	"ODialog": {
