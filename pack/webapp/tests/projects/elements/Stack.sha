@@ -1,0 +1,34 @@
+Make(webapp)
+Build(18)
+Add(MainForm,1,56,84)
+{
+  link(onCreate,18:doPush,[])
+}
+Add(Stack,18,154,84)
+{
+  link(onPush,20:doCaption,[])
+  link(onPop,21:doCaption,[(212,97)(212,139)])
+  link(Data,19:Value,[])
+}
+Add(Memory,19,154,14)
+{
+  Default=String(test)
+}
+Add(Label,20,238,84)
+{
+  Left=238
+  Top=84
+}
+Add(Label,21,238,133)
+{
+  Left=238
+  Top=140
+}
+Add(Button,22,56,133)
+{
+  Left=77
+  Top=105
+  Width=#2:80|
+  Height=#2:42|
+  link(onClick,18:doPop,[(121,139)(121,97)])
+}

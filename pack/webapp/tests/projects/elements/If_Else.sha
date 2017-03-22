@@ -1,0 +1,77 @@
+Make(webapp)
+Build(21)
+Add(MainForm,1,35,84)
+{
+  link(onCreate,26:doEvent1,[])
+}
+Add(Hub,26,91,84)
+{
+  OutCount=4
+  link(onEvent1,44:doData,[])
+  link(onEvent2,45:doCompare,[(126,97)(126,181)])
+  link(onEvent3,53:doData,[(124,104)(124,272)])
+}
+Add(If_else,41,196,84)
+{
+  Op2=Real(1)
+  link(onTrue,42:doCaption,[])
+  link(onFalse,43:doCaption,[(250,97)(250,132)])
+}
+Add(Label,42,273,84)
+{
+  Left=90
+  Top=27
+}
+Add(Label,43,273,126)
+{
+  Left=91
+  Top=39
+}
+Add(DoData,44,140,84)
+{
+  Data=Real(1)
+  link(onEventData,41:doCompare,[])
+}
+Add(If_else,45,196,175)
+{
+  Op1=Real(2)
+  Op2=Real(2)
+  link(onTrue,46:doCaption,[])
+  link(onFalse,47:doCaption,[(250,188)(250,223)])
+}
+Add(Label,46,273,175)
+{
+  Left=90
+  Top=83
+}
+Add(Label,47,273,217)
+{
+  Left=91
+  Top=95
+}
+Add(If_else,49,196,266)
+{
+  Op2=Real(3)
+  link(onTrue,50:doCaption,[])
+  link(onFalse,51:doCaption,[(250,279)(250,314)])
+  link(Op1,52:Value,[])
+}
+Add(Label,50,273,266)
+{
+  Left=90
+  Top=132
+}
+Add(Label,51,273,308)
+{
+  Left=91
+  Top=144
+}
+Add(Memory,52,196,217)
+{
+  Default=Real(3)
+}
+Add(DoData,53,147,266)
+{
+  Data=String(test)
+  link(onEventData,49:doCompare,[])
+}

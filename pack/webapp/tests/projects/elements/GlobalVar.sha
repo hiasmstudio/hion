@@ -1,0 +1,103 @@
+Make(webapp)
+Build(19)
+Add(MainForm,1,35,84)
+{
+  link(onCreate,26:doEvent1,[])
+}
+Add(GlobalVar,23,203,84)
+{
+  Name=#4:test|
+  link(onValue,34:doCaption,[])
+}
+Add(DoData,24,154,84)
+{
+  Data=String(test)
+  link(onEventData,23:doValue,[])
+}
+Add(InfoTip,25,140,63)
+{
+  Info=#3:set|
+  @Width=155
+  @Height=67
+}
+Add(Hub,26,91,84)
+{
+  OutCount=4
+  link(onEvent1,24:doData,[])
+  link(onEvent2,28:doData,[(127,97)(127,188)])
+  link(onEvent3,36:doData,[(129,104)(129,363)])
+  link(onEvent4,39:doData,[(129,111)(129,440)])
+}
+Add(Label,27,238,182)
+{
+  Left=315
+  Top=154
+}
+Add(DoData,28,161,182)
+{
+  link(onEventData,27:doCaption,[])
+  link(Data,29:Var,[])
+}
+Add(GlobalVar,29,161,147)
+{
+  Name=#4:test|
+}
+Add(InfoTip,30,140,140)
+{
+  Info=#3:get|
+  @Width=155
+  @Height=88
+}
+Add(GlobalVar,31,154,280)
+{
+  Name=#5:test2|
+}
+Add(GlobalVar,32,231,280)
+{
+  Name=#5:test2|
+  Default=#2:22|
+}
+Add(InfoTip,33,140,238)
+{
+  Info=#12:init default|
+  @Width=155
+  @Height=88
+}
+Add(Label,34,259,84)
+{
+  Left=315
+  Top=154
+}
+Add(GlobalVar,35,203,357)
+{
+  Name=#5:test3|
+  Save=1
+}
+Add(DoData,36,154,357)
+{
+  Data=String(test save)
+  link(onEventData,35:doValue,[])
+}
+Add(InfoTip,37,140,336)
+{
+  Info=#4:save|
+  @Width=155
+  @Height=67
+}
+Add(GlobalVar,38,203,434)
+{
+  Name=#5:test4|
+  Default=#2:44|
+  Save=1
+}
+Add(DoData,39,154,434)
+{
+  Data=String(test save)
+  link(onEventData,38:doValue,[])
+}
+Add(InfoTip,40,140,413)
+{
+  Info=#12:save default|
+  @Width=155
+  @Height=67
+}

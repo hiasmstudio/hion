@@ -1,0 +1,178 @@
+Make(webapp)
+Build(53)
+Add(MainForm,1,35,84)
+{
+  link(onCreate,61:doEvent1,[])
+}
+Add(Label,42,266,133)
+{
+  Left=90
+  Top=27
+}
+Add(Label,43,322,133)
+{
+  Left=91
+  Top=60
+}
+Add(Case,54,203,84)
+{
+  Value=Real(1)
+  DataOnTrue=String(it is 1)
+  link(onNextCase,55:doCase,[])
+  link(onTrue,42:doCaption,[(251,97)(251,139)])
+}
+Add(Case,55,266,84)
+{
+  Value=String(hello)
+  DataOnTrue=String(it is hello)
+  link(onNextCase,56:doCaption,[])
+  link(onTrue,43:doCaption,[(310,97)(310,139)])
+}
+Add(Label,56,322,84)
+{
+  Left=154
+  Top=42
+}
+Add(DoData,59,140,84)
+{
+  Data=Real(1)
+  link(onEventData,54:doCase,[])
+}
+Add(InfoTip,60,119,56)
+{
+  Info=#25:two cascade with all data|
+  @Width=253
+  @Height=123
+}
+Add(Hub,61,91,84)
+{
+  OutCount=5
+  link(onEvent1,59:doData,[])
+  link(onEvent2,67:doData,[(122,97)(122,223)])
+  link(onEvent3,72:doData,[(122,104)(122,356)])
+  link(onEvent4,75:doCase,[(122,111)(122,531)])
+  link(onEvent5,85:doData,[(122,118)(122,664)])
+}
+Add(Label,62,266,266)
+{
+  Left=90
+  Top=90
+}
+Add(Case,64,203,217)
+{
+  Value=String()
+  DataOnTrue=String(it is 2)
+  link(onNextCase,66:doCaption,[])
+  link(onTrue,62:doCaption,[(251,230)(251,272)])
+}
+Add(Label,66,266,217)
+{
+  Left=154
+  Top=105
+}
+Add(DoData,67,140,217)
+{
+  Data=Real(2)
+  link(onEventData,64:doCase,[])
+}
+Add(InfoTip,68,119,189)
+{
+  Info=#11:empty value|
+  @Width=253
+  @Height=123
+}
+Add(Label,69,266,399)
+{
+  Left=90
+  Top=139
+}
+Add(Case,70,203,350)
+{
+  Value=String(value2)
+  DataOnTrue=String()
+  link(onTrue,69:doCaption,[(251,363)(251,405)])
+}
+Add(DoData,72,140,350)
+{
+  Data=Real(3)
+  link(onEventData,70:doCase,[])
+}
+Add(InfoTip,73,119,322)
+{
+  Info=#27:one cascade without default|
+  @Width=253
+  @Height=123
+}
+Add(Label,74,266,532)
+{
+  Left=90
+  Top=167
+}
+Add(Case,75,203,525)
+{
+  Value=Real(4)
+  DataOnTrue=String(it is 4)
+  link(onNextCase,76:doCaption,[(251,531)(251,489)])
+  link(onTrue,74:doCaption,[])
+  link(Data,79:Value,[])
+}
+Add(Label,76,266,483)
+{
+  Left=154
+  Top=182
+}
+Add(InfoTip,78,119,455)
+{
+  Info=#15:data from point|
+  @Width=253
+  @Height=123
+}
+Add(Memory,79,203,476)
+{
+  Default=Real(4)
+}
+Add(Label,80,266,707)
+{
+  Left=90
+  Top=209
+}
+Add(Label,81,322,707)
+{
+  Left=91
+  Top=242
+}
+Add(Case,82,203,658)
+{
+  Value=Real(1)
+  DataOnTrue=String(it is 5)
+  link(onNextCase,83:doCase,[])
+  link(onTrue,80:doCaption,[(251,671)(251,713)])
+}
+Add(Case,83,266,658)
+{
+  Value=String(hello)
+  DataOnTrue=String(it is hello)
+  link(onNextCase,84:doCaption,[])
+  link(onTrue,81:doCaption,[(310,671)(310,713)])
+  link(Data,87:Value,[])
+}
+Add(Label,84,322,658)
+{
+  Left=154
+  Top=224
+}
+Add(DoData,85,140,658)
+{
+  Data=Real(5)
+  link(onEventData,82:doCase,[])
+}
+Add(InfoTip,86,119,588)
+{
+  Info=#14:different data|
+  @Width=253
+  @Height=165
+}
+Add(Memory,87,266,609)
+{
+  Default=Real(6)
+}

@@ -1,0 +1,35 @@
+Make(webapp)
+ver(5.0.13)
+Add(MainForm,1,49,126)
+{
+ link(onCreate,31:doNext,[])
+}
+Add(Counter,31,161,126)
+{
+ link(onCounter,32:doCaption,[])
+}
+Add(Label,32,245,126)
+{
+}
+Add(Button,33,49,175)
+{
+ Left=50
+ Top=175
+ Point(onClick)
+ link(onClick,35:doEvent1,[])
+}
+Add(Label,34,245,182)
+{
+ Left=240
+ Top=175
+}
+Add(Hub,35,98,175)
+{
+ link(onEvent1,31:doReset,[(128,181)(128,139)])
+ link(onEvent2,36:doData,[])
+}
+Add(DoData,36,161,182)
+{
+ link(onEventData,34:doCaption,[])
+ link(Data,31:Value,[])
+}

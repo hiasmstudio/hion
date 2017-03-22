@@ -1,0 +1,97 @@
+Make(webapp)
+Build(6)
+Add(MainForm,1,56,56)
+{
+  link(onCreate,6:doEvent1,[])
+}
+Add(DoData,3,168,56)
+{
+  Data=String(test works)
+  link(onEventData,4:doEvent,[])
+}
+Add(Debug,4,231,56)
+{
+}
+Add(InfoTip,5,140,28)
+{
+  Info=#13:workd wo name|
+  @Width=141
+  @Height=81
+}
+Add(Hub,6,105,56)
+{
+  OutCount=5
+  link(onEvent1,3:doData,[])
+  link(onEvent2,7:doData,[(143,69)(143,153)])
+  link(onEvent3,14:doData,[(143,76)(143,279)])
+  link(onEvent4,18:doData,[(143,83)(143,412)])
+  link(onEvent5,20:doEvent,[(143,90)(143,510)])
+}
+Add(DoData,7,168,147)
+{
+  Data=String(test works name)
+  link(onEventData,8:doEvent,[])
+}
+Add(Debug,8,231,147)
+{
+  WEName=#4:Work|
+}
+Add(InfoTip,9,140,119)
+{
+  Info=#15:workd with name|
+  @Width=141
+  @Height=81
+}
+Add(Debug,11,168,245)
+{
+  link(Data,13:Value,[(174,231)(209,231)(209,319)(244,319)])
+}
+Add(InfoTip,12,140,210)
+{
+  Info=#12:data wo name|
+  @Width=141
+  @Height=123
+}
+Add(Memory,13,238,273)
+{
+  Default=String(test)
+}
+Add(DoData,14,168,273)
+{
+  link(onEventData,13:doValue,[])
+  link(Data,11:Var,[])
+}
+Add(Debug,15,168,378)
+{
+  VDName=#4:Data|
+  link(Data,17:Value,[(174,364)(209,364)(209,452)(244,452)])
+}
+Add(InfoTip,16,140,343)
+{
+  Info=#14:data with name|
+  @Width=141
+  @Height=123
+}
+Add(Memory,17,238,406)
+{
+  Default=String(test)
+}
+Add(DoData,18,168,406)
+{
+  link(onEventData,17:doValue,[])
+  link(Data,15:Var,[])
+}
+Add(Debug,20,168,504)
+{
+  link(onEvent,22:doData,[])
+}
+Add(InfoTip,21,140,476)
+{
+  Info=#10:empty data|
+  @Width=141
+  @Height=81
+}
+Add(DoData,22,210,504)
+{
+  link(Data,20:Var,[(216,490)(195,490)(195,530)(174,530)])
+}
