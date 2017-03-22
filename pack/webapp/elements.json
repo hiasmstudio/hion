@@ -1380,12 +1380,13 @@
 		"tab": "tools",
 		"points": [
 			{ "name": "doCase", "type": 1 },
-			{ "name": "onNextCase", "type": 2 },
-			{ "name": "onTrue", "type": 2 }
+			{ "name": "onNextCase", "type": 2, "args": "Data" },
+			{ "name": "onTrue", "type": 2, "args": "DataOnTrue" },
+			{ "name": "Data", "type": 4 }
 		],
 		"props": [
-			{ "name": "Value", "type": 2, "def": "", "flags": 1 },
-			{ "name": "DataOnTrue", "type": 2, "def": "" }
+			{ "name": "Value", "type": 3, "flags": 1 },
+			{ "name": "DataOnTrue", "type": 3 }
 		]
 	},
 	"For": {
