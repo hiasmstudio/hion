@@ -259,3 +259,16 @@ Add(GetDataEx,78,434,77)
   Angle=3
   link(Data,74:Var3,[(440,84)])
 }
+Add(Button,79,28,245)
+{
+  Left=14
+  Top=273
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#7:ui.help|
+  link(onClick,80:doOpen,[])
+}
+Add(Window,80,105,245)
+{
+  URL=#32:http://forum.hiasm.com/wiki/5928|
+}

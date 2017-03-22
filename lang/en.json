@@ -82,6 +82,7 @@
 	"ui.width": "Width",
 	"ui.align": "Align",
 	"ui.type": "Type",
+	"ui.help": "Help",
 
 	"ui.settings": "Settings",
 	"ui.autosaveopt": "Autosave options",
