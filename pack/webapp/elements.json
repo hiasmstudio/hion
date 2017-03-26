@@ -513,6 +513,20 @@
 			{ "name": "Value", "type": 4 }
 		]
 	},
+	"ChartDataRemoveRow": {
+		"tab": "googlechart",
+		"points": [
+			{ "name": "doRemove", "type": 1 },
+			{ "name": "onRemove", "type": 2, "args": "Data" },
+			{ "name": "Data", "type": 4 },
+			{ "name": "Index", "type": 4 },
+			{ "name": "Count", "type": 4 }
+		],
+		"props": [
+			{ "name": "Index", "type": 1, "def" : 0 },
+			{ "name": "Count", "type": 1, "def" : 0 }
+		]
+	},
 	"chart": { "tab": "googlechart", "group": true },
 	"googlechart": {
 		"inherit": "wincontrol",
@@ -1769,6 +1783,32 @@
 		"points": [
 			{ "name": "doBuild", "type": 1 },
 			{ "name": "onBuild", "type": 2, "args": "Array" }
+		]
+	},
+	"ArrayJoin": {
+		"tab": "array",
+		"props": [
+			{ "name": "Separator", "type": 2, "def": "", "flags": 1 }
+		],
+		"points": [
+			{ "name": "doJoin", "type": 1 },
+			{ "name": "onJoin", "type": 2, "args": "String" },
+			{ "name": "Array", "type": 4 },
+			{ "name": "Separator", "type": 4, "data": 2 }
+		]
+	},
+	"ArrayIndexOf": {
+		"tab": "array",
+		"props": [
+			{ "name": "Value", "type": 3, "def": "", "flags": 1 },
+			{ "name": "FromIndex", "type": 1, "def": 0 }
+		],
+		"points": [
+			{ "name": "doIndexOf", "type": 1 },
+			{ "name": "onIndexOf", "type": 2, "args": "Index" },
+			{ "name": "Array", "type": 4 },
+			{ "name": "Value", "type": 4 },
+			{ "name": "FromIndex", "type": 4, "data": 1 }
 		]
 	},
 	"matrix": { "tab": "array", "group": true },

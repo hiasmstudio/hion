@@ -1177,6 +1177,23 @@ function modules() {
 					this.parent.onBuild.call(array);
 				};
 				break;
+			case "ArrayJoin":
+				i.doJoin.onevent = function(data) {
+					var d = this.parent.d(data);
+					var array = d.read("Array");
+					var s = d.read("Separator");
+					this.parent.onJoin.call(array.join(s));
+				};
+				break;
+			case "ArrayIndexOf":
+				i.doIndexOf.onevent = function(data) {
+					var d = this.parent.d(data);
+					var array = d.read("Array");
+					var value = d.read("Value");
+					var from = d.readInt("FromIndex");
+					this.parent.onIndexOf.call(array.indexOf(value, from));
+				};
+				break;
 			case "JSON":
 				i.doConvert.onevent = function(data) {
 					var d = this.parent.d(data).read("Data");
@@ -2298,6 +2315,16 @@ function modules() {
 					var dataTable = d.read("Data");
 					dataTable.addRow(d.read("Value"));
 					this.parent.onAdd.call(dataTable);
+				};
+				break;
+			case "ChartDataRemoveRow":
+				i.doRemove.onevent = function(data) {
+					var d = this.parent.d(data);
+					var dataTable = d.read("Data");
+					var index = d.read("Index");
+					var count = d.read("Count");
+					dataTable.removeRows(index, count);
+					this.parent.onRemove.call(dataTable);
 				};
 				break;
 			case "ChartPie":

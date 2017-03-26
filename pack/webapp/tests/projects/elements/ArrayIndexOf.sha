@@ -1,0 +1,50 @@
+Make(webapp)
+Build(16)
+Add(MainForm,1,56,98)
+{
+  link(onCreate,6:doEvent1,[])
+}
+Add(Array,2,217,35)
+{
+  Array=#11:[1,2,3,4,5]|
+}
+Add(ArrayIndexOf,3,217,98)
+{
+  link(onIndexOf,4:doCaption,[])
+  link(Array,10:Var2,[])
+}
+Add(Label,4,280,98)
+{
+  Left=112
+  Top=35
+}
+Add(DoData,5,161,98)
+{
+  Data=Real(4)
+  link(onEventData,3:doIndexOf,[])
+}
+Add(Hub,6,112,98)
+{
+  link(onEvent1,5:doData,[])
+  link(onEvent2,8:doData,[(147,111)(147,167)])
+}
+Add(ArrayIndexOf,7,238,161)
+{
+  Value=String(test)
+  link(onIndexOf,9:doCaption,[])
+  link(Array,10:Var3,[(244,84)])
+}
+Add(DoData,8,161,161)
+{
+  Data=Real(1)
+  link(onEventData,7:doIndexOf,[])
+}
+Add(Label,9,294,161)
+{
+  Left=112
+  Top=56
+}
+Add(GetDataEx,10,217,77)
+{
+  link(Data,2:Array,[])
+}

@@ -1,0 +1,102 @@
+Make(webapp)
+Add(MainForm,1,63,119)
+{
+  link(onCreate,13:doEvent1,[])
+}
+Add(Memory,2,308,112)
+{
+  link(onData,3:doData,[(354,118)(354,156)(290,156)(290,181)])
+}
+Add(DoData,3,308,175)
+{
+  link(onEventData,4:doMessage,[])
+  link(Data,2:Value,[])
+}
+Add(Message,4,371,175)
+{
+}
+Add(Memory,5,308,259)
+{
+  link(onData,6:doData,[(354,265)(354,303)(290,303)(290,328)])
+}
+Add(DoData,6,308,322)
+{
+  link(onEventData,7:doMessage,[])
+  link(Data,5:Value,[])
+}
+Add(Message,7,371,322)
+{
+}
+Add(Button,8,196,259)
+{
+  Left=91
+  Top=238
+  link(onClick,5:doValue,[])
+}
+Add(Button,9,196,308)
+{
+  Left=63
+  Top=294
+  link(onClick,5:doClear,[(268,314)(268,272)])
+}
+Add(Memory,10,308,413)
+{
+  Default=String(test)
+}
+Add(DoData,11,308,469)
+{
+  link(onEventData,12:doMessage,[])
+  link(Data,10:Value,[])
+}
+Add(Message,12,371,469)
+{
+}
+Add(Hub,13,119,119)
+{
+  link(onEvent1,2:doClear,[])
+  link(onEvent2,11:doData,[(147,132)(147,475)])
+}
+Add(InfoTip,14,175,84)
+{
+  Info=#12:doClear only|
+  @Width=253
+  @Height=137
+}
+Add(InfoTip,15,175,238)
+{
+  Info=#17:doClear + doValue|
+  @Width=253
+  @Height=137
+}
+Add(InfoTip,16,175,392)
+{
+  Info=#8:as const|
+  @Width=253
+  @Height=137
+}
+Add(Memory,17,308,567)
+{
+  Default=Real(1)
+  link(onData,18:doData,[(354,573)(354,611)(290,611)(290,636)])
+}
+Add(DoData,18,308,630)
+{
+  link(onEventData,19:doMessage,[])
+  link(Data,17:Value,[])
+}
+Add(Message,19,371,630)
+{
+}
+Add(Button,20,196,567)
+{
+  Left=91
+  Top=238
+  Data=String(hello)
+  link(onClick,17:doValue,[])
+}
+Add(InfoTip,22,175,546)
+{
+  Info=#37:different type of init value and data|
+  @Width=253
+  @Height=137
+}

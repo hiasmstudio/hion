@@ -1,0 +1,46 @@
+Make(webapp)
+Build(1)
+Add(MainForm,1,56,98)
+{
+  link(onCreate,4:doEvent1,[])
+}
+Add(ArrayJoin,2,203,98)
+{
+  link(onJoin,7:doCaption,[])
+  link(Array,9:Var2,[])
+}
+Add(Array,3,203,28)
+{
+  Array=#11:[1,2,3,4,5]|
+}
+Add(Hub,4,126,98)
+{
+  link(onEvent1,2:doJoin,[])
+  link(onEvent2,6:doData,[(168,111)(168,153)])
+}
+Add(ArrayJoin,5,273,147)
+{
+  Separator=#1:,|
+  link(onJoin,8:doCaption,[])
+  link(Array,9:Var3,[(279,77)])
+}
+Add(DoData,6,203,147)
+{
+  link(onEventData,5:doJoin,[])
+}
+Add(Label,7,336,98)
+{
+  Left=91
+  Top=56
+  Width=#3:253|
+}
+Add(Label,8,336,147)
+{
+  Left=91
+  Top=105
+  Width=#3:253|
+}
+Add(GetDataEx,9,203,70)
+{
+  link(Data,3:Array,[])
+}

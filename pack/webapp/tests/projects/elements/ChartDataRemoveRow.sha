@@ -1,0 +1,49 @@
+Make(webapp)
+Build(1)
+Add(MainForm,1,56,56)
+{
+  Left=56
+  Top=56
+  Width=#3:403|
+  Height=#3:383|
+  Caption=#14:Pie chart demo|
+}
+Add(Button,3,147,126)
+{
+  Left=294
+  Top=14
+  Caption=#4:Draw|
+  link(onClick,32:doWork2,[])
+}
+Add(ChartData,13,210,63)
+{
+  Array=#1:[|28:  ["Browser", "Popularity"],|30:  ["Google Chrome", 73058866],|30:  ["Mobile Safari", 21038402],|32:  ["Android Browser", 19410635],|31:  ["Яндекс.Браузер", 11546258],|22:  ["Firefox", 8993858]|1:]|
+}
+Add(ChartPie,28,210,126)
+{
+  Left=21
+  Top=42
+  Width=#3:363|
+  Title=#23:Browser popularity 2016|
+  link(Data,31:Var2,[])
+}
+Add(ChartDataRemoveRow,29,238,175)
+{
+  Count=10
+  link(onRemove,32:doWork3,[(284,181)(284,165)(193,165)])
+  link(Data,31:Var3,[(244,112)])
+}
+Add(Button,30,147,175)
+{
+  Left=28
+  Top=7
+  link(onClick,29:doRemove,[])
+}
+Add(GetDataEx,31,210,105)
+{
+  link(Data,13:Data,[])
+}
+Add(HubEx,32,189,126)
+{
+  link(onEvent,28:doDraw,[])
+}
