@@ -1,0 +1,626 @@
+Make(webapp)
+Build(1)
+Add(MainForm,1,56,56)
+{
+  Width=#3:777|
+  Height=#3:587|
+}
+Add(ArrayEnum,2,357,126)
+{
+  link(onEnum,6:doGet,[])
+  link(onEnd,17:doEnum,[(405,139)(405,173)(182,173)(182,202)])
+  link(Array,105:Var3,[(363,105)])
+}
+Add(Button,3,105,112)
+{
+  Left=14
+  Top=210
+  Width=#2:80|
+  Enabled=0
+  Caption=#10:Корреляция|
+  Point(doEnabled)
+  link(onClick,18:doEvent1,[])
+}
+Add(ArrayEnum,4,511,126)
+{
+  link(onEnum,91:doPosition,[])
+}
+Add(MathParse,5,371,196)
+{
+  MathStr=#50:($table[3] * $table[0] - $table[2] * $table[1]) / |30:sqrt(($table[2] + $table[3]) *|25:($table[0] + $table[1]) *|25:($table[1] + $table[3]) *|24:($table[0] + $table[2]))|
+  DataCount=1
+  Args=#5:table|
+  link(table,61:table,[(377,182)(339,182)(339,242)(300,242)])
+}
+Add(JSON_Field,6,441,126)
+{
+  Name=#6:events|
+  link(onGet,4:doEnum,[])
+}
+Add(Version,7,56,175)
+{
+  Version=#4:0.60|
+  Description=#19:Превращение в белку|
+  InternalName=#8:Squirrel|
+}
+Add(Debug,8,742,252)
+{
+  WEName=#6:коэф.:|
+}
+Add(JSON_Enum,9,364,329)
+{
+  link(onEnum,19:doEvent1,[(416,335)(416,258)])
+  link(onEndEnum,49:doEvent1,[])
+  link(Object,87:Var2,[])
+}
+Add(JSON_Field,10,602,252)
+{
+  link(onGet,12:doString,[])
+  link(Object,89:Var3,[(608,236)(468,236)(468,315)])
+}
+Add(Memory,11,553,252)
+{
+  link(onData,10:doGet,[])
+}
+Add(FormatStr,12,686,252)
+{
+  Mask=#6:%1: %2|
+  link(onFString,8:doEvent,[])
+  link(Str1,50:Var1,[(692,238)(664,238)])
+}
+Add(Array,13,714,56)
+{
+  Array=#2:[]|
+}
+Add(ArrayAdd,14,714,133)
+{
+  link(Array,16:Var3,[(720,112)])
+  link(Value,4:Item,[(727,122)(755,122)(755,173)(517,173)])
+}
+Add(If_else,15,630,126)
+{
+  Type=5
+  Op2=Real(-1)
+  link(onFalse,14:doAdd,[])
+}
+Add(GetDataEx,16,714,105)
+{
+  link(Data,13:Array,[])
+}
+Add(ArrayEnum,17,196,196)
+{
+  link(onEnum,80:doEvent1,[])
+  link(onEnd,9:doEnum,[(242,209)(242,335)])
+  link(Array,92:Var1,[(202,112)])
+}
+Add(Hub,18,154,112)
+{
+  OutCount=3
+  link(onEvent1,21:doAdd,[(905,118)(905,321)])
+  link(onEvent2,2:doEnum,[(262,125)(262,132)])
+  link(onEvent3,108:doWork3,[(181,132)(181,155)(39,155)])
+}
+Add(Hub,19,490,252)
+{
+  link(onEvent1,11:doValue,[])
+  link(onEvent2,26:doCompare,[(532,265)(532,328)])
+}
+Add(ChartData,20,784,245)
+{
+}
+Add(ChartDataAddColumn,21,917,315)
+{
+  Title=#6:Events|
+  link(onAdd,22:doAdd,[])
+  link(Data,90:Var3,[(923,301)])
+}
+Add(ChartDataAddColumn,22,980,315)
+{
+  Title=#4:Phis|
+  Type=1
+}
+Add(ArrayBuilder,23,700,322)
+{
+  Items=#6:Events|4:Phis|
+  link(onBuild,24:doAdd,[])
+  link(Events,50:Var3,[(706,311)])
+}
+Add(ChartDataAddRow,24,749,322)
+{
+  link(onAdd,59:doNext,[])
+  link(Data,32:Var1,[(755,301)])
+}
+Add(ChartPie,25,784,399)
+{
+  Left=105
+  Top=245
+  Width=#3:314|
+  Title=#30:Препятствует обращению в белку|
+  link(Data,42:Var2,[])
+}
+Add(If_else,26,602,322)
+{
+  Type=1
+  Op2=Real(0)
+  link(onTrue,60:doCalc,[])
+  link(Op1,31:Var2,[])
+}
+Add(Firebase,27,119,56)
+{
+  ApiKey=#39:AIzaSyD2mvX7Mzl_u3pV4IpncNhmzosvV4Asb-s|
+  AuthDomain=#21:proba.firebaseapp.com|
+  DatabaseURL=#28:https://proba.firebaseio.com|
+  StorageBucket=#26:firebase-proba.appspot.com|
+  link(onInit,28:doReference,[])
+}
+Add(FBNode,28,182,56)
+{
+  Path=#7:journal|
+  link(onReference,94:doRead,[])
+}
+Add(Memory,29,301,56)
+{
+  link(onData,95:doTable,[])
+}
+Add(Loader,30,630,63)
+{
+  Left=392
+  Top=245
+  Point(doVisible)
+}
+Add(GetDataEx,31,602,294)
+{
+  link(Data,10:Result,[])
+}
+Add(GetDataEx,32,784,294)
+{
+  link(Data,20:Data,[])
+}
+Add(InfoTip,33,945,35)
+{
+  Info=#17:Возникли вопросы:|0:|28:- Очистка массива ChartData;|38:- Поиск элемента в массиве .indexOf();|35:- Перевод массива в строку .join();|63:- Элемент для определения конца загрузки JS-файлов (библиотек).|
+  HAlign=0
+  @Width=239
+  @Height=151
+}
+Add(DoData,34,553,63)
+{
+  Data=Real(0)
+  link(onEventData,30:doVisible,[])
+}
+Add(ChartPie,35,819,532)
+{
+  Left=434
+  Top=245
+  Width=#3:314|
+  Title=#29:Вероятность обращения в белку|
+  link(Data,42:Var3,[(825,385)])
+}
+Add(JSON_Enum,36,462,476)
+{
+  link(onEnum,37:doEvent1,[])
+  link(onEndEnum,35:doDraw,[(504,489)(504,538)])
+  link(Object,88:Var2,[])
+}
+Add(Hub,37,518,476)
+{
+  link(onEvent1,39:doValue,[(542,482)(542,419)])
+  link(onEvent2,40:doCompare,[])
+}
+Add(JSON_Field,38,602,413)
+{
+  link(Object,88:Var3,[(608,385)])
+}
+Add(Memory,39,553,413)
+{
+  link(onData,38:doGet,[])
+}
+Add(If_else,40,602,483)
+{
+  Type=4
+  Op2=Real(0)
+  link(onTrue,46:doNext,[])
+  link(Op1,43:Var2,[])
+}
+Add(ChartDataSet,41,763,483)
+{
+  Column=1
+  link(Data,45:Var2,[])
+  link(Row,47:Var3,[(776,469)])
+  link(Value,43:Var3,[(790,462)])
+}
+Add(GetDataEx,42,784,378)
+{
+  link(Data,32:Var2,[])
+}
+Add(GetDataEx,43,602,455)
+{
+  link(Data,38:Result,[])
+}
+Add(ChartDataSet,44,707,483)
+{
+  link(onSet,41:doSet,[])
+  link(Data,45:Var1,[(713,385)])
+  link(Row,47:Var2,[])
+  link(Column,48:Value,[])
+  link(Value,39:Value,[(734,476)(559,476)])
+}
+Add(GetDataEx,45,763,378)
+{
+  Angle=1
+  link(Data,42:Var1,[])
+}
+Add(Counter,46,651,483)
+{
+  link(onCounter,44:doSet,[])
+}
+Add(GetDataEx,47,714,462)
+{
+  Angle=3
+  link(Data,46:Value,[(694,469)(694,527)(657,527)])
+}
+Add(Memory,48,721,413)
+{
+  Default=Real(0)
+}
+Add(Hub,49,427,336)
+{
+  OutCount=3
+  link(onEvent1,25:doDraw,[(462,342)(462,405)])
+  link(onEvent2,51:clearChartData,[(457,349)(457,377)])
+  link(onEvent3,36:doEnum,[(451,356)(451,482)])
+}
+Add(GetDataEx,50,658,304)
+{
+  Angle=3
+  link(Data,11:Value,[(559,311)])
+}
+Add(MultiElementEx,51,882,371)
+{
+  @Comment=#17:Очистка ChartData|
+  AddHint(69,23,0,0,@Comment)
+  link(Counter,59:Value,[(888,363)(839,363)])
+  link(CharData,90:Var2,[])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,52,7,7)
+{
+  WorkCount=#14:clearChartData|
+  DataCount=#7:Counter|8:CharData|
+  @VOffset=28
+  @HOffset=147
+  link(clearChartData,55:doFor,[])
+}
+Add(ChartDataSet,53,161,98)
+{
+  link(onSet,54:doSet,[])
+  link(Data,57:Var2,[])
+  link(Row,58:Var2,[])
+}
+Add(ChartDataSet,54,217,98)
+{
+  Column=1
+  link(Data,57:Var3,[(223,21)])
+  link(Row,58:Var3,[(230,84)])
+}
+Add(For,55,35,35)
+{
+  link(onEvent,56:doData,[(83,41)(83,104)])
+  link(End,52:Counter,[(41,21)(160,21)])
+}
+Add(DoData,56,98,98)
+{
+  Data=Real(0)
+  link(onEventData,53:doSet,[])
+}
+Add(GetDataEx,57,161,14)
+{
+  link(Data,52:CharData,[])
+}
+Add(GetDataEx,58,168,77)
+{
+  Angle=3
+  link(Data,55:Position,[(41,84)])
+}
+END_SDK
+Add(Counter,59,833,322)
+{
+}
+Add(MathParse,60,651,322)
+{
+  MathStr=#8:abs($X1)|
+  DataCount=1
+  Args=#2:X1|
+  link(onResult,23:doBuild,[])
+  link(X1,31:Var3,[(657,301)])
+}
+Add(MultiElementEx,61,294,196)
+{
+  @Comment=#8:tableFor|
+  link(end,5:doCalc,[])
+  link(event,81:Var1,[(300,182)(251,182)])
+  link(jornal,105:Var2,[])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,62,7,7)
+{
+  WorkCount=#8:tableFor|
+  EventCount=#3:end|
+  VarCount=#5:table|
+  DataCount=#5:event|6:jornal|
+  @VOffset=287
+  @HOffset=476
+  @Width=825
+  @Height=480
+  link(tableFor,66:doEvent1,[])
+  link(table,78:Var2,[])
+}
+Add(MathParse,63,483,245)
+{
+  MathStr=#9:[0,0,0,0]|
+  DataCount=0
+  Args=#0:|
+}
+Add(Hub,64,357,91)
+{
+  OutCount=5
+  link(onEvent1,74:doData,[])
+  link(onEvent2,77:doRead,[(403,104)(403,146)])
+  link(onEvent3,69:doGet,[(398,111)(398,202)])
+  link(onEvent4,68:doCalc,[(393,118)(393,237)])
+  link(onEvent5,62:end,[(387,125)(387,300)])
+}
+Add(ArrayEnum,65,273,91)
+{
+  link(onEnum,64:doEvent1,[])
+  link(Array,62:jornal,[(279,49)(496,49)])
+}
+Add(Hub,66,105,294)
+{
+  OutCount=3
+  link(onEvent1,63:doCalc,[(325,300)(325,251)])
+  link(onEvent2,65:doEnum,[(227,307)(227,97)])
+}
+Add(If_else,67,525,140)
+{
+  Type=5
+  Op2=Real(-1)
+  link(onTrue,71:doCalc,[])
+}
+Add(MathParse,68,630,231)
+{
+  MathStr=#19:$table[$index] += 1|
+  DataCount=1
+  Args=#5:table|5:index|
+  link(table,78:Var3,[(636,217)(622,217)(622,287)])
+  link(index,76:Var2,[])
+}
+Add(JSON_Field,69,469,196)
+{
+  Name=#5:белка|
+  link(onGet,70:doCompare,[])
+}
+Add(If_else,70,525,196)
+{
+  Type=5
+  Op2=Real(0)
+  link(onTrue,72:doCalc,[])
+}
+Add(MathParse,71,581,140)
+{
+  MathStr=#8:$X1 += 1|
+  DataCount=1
+  Args=#2:X1|
+  link(X1,75:Var1,[(587,133)])
+}
+Add(MathParse,72,581,196)
+{
+  MathStr=#8:$X1 += 2|
+  DataCount=1
+  Args=#2:X1|
+  link(X1,76:Var1,[(587,182)])
+}
+Add(Memory,73,637,91)
+{
+  Default=Real(0)
+}
+Add(DoData,74,525,91)
+{
+  Data=Real(0)
+  link(onEventData,73:doValue,[])
+}
+Add(GetDataEx,75,637,126)
+{
+  link(Data,73:Value,[])
+}
+Add(GetDataEx,76,637,175)
+{
+  link(Data,75:Var2,[])
+}
+Add(ObjectReader,77,420,140)
+{
+  EventFields=#8:onevents|
+  link(onevents,79:doPosition,[])
+}
+Add(GetDataEx,78,483,280)
+{
+  link(Data,63:Result,[])
+}
+Add(Position,79,476,140)
+{
+  link(onPosition,67:doCompare,[])
+  link(Search,62:event,[])
+}
+END_SDK
+Add(Hub,80,259,196)
+{
+  link(onEvent1,61:tableFor,[])
+  link(onEvent2,82:storePhi,[(287,209)(287,265)])
+}
+Add(GetDataEx,81,245,242)
+{
+  Angle=3
+  link(Data,17:Item,[(202,249)])
+}
+Add(MultiElementEx,82,364,259)
+{
+  @Comment=#14:Запись коэф. Ф|
+  AddHint(-111,36,0,0,@Comment)
+  link(event,81:Var3,[(370,249)])
+  link(phi,5:Result,[])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,83,21,21)
+{
+  WorkCount=#8:storePhi|
+  VarCount=#3:map|
+  DataCount=#5:event|3:phi|
+  @VOffset=77
+  @HOffset=126
+  link(storePhi,85:doSet,[])
+  link(map,86:Var2,[(153,151)(76,151)])
+}
+Add(Object,84,70,28)
+{
+}
+Add(JSON_Field_Set,85,140,98)
+{
+  link(Object,86:Var3,[(146,77)])
+  link(Name,83:event,[])
+  link(Value,83:phi,[])
+}
+Add(GetDataEx,86,70,70)
+{
+  link(Data,84:Object,[])
+}
+END_SDK
+Add(GetDataEx,87,364,308)
+{
+  link(Data,82:map,[])
+}
+Add(GetDataEx,88,462,378)
+{
+  link(Data,89:Var2,[])
+}
+Add(GetDataEx,89,462,308)
+{
+  Angle=3
+  link(Data,87:Var3,[])
+}
+Add(GetDataEx,90,889,294)
+{
+  Angle=3
+  link(Data,32:Var3,[])
+}
+Add(Position,91,567,126)
+{
+  link(onPosition,15:doCompare,[])
+  link(String,92:Var2,[])
+}
+Add(GetDataEx,92,567,105)
+{
+  Angle=1
+  link(Data,16:Var1,[])
+}
+Add(SimpleTable,93,483,21)
+{
+  Left=105
+  Top=14
+  Width=#3:645|
+  Height=#3:219|
+  Columns=#143:[{"title":"События","align":"left","type":"text","width":"500px"},{"title":"Обращение в белку","align":"center","type":"text","width":"125px"}]|
+}
+Add(FBReadMessage,94,238,56)
+{
+  link(onRead,29:doValue,[])
+}
+Add(MultiElementEx,95,364,56)
+{
+  @Comment=#34:Конвертирование данных для таблицы|
+  AddHint(-149,-35,0,0,@Comment)
+  link(arrayTable,106:doEvent1,[])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,96,7,7)
+{
+  WorkCount=#7:doTable|
+  EventCount=#10:arrayTable|
+  @VOffset=70
+  @Width=468
+  link(doTable,97:doEnum,[])
+}
+Add(ArrayEnum,97,77,77)
+{
+  link(onEnum,99:doEvent1,[])
+}
+Add(ObjectReader,98,196,84)
+{
+  EventFields=#19:onevents.toString()|
+  link(onevents.toString(),102:doAdd,[])
+}
+Add(Hub,99,147,77)
+{
+  OutCount=3
+  link(onEvent1,101:doClear,[(179,83)(179,34)])
+  link(onEvent2,98:doRead,[])
+  link(onEvent3,100:doGet,[(178,97)(178,146)])
+}
+Add(JSON_Field,100,196,140)
+{
+  Name=#5:белка|
+  link(onGet,103:doAdd,[])
+}
+Add(Array,101,252,28)
+{
+  Array=#2:[]|
+}
+Add(ArrayAdd,102,252,84)
+{
+  link(Array,104:Var2,[])
+}
+Add(ArrayAdd,103,315,140)
+{
+  link(onAdd,96:arrayTable,[(411,146)(411,83)])
+  link(Array,104:Var3,[(321,70)])
+}
+Add(GetDataEx,104,252,63)
+{
+  link(Data,101:Array,[])
+}
+END_SDK
+Add(GetDataEx,105,301,98)
+{
+  link(Data,29:Value,[])
+}
+Add(Hub,106,420,56)
+{
+  OutCount=3
+  link(onEvent1,93:doAddRow,[(458,62)(458,27)])
+  link(onEvent2,34:doData,[])
+  link(onEvent3,108:doWork1,[(447,76)(447,96)(39,96)])
+}
+Add(Switch,107,56,112)
+{
+  DataOn=Real(0)
+  DataOff=Real(1)
+  link(onSwitch,3:doEnabled,[])
+}
+Add(HubEx,108,35,112)
+{
+  link(onEvent,107:doSwitch,[])
+}
+Add(InfoTip,109,504,210)
+{
+  Info=#53:Вывод первой диаграммы с отрицательными коэфициентами|
+  HAlign=0
+  @Width=519
+  @Height=158
+}
+Add(InfoTip,110,392,413)
+{
+  Info=#53:Вывод второй диаграммы с положительными коэфициентами|
+  VAlign=2
+  HAlign=0
+  @Width=519
+  @Height=165
+}

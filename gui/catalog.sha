@@ -135,7 +135,7 @@ Add(Edit,53,294,35)
 }
 Add(Button,55,266,490)
 {
-  Left=126
+  Left=203
   Top=539
   Width=#3:115|
   Height=#2:35|
@@ -408,4 +408,17 @@ Add(HubEx,236,595,511)
 {
   Angle=3
   link(onEvent,119:doWork3,[(599,517)])
+}
+Add(Button,250,539,77)
+{
+  Left=35
+  Top=539
+  Width=#3:115|
+  Height=#2:35|
+  Caption=#7:ui.help|
+  link(onClick,251:doOpen,[])
+}
+Add(Window,251,595,77)
+{
+  URL=#32:http://forum.hiasm.com/wiki/5929|
 }
