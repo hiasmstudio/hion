@@ -1047,11 +1047,7 @@ ListBox.prototype.getSelectIndex = function() {
 };
 
 ListBox.prototype.text = function() {
-	var s = "";
-	for(var i in this.items) {
-		s += this.items[i];
-	}
-	return s;
+	return this.items.join("\n");
 };
 
 ListBox.prototype.size = function() {
