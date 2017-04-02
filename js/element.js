@@ -613,6 +613,11 @@ SdkElement.prototype.rePosPoints = function() {
 		sizes[p.type - 1]++;
 	}
 };
+SdkElement.prototype.movePointToEnd = function(name) {
+	var point = this.points[name];
+	delete this.points[name];
+	this.points[name] = point;
+};
 SdkElement.prototype.findPointByName = function (name) {
 	return this.points[name];
 };
@@ -1699,7 +1704,13 @@ DPLElement.prototype._changePoints = function(prop, data) {
 	for(var line of lines) {
 		if(line) {
 			var arr = line.split("=");
-			var newPoint = this.points[arr[0]] || this.addPoint(arr[0], parseInt(data.index) + 1);
+			var newPoint;
+			if(newPoint = this.points[arr[0]]) {
+				this.movePointToEnd(arr[0]);
+			}
+			else {
+				newPoint = this.addPoint(arr[0], parseInt(data.index) + 1);
+			}
 			newPoint._dplInfo = arr[1] || "";
 			hash[arr[0]] = true;
 		}
@@ -1710,6 +1721,7 @@ DPLElement.prototype._changePoints = function(prop, data) {
 			this.removePoint(point.name);
 		}
 	}
+	this.rePosPoints();
 };
 
 DPLElement.prototype._getPointInfo = function(point, data) {
@@ -2009,10 +2021,16 @@ MultiElementEditorEx.prototype.onpropchange = function(prop) {
 		for(var line of lines) {
 			if(line) {
 				var arr = line.split("=");
-				if(!this.points[arr[0]]) {
-					var newPoint = this.addPoint(arr[0], newType+1);
-					newPoint._dplInfo = arr[1] || "";
+				var newPoint;
+				if(newPoint = this.points[arr[0]]) {
+					this.movePointToEnd(arr[0]);
+					this.parent.parentElement.movePointToEnd(arr[0]);
 				}
+				else {
+					newPoint = this.addPoint(arr[0], newType+1);
+				}
+				newPoint._dplInfo = arr[1] || "";
+				this.parent.parentElement.points[arr[0]]._dplInfo = newPoint._dplInfo;
 				hash[arr[0]] = true;
 			}
 		}
@@ -2022,6 +2040,8 @@ MultiElementEditorEx.prototype.onpropchange = function(prop) {
 				this.removePoint(point.name);
 			}
 		}
+		this.rePosPoints();
+		this.parent.parentElement.rePosPoints();
 	}
 	else {
 		MultiElementEditor.prototype.onpropchange.call(this, prop);
