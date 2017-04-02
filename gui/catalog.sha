@@ -3,7 +3,7 @@ Add(MainForm,1,49,70)
 {
   Width=#3:355|
   Height=#3:611|
-  Caption=#10:ui.catalog|
+  Caption=#14:ui.catalogform|
 }
 Add(Label,174,385,77)
 {

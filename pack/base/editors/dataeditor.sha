@@ -1,0 +1,46 @@
+Make(modules)
+Add(MainForm,1,259,210)
+{
+  Width=#3:356|
+  Height=#3:103|
+  Layout=2
+  Padding=7
+  Caption=#13:ui.dataeditor|
+  Resize=1
+}
+Add(Edit,5,259,105)
+{
+  Left=14
+  Top=35
+  Shrink=0
+  Margin=5
+  Width=#0:|
+}
+Add(Button,6,161,161)
+{
+  Left=252
+  Top=70
+  Shrink=0
+  AlignSelf=2
+  Margin=5
+  Width=#2:73|
+  Height=#2:28|
+  Caption=#2:OK|
+  link(onClick,10:doEvent1,[])
+}
+Add(hcTransmitter,8,259,161)
+{
+  DataCount=1
+  link(onInit,9:doRead,[])
+  link(Arg1,5:Text,[])
+}
+Add(ArrayRead,9,329,161)
+{
+  Index=1
+  link(onRead,5:doText,[(375,167)(375,92)(240,92)(240,111)])
+}
+Add(Hub,10,217,161)
+{
+  link(onEvent1,8:doReturn,[])
+  link(onEvent2,1:doClose,[(245,174)(245,223)])
+}

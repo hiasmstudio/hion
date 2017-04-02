@@ -22,6 +22,18 @@ var user = null;
 var KEY_DELETE = 46;
 
 //------------------------------------------------------------------------------
+// config
+
+var CONFIG_VERSION = "v1.5.2";
+var CONFIG_DOMAIN = "hiasm.com";
+var CONFIG_FORUM = "http://forum." + CONFIG_DOMAIN;
+var CONFIG_PROFILE = CONFIG_FORUM + "/profilemain/";
+var CONFIG_EMAIL = "support@" + CONFIG_DOMAIN;
+var CONFIG_BUG_REPORT = CONFIG_FORUM + "/userissues/0#7";
+var CONFIG_APP_CATALOG = "http://apps." + CONFIG_DOMAIN;
+var CONFIG_HELP = CONFIG_FORUM + "/wiki/5925";
+
+//------------------------------------------------------------------------------
 // Main workspace
 
 function Workspace(options) {
@@ -192,7 +204,7 @@ function loadWorkspace() {
 	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "moveto", "-", "tools"],
 	 		editor: ["undo", "redo", "-", "slidedown", "slideright", "-", "zoomin", "zoomout", "-", "selectall", "-", "makehint", "remove_lh"],
 	 		view: ["fullscreen", "-", "formedit", "statistic", "-", "history", "-", "output", "showgraph"],
-	 		help: ["forum", "opencatalog", "mail", "sendbug", "-", "about"]
+	 		help: ["forum", "help", "-", "opencatalog", "mail", "sendbug", "-", "about"]
 	 	};
 		mainMenu = createMainmenu(mmCommands);
 		userMenu = new MainMenu([{
@@ -210,7 +222,7 @@ function loadWorkspace() {
 		$("toolbar").appendChild(mainToolBar.getControl());
 		$("toolbar").appendChild(new Builder().n("div").class("separator").element);
 		$("toolbar").appendChild(new Builder().n("div").class("user").append(userMenu.control).element);
-		$("toolbar").appendChild(new Builder().n("div").class("hion").attr("title", "hion v1.5.2").element);
+		$("toolbar").appendChild(new Builder().n("div").class("hion").attr("title", CONFIG_VERSION).element);
 		$("toolbar").appendChild(propsToolBar.getControl());
 	
 		commander.reset();
@@ -365,7 +377,7 @@ function loadWorkspace() {
 		profile: {
 			icon: 55, def: true,
 			exec: function() {
-				window.open("http://forum.hiasm.com/profilemain/" + user.uid, '_blank');
+				window.open(CONFIG_PROFILE + user.uid, '_blank');
 			}
 		},
 		cut: { icon: 42, exec: function(){ this.execCommand("copy").execCommand("delete"); } },
@@ -377,11 +389,11 @@ function loadWorkspace() {
 		selectall: { },
 		forum: {
 			def: true,
-			exec: function() { window.open("http://forum.hiasm.com", '_blank'); }
+			exec: function() { window.open(CONFIG_FORUM, '_blank'); }
 		},
 		mail: {
 			def: true, icon: 1,
-			exec: function() { window.location.href =  "mailto:support@hiasm.com"; }
+			exec: function() { window.location.href =  "mailto:" + CONFIG_EMAIL; }
 		},
 		bringtofront: { icon: 37 },
 		sendtoback: { icon: 51 },
@@ -418,12 +430,12 @@ function loadWorkspace() {
 		showgraph: { def: false },
 		sendbug: {
 			def: true,
-			exec: function(){ window.open("http://forum.hiasm.com/userissues/0#7", '_blank'); }
+			exec: function(){ window.open(CONFIG_BUG_REPORT, '_blank'); }
 		},
 		addcatalog: { },
 		opencatalog: { icon: 13, def: true,
 			exec: function() {
-				window.open("http://apps.hiasm.com/main/", '_blank');
+				window.open(CONFIG_APP_CATALOG, '_blank');
 			}
 		},
 		fullscreen: { def: true,
@@ -432,6 +444,11 @@ function loadWorkspace() {
 					fullScreenCancel();
 				else
 					fullScreen(document.body);
+			}
+		},
+		help: { icon: 3, def: true,
+			exec: function() {
+				window.open(CONFIG_HELP, '_blank');
 			}
 		},
 	});

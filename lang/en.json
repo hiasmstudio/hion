@@ -66,6 +66,7 @@
 	"cmd.addcatalog": "Publish to catalog",
 	"cmd.opencatalog": "HiAsm apps",
 	"cmd.fullscreen": "Full screen",
+	"cmd.help": "Help",
 	
 	"ui.close": "Close",
 	"ui.cancel": "Cancel",
@@ -154,7 +155,7 @@
 	"ui.date": "Date",
 	"ui.open": "Open",
 	
-	"ui.catalog": "Public app in catalog",
+	"ui.catalogform": "Public app in catalog",
 	"ui.cat.settings": "Application settings",
 	"ui.cat.title": "Title:",
 	"ui.cat.version": "Version:",
@@ -165,5 +166,7 @@
 	"ui.terms": "View the Terms of Service",
 	"ui.termsagree": "I agree with all the terms and conditions",
 	"ui.cat.publish": "Publish",
-	"ui.send": "Send"
+	"ui.send": "Send",
+
+	"ui.dataeditor": "Data editor"
 }

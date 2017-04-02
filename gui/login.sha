@@ -3,7 +3,7 @@ Add(MainForm,1,70,63)
 {
   Left=56
   Top=56
-  Width=#3:235|
+  Width=#3:232|
   Height=#3:141|
   Caption=#5:Login|
 }
@@ -24,9 +24,9 @@ Add(Edit,5,336,77)
 }
 Add(Button,6,189,126)
 {
-  Left=133
+  Left=140
   Top=77
-  Width=#2:87|
+  Width=#2:73|
   Height=#2:28|
   Caption=#5:Login|
   link(onClick,18:doEvent1,[])
@@ -65,7 +65,7 @@ Add(hcTransmitter,15,504,133)
 }
 Add(If_else,16,441,133)
 {
-  Op2=#1:1|
+  Op2=String(1)
   link(onTrue,15:doReturn,[])
   link(onFalse,17:doWork2,[(489,146)(489,181)(56,181)(56,153)])
 }

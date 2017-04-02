@@ -1,7 +1,7 @@
 Make(modules)
 Add(MainForm,1,105,98)
 {
-  Width=#3:369|
+  Width=#3:367|
   Height=#3:337|
   Caption=#14:ui.currentplan|
   link(onCreate,6:doEnum,[])
