@@ -218,6 +218,7 @@
             }
             button {
                 padding: 0; width: 18px; height: 17px; flex-shrink: 0; font-size: 12px;
+                border: 1px solid $borderColor; border-radius: 2px;
             }
             .combo {
 				right: 0; top: 0;

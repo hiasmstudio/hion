@@ -1113,7 +1113,9 @@ textarea {
         width: 18px;
         height: 17px;
         flex-shrink: 0;
-        font-size: 12px; }
+        font-size: 12px;
+        border: 1px solid gray;
+        border-radius: 2px; }
       .ui-property-editor div.out div.in .combo {
         right: 0;
         top: 0;
@@ -1179,5 +1181,3 @@ textarea {
           height: 9px;
           background: url(/img/ui.png) -18px -13px no-repeat;
           cursor: pointer; }
-
-/*# sourceMappingURL=ui.css.map */
