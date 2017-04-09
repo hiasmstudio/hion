@@ -247,6 +247,25 @@
 			{ "name": "Height", "def": 21 }
 		]
 	},
+	"RangeSlider": {
+		"tab": "interface",
+		"inherit": "wincontrol",
+		"points": [
+			{ "name": "doPosition", "type": 1 },
+			{ "name": "onPosition", "type": 2, "args": "[Position1, Position2]", "data": 1},
+			{ "name": "Position1", "type": 3, "data": 1 },
+			{ "name": "Position2", "type": 3, "data": 1 }
+		],
+		"props": [
+			{ "name": "Min", "type": 1, "def": 0 },
+			{ "name": "Max", "type": 1, "def": 10 },
+			{ "name": "Step", "type": 1, "def": 1 },
+			{ "name": "Position1", "type": 1, "def": 0 },
+			{ "name": "Position2", "type": 1, "def": 10 },
+			{ "name": "Width", "def": 100 },
+			{ "name": "Height", "def": 21 }
+		]
+	},
 	"ListBox": {
 		"tab": "interface",
 		"inherit": "wincontrol",

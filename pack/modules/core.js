@@ -988,6 +988,33 @@ function modules() {
 					return WinElement.prototype.run.call(this, flags);
 				};
 				break;
+			case "RangeSlider":
+				i.run = function (flags) {
+					this.ctl = new RangeSlider({
+						min: this.props.Min.value,
+						max: this.props.Max.value,
+						step: this.props.Step.value,
+						value1: this.props.Position1.value,
+						value2: this.props.Position2.value
+					});
+
+					this.ctl.addListener("input", function (event) {
+						i.onPosition.call([event.value1, event.value2]);
+					});
+
+					return WinElement.prototype.run.call(this, flags);
+				};
+				i.doPosition.onevent = function(data) {
+					this.parent.ctl.value1 = data[0];
+					this.parent.ctl.value2 = data[1];
+				};
+				i.Position1.onevent = function() {
+					return this.parent.ctl.value1;
+				};
+				i.Position2.onevent = function() {
+					return this.parent.ctl.value2;
+				};
+				break;
 			case "Panel":
 				i.run = function (flags) {
 					this.ctl = new Panel({});

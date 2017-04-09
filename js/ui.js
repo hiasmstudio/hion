@@ -99,6 +99,10 @@ UIControl.prototype.setDisabled = function(value) {
 	__disabled(this.getControl());
 };
 
+UIControl.prototype.changeContainer = function() {
+	// do nothing
+};
+
 Object.defineProperty(UIControl.prototype, "left", {
 	get: function() {
 	  return this.getControl().offsetLeft;
@@ -186,6 +190,8 @@ UIContainer.prototype.add = function(control) {
 	this.getContainer().appendChild(control.getControl());
 	
 	this.layout.addChild(control);
+
+	control.changeContainer();
 	
 	return this;
 };
@@ -198,6 +204,8 @@ UIContainer.prototype.insert = function(control, before) {
 	this.getContainer().insertBefore(control.getControl(), before.getControl());
 	
 	this.layout.addChild(control);
+
+	control.changeContainer();
 	
 	return this;
 };
@@ -1942,7 +1950,7 @@ function GoogleChart(options) {
 	this.setOptions(options);
 }
 
-GoogleChart.prototype = new UIControl();
+GoogleChart.prototype = Object.create(UIControl.prototype);
 
 GoogleChart.prototype.init = function() {
 	if(window.google) {
@@ -1964,6 +1972,154 @@ GoogleChart.prototype._onload = function() {
 	var parent = this;
 	window.google.load("visualization", "1", {packages:["corechart", "gauge"], callback : function(){ parent.oninit(); } });
 };
+
+//******************************************************************************
+// RangeSlider
+//******************************************************************************
+
+var __rangeSlider = {
+	mode: 0,
+	startX: 0,
+	startValue: 0,
+	ctl: null,
+	move: function(event) {
+		var newValue = __rangeSlider.ctl._ctlToReal(__rangeSlider.startValue + event.clientX - __rangeSlider.startX);
+		if(__rangeSlider.mode == 0) {
+			__rangeSlider.ctl.value1 = newValue;
+		}
+		else {
+			__rangeSlider.ctl.value2 = newValue;
+ 		}
+	},
+	up: function(event) {
+		document.removeEventListener("mousemove", __rangeSlider.move);
+		document.removeEventListener("mouseup", __rangeSlider.up);
+	}
+};
+
+function RangeSlider(options) {
+	var body = new Builder().n("div").class("ui-range-slider").attr("parent", this).on("onmousedown", function(event){
+		if(this.hasAttribute("disabled"))
+			return true;
+		var lx = this.parent._ctlToReal(event.layerX);
+		var d1 = Math.abs(lx - this.parent._value1);
+		var d2 = Math.abs(lx - this.parent._value2);
+		if(this.parent._value1 >= this.parent._value2) {
+			d2 = lx < this.parent._value1;
+			d1 = lx > this.parent._value2;
+		}
+		if(d1 < d2) {
+			this.parent.value1 = lx;
+		}
+		else {
+			this.parent.value2 = lx;
+		}
+		__rangeSlider.startValue = event.layerX;
+		__rangeSlider.startX = event.clientX;
+		__rangeSlider.ctl = this.parent;
+		__rangeSlider.mode = d1 < d2 ? 0 : 1;
+		document.addEventListener("mousemove", __rangeSlider.move);
+		document.addEventListener("mouseup", __rangeSlider.up);
+		event.preventDefault();
+		return false;
+	});
+	var bg = body.n("div").class("control").n("div").class("bg");
+	this.from = bg.n("div").class("from").element;
+	this.to = bg.n("div").class("to").element;
+	this._ctl = body.element;
+
+	this.onchange = function(){};
+
+	this._value1 = this._value2 = this.min = this.max = 0;
+	this.step = 1;
+
+	if(options) {
+		this.initValue1 = options.value1 || 0;
+		this.initValue2 = options.value2 || 0;
+
+		this.min = options.min || 0;
+		this.max = options.max || 0;
+		this.step = options.step || 1;
+	}
+
+	this.setOptions(options);
+}
+
+RangeSlider.prototype = Object.create(UIControl.prototype);
+
+RangeSlider.prototype.changeContainer = function() {
+	UIControl.prototype.changeContainer.call(this);
+	this._setValue1(this.initValue1, false);
+	this._setValue2(this.initValue2, false);
+};
+
+RangeSlider.prototype.addListener = function(name, func) {
+	if(name === "input") {
+		this.onchange = func;
+	}
+	else {
+		UIControl.prototype.addListener.call(this, name, func);
+	}
+};
+
+RangeSlider.prototype._setValue1 = function(value, flag) {
+	var n = Math.round(Math.max(this.min, Math.min(value, this._value2))/this.step)*this.step;
+	if(n != this._value1) {
+		this._value1 = n;
+
+		var v1 = this._realToCtl(this._value1);
+		var v2 = this._realToCtl(this._value2);
+		this._ctl.firstChild.firstChild.style.marginLeft = v1.toString() + "px";
+		this._ctl.firstChild.firstChild.style.width = (v2 - v1).toString() + "px";
+		if(flag) this._change();
+	}
+};
+
+RangeSlider.prototype._setValue2 = function(value, flag) {
+	var n = Math.round(Math.min(Math.max(value, this._value1), this.max)/this.step)*this.step;
+	if(n != this._value2) {
+		this._value2 = n;
+
+		var v1 = this._realToCtl(this._value1);
+		var v2 = this._realToCtl(this._value2);
+		this._ctl.firstChild.firstChild.style.width = (v2 - v1).toString() + "px";
+		if(flag) this._change();
+	}
+};
+
+RangeSlider.prototype._change = function() {
+	this.onchange({
+		value1: this.value1,
+		value2: this.value2
+	});
+};
+
+RangeSlider.prototype._realToCtl = function(value) {
+	var len = this.max - this.min;
+	return len ? Math.round((value - this.min)/len*(this._ctl.offsetWidth-2)) : 0;
+};
+
+RangeSlider.prototype._ctlToReal = function(value) {
+	return Math.round(this.min + (this.max - this.min)*value/(this._ctl.offsetWidth-2));
+};
+
+Object.defineProperty(RangeSlider.prototype, "value1", {
+	get: function() {
+		return this._value1;
+	},
+	set: function(value) {
+		this._setValue1(value, true);
+	}
+});
+
+Object.defineProperty(RangeSlider.prototype, "value2", {
+	get: function() {
+		return this._value2;
+	},
+	set: function(value) {
+		this._setValue2(value, true);
+	}
+});
 
 //******************************************************************************
 // Info

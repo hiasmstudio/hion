@@ -1,0 +1,72 @@
+Make(webapp)
+Build(1)
+Add(MainForm,1,56,56)
+{
+}
+Add(RangeSlider,2,175,56)
+{
+  Left=63
+  Top=63
+  Width=#3:261|
+  Height=#2:14|
+  Max=100
+  Position2=40
+  link(onPosition,6:doEvent1,[])
+}
+Add(Label,3,329,56)
+{
+  Left=14
+  Top=63
+  Width=#2:36|
+  Caption=#1:0|
+  HAlign=2
+}
+Add(Label,4,329,105)
+{
+  Left=336
+  Top=63
+  Caption=#1:0|
+}
+Add(ArrayRead,5,259,56)
+{
+  link(onRead,3:doCaption,[])
+}
+Add(Hub,6,224,56)
+{
+  link(onEvent1,5:doRead,[])
+  link(onEvent2,7:doRead,[(248,69)(248,111)])
+}
+Add(ArrayRead,7,259,105)
+{
+  Index=1
+  link(onRead,4:doCaption,[])
+}
+Add(Button,8,56,126)
+{
+  Left=49
+  Top=126
+  Data=String(10,30)
+  link(onClick,9:doSplit,[])
+}
+Add(ArraySplit,9,112,126)
+{
+  link(onSplit,2:doPosition,[(160,132)(160,62)])
+}
+Add(Button,10,56,168)
+{
+  Left=49
+  Top=168
+  link(onClick,12:doData,[])
+}
+Add(Label,11,224,168)
+{
+  Left=112
+  Top=168
+  Width=#2:85|
+  Height=#2:21|
+}
+Add(DoData,12,175,168)
+{
+  link(onEventData,11:doCaption,[])
+  link(Data,2:Position1,[])
+}
