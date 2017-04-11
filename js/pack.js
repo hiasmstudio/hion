@@ -169,8 +169,11 @@ Pack.prototype.loadIcons = function() {
 			var icon = new Image();
 			icon.src = this.getRoot() + "/icons/" + id + ".ico";
 			icon.pack = this;
-			icon.onerror = icon.onload = function(){
-			    this.pack._loadImage();
+			icon.onerror = function(){
+				this.src = "/pack/base/icons/nil.png";
+			};
+			icon.onload = function(){
+				this.pack._loadImage();
 			};
 			
 			element.icon = icon;
