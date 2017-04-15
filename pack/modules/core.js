@@ -1015,6 +1015,23 @@ function modules() {
 					return this.parent.ctl.value2;
 				};
 				break;
+			case "Spoiler":
+				i.run = function (flags) {
+					this.ctl = new Spoiler({
+						caption: "test"
+					});
+					this.ctl.layout = this.getLayout(this.ctl);
+
+					return WinElement.prototype.run.call(this, flags);
+				};
+
+				i.getChild = function(){
+					return this.ctl;
+				};
+				if(i.parent.parent && i.parent.imgs.length === 1) {
+					i.flags |= window.IS_PARENT;
+				}
+				break;
 			case "Panel":
 				i.run = function (flags) {
 					this.ctl = new Panel({});
@@ -2598,6 +2615,191 @@ function modules() {
 					var user = firebase.auth().currentUser;
 					return user ? user.uid : 0;
 				};
+				break;
+			case "IndexedDB":
+				i.doOpen.onevent = function(data) {
+					var request = window.indexedDB.open(this.parent.props.Name.value, this.parent.props.Version.value);
+					request.onerror = function(e){
+						console.log("ERR:", e.target.error);
+						i.onError.call([e.target.error.code, e.target.error.message]);
+					};
+					request.onsuccess = function(e){
+						console.log("OK:", e.target.result);
+						i.onSuccess.call(e.target.result);
+					}
+					request.onupgradeneeded = function(e){
+						console.log("UP:", e.target.result);
+						i.onUpgrade.call(e.target.result);
+					}
+				};
+				break;
+			case "IDBCreateObjectStore":
+				i.doCreate.onevent = function(data) {
+					var d = this.parent.d(data);
+					var opt = {};
+					if(!this.parent.props.KeyPath.isDef())
+						opt.keyPath = this.parent.props.KeyPath.value;
+					if(!this.parent.props.AutoIncrement.isDef())
+						opt.autoIncrement = true;
+					this.parent.onCreate.call(d.read("IDB").createObjectStore(this.parent.props.Name.value, opt));
+				};
+				break;
+			case "IDBTransaction":
+				i.doTransaction.onevent = function(data) {
+					var d = this.parent.d(data);
+					var stores = this.parent.props.ObjectStores.value.split(",");
+					var t = d.read("IDB").transaction(stores, this.parent.props.Mode.getText());
+					var sList = [];
+					for(var s of stores) {
+						sList.push(t.objectStore(s));
+					}
+					this.parent.onTransaction.call(sList);
+				};
+				break;
+			case "IDBObjectStoreOperation":
+				i.doOperation.onevent = function(data) {
+					var d = this.parent.d(data);
+					var os = d.read("ObjectStore");
+					var key = d.read("Key");
+					var value = d.read("Value");
+					var req = null;
+					switch(this.parent.props.Type.value) {
+						case 0:
+							req = key ? os.add(value, key) : os.add(value);
+							break;
+						case 1:
+							req = key ? os.put(value, key) : os.put(value);
+							break;
+						case 2:
+							req = os.get(key);
+							break;
+						case 3:
+							req = os.delete(key);
+							break;
+					}
+					req.onsuccess = function(e) {
+						i.onSuccess.call(e.target.result);
+					};
+					req.onerror = function(e) {
+						i.onError.call([e.target.error.code, e.target.error.message]);
+					};
+				};
+				break;
+			case "IDBRange":
+				i.doCreateRange.onevent = function(data) {
+					var d = this.parent.d(data);
+					var x = d.read("X");
+					var y = d.read("Y");
+
+					var range = null;
+					switch(this.parent.props.Mode.value) {
+						case 0: range = IDBKeyRange.upperBound(x); break;
+						case 1: range = IDBKeyRange.upperBound(x, true); break;
+						case 2: range = IDBKeyRange.lowerBound(y); break;
+						case 3: range = IDBKeyRange.lowerBound(y, true); break;
+						case 4: range = IDBKeyRange.bound(x, y); break;
+						case 5: range = IDBKeyRange.bound(x, y, true, true); break;
+						case 6: range = IDBKeyRange.bound(x, y, true, false); break;
+						case 7: range = IDBKeyRange.bound(x, y, false, true); break;
+						case 8: range = IDBKeyRange.only(x); break;
+					}
+					this.parent.range = range;
+
+					this.parent.onCreateRange.call(range);
+				}
+				i.Range.onevent = function() {
+					return this.parent.range;
+				};
+				break;
+			case "IDBObjectStoreCount":
+				i.doCount.onevent = function(data) {
+					var d = this.parent.d(data);
+					var os = d.read("ObjectStore");
+					var range = d.read("Range");
+
+					var req = range instanceof IDBKeyRange ? os.count(range) : os.count();
+					
+					req.onsuccess = function(e) {
+						i.onSuccess.call(e.target.result);
+					};
+					req.onerror = function(e) {
+						i.onError.call([e.target.error.code, e.target.error.message]);
+					};
+				};
+				break;
+			case "IDBObjectStoreGetAll":
+				i.doGet.onevent = function(data) {
+					var d = this.parent.d(data);
+					var os = d.read("ObjectStore");
+					var range = d.read("Range");
+					var count = d.readInt("Count");
+
+					var req;
+					if(range instanceof IDBKeyRange) {
+						req = count ? os.getAll(range, count) : os.getAll(range);
+					}
+					else {
+						req = os.getAll();
+					}
+					
+					req.onsuccess = function(e) {
+						i.onSuccess.call(e.target.result);
+					};
+					req.onerror = function(e) {
+						i.onError.call([e.target.error.code, e.target.error.message]);
+					};
+				};
+				break;
+			case "IDBObjectStoreClear":
+				i.doClear.onevent = function(data) {
+					var d = this.parent.d(data);
+					var os = d.read("ObjectStore");
+
+					req = os.clear();
+					
+					req.onsuccess = function(e) {
+						i.onSuccess.call(e.target.result);
+					};
+					req.onerror = function(e) {
+						i.onError.call([e.target.error.code, e.target.error.message]);
+					};
+				};
+				break;
+			case "IDBIndex":
+				i.doGet.onevent = function(data) {
+					var d = this.parent.d(data);
+					var os = d.read("ObjectStore");
+					
+					this.parent.index = os.index(this.parent.props.Name.value);
+
+					this.parent.onCreateRange.call(this.parent.index);
+				}
+				i.Index.onevent = function() {
+					return this.parent.index;
+				};
+				break;
+			case "IDBCreateIndex":
+				i.doCreate.onevent = function(data) {
+					var d = this.parent.d(data);
+					var os = d.read("ObjectStore");
+					
+					this.parent.index = os.createIndex(this.parent.props.Name.value, this.parent.props.FieldName.value, {unique: !this.parent.props.Unique.isDef()});
+
+					this.parent.onCreate.call(this.parent.index);
+				}
+				i.Index.onevent = function() {
+					return this.parent.index;
+				};
+				break;
+			case "IDBDeleteIndex":
+				i.doDelete.onevent = function(data) {
+					var d = this.parent.d(data);
+					var os = d.read("ObjectStore");
+					
+					os.deleteIndex(this.parent.props.Name.value);
+
+					this.parent.onDelete.call();
+				}
 				break;
 			case "VideoPlayer":
 				i.run = function(flags) {
