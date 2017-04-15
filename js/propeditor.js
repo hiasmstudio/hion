@@ -362,7 +362,7 @@ UIPropertyEditor.prototype._fillDataList = function(item, edit, combo) {
 		});
 		
 		if(isEnum) {
-			line.html(option);
+			line.html(option.replace("<", "&lt;"));
 		}
 		else {
 			line.n("div").class("color").style("backgroundColor", option);
