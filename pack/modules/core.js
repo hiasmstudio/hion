@@ -2625,12 +2625,19 @@ function modules() {
 					};
 					request.onsuccess = function(e){
 						console.log("OK:", e.target.result);
-						i.onSuccess.call(e.target.result);
+						i.onSuccess.call(i.idb = e.target.result);
 					}
 					request.onupgradeneeded = function(e){
 						console.log("UP:", e.target.result);
-						i.onUpgrade.call(e.target.result);
+						i.idb = e.target.result;
+						i.onUpgrade.call(i.idb.version);
 					}
+				};
+				i.IDB.onevent = function() {
+					return this.parent.idb;
+				};
+				i.Version.onevent = function() {
+					return this.parent.idb.version;
 				};
 				break;
 			case "IDBCreateObjectStore":

@@ -761,8 +761,10 @@
 		"points": [
 			{ "name": "doOpen", "type": 1 },
 			{ "name": "onSuccess", "type": 2, "args": "IDB" },
+			{ "name": "onUpgrade", "type": 2, "args": "Version" },
 			{ "name": "onError", "type": 2, "args": "Code,Message" },
-			{ "name": "onUpgrade", "type": 2 }
+			{ "name": "IDB", "type": 3 },
+			{ "name": "Version", "type": 3 }
 		]
 	},
 	"IDBCreateObjectStore": {
@@ -864,7 +866,7 @@
 		"tab": "indexeddb",
 		"points": [
 			{ "name": "doCount", "type": 1 },
-			{ "name": "onSuccess", "type": 2 },
+			{ "name": "onSuccess", "type": 2, "args": "Count" },
 			{ "name": "onError", "type": 2, "args": "Code,Message" },
 			{ "name": "ObjectStore", "type": 4 },
 			{ "name": "Range", "type": 4 }
@@ -877,7 +879,7 @@
 		],
 		"points": [
 			{ "name": "doGet", "type": 1 },
-			{ "name": "onSuccess", "type": 2 },
+			{ "name": "onSuccess", "type": 2, "args": "Items" },
 			{ "name": "onError", "type": 2, "args": "Code,Message" },
 			{ "name": "ObjectStore", "type": 4 },
 			{ "name": "Range", "type": 4 },
