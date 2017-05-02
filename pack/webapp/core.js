@@ -419,6 +419,19 @@ function webapp() {
 					return WinElement.prototype.run.call(this, flags);
 				};
 				break;
+			case "RangeSlider":
+				i.run = function (flags) {
+					this.ctl = new RangeSlider({
+						min: this.props.Min.value,
+						max: this.props.Max.value,
+						step: this.props.Step.value,
+						value1: this.props.Position1.value,
+						value2: this.props.Position2.value
+					});
+
+					return WinElement.prototype.run.call(this, flags);
+				};
+				break;
 			case "CSS":
 				i.run = function () {
 					if(this.css == null) {
