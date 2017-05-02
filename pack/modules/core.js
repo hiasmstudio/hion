@@ -2620,15 +2620,12 @@ function modules() {
 				i.doOpen.onevent = function(data) {
 					var request = window.indexedDB.open(this.parent.props.Name.value, this.parent.props.Version.value);
 					request.onerror = function(e){
-						console.log("ERR:", e.target.error);
 						i.onError.call([e.target.error.code, e.target.error.message]);
 					};
 					request.onsuccess = function(e){
-						console.log("OK:", e.target.result);
 						i.onSuccess.call(i.idb = e.target.result);
 					}
 					request.onupgradeneeded = function(e){
-						console.log("UP:", e.target.result);
 						i.idb = e.target.result;
 						i.onUpgrade.call(i.idb.version);
 					}
@@ -2762,7 +2759,7 @@ function modules() {
 					var d = this.parent.d(data);
 					var os = d.read("ObjectStore");
 
-					req = os.clear();
+					var req = os.clear();
 					
 					req.onsuccess = function(e) {
 						i.onSuccess.call(e.target.result);
