@@ -237,6 +237,13 @@ function loadWorkspace() {
 			docManager.open(window.location.hash.substring(1));
 		}
 	};
+	var packList = [];
+	loader.add(new LoaderTask(function(){
+		$.get("/pack/list.txt", function(data, task) {
+			packList = data.trim().split("\n");
+			task.taskComplite("Pack list loaded.");
+		}, this);
+	}));
 	loader.add(new LoaderTask(function(){
 		$.get("server/core.php?cfg", function(data, task) {
 			try {
@@ -266,7 +273,7 @@ function loadWorkspace() {
 			delete this.task;
 		};
 		packMan.task = this;
-		packMan.load(["base", "webapp", "modules"]);
+		packMan.load(packList);
 	}));
 
 	loader.run();
