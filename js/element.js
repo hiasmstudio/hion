@@ -114,6 +114,9 @@ ElementProperty.prototype.serialize = function() {
 			if(typeof this.value == "string") {
 				return "String(" + this.value + ")";
 			}
+			else if(parseInt(this.value) == this.value) {
+				return "Integer(" + this.value + ")";
+			}
 			else {
 				return "Real(" + this.value + ")";
 			}
