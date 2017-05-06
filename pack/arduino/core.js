@@ -111,7 +111,7 @@ function arduino() {
 					return AUIElement.prototype.run.call(this, flags);
 				};
 				i.doCheck.onevent = function(queue) {
-					if(this.parent.props.Mode.isDef || this.parent.oldState != this.parent.state) {
+					if(this.parent.props.Mode.isDef() || this.parent.oldState != this.parent.state) {
 						this.parent.oldState = this.parent.state;
 						if(this.parent.props.Mode.value != 2 || this.parent.state)
 							queue.push({event: this.parent.onClick, data: this.parent.state});
