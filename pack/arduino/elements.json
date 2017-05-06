@@ -1,0 +1,284 @@
+{
+	"element": {
+		"sys": [
+			{ "name": "Color", "type": 8, "def": "#ddd" },
+			{ "name": "Comment", "type": 2, "def": "" }
+		]
+	},
+
+	"UIElement": {
+		"class": "AUIElement",
+		"props": [
+			{ "name": "Left", "type": 1, "def": 0 },
+			{ "name": "Top", "type": 1, "def": 0 },
+			{ "name": "Width", "type": 1, "def": 40 },
+			{ "name": "Height", "type": 1, "def": 20 }
+		]
+	},
+
+	"Board": {
+		"tab": "*",
+		"props": [
+			{ "name": "Width", "type": 1, "def": 400 },
+			{ "name": "Height", "type": 1, "def": 300 },
+			{ "name": "Type", "type": 4, "def": 0, "list": "Uno" }
+		],
+		"points": [
+			{ "name": "onSetup", "type": 2 },
+			{ "name": "onLoop", "type": 2 }
+		]
+	},
+
+	"LED": {
+		"tab": "gui",
+		"inherit": "UIElement",
+		"props": [
+			{ "name": "Width", "def": 20 },
+			{ "name": "Height", "def": 20 },
+			{ "name": "Pin", "type": 1, "def": 0 }
+		],
+		"points": [
+			{ "name": "doSwitch", "type": 1 },
+			{ "name": "onSwitch", "type": 2 },
+			{ "name": "Value", "type": 4 }
+		]
+	},
+	"Button": {
+		"tab": "gui",
+		"inherit": "UIElement",
+		"props": [
+			{ "name": "Width", "def": 38 },
+			{ "name": "Height", "def": 38 },
+			{ "name": "Caption", "type": 2, "def": "" },
+			{ "name": "Pin", "type": 1, "def": 0 },
+			{ "name": "Mode", "type": 4, "def": 0, "list": "Flow,Event,EventHigh" }
+		],
+		"points": [
+			{ "name": "doCheck", "type": 1 },
+			{ "name": "onClick", "type": 2, "args": "Data" },
+			{ "name": "State", "type": 3, "data": 1 }
+		]
+	},
+	"Potentiometer": {
+		"tab": "gui",
+		"inherit": "UIElement",
+		"props": [
+			{ "name": "Width", "def": 100 },
+			{ "name": "Height", "def": 21 },
+			{ "name": "Pin", "type": 1, "def": 0 }
+		],
+		"points": [
+			{ "name": "doRead", "type": 1 },
+			{ "name": "onRead", "type": 2, "data": 1, "args": "Value" },
+			{ "name": "Value", "type": 3, "data": 1 }
+		]
+	},
+	
+	"Delay": {
+		"tab": "tools",
+		"props": [
+			{ "name": "Miliseconds", "type": 1, "def": 0 }
+		],
+		"points": [
+			{ "name": "doDelay", "type": 1 },
+			{ "name": "onDelay", "type": 2 }
+		]
+	},
+	"math": { "tab": "tools", "group": true },
+	"Counter": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doNext", "type": 1 },
+			{ "name": "doReset", "type": 1 },
+			{ "name": "onCounter", "type": 2, "data": 1, "args": "Counter" },
+			{ "name": "Value", "type": 3, "data": 1 }
+		],
+		"props": [
+			{ "name": "Min", "type": 1, "def": 0 },
+			{ "name": "Max", "type": 1, "def": 100 },
+			{ "name": "Step", "type": 1, "def": 1 },
+			{ "name": "Default", "type": 1, "def": 0 }
+		]
+	},
+	"Random": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doRandom", "type": 1 },
+			{ "name": "onRandom", "type": 2, "data": 7, "args": "Value" },
+			{ "name": "Result", "type": 3, "data": 7 }
+		]
+	},
+	"MathParse": {
+		"tab": "tools",
+		"class": "DPLElement",
+		"sub": ",,,Args",
+		"points": [
+			{ "name": "doCalc", "type": 1 },
+			{ "name": "doClear", "type": 1 },
+			{ "name": "onResult", "type": 2, "data": 7, "args": "Result" },
+			{ "name": "Result", "type": 3, "data": 7 }
+		],
+		"props": [
+			{ "name": "MathStr", "type": 2, "def": "", "flags": 1 },
+			{ "name": "Args", "type": 5, "def": "" },
+			{ "name": "Default", "type": 7, "def": 0 }
+		]
+	},
+	"logic": { "tab": "tools", "group": true },
+	"If_else": {
+		"tab": "tools",
+		"class": "IfElse",
+		"points": [
+			{ "name": "doCompare", "type": 1 },
+			{ "name": "onTrue", "type": 2 },
+			{ "name": "onFalse", "type": 2 },
+			{ "name": "Op1", "type": 4 },
+			{ "name": "Op2", "type": 4 }
+		],
+		"props": [
+			{ "name": "Type", "type": 14, "def": 0, "list": "==,<,>,<=,>=,!=" },
+			{ "name": "Op1", "type": 3, "def": "" },
+			{ "name": "Op2", "type": 3, "def": "" }
+		]
+	},
+	"Case": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doCase", "type": 1 },
+			{ "name": "onNextCase", "type": 2 },
+			{ "name": "onTrue", "type": 2 }
+		],
+		"props": [
+			{ "name": "Value", "type": 2, "def": "", "flags": 1 },
+			{ "name": "DataOnTrue", "type": 2, "def": "" }
+		]
+	},
+	"For": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doFor", "type": 1, "data": 1 },
+			{ "name": "doStop", "type": 1 },
+			{ "name": "onEvent", "type": 2, "args": "Counter", "data": 1 },
+			{ "name": "onStop", "type": 2 },
+			{ "name": "Position", "type": 3, "data": 1 },
+			{ "name": "End", "type": 4, "data": 1 },
+			{ "name": "Start", "type": 4, "data": 1 }
+		],
+		"props": [
+			{ "name": "Start", "type": 1, "def": 0 },
+			{ "name": "End", "type": 1, "def": 10 },
+			{ "name": "Step", "type": 1, "def": 1 }
+		]
+	},
+	"Hub": {
+		"tab": "tools",
+		"class": "Hub",
+		"sub": "InCount|doEvent,OutCount|onEvent,,",
+		"props": [
+			{ "name": "InCount", "type": 1, "def": 1 },
+			{ "name": "OutCount", "type": 1, "def": 2 }
+		]
+	},
+	"DoData": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doData", "type": 1 },
+			{ "name": "onEventData", "type": 2, "args": "Data" },
+			{ "name": "Data", "type": 4 }
+		],
+		"props": [
+			{ "name": "Data", "type": 3, "def": "", "flags": 1 }
+		]
+	},
+	"Memory": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doValue", "type": 1 },
+			{ "name": "doClear", "type": 1 },
+			{ "name": "onData", "type": 2, "args": "Value" },
+			{ "name": "Value", "type": 3 }
+		],
+		"props": [
+			{ "name": "Default", "type": 3, "def": "", "flags": 1 }
+		]
+	},
+	"IndexToChannel": {
+		"tab": "tools",
+		"class": "DPElement",
+		"sub": ",Count|onEvent,,",
+		"points": [
+			{ "name": "doEvent", "type": 1 },
+			{ "name": "Index", "type": 4, "data": 1 }
+		],
+		"props": [
+			{ "name": "Count", "type": 1, "def": 2},
+			{ "name": "Data", "type": 3, "def": "", "flags": 1 }
+		]
+	},
+	"ChannelToIndex": {
+		"tab": "tools",
+		"class": "DPElement",
+		"sub": "Count|doWork,,,",
+		"points": [
+			{ "name": "onIndex", "type": 2, "data": 1, "args": "Index" }
+		],
+		"props": [
+			{ "name": "Count", "type": 1, "def": 2}
+		]
+	},
+	"TimeCounter": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doStart", "type": 1 },
+			{ "name": "doStop", "type": 1 },
+			{ "name": "onStart", "type": 2 },
+			{ "name": "onStop", "type": 2, "data": 1, "args": "Elapsed" },
+			{ "name": "Elapsed", "type": 3, "data": 1 }
+		]
+	},
+	"Switch": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doSwitch", "type": 1 },
+			{ "name": "doReset", "type": 1 },
+			{ "name": "doOn", "type": 1, "flags": 1 },
+			{ "name": "onSwitch", "type": 2, "args": "State" },
+			{ "name": "onOn", "type": 2, "args": "DataOn", "flags": 1 },
+			{ "name": "onOff", "type": 2, "args": "DataOff", "flags": 1 },
+			{ "name": "State", "type": 3 },
+			{ "name": "DataOn", "type": 4, "flags": 1 },
+			{ "name": "DataOff", "type": 4, "flags": 1 }
+		],
+		"props": [
+			{ "name": "DataOn", "type": 3, "def": ""},
+			{ "name": "DataOff", "type": 3, "def": ""},
+			{ "name": "Default", "type": 4, "def": 1, "list": "On,Off"}
+		]
+	},
+	
+	"design": {},
+	"InfoTip": {},
+	"LinkTip": {},
+	"PictureTip": {},
+	"spheme": {},
+	"HubEx": {},
+	"GetDataEx": {},
+	"LineBreak": {},
+	"LineBreakEx": {},
+	"Version": {},
+	"PointHint": {},
+	"Debug": {
+		"tab": "helpers",
+		"class": "Debug",
+		"points": [
+			{ "name": "doEvent", "type": 1 },
+			{ "name": "onEvent", "type": 2 },
+			{ "name": "Var", "type": 3 },
+			{ "name": "Data", "type": 4 }
+		],
+		"props": [
+			{ "name": "WEName", "type": 2, "def": "" },
+			{ "name": "VDName", "type": 2, "def": "" }
+		]
+	}
+}

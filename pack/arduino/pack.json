@@ -1,0 +1,8 @@
+{
+	"title": "Arduino",
+	"projects": ["Board"],
+	"run": { "mode": "internal" },
+	"make": [
+		{"name": "Make", "cmd": "make"}
+	]
+}

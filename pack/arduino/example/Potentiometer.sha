@@ -1,0 +1,68 @@
+Make(arduino)
+Add(Board,1,56,56)
+{
+  link(onLoop,2:doRead,[])
+}
+Add(Potentiometer,2,133,63)
+{
+  Left=14
+  Top=21
+  Width=121
+  link(onRead,9:doEvent1,[])
+}
+Add(LED,4,308,63)
+{
+  Left=175
+  Top=21
+  Pin=2
+}
+Add(LED,5,308,105)
+{
+  Left=175
+  Top=49
+  Pin=3
+}
+Add(LED,6,308,147)
+{
+  Left=175
+  Top=77
+  Pin=4
+}
+Add(LED,7,308,189)
+{
+  Left=175
+  Top=105
+  Pin=5
+}
+Add(MathParse,8,231,63)
+{
+  MathStr=#8:$v > 128|
+  Args=#1:v|
+  link(onResult,4:doSwitch,[])
+}
+Add(Hub,9,189,63)
+{
+  OutCount=4
+  link(onEvent1,8:doCalc,[])
+  link(onEvent2,10:doCalc,[(217,76)(217,111)])
+  link(onEvent3,11:doCalc,[(217,83)(217,153)])
+  link(onEvent4,12:doCalc,[(217,90)(217,195)])
+}
+Add(MathParse,10,231,105)
+{
+  MathStr=#14:$v > 128 + 256|
+  Args=#1:v|
+  link(onResult,5:doSwitch,[])
+}
+Add(MathParse,11,231,147)
+{
+  MathStr=#16:$v > 128 + 2*256|
+  Args=#1:v|
+  link(onResult,6:doSwitch,[])
+}
+Add(MathParse,12,231,189)
+{
+  MathStr=#16:$v > 128 + 3*256|
+  Args=#1:v|
+  link(onResult,7:doSwitch,[])
+}

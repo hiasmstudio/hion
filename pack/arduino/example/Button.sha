@@ -1,0 +1,20 @@
+Make(arduino)
+Build(1)
+Add(Board,1,56,56)
+{
+  link(onLoop,2:doCheck,[])
+}
+Add(Button,2,119,63)
+{
+  Left=126
+  Top=112
+  Pin=2
+  Mode=1
+  link(onClick,4:doSwitch,[])
+}
+Add(LED,4,175,63)
+{
+  Left=189
+  Top=119
+  Pin=13
+}

@@ -1,0 +1,284 @@
+Make(arduino)
+Build(4)
+Add(Board,1,28,105)
+{
+  Width=298
+  Height=157
+  link(onSetup,45:doData,[])
+  link(onLoop,18:doEvent1,[(72,118)(72,195)])
+}
+Add(LED,2,462,112)
+{
+  Left=21
+  Top=21
+  link(onSwitch,22:doCalc,[])
+}
+Add(LED,3,560,112)
+{
+  Left=56
+  Top=21
+  Pin=1
+  link(onSwitch,24:doCalc,[])
+}
+Add(LED,4,658,112)
+{
+  Left=91
+  Top=21
+  Pin=2
+  link(onSwitch,32:doCalc,[(704,118)(704,150)(399,150)(399,181)])
+}
+Add(LED,5,462,175)
+{
+  Left=21
+  Top=56
+  Pin=3
+  link(onSwitch,33:doCalc,[])
+}
+Add(LED,6,560,175)
+{
+  Left=56
+  Top=56
+  Pin=4
+  link(onSwitch,34:doCalc,[])
+}
+Add(LED,7,658,175)
+{
+  Left=91
+  Top=56
+  Pin=5
+  link(onSwitch,35:doCalc,[(704,181)(704,213)(399,213)(399,244)])
+}
+Add(LED,8,462,238)
+{
+  Left=21
+  Top=91
+  Pin=6
+  link(onSwitch,36:doCalc,[])
+}
+Add(LED,9,560,238)
+{
+  Left=56
+  Top=91
+  Pin=7
+  link(onSwitch,37:doCalc,[])
+}
+Add(LED,10,658,238)
+{
+  Left=91
+  Top=91
+  Pin=8
+}
+Add(Button,11,119,238)
+{
+  Left=154
+  Top=49
+  Pin=10
+  Mode=2
+  link(onClick,51:doCalc,[])
+}
+Add(Button,12,119,189)
+{
+  Left=196
+  Top=7
+  Pin=9
+  Mode=2
+  link(onClick,49:doCalc,[])
+}
+Add(Button,13,119,287)
+{
+  Left=238
+  Top=49
+  Pin=11
+  Mode=2
+  link(onClick,54:doCalc,[])
+}
+Add(Button,14,119,336)
+{
+  Left=196
+  Top=91
+  Pin=12
+  Mode=2
+  link(onClick,57:doCalc,[])
+}
+Add(Memory,17,343,112)
+{
+  Default=Real(0)
+  link(onData,21:doCalc,[])
+}
+Add(Hub,18,84,189)
+{
+  OutCount=4
+  link(onEvent1,12:doCheck,[])
+  link(onEvent2,11:doCheck,[(108,202)(108,244)])
+  link(onEvent3,13:doCheck,[(108,209)(108,293)])
+  link(onEvent4,14:doCheck,[(108,216)(108,342)])
+}
+Add(MathParse,21,413,112)
+{
+  MathStr=#7:$v == 0|
+  Args=#1:v|
+  link(onResult,2:doSwitch,[])
+  link(v,31:Var2,[])
+}
+Add(MathParse,22,511,112)
+{
+  MathStr=#7:$v == 1|
+  Args=#1:v|
+  link(onResult,3:doSwitch,[])
+  link(v,27:Var2,[])
+}
+Add(MathParse,24,609,112)
+{
+  MathStr=#7:$v == 2|
+  Args=#1:v|
+  link(onResult,4:doSwitch,[])
+  link(v,27:Var3,[(615,98)])
+}
+Add(GetDataEx,27,511,91)
+{
+  Angle=3
+  link(Data,31:Var3,[])
+}
+Add(GetDataEx,31,413,91)
+{
+  link(Data,47:Var3,[(419,88)(386,88)(386,161)])
+}
+Add(MathParse,32,413,175)
+{
+  MathStr=#7:$v == 3|
+  Args=#1:v|
+  link(onResult,5:doSwitch,[])
+  link(v,39:Var2,[])
+}
+Add(MathParse,33,511,175)
+{
+  MathStr=#7:$v == 4|
+  Args=#1:v|
+  link(onResult,6:doSwitch,[])
+  link(v,40:Var2,[])
+}
+Add(MathParse,34,609,175)
+{
+  MathStr=#7:$v == 5|
+  Args=#1:v|
+  link(onResult,7:doSwitch,[])
+  link(v,40:Var3,[(615,161)])
+}
+Add(MathParse,35,413,238)
+{
+  MathStr=#7:$v == 6|
+  Args=#1:v|
+  link(onResult,8:doSwitch,[])
+  link(v,41:Var2,[])
+}
+Add(MathParse,36,511,238)
+{
+  MathStr=#7:$v == 7|
+  Args=#1:v|
+  link(onResult,9:doSwitch,[])
+  link(v,42:Var2,[])
+}
+Add(MathParse,37,609,238)
+{
+  MathStr=#7:$v == 8|
+  Args=#1:v|
+  link(onResult,10:doSwitch,[])
+  link(v,42:Var3,[(615,224)])
+}
+Add(GetDataEx,38,397,154)
+{
+  link(Data,31:Var1,[(403,98)])
+}
+Add(GetDataEx,39,413,154)
+{
+  Angle=3
+  link(Data,38:Var3,[])
+}
+Add(GetDataEx,40,511,154)
+{
+  Angle=3
+  link(Data,39:Var3,[])
+}
+Add(GetDataEx,41,413,217)
+{
+  Angle=3
+  link(Data,38:Var2,[(403,224)])
+}
+Add(GetDataEx,42,511,217)
+{
+  Angle=3
+  link(Data,41:Var3,[])
+}
+Add(HubEx,44,280,112)
+{
+  link(onEvent,60:doEvent1,[])
+}
+Add(DoData,45,91,105)
+{
+  Data=Real(0)
+  link(onEventData,44:doWork1,[(284,111)])
+}
+Add(GetDataEx,47,343,154)
+{
+  link(Data,17:Value,[])
+}
+Add(MathParse,49,175,189)
+{
+  MathStr=#25:$v < 3 ? $v + 6 :  $v - 3|
+  Args=#1:v|
+  link(onResult,53:doWork2,[])
+  link(v,52:Var2,[])
+}
+Add(MathParse,51,182,238)
+{
+  MathStr=#29:$v % 3 == 0 ? $v + 2 : $v - 1|
+  Args=#1:v|
+  link(onResult,56:doWork2,[])
+  link(v,55:Var2,[])
+}
+Add(GetDataEx,52,175,175)
+{
+  link(Data,47:Var1,[(181,161)])
+}
+Add(HubEx,53,280,189)
+{
+  Angle=3
+  link(onEvent,44:doWork3,[])
+}
+Add(MathParse,54,189,287)
+{
+  MathStr=#29:$v % 3 == 2 ? $v - 2 : $v + 1|
+  Args=#1:v|
+  link(onResult,59:doWork2,[])
+  link(v,58:Var2,[])
+}
+Add(GetDataEx,55,182,224)
+{
+  link(Data,52:Var3,[(188,182)])
+}
+Add(HubEx,56,280,238)
+{
+  Angle=3
+  link(onEvent,53:doWork3,[])
+}
+Add(MathParse,57,196,336)
+{
+  MathStr=#25:$v > 5 ? $v - 6 :  $v + 3|
+  Args=#1:v|
+  link(onResult,59:doWork3,[(284,342)])
+  link(v,58:Var3,[(202,280)])
+}
+Add(GetDataEx,58,189,273)
+{
+  link(Data,55:Var3,[(195,231)])
+}
+Add(HubEx,59,280,287)
+{
+  Angle=3
+  link(onEvent,56:doWork3,[])
+}
+Add(Hub,60,308,112)
+{
+  OutCount=1
+  link(onEvent1,17:doValue,[])
+}

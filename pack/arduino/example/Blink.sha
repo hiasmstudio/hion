@@ -1,0 +1,21 @@
+Make(arduino)
+Add(Board,1,56,56)
+{
+  link(onLoop,11:doNext,[])
+}
+Add(LED,2,175,63)
+{
+  Left=77
+  Top=14
+  Pin=13
+  link(onSwitch,3:doDelay,[])
+}
+Add(Delay,3,231,63)
+{
+  Miliseconds=1000
+}
+Add(Counter,11,119,63)
+{
+  Max=1
+  link(onCounter,2:doSwitch,[])
+}
