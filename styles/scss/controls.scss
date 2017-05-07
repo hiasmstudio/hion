@@ -35,7 +35,7 @@ textarea { resize: none; margin: 0; padding: 0; }
     &:invalid { background-color: #f88; }
 }
 
-.ui-memo { box-sizing: border-box; }
+.ui-memo { box-sizing: border-box; padding: 3px; border-color: $borderColor; }
 
 .ui-checkbox {
     overflow: hidden;

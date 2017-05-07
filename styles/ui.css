@@ -43,7 +43,9 @@ textarea {
     background-color: #f88; }
 
 .ui-memo {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  padding: 3px;
+  border-color: gray; }
 
 .ui-checkbox {
   overflow: hidden;
