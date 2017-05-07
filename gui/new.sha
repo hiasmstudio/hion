@@ -179,6 +179,7 @@ Add(Memo,144,406,21)
   Shrink=0
   Width=#0:|
   Height=#2:44|
+  Enabled=0
   Edge=2
 }
 Add(MultiElementEx,8,231,126)
