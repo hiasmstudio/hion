@@ -9,6 +9,8 @@ function arduino() {
 		return 0;
 	}
 
+	var tones = {};
+
 	this.init = function(i) {
 		switch (i.name) {
 			case "Board":
@@ -139,6 +141,36 @@ function arduino() {
 					return this.parent.ctl.position;
 				};
 				break;
+			case "Tone":
+				i.oninit = function(){
+					this.context = new AudioContext();
+					tones[this.props.Pin.value] = null;
+				};
+				i.onfree = function(){
+					this.doStop.onevent();
+				};
+				i.doTone.onevent = function(queue) {
+					this.parent.doStop.onevent();
+
+					var osc = this.parent.context.createOscillator();
+					osc.type = "square";
+					var d = this.parent.d(queue.state.data);
+					osc.frequency.value = d.readInt("Frequency");
+					osc.connect(this.parent.context.destination);
+					osc.start();
+					var dur = d.readInt("Duration");
+					if(dur)
+						osc.stop(osc.context.currentTime + dur/1000);
+					tones[this.parent.props.Pin.value] = osc;
+					queue.push({event: this.parent.onTone});
+				};
+				i.doStop.onevent = function() {
+					if(tones[this.parent.props.Pin.value]) {
+						tones[this.parent.props.Pin.value].stop();
+						tones[this.parent.props.Pin.value] = null;
+					}
+				};
+				break;
 			case "Delay":
 				i.doDelay.onevent = function(queue) {
 					queue.push({event: this.parent.onDelay});
@@ -201,7 +233,7 @@ function arduino() {
 				};
 				i.prepareMask = function(mask) {
 					var s = mask;
-					this.arr = this.props.Args.value.split("\n");
+					this.arr = this.props.Args.isDef() ? [] : this.props.Args.value.split("\n");
 					for(var i = 0; i < this.arr.length; i++) {
 						s = s.replace(new RegExp("\\$" + this.arr[i], "g"), "%" + (i+1));
 					}

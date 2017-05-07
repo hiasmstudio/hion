@@ -84,6 +84,21 @@
 			{ "name": "onDelay", "type": 2 }
 		]
 	},
+	"Tone": {
+		"tab": "tools",
+		"props": [
+			{ "name": "Frequency", "type": 1, "def": 0 },
+			{ "name": "Duration", "type": 1, "def": 0 },
+			{ "name": "Pin", "type": 1, "def": 0 }
+		],
+		"points": [
+			{ "name": "doTone", "type": 1 },
+			{ "name": "doStop", "type": 1 },
+			{ "name": "onTone", "type": 2 },
+			{ "name": "Frequency", "type": 4, "data": 1 },
+			{ "name": "Duration", "type": 4, "data": 1 }
+		]
+	},
 	"math": { "tab": "tools", "group": true },
 	"Counter": {
 		"tab": "tools",

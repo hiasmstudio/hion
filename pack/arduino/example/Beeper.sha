@@ -1,0 +1,20 @@
+Make(arduino)
+Add(Board,1,56,56)
+{
+  link(onLoop,6:doCalc,[])
+}
+Add(Tone,2,189,63)
+{
+  Pin=2
+  link(onTone,3:doDelay,[])
+}
+Add(Delay,3,245,63)
+{
+  Miliseconds=500
+}
+Add(MathParse,6,133,63)
+{
+  MathStr=#14:3000 - $result|
+  Default=2000
+  link(onResult,2:doTone,[])
+}
