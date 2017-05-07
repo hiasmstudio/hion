@@ -16,6 +16,15 @@
 	"tab.graphics": "Graphics",
 	"group.tools": "Tools",
 	"group.shapes": "Shapes",
+	"group.drawsettings": "Draw settings",
+	"group.path": "Path",
+	"group.drawmatrix": "Draw matrix",
+	"tab.audio": "Audio",
+	"group.audiosource": "Sources",
+	"group.audiomodify": "Modify",
+	"tab.helpers": "Helpers",
+	"group.design": "Design",
+	"group.spheme": "Spheme",
 	"group.core": "Core",
 	"group.json": "JSON",
 	"tab.googlechart": "Google charts",
@@ -27,6 +36,12 @@
 	"group.fbuser": "User",
 	"tab.vk": "VK",
 	"group.audiolist": "Audio",
+	"group.environment": "Environment",
+	"tab.indexeddb": "Indexed DB",
+	"group.idbindex": "Index",
+	"group.idbdata": "Data",
+
+	"pack.info.webapp": "Package for creating WEB applications and widgets for the site.",
 	
 	"wincontrol.Left": "Left position",
 	"wincontrol.Top": "Top position",
@@ -55,5 +70,8 @@
 	"wincontainer.Padding": "Indent items from the edges of the parent container",
 	
 	"element.Color": "Element color in the editor",
-	"element.Comment": "Comments to the element"
+	"element.Comment": "Comments to the element",
+
+	"el.MainForm": "Main form",
+	"el.SiteWidget": "Widget for WEB site"
 }
