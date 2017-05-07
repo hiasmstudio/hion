@@ -11,12 +11,13 @@ Add(MainForm,1,343,126)
 Add(MultiElementEx,6,343,21)
 {
   link(onSelect,8:doEnabled,[(389,27)(389,10)(214,10)(214,132)])
+  link(onInfo,144:doText,[])
 }
 BEGIN_SDK
 Add(MultiElementEditorEx,5,7,7)
 {
   WorkCount=#6:doLoad|
-  EventCount=#8:onSelect|
+  EventCount=#8:onSelect|6:onInfo|
   VarCount=#4:pack|7:project|
   @VOffset=70
   @HOffset=490
@@ -71,6 +72,7 @@ Add(SimpleTable,53,455,210)
   Left=448
   Top=154
   Grow=1
+  Width=#0:|
   Height=#0:|
   Columns=#82:[{"title":"ico","width":"30px","align":"center","type":"image"},{"title":"entry"}]|
   Select=1
@@ -82,12 +84,12 @@ Add(ArrayRead,54,504,210)
   Index=2
   link(onRead,43:doWork2,[(548,216)(548,111)])
 }
-Add(ArrayBuilder,55,385,273)
+Add(ArrayBuilder,55,308,273)
 {
   Items=#4:icon|4:info|5:entry|
   link(onBuild,53:doAddRow,[(436,279)(436,216)])
-  link(icon,56:FString,[(391,261)(314,261)])
-  link(entry,133:Result,[(405,253)(265,253)])
+  link(icon,56:FString,[])
+  link(entry,133:Result,[(328,253)(265,253)])
 }
 Add(FormatStr,56,308,210)
 {
@@ -137,8 +139,10 @@ Add(JSON_Field,108,315,154)
 }
 Add(Hub,109,98,203)
 {
+  OutCount=3
   link(onEvent1,108:doGet,[(123,209)(123,164)(123,160)])
   link(onEvent2,79:doGet,[])
+  link(onEvent3,147:doGet,[(119,223)(119,265)])
 }
 Add(GetDataEx,111,315,189)
 {
@@ -161,7 +165,22 @@ Add(JSON_Field,134,259,273)
   AddHint(-79,7,0,0,Name)
   link(onGet,55:doBuild,[])
 }
+Add(JSON_Field,147,126,259)
+{
+  Name=#4:info|
+  AddHint(-79,7,0,0,Name)
+  link(onGet,5:onInfo,[(617,265)(617,90)])
+}
 END_SDK
+Add(Memo,144,406,21)
+{
+  Left=98
+  Top=77
+  Shrink=0
+  Width=#0:|
+  Height=#2:44|
+  Edge=2
+}
 Add(MultiElementEx,8,231,126)
 {
   link(onOk,41:doEvent1,[(279,132)(279,83)])

@@ -36,6 +36,8 @@
 	"tab.indexeddb": "IndexedDB",
 	"group.idbindex": "Индексы",
 	"group.idbdata": "Данные",
+
+	"pack.info.modules": "Пакет для создания модулей к Hion. Так же подходит для быстрого прототипирования WEB приложений пакета WebApp, т.к. для запуска не требуется предварительная компиляция.",
 	
 	"wincontrol.Left": "Отступ слева",
 	"wincontrol.Top": "Отступ сверху",

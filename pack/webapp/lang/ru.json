@@ -32,6 +32,8 @@
 	"group.fbuser": "Пользователь",
 	"tab.vk": "ВКонтакте",
 	"group.audiolist": "Аудиозаписи",
+
+	"pack.info.webapp": "Пакет для создания WEB приложений и виджетов для сайта.",
 	
 	"wincontrol.Left": "Отступ слева",
 	"wincontrol.Top": "Отступ сверху",
