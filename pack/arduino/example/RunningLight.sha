@@ -1,0 +1,71 @@
+Make(arduino)
+Add(Board,1,56,56)
+{
+  link(onLoop,7:doNext,[])
+}
+Add(LED,2,259,63)
+{
+  Left=147
+  Top=126
+  Pin=2
+}
+Add(LED,3,259,105)
+{
+  Left=175
+  Top=126
+  Pin=3
+}
+Add(LED,4,259,147)
+{
+  Left=203
+  Top=126
+  Pin=4
+}
+Add(LED,5,259,189)
+{
+  Left=231
+  Top=126
+  Pin=5
+  link(onSwitch,12:doDelay,[])
+}
+Add(MathParse,6,203,63)
+{
+  MathStr=#7:$v == 0|
+  Args=#1:v|
+  link(onResult,2:doSwitch,[])
+}
+Add(Counter,7,119,63)
+{
+  Max=3
+  link(onCounter,8:doEvent1,[])
+}
+Add(Hub,8,168,63)
+{
+  OutCount=4
+  link(onEvent1,6:doCalc,[])
+  link(onEvent2,9:doCalc,[(192,76)(192,111)])
+  link(onEvent3,10:doCalc,[(192,83)(192,153)])
+  link(onEvent4,11:doCalc,[(192,90)(192,195)])
+}
+Add(MathParse,9,203,105)
+{
+  MathStr=#7:$v == 1|
+  Args=#1:v|
+  link(onResult,3:doSwitch,[])
+}
+Add(MathParse,10,203,147)
+{
+  MathStr=#7:$v == 2|
+  Args=#1:v|
+  link(onResult,4:doSwitch,[])
+}
+Add(MathParse,11,203,189)
+{
+  MathStr=#7:$v == 3|
+  Args=#1:v|
+  link(onResult,5:doSwitch,[])
+}
+Add(Delay,12,315,189)
+{
+  Miliseconds=500
+}

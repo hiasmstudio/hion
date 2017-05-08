@@ -35,6 +35,7 @@
 		"props": [
 			{ "name": "Width", "def": 20 },
 			{ "name": "Height", "def": 20 },
+			{ "name": "Color", "type": 4, "def": 0, "list": "Yellow,Green,Red,Blue" },
 			{ "name": "Pin", "type": 1, "def": 0 }
 		],
 		"points": [
@@ -97,6 +98,40 @@
 			{ "name": "onTone", "type": 2 },
 			{ "name": "Frequency", "type": 4, "data": 1 },
 			{ "name": "Duration", "type": 4, "data": 1 }
+		]
+	},
+	"serialport": { "tab": "tools", "group": true },
+	"SerialOpen": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doBegin", "type": 1 },
+			{ "name": "doEnd", "type": 1 },
+			{ "name": "onBegin", "type": 2 }
+		],
+		"props": [
+			{ "name": "Speed", "type": 14, "def": 4, "list": "300,1200,2400,4800,9600,14400,19200,28800,38400,57600,115200" }
+		]
+	},
+	"SerialPrint": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doPrint", "type": 1 },
+			{ "name": "onPrint", "type": 2 },
+			{ "name": "Text", "type": 4, "data": 2 }
+		],
+		"props": [
+			{ "name": "Type", "type": 4, "def": 0, "list": "Print,Print line" }
+		]
+	},
+	"SerialRead": {
+		"tab": "tools",
+		"points": [
+			{ "name": "doRead", "type": 1 },
+			{ "name": "onRead", "type": 2, "args": "Data" },
+			{ "name": "Available", "type": 3 }
+		],
+		"props": [
+			{ "name": "Type", "type": 4, "def": 0, "list": "Byte" }
 		]
 	},
 	"math": { "tab": "tools", "group": true },

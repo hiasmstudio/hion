@@ -80,10 +80,16 @@ function arduino() {
 				i.flags |= window.IS_PARENT;
 				break;
 			case "LED":
+				i.getLightColor = function(){
+					return this.props.Color.getText();
+				};
+				i.getDarkColor = function(){
+					return ["#ffffb3", "#7aff7a", "#ffb3b3", "#b8b8ff"][this.props.Color.value];
+				};
 				i.run = function (flags) {
 					this.ctl = new SVG({
 						shape: 0,
-						fill: "white",
+						fill: this.getDarkColor(),
 						stroke: "black",
 						strokeWidth: 1
 					});
@@ -92,7 +98,7 @@ function arduino() {
 				};
 				i.doSwitch.onevent = function(queue) {
 					var v = this.parent.d(queue.state.data).read("Value");
-					this.parent.ctl.fill(v ? "yellow" : "white");
+					this.parent.ctl.fill(v ? this.parent.getLightColor() : this.parent.getDarkColor());
 					queue.push({event: this.parent.onSwitch});
 					return 0;
 				};
@@ -175,6 +181,22 @@ function arduino() {
 				i.doDelay.onevent = function(queue) {
 					queue.push({event: this.parent.onDelay});
 					return this.parent.props.Miliseconds.value/5;
+				};
+				break;
+			case "SerialOpen":
+				i.doBegin.onevent = function(queue) {
+					queue.push({event: this.parent.onBegin});
+					return 0;
+				};
+				i.doEnd.onevent = function(queue) {
+					return 0;
+				};
+				break;
+			case "SerialPrint":
+				i.doPrint.onevent = function(queue) {
+					console.log(queue.state.data);
+					queue.push({event: this.parent.onPrint});
+					return 0;
 				};
 				break;
 			case "Counter":

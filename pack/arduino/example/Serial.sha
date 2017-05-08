@@ -1,0 +1,22 @@
+Make(arduino)
+Add(Board,1,56,56)
+{
+  link(onSetup,2:doBegin,[])
+  link(onLoop,4:doNext,[(121,69)(121,118)])
+}
+Add(SerialOpen,2,154,56)
+{
+}
+Add(SerialPrint,3,210,112)
+{
+  Type=1
+  link(onPrint,5:doDelay,[])
+}
+Add(Counter,4,154,112)
+{
+  link(onCounter,3:doPrint,[])
+}
+Add(Delay,5,266,112)
+{
+  Miliseconds=1000
+}
