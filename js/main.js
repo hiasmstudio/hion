@@ -301,7 +301,8 @@ function loadWorkspace() {
 				for(var make of pack.make) {
 					items.push({
 						title: make.name,
-						cmd: make.cmd,
+						command: make.cmd,
+						checked: make.selected,
 						click: function() {
 							commander.execCommand("make", this.command);
 						}

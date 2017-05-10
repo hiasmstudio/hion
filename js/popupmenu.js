@@ -16,6 +16,7 @@ html.addEventListener("mousedown", function(event){
 function PopupMenu(items) {
 	
 	this.onclose = function(){};
+	this.group = false;
 	
 	var body = new Builder().n("div").class("popup").attr("parent", this).on("oncontextmenu", function(){return false;});
 	this.body = body.element;
@@ -40,15 +41,18 @@ function PopupMenu(items) {
 		}
 		else {
 			var popupItem = body.n("div").class("item").attr("parent", item);
+
+			if(item.checked)
+				popupItem.htmlAttr("checked", true);
 	
 			var icon = item.icon || 0;
 			popupItem.n("div").class("icon").style("backgroundPosition", "-" + (icon % 16)*16 + "px -" + (icon >> 4)*16 + "px");
 			popupItem.n("span").class("title").html(item.title);
 			
-			popupItem.on("onclick",  function() {
+			popupItem.attr("index", i).on("onclick",  function() {
 				this.parent.click();
 				popup.hide();
-				popup.parent.onclose();
+				popup.parent.select(this.index);
 				popup = null;
 			});
 		}
@@ -59,6 +63,15 @@ PopupMenu.prototype.close = function() {
 	popup.hide();
 	this.onclose();
 	popup = null;
+};
+
+PopupMenu.prototype.select = function(index) {
+	if(this.group) {
+		for(var i = 0; i < this.size(); i++) {
+			this.checked(i, i == index);
+		}
+	}
+	this.onclose();
 };
 
 PopupMenu.prototype.size = function() {

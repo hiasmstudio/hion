@@ -1647,21 +1647,13 @@ ToolButton.prototype.haveSubMenu = function() {
 };
 
 ToolButton.prototype.setSubMenu = function(subitems) {
-	var items = [];
-	for(var i in subitems) {
-		var item = subitems[i];
-		items.push({
-			title: item.title,
-			command: item.cmd,
-			click: item.click
-		});
-	}
-	var popup = new PopupMenu(items);
+	var popup = new PopupMenu(subitems);
+	popup.group = true;
 	if(!this.submenu) {
 		new Builder(this._ctl).n("div").attr("parent", this).class("submenu").on("onclick", function(e) {
 			e.stopPropagation();
 			if(this.parent.enabled == "true") {
-				popup.up(this.offsetLeft - 24, this.offsetHeight + 3);
+				this.parent.submenu.up(this.offsetLeft - 24, this.offsetHeight + 3);
 			}
 
 			return false;

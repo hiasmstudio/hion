@@ -428,7 +428,6 @@ function SHATab(file) {
 	});
     this.statusBar.add(this.zoom);
 	
-	this.buildMode = "";
 	this.bindFlags = 0;
 
     DocumentTab.call(this, file);
@@ -451,7 +450,6 @@ SHATab.prototype.createFromData = function(data) {
 	this.sdkEditor.show();
 	this.statusBar.show();
 	this.resize();
-	this.buildMode = sdk.pack.make ? sdk.pack.make[0].cmd : "";
 };
 
 SHATab.prototype.open = function(file, asnew) {
@@ -739,13 +737,9 @@ SHATab.prototype.updateCommands = function(commander) {
 				commander.checked("bind_padding");
 		}
 		
-		if(this.buildMode) {
+		if(this.sdkEditor.sdk.pack.getSelectedMake()) {
 			commander.enabled("build");
 			commander.enabled("make");
-//			if(this.buildMode === 0)
-//				commander.checked("make");
-//			else
-//				commander.checked("make_nwjs");
 		}
     }
     
@@ -967,7 +961,7 @@ SHATab.prototype.run = function() {
 		this.sdkEditor.run();
 	else if(run.mode == "url") {
 		var url = run.url.replace("%uid%", user.uid).replace("%pname%", this.getTitle().toLowerCase());
-		this.build(this.buildMode, function(){
+		this.build(this.sdkEditor.sdk.pack.getSelectedMake(), function(){
 			if(!_editor_.runapp || _editor_.runapp.closed)
 				_editor_.runapp = window.open(window.location.origin + url + "?b=" + _editor_.sdkEditor.getBuild());
 			else
@@ -1083,8 +1077,8 @@ SHATab.prototype.execCommand = function(cmd, data) {
         
         case "statistic": this.showStatistic(); break;
         
-        case "build": this.build(this.buildMode); break;
-        case "make": this.buildMode = data; commander.reset(); break;
+        case "build": this.build(this.sdkEditor.sdk.pack.getSelectedMake()); break;
+        case "make": this.sdkEditor.sdk.pack.selectMake(data); commander.reset(); break;
 		
 		case "moveto": this.moveto(); break;
 		

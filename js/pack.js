@@ -82,7 +82,9 @@ Pack.prototype.load = function() {
 		$.get(pack.getRoot() + "/pack.json", function(data, pack) {
 			var js = JSON.parse(data);
 			pack.projects = js.projects;
-			pack.make = js.make;
+			pack.make = js.make || [];
+			if(pack.make.length)
+				pack.make[0].selected = true;
 			pack.title = js.title;
 			if(js.run)
 				pack.run = js.run;
@@ -215,4 +217,18 @@ Pack.prototype.getPropertyEditor = function(propType) {
 		return this.parent.getPropertyEditor(propType);
 	
 	return null;
+};
+
+Pack.prototype.selectMake = function(cmd) {
+	for(var i = 0; i < this.make.length; i++) {
+		this.make[i].selected = this.make[i].cmd == cmd;
+	}
+};
+
+Pack.prototype.getSelectedMake = function() {
+	for(var m of this.make) {
+		if(m.selected)
+			return m.cmd;
+	}
+	return "";
 };
