@@ -183,6 +183,14 @@ function arduino() {
 					return this.parent.props.Miliseconds.value/5;
 				};
 				break;
+			case "Time":
+				i.CurrentTime.onevent = function() {
+					var t = new Date().getTime();
+					if(this.parent.props.Mode.value == 1)
+						t *= 1000;
+					return t;
+				};
+				break;
 			case "SerialOpen":
 				i.doBegin.onevent = function(queue) {
 					queue.push({event: this.parent.onBegin});
@@ -194,7 +202,7 @@ function arduino() {
 				break;
 			case "SerialPrint":
 				i.doPrint.onevent = function(queue) {
-					console.log(queue.state.data);
+					console.log(this.parent.d(queue.state.data).read("Text"));
 					queue.push({event: this.parent.onPrint});
 					return 0;
 				};
