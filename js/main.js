@@ -33,6 +33,14 @@ var CONFIG_BUG_REPORT = CONFIG_FORUM + "/userissues/0#7";
 var CONFIG_APP_CATALOG = "http://apps." + CONFIG_DOMAIN;
 var CONFIG_HELP = CONFIG_FORUM + "/wiki/5925";
 
+var API_BASE = "/server/core.php";
+var API_CONFIG_URL = API_BASE + "?cfg";
+var API_IP_URL = API_BASE + "?ip";
+var API_GET_URL = API_BASE;
+var API_LOGOUT_URL = API_BASE + "?logout";
+var API_FS_URL = API_BASE;
+var API_BUILD_URL = API_BASE;
+
 //------------------------------------------------------------------------------
 // Main workspace
 
@@ -245,7 +253,7 @@ function loadWorkspace() {
 		}, this);
 	}));
 	loader.add(new LoaderTask(function(){
-		$.get("server/core.php?cfg", function(data, task) {
+		$.get(API_CONFIG_URL, function(data, task) {
 			try {
 				user = JSON.parse(data);
 			}
@@ -377,7 +385,7 @@ function loadWorkspace() {
 		},
 		logout: {
 			exec: function() {
-				$.get("/server/core.php?logout", function(data) {
+				$.get(API_LOGOUT_URL, function(data) {
 					changeUser();
 				});
 			}

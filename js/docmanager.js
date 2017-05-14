@@ -294,13 +294,13 @@ RemoteFS.prototype._loadList = function(folder, data) {
 
 RemoteFS.prototype.list = function(dir, callback) {
 	var __fs = this;
-	$.get("server/core.php?dir=" + dir, function(data){
+	$.get(window.API_FS_URL + "?dir=" + dir, function(data){
 		callback(0, __fs._loadList(dir, data));
 	});
 };
 
 RemoteFS.prototype.mkdir = function(dir, callback) {
-	$.post("server/core.php", {mkdir: dir}, function(data) {
+	$.post(window.API_FS_URL, {mkdir: dir}, function(data) {
 		if(data) {
 			var error = JSON.parse(data);
 			callback(error.code);
@@ -312,7 +312,7 @@ RemoteFS.prototype.mkdir = function(dir, callback) {
 };
 
 RemoteFS.prototype.rmdir = function(dir, callback) {
-	$.post("server/core.php", {rm: dir}, function(data){
+	$.post(window.API_FS_URL, {rm: dir}, function(data){
 		if(data) {
 			var error = JSON.parse(data);
 			callback(error.code);
@@ -328,7 +328,7 @@ RemoteFS.prototype.remove = function(file, callback) {
 };
 
 RemoteFS.prototype.read = function(file, callback) {
-	$.post("server/core.php", {name: file, load: true}, function(data) {
+	$.post(window.API_FS_URL, {name: file, load: true}, function(data) {
 		if(this.status == 200) {
     		callback(0, data);
 		}
@@ -340,7 +340,7 @@ RemoteFS.prototype.read = function(file, callback) {
 };
 
 RemoteFS.prototype.write = function(file, data, callback) {
-	$.post("server/core.php", {name: file, sha: data, save: true}, function(data){
+	$.post(window.API_FS_URL, {name: file, sha: data, save: true}, function(data){
 		if(data) {
 			var error = JSON.parse(data);
 			callback(error.code);
@@ -913,7 +913,7 @@ SHATab.prototype.build = function(mode, callback) {
 	var state = this.manager.state;
 	var name = this.file ? this.file.name : "Project.sha";
 	this.sdkEditor.build();
-	$.post("server/core.php", {
+	$.post(window.API_BUILD_URL, {
 			build: name,
 			mode: mode,
 			code: this.sdkEditor.getMainSDK().save(false)

@@ -2037,7 +2037,7 @@ function modules() {
 				break;
 			case "Host":
 				i.doIP.onevent = function() {
-					$.get("server/core.php?ip", function(data, object) {
+					$.get(window.API_IP_URL, function(data, object) {
 						object.onIP.call(data);
 					}, this.parent);
 				};
@@ -2064,7 +2064,7 @@ function modules() {
 				break;
 			case "HTTP_Get":
 				i.doDownload.onevent = function(data) {
-					$.post("server/core.php", {url: readProperty(data, this.parent.URL, this.parent.props.URL.value)}, function(data, object) {
+					$.post(window.API_GET_URL, {url: readProperty(data, this.parent.URL, this.parent.props.URL.value)}, function(data, object) {
 						if(this.status != 200) {
 							var error = JSON.parse(data);
 							object.onError.call(error.code);
