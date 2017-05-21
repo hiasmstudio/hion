@@ -97,6 +97,13 @@ Pack.prototype.load = function() {
 					}
 				}
 			}
+			if(js.style) {
+				var styles = document.createElement('link');
+				styles.rel = 'stylesheet';
+				styles.type = 'text/css';
+				styles.href = pack.getRoot() + '/' + js.style;
+				document.getElementsByTagName('head')[0].appendChild(styles);
+			}
 
 			$.get(pack.getRoot() + "/elements.json", function(data, pack) {
 				pack.elements = JSON.parse(data);
