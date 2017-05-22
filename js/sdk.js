@@ -4,6 +4,9 @@ var FLAG_USE_RUN  = 0x01;
 var FLAG_USE_EDIT = 0x02;
 var FLAG_USE_CHILD= 0x04;
 
+var SDK_PARSE_FILE = 0x01;
+var SDK_PARSE_PASTE = 0x02;
+
 var OBJ_TYPE_ELEMENT	= 1;
 var OBJ_TYPE_POINT		= 2;
 var OBJ_TYPE_LINE		= 3;
@@ -78,11 +81,10 @@ function SDK(pack) {
 		return null;
 	};
 
-	this.getElementByEId = function(id) {
-		for(var e of this.imgs) {
-			if(e.eid === id) {
+	this.findElementById = function (id) {
+		for (var e of this.imgs) {
+			if (e.eid === id)
 				return e;
-			}
 		}
 		return null;
 	};
@@ -254,16 +256,13 @@ function SDK(pack) {
 		}
 		return text;
 	};
-
-	this.findElementById = function (id) {
-		for (var e of this.imgs) {
-			if (e.eid === id)
-				return e;
-		}
-		return null;
+	this.saveLink = function () {
+		var e = this.selMan.items[0];
+		var text = (e.getMainLink() || e).save(true, "", true);
+		return text;
 	};
 
-	this.load = function (text, start) {
+	this.load = function (text, start, flags) {
 		var arr = text.split("\r\n"); // opera like...
 		if (arr.length < 2)
 			arr = text.split("\n");
@@ -273,7 +272,13 @@ function SDK(pack) {
 		var e = null;
 		var index = start ? start : 0;
 
-		if(index === 0) {
+		var replacedIDS = {};
+		var _sdk = this;
+		function getElementById(id) {
+			return flags & SDK_PARSE_PASTE ? replacedIDS[id] : _sdk.findElementById(id);
+		}
+
+		if(index === 0 && (flags & SDK_PARSE_FILE)) {
 			this.resetID();
 		}
 		
@@ -304,9 +309,13 @@ function SDK(pack) {
 					if(isEntry && !this.parent)
 						e.flags |= window.IS_PARENT;
 				}
-				e.eid = parseInt(l[1]);
-				if (e.eid >= this.getCurrentID())
-					this.setID(e.eid + 1);
+				if(flags & SDK_PARSE_PASTE)
+					replacedIDS[parseInt(l[1])] = e;
+				else {
+					e.eid = parseInt(l[1]);
+					if (e.eid >= this.getCurrentID())
+						this.setID(e.eid + 1);
+				}
 			} else if (line.substr(0, 5) === "link(") {
 				var pa = line.substr(5, line.length - 6).split(",");
 				var sp = pa[1].split(":");
@@ -319,7 +328,7 @@ function SDK(pack) {
 				
 			} else if (line === "BEGIN_SDK") {
 				e.sdk.imgs = [];
-				index = e.sdk.load(text, index + 1);
+				index = e.sdk.load(text, index + 1, flags);
 				e.sdk.imgs[0].parentElement = e;
 			} else if (line === "END_SDK") {
 				break;
@@ -361,7 +370,7 @@ function SDK(pack) {
 				pointInfo.push({name: val.substr(0, i), direction: val.substr(i+1, 1), text: val.substr(i+3).replace("\\n", "\n"), element: e})
 			} else if(line.startsWith("elink")) {
 				var eid = parseInt(line.substr(6, line.length - 7));
-				var le = this.getElementByEId(eid);
+				var le = this.findElementById(eid);
 				e.makeLink(le);
 			} else if (e) {
 				var ind = line.indexOf("=");
@@ -386,7 +395,7 @@ function SDK(pack) {
 		// restore links
 		for (var i in links) {
 			var e1 = links[i].srce;
-			var e2 = this.findElementById(links[i].dste);
+			var e2 = getElementById(links[i].dste);
 			if (e1 && e2) {
 				var p1 = e1.findPointByName(links[i].srcp);
 				var p2 = e2.findPointByName(links[i].dstp);
@@ -497,3 +506,28 @@ SDK.prototype.indexOf = function(element) {
 	
 	return -1;
 };
+
+function SDKLib() {
+	this.items = {};
+}
+
+SDKLib.prototype.add = function(element) {
+	this.items[element.eid] = element;
+};
+
+SDKLib.prototype.getElementById = function(eid) {
+	return this.items[eid];
+};
+
+SDKLib.prototype.remove = function(element) {
+	delete this.items[element.eid];
+};
+
+// root SDK
+function MSDK(pack) {
+	SDK.call(this, pack);
+	
+	this.sdkLib = new SDKLib();
+}
+
+MSDK.prototype = Object.create(SDK.prototype);

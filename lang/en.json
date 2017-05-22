@@ -25,6 +25,7 @@
 	"cmd.about.info": "Open dialog \"About\"",
 	"cmd.cut": "Cut",
 	"cmd.copy": "Copy",
+	"cmd.copy_link": "Copy link",
 	"cmd.comment": "Comments",
 	"cmd.paste": "Paste",
 	"cmd.slidedown": "Shift down",

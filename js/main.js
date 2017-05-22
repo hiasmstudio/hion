@@ -209,7 +209,7 @@ function loadWorkspace() {
 
 	 	var mmCommands = {
 	 		file: ["new", "open", "save", "saveas", "-", "share", "addcatalog", "-", "capture", "sha_source"],
-	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "comment", "-", "moveto", "-", "tools"],
+	 		edit: ["cut", "paste", "copy", "delete", "-", "bringtofront", "sendtoback", "-", "copy_link", "comment", "-", "moveto", "-", "tools"],
 	 		editor: ["undo", "redo", "-", "slidedown", "slideright", "-", "zoomin", "zoomout", "-", "selectall", "-", "makehint", "remove_lh"],
 	 		view: ["fullscreen", "-", "formedit", "statistic", "-", "history", "-", "output", "showgraph"],
 	 		help: ["forum", "help", "-", "opencatalog", "mail", "sendbug", "-", "about"]
@@ -400,6 +400,7 @@ function loadWorkspace() {
 		copy: { icon: 27 },
 		comment: { icon: 33 },
 		paste: { icon: 30 },
+		copy_link: {},
 		slidedown: { icon: 18 },
 		slideright: { icon: 15 },
 		selectall: { },

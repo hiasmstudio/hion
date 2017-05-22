@@ -440,7 +440,7 @@ SHATab.prototype.getTitle = function(){
 };
 
 SHATab.prototype.createFromData = function(data) {
-    var sdk = new SDK(packMan.getPack("webapp"));
+    var sdk = new MSDK(packMan.getPack("webapp"));
 	this.sdkEditor.edit(sdk);
 	//this.sdkEditor.createNew();
 	if(data) {
@@ -749,6 +749,7 @@ SHATab.prototype.updateCommands = function(commander) {
 		commander.enabled("delete");
 		if(this.sdkEditor.sdk.selMan.size() == 1) {
 			commander.enabled("comment");
+			commander.enabled("copy_link");
 		}
 	}  
 
@@ -890,7 +891,7 @@ SHATab.prototype.moveto = function() {
 			
 			for(var i in links[arr[p]].points) {
 				var point = links[arr[p]].points[i];
-				var newe = e.sdk.getElementByEId(point.id);
+				var newe = e.sdk.findElementById(point.id);
 				var newp = newe.findPointByName(point.name);
 				newp.connect(e.sdk.imgs[0].getFirstFreePoint(newp.getPair())).createPath();
 				
@@ -1037,6 +1038,13 @@ SHATab.prototype.execCommand = function(cmd, data) {
         	}
         	commander.reset();
         	break;
+		case "copy_link":
+			buffer = this.sdkEditor.sdk.saveLink();;
+        	if(data) {
+        		data.setData('text/plain', buffer);
+        	}
+        	commander.reset();
+			break;
         case "paste":
         	var text = data ? data.getData("text/plain") : buffer;
         	if(text.substr(0, 4) == "Make" || text.substr(0, 4) == "Add(") {

@@ -539,6 +539,17 @@ SdkElement.prototype.erase = function () {
 	if(pta[2] && pta[3]) {
 		pta[2].connect(pta[3]).createPath();
 	}
+
+	if(this.isLink()) {
+		for(var i = 0; i < this.elinkList.length; i++) {
+			if(this.elinkList[i] === this) {
+				this.elinkList.splice(i, 1);
+			}
+		}
+		if(this.elinkList.length == 1) {
+			delete this.elinkList[0].elinkList;
+		}
+	}
 };
 
 SdkElement.prototype.inPoint = function(x, y) {
@@ -678,8 +689,8 @@ SdkElement.prototype.drawBody = function(ctx) {
 	ctx.fillRect(this.x, this.y, this.w, this.h);
 	ctx.strokeRect(this.x, this.y, this.w, this.h);
 	
-	if(this.link) {
-		ctx.fillStyle = "white";
+	if(this.isLink()) {
+		ctx.fillStyle = this.isMainLink() ? "silver" : "white";
 		var size = 4;
 		ctx.fillRect(this.x + this.w - size, this.y + this.h - size, size + 1, size + 1);
 		ctx.strokeRect(this.x + this.w - size, this.y + this.h - size, size + 1, size + 1);
@@ -833,9 +844,11 @@ SdkElement.prototype.oninit = function() {};
 SdkElement.prototype.onfree = function() {};
 
 SdkElement.prototype.loadFromText = function(line) { return false; };
-SdkElement.prototype.save = function(selection, tab) {
+SdkElement.prototype.save = function(selection, tab, link) {
 	var text = "Add(" + this.name + "," + this.eid + "," + this.x + "," + this.y + ")\n";
 	text += "{\n";
+	if(link || this.isLink() && !this.isMainLink())
+		text += "  elink(" + (link ? this.eid : this.getMainLink().eid) + ")\n";
 	var propPoints = "";
 	var pointColors = "";
 	var pointInfo = "";
@@ -904,7 +917,20 @@ SdkElement.prototype.initPointHandler = function(name, handler) {
 	}
 };
 
-SdkElement.prototype.makeLink = function(element) { this.link = element; };
+SdkElement.prototype.isLink = function() { return this.elinkList; };
+SdkElement.prototype.isMainLink = function() { return this.isLink() && this.elinkList[0] === this; };
+SdkElement.prototype.getMainLink = function() { return this.isLink() ? this.elinkList[0] : null; };
+SdkElement.prototype.makeMainLink = function() {
+	if(!this.isLink()) {
+		this.elinkList = [this];
+	}
+};
+SdkElement.prototype.makeLink = function(element) {
+	element.makeMainLink();
+	this.elinkList = element.elinkList;
+	this.elinkList.push(this);
+	this.props = element.props;
+};
 
 function getClass(pack, id) {
 	var template = pack.elements[id];
@@ -1468,7 +1494,7 @@ LTElement.prototype.mouseDown = function(x, y, button, flags) {
 	if(flags & 0x2) {
 		if(this.link.startsWith("multi")) {
 			var eid = parseInt(this.link.substr(8));
-			var e = this.parent.getElementByEId(eid);
+			var e = this.parent.findElementById(eid);
 			if(e) {
 				this.parent.selMan.select(e);
 				if(e.sdk) {
@@ -2397,7 +2423,7 @@ LineBreak.prototype.loadFromText = function(line) {
 	if(line.substr(0, 7) == "Primary") {
 		var data = line.substr(9, line.length - 10);
 		var arr = data.split(",");
-		var e = this.parent.getElementByEId(parseInt(arr[0]));
+		var e = this.parent.findElementById(parseInt(arr[0]));
 		if(!e) {
 			e = this.parent.add(this.name, this.x + parseInt(arr[1]), this.y + parseInt(arr[2]));
 			e.eid = parseInt(arr[0]);

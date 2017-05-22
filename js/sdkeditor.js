@@ -1262,7 +1262,7 @@ function SdkEditor() {
 	
 	this.loadFromText = function(text, fileName) {
 		this.setFileName(fileName);
-		this.sdk.load(text);
+		this.sdk.load(text, 0, window.SDK_PARSE_FILE);
 		this.endOperation();
 		this.updateScrolls();
 		this.draw();
@@ -1315,18 +1315,11 @@ function SdkEditor() {
 	};
 	this.pasteFromText = function(text) {
 		this.sdk.selMan.clear();
-		var sdk = new SDK(this.sdk.pack);
-		sdk.load(text);
+		var count = this.sdk.imgs.length;
+		this.sdk.load(text, 0, window.SDK_PARSE_PASTE);
 		var dx = 32768, dy = 32768;
-		for(var i in sdk.imgs) {
-			var e = sdk.imgs[i];
-			e.eid = this.sdk.getNextID();
-			e.parent = this.sdk;
-			if(e.sdk) {
-				e.sdk.parent = this.sdk;
-				this.shiftIDs(e.sdk);
-			}
-			this.sdk.imgs.push(e);
+		for(var i = count; i < this.sdk.imgs.length; i++) {
+			var e = this.sdk.imgs[i];
 			this.sdk.selMan.add(e);
 			if(e.x < dx) {
 				dx = e.x;
@@ -1336,22 +1329,13 @@ function SdkEditor() {
 			}
 		}
 		dx = this.pasteX - dx;
-		dy = this.pasteY - dy; 
-		for(var i in sdk.imgs) {
-			sdk.imgs[i].move(dx, dy);
-		}
+		dy = this.pasteY - dy;
+		this.sdk.selMan.move(dx, dy);
 		this.draw();
 		this.onsdkchange();
 
 		this.pasteX += POINT_SPACE;
 		this.pasteY += POINT_SPACE;
-
-		for(var e1 of this.sdk.imgs) {
-			for(var e2 of this.sdk.imgs) {
-				if(e1 != e2 && e1.eid == e2.eid)
-					console.log("Dup:", e1, e2);
-			}
-		}
 	};
 	
 	this.addElement = function(name, x, y) {
