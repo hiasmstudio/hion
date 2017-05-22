@@ -2776,7 +2776,7 @@ function modules() {
 					
 					this.parent.index = os.index(this.parent.props.Name.value);
 
-					this.parent.onCreateRange.call(this.parent.index);
+					this.parent.onGet.call(this.parent.index);
 				}
 				i.Index.onevent = function() {
 					return this.parent.index;
