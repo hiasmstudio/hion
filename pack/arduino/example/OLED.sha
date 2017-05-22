@@ -1,0 +1,547 @@
+Make(arduino)
+Add(Board,1,42,140)
+{
+  Width=283
+  Height=242
+  link(onLoop,70:doEvent1,[])
+}
+Add(OLED_128x64,2,413,154)
+{
+  Left=42
+  Top=35
+  Width=155
+  Address=60
+  link(onDraw,37:doEvent,[])
+}
+Add(Array,3,490,77)
+{
+  Array=#1:0|1:0|1:0|1:0|
+}
+Add(ArrayWrite,4,490,329)
+{
+  Index=0
+  link(Array,10:Var2,[])
+}
+Add(Button,5,413,329)
+{
+  Left=21
+  Top=161
+  Pin=4
+  Mode=1
+  link(onClick,26:doEvent1,[])
+}
+Add(Button,6,413,385)
+{
+  Left=63
+  Top=161
+  Pin=5
+  Mode=1
+  link(onClick,27:doEvent1,[])
+}
+Add(Button,7,413,441)
+{
+  Left=105
+  Top=161
+  Pin=6
+  Mode=1
+  link(onClick,28:doEvent1,[])
+}
+Add(Button,8,413,497)
+{
+  Left=147
+  Top=161
+  Pin=7
+  Mode=1
+  link(onClick,34:doEvent1,[])
+}
+Add(ArrayWrite,9,490,385)
+{
+  Index=1
+  link(Array,32:Var3,[(496,378)])
+}
+Add(GetDataEx,10,490,315)
+{
+  link(Data,15:Var2,[])
+}
+Add(ArrayWrite,11,490,441)
+{
+  Index=2
+  link(Array,33:Var3,[(496,434)])
+}
+Add(ArrayWrite,12,490,497)
+{
+  Index=3
+  link(Array,33:Var2,[(496,484)(475,484)])
+}
+Add(For,13,826,154)
+{
+  End=4
+  link(onEvent,42:doEvent1,[])
+  link(onStop,103:doMove,[(869,167)(869,251)])
+}
+Add(ArrayRead,14,910,161)
+{
+  link(onRead,17:doCompare,[])
+  link(Array,15:Var3,[(916,147)])
+}
+Add(GetDataEx,15,490,140)
+{
+  link(Data,3:Array,[])
+}
+Add(DrawCircle,16,1008,161)
+{
+  Y=30
+  Radius=10
+  link(Canvas,43:Var1,[(1014,147)])
+  link(X,44:Var2,[])
+}
+Add(If_else,17,959,161)
+{
+  Op2=Integer(1)
+  link(onTrue,16:doDraw,[])
+  link(onFalse,20:doDraw,[])
+}
+Add(MathParse,18,1015,91)
+{
+  MathStr=#10:25 + $i*25|
+  Args=#1:i|
+}
+Add(DoData,19,777,154)
+{
+  Data=Integer(0)
+  link(onEventData,13:doFor,[])
+}
+Add(DrawCircle,20,1071,168)
+{
+  Y=30
+  Radius=10
+  Type=1
+  link(Canvas,43:Var3,[(1077,147)])
+  link(X,48:Var3,[(1084,140)])
+}
+Add(Hub,21,217,147)
+{
+  OutCount=3
+  link(onEvent1,23:doCheck,[(248,153)(248,83)])
+  link(onEvent2,24:doCheck,[(248,160)(248,230)])
+  link(onEvent3,22:doEvent1,[(243,167)(243,335)])
+}
+Add(Hub,22,371,329)
+{
+  OutCount=4
+  link(onEvent1,5:doCheck,[])
+  link(onEvent2,6:doCheck,[(399,342)(399,391)])
+  link(onEvent3,7:doCheck,[(399,349)(399,447)])
+  link(onEvent4,8:doCheck,[(399,356)(399,503)])
+}
+Add(Button,23,266,77)
+{
+  Left=196
+  Top=56
+  Pin=3
+  Mode=2
+  link(onClick,49:doCompare,[])
+}
+Add(Button,24,266,224)
+{
+  Left=196
+  Top=105
+  Pin=2
+  Mode=2
+  link(onClick,76:doWork2,[])
+}
+Add(Tone,25,700,329)
+{
+  Pin=8
+}
+Add(Hub,26,462,329)
+{
+  link(onEvent1,4:doWrite,[])
+  link(onEvent2,29:doEvent,[])
+}
+Add(Hub,27,462,385)
+{
+  link(onEvent1,9:doWrite,[])
+  link(onEvent2,30:doEvent,[])
+}
+Add(Hub,28,462,441)
+{
+  link(onEvent1,11:doWrite,[])
+  link(onEvent2,31:doEvent,[])
+}
+Add(IndexToChannel,29,539,336)
+{
+  link(onEvent1,54:doWork2,[])
+  link(onEvent2,53:doWork1,[(583,349)(583,363)])
+}
+Add(IndexToChannel,30,539,392)
+{
+  link(onEvent1,55:doWork2,[])
+  link(onEvent2,53:doWork2,[(583,405)(583,370)])
+}
+Add(IndexToChannel,31,539,448)
+{
+  link(onEvent1,56:doWork2,[])
+  link(onEvent2,53:doWork3,[(583,461)(583,377)])
+}
+Add(GetDataEx,32,469,371)
+{
+  link(Data,10:Var1,[(475,322)])
+}
+Add(GetDataEx,33,469,427)
+{
+  link(Data,32:Var2,[])
+}
+Add(Hub,34,462,497)
+{
+  link(onEvent1,12:doWrite,[])
+  link(onEvent2,35:doEvent,[])
+}
+Add(IndexToChannel,35,539,504)
+{
+  link(onEvent1,81:doWork2,[])
+  link(onEvent2,53:doWork4,[(583,517)(583,384)])
+}
+Add(Counter,36,406,77)
+{
+  Max=1
+}
+Add(IndexToChannel,37,455,154)
+{
+  link(Index,69:Var3,[(461,133)])
+  link(onEvent1,19:doData,[])
+  link(onEvent2,38:doDraw,[(754,167)(754,328)])
+}
+Add(DrawText,38,777,322)
+{
+  Text=#5:Tone |
+  Size=2
+  Color=1
+  link(onDraw,50:doDraw,[])
+  link(Canvas,86:Var2,[])
+}
+Add(DrawText,39,973,322)
+{
+  link(onDraw,64:doMove,[])
+  link(Canvas,86:Var3,[(979,301)])
+}
+Add(TextCursor,40,875,322)
+{
+  X=32
+  Y=24
+  link(onMove,57:doRead,[])
+}
+Add(Counter,41,406,224)
+{
+  Min=-1
+  Max=3
+  Default=-1
+}
+Add(Hub,42,875,154)
+{
+  OutCount=3
+  link(onEvent1,18:doCalc,[(903,160)(903,97)])
+  link(onEvent2,14:doRead,[])
+  link(onEvent3,45:doCompare,[(903,174)(903,244)])
+}
+Add(GetDataEx,43,1050,140)
+{
+  Angle=2
+  link(Data,47:Var1,[])
+}
+Add(GetDataEx,44,1015,133)
+{
+  link(Data,18:Result,[])
+}
+Add(If_else,45,1001,238)
+{
+  link(onTrue,46:doDraw,[])
+  link(Op1,84:getVar,[])
+}
+Add(DrawCircle,46,1050,238)
+{
+  Y=30
+  Radius=5
+  link(Canvas,104:Var2,[])
+  link(X,48:Var2,[])
+}
+Add(GetDataEx,47,1050,193)
+{
+  Angle=3
+  link(Data,87:Var3,[])
+}
+Add(GetDataEx,48,1057,133)
+{
+  Angle=3
+  link(Data,44:Var3,[])
+}
+Add(If_else,49,315,77)
+{
+  Type=4
+  Op2=Integer(0)
+  link(onTrue,36:doNext,[])
+  link(Op1,60:getVar,[])
+}
+Add(DrawText,50,826,322)
+{
+  link(onDraw,40:doMove,[])
+  link(Text,83:Var2,[])
+}
+Add(Array,51,644,77)
+{
+  Array=#4:1000|4:2000|4:3000|4:4000|
+}
+Add(ArrayRead,52,644,357)
+{
+  link(onRead,25:doTone,[(688,363)(688,335)])
+  link(Array,82:Var2,[])
+}
+Add(ChannelToIndex,53,595,357)
+{
+  Count=4
+  link(onIndex,77:doWork2,[])
+}
+Add(HubEx,54,602,336)
+{
+  link(onEvent,25:doStop,[])
+}
+Add(HubEx,55,602,392)
+{
+  Angle=3
+  link(onEvent,54:doWork3,[])
+}
+Add(HubEx,56,602,448)
+{
+  Angle=3
+  link(onEvent,55:doWork3,[])
+}
+Add(ArrayRead,57,924,322)
+{
+  link(onRead,39:doDraw,[])
+  link(Array,82:Var3,[(930,315)])
+  link(Index,83:Var3,[(937,308)])
+}
+Add(MathParse,58,329,462)
+{
+  MathStr=#13:$a[$i] -= 100|
+  Args=#1:a|1:i|
+  link(a,67:Var3,[(335,413)])
+  link(i,68:Var3,[(342,406)])
+}
+Add(LineBreakEx,59,406,273)
+{
+  Caption=#6:select|
+  Type=3
+  link(_Data,41:Value,[])
+}
+Add(LineBreakEx,60,315,42)
+{
+  Caption=#6:select|
+  Type=2
+}
+Add(LineBreakEx,61,315,378)
+{
+  Caption=#6:select|
+  Type=2
+}
+Add(MathParse,62,308,420)
+{
+  MathStr=#13:$a[$i] += 100|
+  Args=#1:a|1:i|
+  link(a,67:Var2,[])
+  link(i,68:Var2,[])
+}
+Add(DrawText,63,1071,322)
+{
+  Text=#21:  play  next  exit  -|
+  Size=1
+  link(onDraw,99:doMove,[])
+}
+Add(TextCursor,64,1022,322)
+{
+  Y=56
+  link(onMove,63:doDraw,[])
+}
+Add(IndexToChannel,65,126,147)
+{
+  PInfo(onEvent1,1,main)
+  PInfo(onEvent2,1,\nsetup)
+  link(Index,69:Var1,[(132,133)])
+  link(onEvent1,21:doEvent1,[])
+  link(onEvent2,66:doEvent1,[(201,160)(201,426)])
+}
+Add(Hub,66,217,420)
+{
+  OutCount=6
+  link(onEvent1,90:doCheck,[])
+  link(onEvent2,93:doCheck,[(245,433)(245,468)])
+  link(onEvent4,94:doCheck,[(245,447)(245,573)])
+  link(onEvent5,95:doCheck,[(245,454)(245,615)])
+  link(onEvent6,96:doCheck,[(245,461)(245,657)])
+}
+Add(GetDataEx,67,308,406)
+{
+  link(Data,82:Var1,[(314,315)])
+}
+Add(GetDataEx,68,315,399)
+{
+  link(Data,61:getVar,[])
+}
+Add(GetDataEx,69,406,126)
+{
+  link(Data,36:Value,[])
+}
+Add(Hub,70,91,147)
+{
+  link(onEvent1,65:doEvent,[])
+  link(onEvent2,2:doDraw,[(115,160)(115,185)(372,185)(372,160)])
+}
+Add(HubEx,76,350,224)
+{
+  link(onEvent,41:doNext,[])
+}
+Add(HubEx,77,630,357)
+{
+  link(onEvent,52:doRead,[])
+}
+Add(DoData,78,420,574)
+{
+  link(onEventData,77:doWork3,[(634,580)])
+  link(Data,79:getVar,[])
+}
+Add(LineBreakEx,79,420,539)
+{
+  Caption=#6:select|
+  Type=2
+}
+Add(IndexToChannel,80,371,567)
+{
+  link(onEvent1,81:doWork3,[(606,573)])
+  link(onEvent2,78:doData,[])
+}
+Add(HubEx,81,602,504)
+{
+  Angle=3
+  link(onEvent,56:doWork3,[])
+}
+Add(GetDataEx,82,644,308)
+{
+  link(Data,51:Array,[])
+}
+Add(GetDataEx,83,833,301)
+{
+  link(Data,85:getVar,[])
+}
+Add(LineBreakEx,84,1001,210)
+{
+  Caption=#6:select|
+  Type=2
+}
+Add(LineBreakEx,85,833,280)
+{
+  Caption=#6:select|
+  Type=2
+}
+Add(GetDataEx,86,777,294)
+{
+  link(Data,87:Var2,[])
+}
+Add(GetDataEx,87,777,193)
+{
+  Angle=3
+  link(Data,2:Canvas,[(419,200)])
+}
+Add(Button,90,259,420)
+{
+  elink(23)
+  Left=196
+  Top=56
+  Pin=3
+  Mode=2
+  link(onClick,62:doCalc,[])
+}
+Add(Button,93,259,462)
+{
+  elink(24)
+  Left=196
+  Top=105
+  Pin=2
+  Mode=2
+  link(onClick,58:doCalc,[])
+}
+Add(Button,94,259,567)
+{
+  elink(6)
+  Left=63
+  Top=161
+  Pin=5
+  Mode=1
+  PInfo(onClick,1,play)
+  link(onClick,80:doEvent,[])
+}
+Add(Button,95,259,609)
+{
+  elink(7)
+  Left=105
+  Top=161
+  Pin=6
+  Mode=1
+  PInfo(onClick,1,next)
+  link(onClick,97:doCompare,[])
+}
+Add(Button,96,259,651)
+{
+  elink(8)
+  Left=147
+  Top=161
+  Pin=7
+  Mode=1
+  PInfo(onClick,1,back)
+  link(onClick,110:doEvent1,[(360,657)(360,237)])
+}
+Add(If_else,97,308,609)
+{
+  Op2=Integer(1)
+  link(onTrue,76:doWork3,[(354,615)])
+}
+Add(DrawText,98,1169,322)
+{
+  Text=#1:+|
+}
+Add(TextCursor,99,1120,322)
+{
+  X=120
+  link(onMove,98:doDraw,[])
+}
+Add(DrawText,102,1155,245)
+{
+  Text=#3:set|
+  Size=1
+  Color=1
+  link(onDraw,107:doMove,[])
+}
+Add(TextCursor,103,1106,245)
+{
+  X=109
+  link(onMove,102:doDraw,[])
+  link(Canvas,104:Var3,[(1112,224)])
+}
+Add(GetDataEx,104,1050,217)
+{
+  link(Data,47:Var2,[])
+}
+Add(DrawText,106,1253,245)
+{
+  Text=#6:select|
+}
+Add(TextCursor,107,1204,245)
+{
+  X=91
+  Y=54
+  link(onMove,106:doDraw,[])
+}
+Add(Hub,110,371,231)
+{
+  link(onEvent1,41:doReset,[])
+  link(onEvent2,36:doReset,[(395,244)(395,90)])
+}

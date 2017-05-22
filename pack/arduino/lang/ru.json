@@ -1,10 +1,15 @@
 {
 	"tab.helpers": "Помощники",
 	"tab.gui": "Устройства",
+	"tab.oled": "OLED",
+	"group.oledtools": "Инструменты",
+	"group.oledshapes": "Фигуры",
 	"tab.tools": "Инструменты",
 	"group.math": "Математика",
 	"group.logic": "Логика",
 	"group.serialport": "Serial порт",
+	"tab.array": "Массивы",
+	"tab.strings": "Строки",
 
 	"pack.info.arduino": "Создание скетчей для платформы Arduino. Тестовый пакет для ознакомления с архитектурой.",
 

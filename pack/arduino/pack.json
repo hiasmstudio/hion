@@ -4,5 +4,6 @@
 	"run": { "mode": "internal" },
 	"make": [
 		{"name": "Make", "cmd": "make"}
-	]
+	],
+	"style": "style.css"
 }
