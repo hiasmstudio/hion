@@ -241,7 +241,7 @@ function loadWorkspace() {
 
 		$("splash").parentNode.removeChild($("splash"));
 		
-		if(window.location.hash.startsWith("#/public")) {
+		if(window.location.hash.startsWith("#/public") || window.location.hash.startsWith("#/examples")) {
 			docManager.open(window.location.hash.substring(1));
 		}
 	};
