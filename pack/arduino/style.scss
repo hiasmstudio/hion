@@ -4,3 +4,25 @@
     justify-content: center;
 	overflow: hidden;
 }
+
+@mixin ui-led-share($bg, $shadowIn, $shadowOut) {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background-color: $bg;
+	box-shadow: #000 0 -1px 5px 0px, inset $shadowIn 0 -1px 16px;
+	&[off] {
+		box-shadow: #000 0 -1px 5px 0px, inset $shadowIn 0 -1px 4px, $shadowOut 0 2px 12px;
+	}
+}
+
+.ui-led {
+	display: flex;
+	align-items: center;
+    justify-content: center;
+
+	.red	{ @include ui-led-share(#f64, #600, #F00); }
+	.yellow	{ @include ui-led-share(#fe1, #660, #DD0); }
+	.green	{ @include ui-led-share(#9e0, #460, #7D0); }
+	.blue	{ @include ui-led-share(#4AB, #006, #06F); }
+}

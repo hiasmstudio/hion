@@ -3,3 +3,40 @@
   align-items: center;
   justify-content: center;
   overflow: hidden; }
+
+.ui-led {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+  .ui-led .red {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #f64;
+    box-shadow: #000 0 -1px 5px 0px, inset #600 0 -1px 16px; }
+    .ui-led .red[off] {
+      box-shadow: #000 0 -1px 5px 0px, inset #600 0 -1px 4px, #F00 0 2px 12px; }
+  .ui-led .yellow {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #fe1;
+    box-shadow: #000 0 -1px 5px 0px, inset #660 0 -1px 16px; }
+    .ui-led .yellow[off] {
+      box-shadow: #000 0 -1px 5px 0px, inset #660 0 -1px 4px, #DD0 0 2px 12px; }
+  .ui-led .green {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #9e0;
+    box-shadow: #000 0 -1px 5px 0px, inset #460 0 -1px 16px; }
+    .ui-led .green[off] {
+      box-shadow: #000 0 -1px 5px 0px, inset #460 0 -1px 4px, #7D0 0 2px 12px; }
+  .ui-led .blue {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #4AB;
+    box-shadow: #000 0 -1px 5px 0px, inset #006 0 -1px 16px; }
+    .ui-led .blue[off] {
+      box-shadow: #000 0 -1px 5px 0px, inset #006 0 -1px 4px, #06F 0 2px 12px; }

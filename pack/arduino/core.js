@@ -94,18 +94,15 @@ function arduino() {
 					return ["#ffffb3", "#7aff7a", "#ffb3b3", "#b8b8ff"][this.props.Color.value];
 				};
 				i.run = function (flags) {
-					this.ctl = new SVG({
-						shape: 0,
-						fill: this.getDarkColor(),
-						stroke: "black",
-						strokeWidth: 1
+					this.ctl = new UILed({
+						color: this.props.Color.getText().toLowerCase()
 					});
 
 					return AUIElement.prototype.run.call(this, flags);
 				};
 				i.doSwitch.onevent = function(queue) {
 					var v = this.parent.d(queue.state.data).read("Value");
-					this.parent.ctl.fill(v ? this.parent.getLightColor() : this.parent.getDarkColor());
+					this.parent.ctl.switch(v);
 					queue.push({event: this.parent.onSwitch});
 					return 0;
 				};
@@ -818,6 +815,27 @@ function UISvgControl(options) {
 }
 
 UISvgControl.prototype = Object.create(UIControl.prototype);
+
+//******************************************************************************
+// UILed
+//******************************************************************************
+
+function UILed(options) {
+	this.body = new Builder().n("div").class("ui-led");
+	this.led = this.body.n("div").class(options.color);
+	this._ctl = this.body.element;
+
+	this.setOptions(options);
+}
+
+UILed.prototype = Object.create(UIControl.prototype);
+
+UILed.prototype.switch = function(value) {
+	if(value)
+		this.led.element.setAttribute("off", "");
+	else
+		this.led.element.removeAttribute("off");
+};
 
 //******************************************************************************
 // UIOLEDControl
