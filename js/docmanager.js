@@ -751,6 +751,7 @@ SHATab.prototype.updateCommands = function(commander) {
 			commander.enabled("comment");
 			commander.enabled("copy_link");
 		}
+		commander.enabled("sha_pas");
 	}  
 
 	if(this.sdkEditor.canBack()) {
@@ -1095,6 +1096,8 @@ SHATab.prototype.execCommand = function(cmd, data) {
 		case "bind_padding": this.bindFlags ^= 0x4; this.fEditor.setBindFlags(this.bindFlags); commander.reset(); break;
 		
 		case "history": this.loadFromHistory(); break;
+
+		case "sha_pas": this.manager.open(this.sdkEditor.sdk.pack.getCodeFilename(this.sdkEditor.sdk.selMan.items[0].name)); break;
         
         default:
             DocumentTab.prototype.execCommand.call(this, cmd, data);
@@ -1107,37 +1110,96 @@ function CodeTab(file) {
     DocumentTab.call(this, file);
     
 	var memo = new Builder().n("div").class("doc-code");
-	memo.n("textarea").id("text-edit-form-memo").style("flexGrow", 1);
+	memo.n("textarea").style("flexGrow", 1);
 	this._ctl = memo.element;
+	this.saved = true;
 }
 
 CodeTab.prototype = Object.create(DocumentTab.prototype);
 
 CodeTab.prototype.init = function() {
-	this.editor = CodeMirror.fromTextArea(this._ctl.childNodes[0], {
-		lineNumbers: true, // Нумеровать каждую строчку.
-		matchBrackets: true,
-		mode: "text/javascript",
-		indentUnit: 2, // Длина отступа в пробелах.
-		indentWithTabs: true,
-		enterMode: "keep",
-		tabMode: "shift"
-	});
-	this.editor.focus();
 };
 
 CodeTab.prototype.open = function(file) {
 	DocumentTab.prototype.open.call(this, file);
 	
+	var mime = null;
+	
+	var mimes = [
+		{ext: /.*\.(js|ts)$/i, mime: "text/javascript"},
+		{ext: /.*\.(hws)$/i, mime: "text/hws"},
+		{ext: /.*\.(css|scss)$/i, mime: "text/css"}
+	];
+	for(var e of mimes) {
+		if(file.name.match(e.ext)) {
+			mime = e.mime;
+			break;
+		}
+	}
+
+	this.editor = CodeMirror.fromTextArea(this._ctl.childNodes[0], {
+		lineNumbers: true, // Нумеровать каждую строчку.
+		matchBrackets: true,
+		mode: mime,
+		indentUnit: 4, // Длина отступа в пробелах.
+		indentWithTabs: true,
+		enterMode: "keep",
+		tabMode: "shift"
+	});
+	this.editor.focus();
+	
+	var __editor = this;
+	var first = true;
+	this.editor.on("change", function(){
+		if(first) {
+			first = false;
+			return;
+		}
+		__editor.saved = false;
+		commander.reset();
+	});
+
 	if(file) {
 		var __editor = this;
+		this.tab.save(true);
 		file.read(function(error, data) {
 			if(error === 0) {
 				__editor.editor.setValue(data);
+				__editor.tab.save(false);
 			}
 		});
 	}
 };
+
+CodeTab.prototype.updateCommands = function(commander) {
+	if(!this.saved)
+		commander.enabled("save");
+};
+
+CodeTab.prototype.execCommand = function(cmd, data) {
+	switch(cmd) {
+		case "save":
+			this.save();
+			break;
+	}
+};
+
+CodeTab.prototype.save = function() {
+	this.tab.save(true);
+	var __editor = this;
+	this.file.write(this.editor.getValue(), function(error){
+		if(error === 0) {
+			__editor.saved = true;
+			commander.reset();
+			// __editor.tab.caption = __editor.getTitle();
+			// __editor.tab.title = __editor.file.location();
+		}
+		else {
+ 			displayError({code: error});
+ 		}
+		__editor.tab.save(false);
+	});
+}
 
 //------------------------------------------------------------------------------
 

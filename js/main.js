@@ -241,7 +241,7 @@ function loadWorkspace() {
 
 		$("splash").parentNode.removeChild($("splash"));
 		
-		if(window.location.hash.startsWith("#/public") || window.location.hash.startsWith("#/examples")) {
+		if(window.location.hash.startsWith("#/public") || window.location.hash.startsWith("#/examples") || window.location.hash.startsWith("#/pack")) {
 			docManager.open(window.location.hash.substring(1));
 		}
 	};
@@ -468,6 +468,7 @@ function loadWorkspace() {
 				window.open(CONFIG_HELP, '_blank');
 			}
 		},
+		sha_pas: { key: 70, ctl: true }
 	});
 	commander.onupdate = function() {
 		docManager.updateCommands(commander);

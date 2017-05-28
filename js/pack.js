@@ -75,6 +75,10 @@ Pack.prototype.getSmallIcon = function() {
     return this.getRoot() + "/icon.png";
 };
 
+Pack.prototype.getCodeFilename = function(element) {
+    return "/" + this.getRoot() + "/code/hi" + element + ".hws";
+};
+
 Pack.prototype.load = function() {
 	$.get(this.getRoot() + "/lang/" + translate.getLang() + ".json", function(data, pack) {
 		pack.strings = JSON.parse(data);
