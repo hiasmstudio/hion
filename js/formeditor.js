@@ -85,22 +85,23 @@ function frmEditMove(event) {
 				for(var obj of frm_ms.dctrl) {
 					var p = obj.el.props;
 					if(frm_ms.state === FRM_SIZE || frm_ms.state === FRM_SIZE6 || frm_ms.state === FRM_SIZE7) {
-						p.Left.value = Math.max(p.Left.value + dx, 0);
-						p.Width.value = Math.max(parseInt(p.Width.value) - dx, 1);
+						p.Left.setValue(Math.max(p.Left.value + dx, 0));
+						p.Width.setValue(Math.max(parseInt(p.Width.value) - dx, 1));
 					}
 					if(frm_ms.state <= FRM_SIZE2) {
-						p.Top.value = Math.max(p.Top.value + dy, 0);
-						p.Height.value = Math.max(parseInt(p.Height.value) - dy, 1);
+						p.Top.setValue(Math.max(p.Top.value + dy, 0));
+						p.Height.setValue(Math.max(parseInt(p.Height.value) - dy, 1));
 					}
 					if(frm_ms.state >= FRM_SIZE2 && frm_ms.state <= FRM_SIZE4) {
-						p.Width.value = Math.max(parseInt(p.Width.value) + dx, 1);
+						p.Width.setValue(Math.max(parseInt(p.Width.value) + dx, 1));
 					}
 					if(frm_ms.state >= FRM_SIZE4 && frm_ms.state <= FRM_SIZE6) {
-						p.Height.value = Math.max(parseInt(p.Height.value) + dy, 1);
+						p.Height.setValue(Math.max(parseInt(p.Height.value) + dy, 1));
 					}
 					obj.ctl.move(p.Left.value, p.Top.value);
 					obj.ctl.height = p.Height.value;
 					obj.ctl.width = p.Width.value;
+					obj.el.onformeditorupdate();
 				}
 				this.formEditor.updateLines();
 				this.formEditor.selectForEdit(frm_ms.dctrl);
@@ -380,6 +381,7 @@ function FormEditor(sdkEditor) {
 					if(element.isSelect()) {
 						selected.push(control);
 					}
+					element.onformeditorupdate();
 				}
 			}
 		}

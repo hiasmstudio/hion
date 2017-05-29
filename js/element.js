@@ -842,6 +842,7 @@ SdkElement.prototype.canDelete = function() {
 SdkElement.prototype.onpropchange = function(prop) {};
 SdkElement.prototype.oninit = function() {};
 SdkElement.prototype.onfree = function() {};
+SdkElement.prototype.onformeditorupdate = function() {};
 
 SdkElement.prototype.loadFromText = function(line) { return false; };
 SdkElement.prototype.save = function(selection, tab, link) {
