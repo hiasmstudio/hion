@@ -40,3 +40,16 @@
     box-shadow: #000 0 -1px 5px 0px, inset #006 0 -1px 16px; }
     .ui-led .blue[off] {
       box-shadow: #000 0 -1px 5px 0px, inset #006 0 -1px 4px, #06F 0 2px 12px; }
+
+.ui-potentiometer {
+  background: silver;
+  border: 1px solid #999;
+  border-radius: 50%;
+  box-shadow: 0px 0 8px 0; }
+  .ui-potentiometer .slider {
+    height: 12px;
+    width: 12px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: inset 0px 0px 7px 0px;
+    transform: translate(10px, 10px) rotate(0deg) translate(0, 15px); }

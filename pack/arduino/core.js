@@ -138,12 +138,27 @@ function arduino() {
 				break;
 			case "Potentiometer":
 				i.run = function (flags) {
-					this.ctl = new TrackBar({
+					this.ctl = new UIPotentiometer({
 						min: 0,
-						max: 1023,
-						step: 1
+						max: 1023
 					});
+
 					return AUIElement.prototype.run.call(this, flags);
+				};
+				i.oninit = function(){
+					this.ctl.position = 0;
+				};
+				i.onpropchange = function(prop) {
+					SdkElement.prototype.onpropchange.call(this, prop);
+					if(prop === this.props.Width) {
+						this.props.Height.value = prop.value;
+					}
+					else if(prop === this.props.Height) {
+						this.props.Width.value = prop.value;
+					}
+				};
+				i.onformeditorupdate = function() {
+					this.ctl.position = 0;
 				};
 				i.doRead.onevent = function(queue) {
 					queue.push({event: this.parent.onRead, data: this.parent.ctl.position});
@@ -859,3 +874,79 @@ UIOLEDControl.prototype.init = function() {
 	this.canvasCtl.width = this.canvasCtl.offsetWidth;
 	this.canvasCtl.height = this.canvasCtl.offsetHeight;
 };
+
+//******************************************************************************
+// UIPotentiometer
+//******************************************************************************
+
+function UIPotentiometer(options) {
+	this.body = new Builder().n("div").class("ui-potentiometer").on("onmousedown", function(){
+		document.addEventListener("mousemove", __sliderMove);
+		document.addEventListener("mouseup", __sliderUp);
+		__sliderManaged = this.parent;
+	}).attr("parent", this);
+	this.slider = this.body.n("div").class("slider");
+	this._ctl = this.body.element;
+
+	this.deg = 0;
+
+	this.setOptions(options);
+
+	this._setPosition(-45);
+}
+
+UIPotentiometer.prototype = Object.create(UIControl.prototype);
+
+UIPotentiometer.prototype._setPosition = function(value) {
+	if(value < 0 && value > -45) {
+		value = -45;
+	}
+	else if(value >= 0 && value < 45) {
+		value = 45;
+	}
+	var $slider = this.slider.element;
+	var sliderW = $slider.offsetWidth/2;
+	var radius = this.body.element.offsetWidth/2;
+	var radius2 = radius - 10;
+	var center = radius - sliderW;
+	$slider.style.transform = 'translate(' + center + 'px, ' + center + 'px) rotate(' + value + 'deg) translate(0, ' + radius2 + 'px)';
+	this.deg = value;
+};
+
+var __sliderManaged = null;
+function __sliderMove(event) {
+	var $container = __sliderManaged.body.element;
+	var radius = $container.offsetWidth/2;
+	var elPos = { x: $container.offsetLeft, y: $container.offsetTop};
+	var html = $container.parentNode;
+	while(html) {
+		elPos.x += html.offsetLeft || 0;
+		elPos.y += html.offsetTop || 0;
+		html = html.parentNode;
+	}
+	var mPos = {x: event.clientX-elPos.x, y: event.clientY-elPos.y};
+	var atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+
+	var deg = -atan/(Math.PI/180);
+	__sliderManaged._setPosition(deg);
+};
+
+function __sliderUp() {
+	document.removeEventListener("mousemove", __sliderMove);
+	document.removeEventListener("mouseup", __sliderUp);
+	__sliderManaged.getControl().style.cursor = "default";
+};
+
+Object.defineProperty(UIPotentiometer.prototype, "position", {
+	get: function() {
+		if(this.deg >= 0)
+			return (this.deg - 45)/270*1023;
+		return (135 + 180 + this.deg)/270*1023;
+	},
+	set: function(value) {
+		if(value < 512)
+			this._setPosition(value/1023*270 + 45);
+		else
+			this._setPosition(value/1023*270 - 135 - 180);
+	}
+});

@@ -5,33 +5,34 @@ Add(Board,1,56,56)
 }
 Add(Potentiometer,2,133,63)
 {
-  Left=14
-  Top=21
-  Width=121
+  Left=133
+  Top=98
+  Width=72
+  Height=72
   link(onRead,9:doEvent1,[])
 }
 Add(LED,4,308,63)
 {
-  Left=175
-  Top=21
+  Left=252
+  Top=84
   Pin=2
 }
 Add(LED,5,308,105)
 {
-  Left=175
-  Top=49
+  Left=252
+  Top=112
   Pin=3
 }
 Add(LED,6,308,147)
 {
-  Left=175
-  Top=77
+  Left=252
+  Top=140
   Pin=4
 }
 Add(LED,7,308,189)
 {
-  Left=175
-  Top=105
+  Left=252
+  Top=168
   Pin=5
 }
 Add(MathParse,8,231,63)
