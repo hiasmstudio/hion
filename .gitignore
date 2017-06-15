@@ -14,3 +14,5 @@ tasks.json
 /bk/
 /pack/android/
 /gui/dataeditor.sha
+/pack/*/code
+/js/hion.js
