@@ -51,6 +51,18 @@ Builder.prototype.n = function(tag) {
 	}
 	return new Builder(element);
 };
+Builder.prototype.div = function(className) {
+	return this.n("div").class(className);
+};
+Builder.prototype.span = function(className) {
+	return this.n("span").class(className);
+};
+Builder.prototype.checkbox = function(className) {
+	return this.n("input").attr("type", "checkbox").class(className);
+};
+Builder.prototype.inputbox = function(className) {
+	return this.n("input").attr("type", "text").class(className);
+};
 Builder.prototype.html = function(text) {
 	this.element.innerHTML = text;
 	return this;
@@ -61,6 +73,34 @@ Builder.prototype.class = function(className) {
 };
 Builder.prototype.id = function(id) {
 	this.element.id = id;
+	return this;
+};
+Builder.prototype.checked = function(value) {
+	if(value === undefined) {
+		return this.element.checked;
+	}
+	this.element.checked = value;
+	return this;
+};
+Builder.prototype.value = function(value) {
+	if(value === undefined) {
+		return this.element.value;
+	}
+	this.element.value = value;
+	return this;
+};
+Builder.prototype.scrollLeft = function(value) {
+	if(value === undefined) {
+		return this.element.scrollLeft;
+	}
+	this.element.scrollLeft = value;
+	return this;
+};
+Builder.prototype.scrollTop = function(value) {
+	if(value === undefined) {
+		return this.element.scrollTop;
+	}
+	this.element.scrollTop = value;
 	return this;
 };
 Builder.prototype.attr = function(name, value) {
@@ -88,6 +128,34 @@ Builder.prototype.childs = function() {
 };
 Builder.prototype.child = function(index) {
 	return this.element.childNodes[index];
+};
+Builder.prototype.parent = function() {
+	return new Builder(this.element.parentNode);
+};
+Builder.prototype.hide = function() {
+	this.element.hide();
+	return this;
+};
+Builder.prototype.show = function() {
+	this.element.show();
+	return this;
+};
+Builder.prototype.render = function() {
+	document.body.appendChild(this.element);
+	return this;
+};
+Builder.prototype.erase = function() {
+	document.body.removeChild(this.element);
+	return this;
+};
+Builder.prototype.move = function(x, y) {
+	this.element.move(x, y);
+	return this;
+};
+Builder.prototype.size = function(width, height) {
+	this.element.style.width = width.toString() + "px";
+	this.element.style.height = height.toString() + "px";
+	return this;
 };
 
 $ = function(id) {
@@ -118,54 +186,6 @@ $.appendScript = function(source, onload) {
 $.cursor = function(cursor) {
 	document.getElementsByTagName("body")[0].style.cursor = cursor;
 };
-
-//******************************************************************************
-// Loader
-//******************************************************************************
-
-function LoaderTask(runnable) {
-	this.parent = null;
-
-	this.run = runnable;
-
-	this.taskComplite = function(text) {
-		console.log(text);
-		this.parent.state(text);
-		this.parent._taskComplite(this);
-	};
-}
-
-function Loader(options) {
-	
-	this._tasks = [];
-	
-	this.onload = function(){};
-	
-	this.add = function(task) {
-		this._tasks.push(task);
-		task.parent = this;
-	};
-	
-	this.run = function() {
-		var nt = this._tasks.shift();
-		nt.run();
-	};
-	
-	this._taskComplite = function(task) {
-		if(this._tasks.length) {
-			this.run();
-		}
-		else {
-			this.onload();
-		}
-	};
-	
-	this.state = function(text) {
-		if(options && options.havestate) {
-			$("loaderstate").innerHTML = text;
-		}
-	};
-}
 
 //******************************************************************************
 // HTTP Requests

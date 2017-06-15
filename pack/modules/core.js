@@ -1,5 +1,31 @@
 'use strict';
 
+var WinElement = Hion.WinElement;
+var SdkElement = Hion.SdkElement;
+var DPLElement = Hion.DPLElement;
+var DPElement = Hion.DPElement;
+
+function readProperty(data, point, prop) {
+	if(point.point)
+		return point.point.onevent(data);
+	else if(prop)
+		return prop;
+	else if(data)
+		return data;
+	return ""; 
+}
+ 
+function readInt(data, point, prop) {
+	var p = parseInt(prop);
+	if(point && point.point)
+		return parseInt(point.point.onevent(data));
+	else if(prop)
+		return p;
+	else if(data)
+		return parseInt(data);
+	return 0;
+}
+
 function toRGB(color) {
 	if(typeof color === "number") {
 		return {r: color & 0xff, g: (color >> 8) & 0xff, b: (color >> 16) & 0xff, a: 1.0};
@@ -335,7 +361,7 @@ function modules() {
 					return this.parent.ctl.canvas;
 				};
 				i.run = function (flags) {
-					this.ctl = new Canvas({theme: flags & window.FLAG_USE_EDIT ? "borderin" : ""});
+					this.ctl = new Canvas({theme: flags & Hion.FLAG_USE_EDIT ? "borderin" : ""});
 
 					return WinElement.prototype.run.call(this, flags);
 				};
@@ -1029,7 +1055,7 @@ function modules() {
 					return this.ctl;
 				};
 				if(i.parent.parent && i.parent.imgs.length === 1) {
-					i.flags |= window.IS_PARENT;
+					i.flags |= Hion.IS_PARENT;
 				}
 				break;
 			case "Panel":
@@ -1044,7 +1070,7 @@ function modules() {
 				};
 
 				if(i.parent.parent && i.parent.imgs.length === 1) {
-					i.flags |= window.IS_PARENT;
+					i.flags |= Hion.IS_PARENT;
 				}
 				break;
 			case "ScrollBox":
@@ -1059,7 +1085,7 @@ function modules() {
 				};
 
 				if(i.parent.parent && i.parent.imgs.length === 1) {
-					i.flags |= window.IS_PARENT;
+					i.flags |= Hion.IS_PARENT;
 				}
 				break;
 			case "CSS":
@@ -1094,15 +1120,15 @@ function modules() {
 				};
 
 				if(i.parent.parent) {
-					i.flags |= window.IS_PARENT;
+					i.flags |= Hion.IS_PARENT;
 				}
 				break;
 			case "Hub":
 				i.onpropchange = function(prop) {
-					Hub.prototype.onpropchange.call(this, prop);
+					Hion.Hub.prototype.onpropchange.call(this, prop);
 					if(prop.name === "InCount") {
 						for(var i in this.points) {
-							if(this.points[i].type === pt_work) {
+							if(this.points[i].type === Hion.pt_work) {
 								this.points[i].onevent = function(data) {
 									for (var i = 0; i < this.parent.props.OutCount.value; i++) {
 										this.parent.points["onEvent" + (i+1)].call(data);
@@ -1214,7 +1240,7 @@ function modules() {
 					var d = this.parent.d(data);
 					for(var i in this.parent.points) {
 						var point = this.parent.points[i];
-						if(point.type === pt_data) {
+						if(point.type === Hion.pt_data) {
 							array.push(d.read(point.name));
 						}
 					}
@@ -1316,14 +1342,14 @@ function modules() {
 					this.parent.object = object;
 					for(var p in this.parent.points) {
 						var point = this.parent.points[p];
-						if(point.type == pt_event) {
+						if(point.type == Hion.pt_event) {
 							point.call(object[point.name.substring(2)]);
 						}
 					}
 				};
 				i.addPoint = function(name, type) {
 					var point = DPLElement.prototype.addPoint.call(this, name, type);
-					if(point.type == pt_var) {
+					if(point.type == Hion.pt_var) {
 						point.onevent = function() {
 							return this.parent.object[this.name];
 						};
@@ -1528,9 +1554,9 @@ function modules() {
 				};
 				i.run = function (flags) {
 					var columns = this.props.Columns.isDef() ? null : JSON.parse(this.props.Columns.value);
-					if(columns && translate) {
+					if(columns && Hion.translate) {
 						for(var col of columns) {
-							col.title = translate.translate(col.title);
+							col.title = Hion.translate.translate(col.title);
 						}
 					}
 					this.ctl = new UISimpleTable({
@@ -1965,23 +1991,23 @@ function modules() {
 					this.ctl = new Dialog({
 						title: this.props.Caption.getTranslateValue(),
 						icon: this.props.URL.value,
-						destroy: !(flags & window.FLAG_USE_CHILD || flags & window.FLAG_USE_EDIT),
-						resize: this.props.Resize.value && !(flags & window.FLAG_USE_EDIT),
+						destroy: !(flags & Hion.FLAG_USE_CHILD || flags & Hion.FLAG_USE_EDIT),
+						resize: this.props.Resize.value && !(flags & Hion.FLAG_USE_EDIT),
 						width: this.props.Width.value,
 						height: this.props.Height.value,
-						modal: !(flags & window.FLAG_USE_EDIT),
-						popup: !(flags & window.FLAG_USE_EDIT),
+						modal: !(flags & Hion.FLAG_USE_EDIT),
+						popup: !(flags & Hion.FLAG_USE_EDIT),
 						showcaption: this.props.ShowCaption.isDef(),
 						showborder: this.props.ShowBorder.isDef(),
 						theme: this.props.Position.value === 2 ? "dialog-fullscreen" : ""
 					});
 
-					if(flags & window.FLAG_USE_EDIT) {
+					if(flags & Hion.FLAG_USE_EDIT) {
 						this.ctl.addListener("close", function(){ return false; });
 					}
-					else if(!(flags & window.FLAG_USE_CHILD)) {
+					else if(!(flags & Hion.FLAG_USE_CHILD)) {
 						this.ctl.addListener("close", function(){
-							i.parent.stop(window.FLAG_USE_RUN);
+							i.parent.stop(Hion.FLAG_USE_RUN);
 							return true;
 						});
 					}
@@ -1989,7 +2015,7 @@ function modules() {
 					this.ctl.layout = this.getLayout(this.ctl);
 
 					WinElement.prototype.run.call(this, flags);
-					if(!(flags & window.FLAG_USE_CHILD)) {
+					if(!(flags & Hion.FLAG_USE_CHILD)) {
 						this.ctl.show({noCenter: this.props.Position.value === 0, fullScreen: this.props.Position.value === 2});
 					}
 					return this.ctl
@@ -2011,7 +2037,7 @@ function modules() {
 				};
 
 				if(!i.parent.parent || i.parent.imgs.length === 1) {
-					i.flags |= window.IS_PARENT;
+					i.flags |= Hion.IS_PARENT;
 				}
 				break;
 			case "SiteWidget":
@@ -2021,7 +2047,7 @@ function modules() {
 					this.ctl.layout = this.getLayout(this.ctl);
 
 					WinElement.prototype.run.call(this, flags);
-					if(!(flags & window.FLAG_USE_CHILD)) {
+					if(!(flags & Hion.FLAG_USE_CHILD)) {
 						this.ctl.show({});
 					}
 					return this.ctl
@@ -2033,7 +2059,7 @@ function modules() {
 					return null;
 				};
 
-				i.flags |= window.IS_PARENT;
+				i.flags |= Hion.IS_PARENT;
 				break;
 			case "Host":
 				i.doIP.onevent = function() {
@@ -2048,7 +2074,7 @@ function modules() {
 					var result = "";
 					for(var i in this.parent.points) {
 						var point = this.parent.points[i];
-						if(point.type === pt_data) {
+						if(point.type === Hion.pt_data) {
 							if(result) {
 								result += "&";
 							}
@@ -2109,22 +2135,22 @@ function modules() {
 				break;
 			case "MultiElement":
 				i.run = function(flags) {
-					// if(flags & window.FLAG_USE_RUN) {
-						return this.sdk.run(flags | window.FLAG_USE_CHILD);
+					// if(flags & Hion.FLAG_USE_RUN) {
+						return this.sdk.run(flags | Hion.FLAG_USE_CHILD);
 					// }
 				};
 				i.onfree = function(flags) {
-					return this.sdk.stop(flags | window.FLAG_USE_CHILD);
+					return this.sdk.stop(flags | Hion.FLAG_USE_CHILD);
 				};
 				break;
 			case "MultiElementEx":
 				i.run = function(flags) {
-					// if(flags & window.FLAG_USE_RUN) {
-						return this.sdk.run(flags | window.FLAG_USE_CHILD);
+					// if(flags & Hion.FLAG_USE_RUN) {
+						return this.sdk.run(flags | Hion.FLAG_USE_CHILD);
 					// }
 				};
 				i.onfree = function(flags) {
-					return this.sdk.stop(flags | window.FLAG_USE_CHILD);
+					return this.sdk.stop(flags | Hion.FLAG_USE_CHILD);
 				};
 				break;
 			case "Array":
@@ -2433,7 +2459,7 @@ function modules() {
 				break;
 			case "Firebase":
 				i.run = function(flags) {
-					if(!(flags & window.FLAG_USE_EDIT)) {
+					if(!(flags & Hion.FLAG_USE_EDIT)) {
 						var parent = this;
 						$.appendScript("https://www.gstatic.com/firebasejs/live/3.0/firebase.js", function(){
 							var config = {
@@ -2922,19 +2948,19 @@ function modules() {
 				break;
 			case "hcTranslator":
 				i.doTranslate.onevent = function(data) {
-					var text = translate.translate(this.parent.d(data).read("Key"));
+					var text = Hion.translate.translate(this.parent.d(data).read("Key"));
 					this.parent.onTranslate.call(text);
 				};
 				break;
 			case "hcUser":
 				i.Name.onevent = function() {
-					return window.user.name;
+					return Hion.user.name;
 				};
 				i.UID.onevent = function() {
-					return window.user.uid;
+					return Hion.user.uid;
 				};
 				i.Plan.onevent = function() {
-					return window.user.plan;
+					return Hion.user.plan;
 				};
 				break;
 			case "Converter":

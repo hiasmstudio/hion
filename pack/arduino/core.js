@@ -17,23 +17,23 @@ function arduino() {
 		switch (i.name) {
 			case "Board":
 				i.run = function(flags) {
-					if(flags & window.FLAG_USE_RUN) {
+					if(flags & Hion.FLAG_USE_RUN) {
 						this.ctl = new Dialog({
 							title: "Board emulator: " + this.props.Type.getText(),
 							//icon: this.props.URL.value,
-							destroy: !(flags & window.FLAG_USE_CHILD || flags & window.FLAG_USE_EDIT),
+							destroy: !(flags & Hion.FLAG_USE_CHILD || flags & Hion.FLAG_USE_EDIT),
 							resize: false,
 							width: this.props.Width.value,
 							height: this.props.Height.value,
-							modal: !(flags & window.FLAG_USE_EDIT),
-							popup: !(flags & window.FLAG_USE_EDIT),
+							modal: !(flags & Hion.FLAG_USE_EDIT),
+							popup: !(flags & Hion.FLAG_USE_EDIT),
 							showcaption: true,
 							showborder: true
 						});
 						// this.ctl.getContainer().style.backgroundImage = 'url(img/back.gif)';
-						if(!(flags & window.FLAG_USE_CHILD)) {
+						if(!(flags & Hion.FLAG_USE_CHILD)) {
 							this.ctl.addListener("close", function(){
-								i.parent.stop(window.FLAG_USE_RUN);
+								i.parent.stop(Hion.FLAG_USE_RUN);
 								return true;
 							});
 						}
@@ -46,9 +46,10 @@ function arduino() {
 
 					this.ctl.place(0, 0, this.props.Width.value, this.props.Height.value);
 
-					if(!(flags & window.FLAG_USE_CHILD)) {
+					if(!(flags & Hion.FLAG_USE_CHILD)) {
 						this.ctl.show({});
 					}
+
 					return this.ctl
 				};
 				i.getChild = function(){
@@ -84,7 +85,7 @@ function arduino() {
 					clearInterval(this.timer);
 				};
 
-				i.flags |= window.IS_PARENT;
+				i.flags |= Hion.IS_PARENT;
 				break;
 			case "LED":
 				i.getLightColor = function(){
@@ -149,7 +150,7 @@ function arduino() {
 					this.ctl.position = 0;
 				};
 				i.onpropchange = function(prop) {
-					SdkElement.prototype.onpropchange.call(this, prop);
+					Hion.SdkElement.prototype.onpropchange.call(this, prop);
 					if(prop === this.props.Width) {
 						this.props.Height.value = prop.value;
 					}
@@ -495,10 +496,10 @@ function arduino() {
 				break;
 			case "Hub":
 				i.onpropchange = function(prop) {
-					Hub.prototype.onpropchange.call(this, prop);
+					Hion.Hub.prototype.onpropchange.call(this, prop);
 					if(prop.name === "InCount") {
 						for(var i in this.points) {
-							if(this.points[i].type === pt_work) {
+							if(this.points[i].type === Hion.pt_work) {
 								this.points[i].onevent = function(queue) {
 									var i = queue.state.index || 1;
 									if(i <= this.parent.props.OutCount.value) {
@@ -527,7 +528,7 @@ function arduino() {
 				break;
 			case "ChannelToIndex":
 				i.onpropchange = function(prop) {
-					DPElement.prototype.onpropchange.call(this, prop);
+					Hion.DPElement.prototype.onpropchange.call(this, prop);
 					for(var j = 0; j < this.props.Count.value; j++) {
 						this["doWork" + (j + 1)].onevent = function(index){
 							return function(queue) {
@@ -795,13 +796,13 @@ function arduino() {
 }
 
 function AUIElement(id) {
-	SdkElement.call(this, id);
+	Hion.SdkElement.call(this, id);
 }
 
-AUIElement.prototype = Object.create(SdkElement.prototype);
+AUIElement.prototype = Object.create(Hion.SdkElement.prototype);
 
 AUIElement.prototype.place = function(x, y) {
-	SdkElement.prototype.place.call(this, x, y);
+	Hion.SdkElement.prototype.place.call(this, x, y);
 	
 	this.props.Left.value = this.x;
 	this.props.Top.value = this.y;
@@ -811,6 +812,8 @@ AUIElement.prototype.run = function(flags) {
 	this.ctl.place(this.props.Left.value, this.props.Top.value, this.props.Width.value, this.props.Height.value);
 	return !this.isLink() || this.isMainLink() ? this.ctl : null;
 };
+
+Hion.AUIElement = AUIElement;
 
 //******************************************************************************
 // UISvgControl

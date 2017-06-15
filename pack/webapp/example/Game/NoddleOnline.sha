@@ -11,25 +11,22 @@ Add(Firebase,44,63,49)
   AuthDomain=#26:hion-7e3cb.firebaseapp.com|
   DatabaseURL=#33:https://hion-7e3cb.firebaseio.com|
   StorageBucket=#22:hion-7e3cb.appspot.com|
-  link(onInit,67:doWork1,[])
+  link(onInit,201:doEnabled,[])
 }
-Add(MultiElementEx,67,140,49)
+Add(MultiElementEx,201,140,49)
 {
   @Comment=#11:Secret room|
-  AddHint(-21,-41,0,0,@Comment)
-  link(onEvent1,75:doWork1,[])
+  link(onConnect,211:doShow,[])
 }
 BEGIN_SDK
-Add(MultiElementEditor,66,7,7)
+Add(MultiElementEditorEx,200,7,7)
 {
-  EventCount=1
-  WorkCount=1
-  @VOffset=70
-  @HOffset=119
-  @Height=186
-  link(doWork1,71:doData,[])
+  WorkCount=#9:doEnabled|
+  EventCount=#9:onConnect|
+  @VOffset=77
+  link(doEnabled,205:doData,[])
 }
-Add(Panel,68,140,77)
+Add(Panel,202,133,84)
 {
   Left=42
   Top=28
@@ -39,61 +36,60 @@ Add(Panel,68,140,77)
   Point(doEnabled)
   Point(doVisible)
 }
-Add(Edit,69,231,21)
+Add(Edit,203,224,28)
 {
   Left=21
   Top=56
   Width=#3:211|
   Pattern=#15:[0-9a-zA-Z]{4,}|
 }
-Add(Label,70,133,21)
+Add(Label,204,133,28)
 {
   Left=21
   Top=35
   Width=#3:211|
   Caption=#17:Secret room name:|
 }
-Add(DoData,71,42,77)
+Add(DoData,205,35,84)
 {
-  Data=Real(1)
-  link(onEventData,68:doEnabled,[])
+  Data=Integer(1)
+  link(onEventData,202:doEnabled,[])
 }
-Add(Button,72,42,140)
+Add(Button,206,35,147)
 {
   Left=84
   Top=84
   Width=#2:80|
   Height=#2:28|
   Caption=#7:Connect|
-  Data=Real(0)
-  link(onClick,73:doEvent1,[])
+  Data=Integer(0)
+  link(onClick,207:doEvent1,[])
 }
-Add(Hub,73,91,140)
+Add(Hub,207,84,147)
 {
-  link(onEvent1,68:doVisible,[(119,146)(119,90)])
-  link(onEvent2,117:doData,[(206,153)(206,83)])
+  link(onEvent1,202:doVisible,[(115,153)(115,97)])
+  link(onEvent2,208:doData,[(199,160)(199,90)])
 }
-Add(DoData,117,231,77)
+Add(DoData,208,224,84)
 {
-  link(onEventData,66:onEvent1,[])
-  link(Data,69:Text,[])
+  link(onEventData,200:onConnect,[])
+  link(Data,203:Text,[])
 }
 END_SDK
-Add(MultiElementEx,75,224,49)
+Add(MultiElementEx,211,210,49)
 {
   @Comment=#9:Game core|
-  AddHint(-19,-41,0,0,@Comment)
 }
 BEGIN_SDK
-Add(MultiElementEditor,74,7,7)
+Add(MultiElementEditorEx,210,7,7)
 {
-  WorkCount=1
-  @VOffset=42
-  @Width=678
-  @Height=522
-  link(doWork1,116:doEvent1,[])
+  WorkCount=#6:doShow|
+  @VOffset=28
+  @Width=657
+  @Height=508
+  link(doShow,251:doEvent1,[])
 }
-Add(Panel,76,161,49)
+Add(Panel,212,154,35)
 {
   Left=7
   Top=7
@@ -102,7 +98,7 @@ Add(Panel,76,161,49)
   Visible=0
   Point(doVisible)
 }
-Add(PaintBox,77,210,189)
+Add(PaintBox,213,203,175)
 {
   Left=7
   Top=7
@@ -110,282 +106,292 @@ Add(PaintBox,77,210,189)
   Height=#3:160|
   Point(onMouseDown)
   Point(onContextMenu)
-  link(onDraw,80:doEnum,[])
-  link(onMouseDown,86:doEvent1,[])
+  link(onDraw,216:doEnum,[])
+  link(onMouseDown,222:doEvent1,[])
 }
-Add(Matrix,78,238,105)
+Add(Matrix,214,231,91)
 {
   Width=5
   Height=5
-  link(onClear,89:doWork1,[])
+  link(onClear,281:doInit,[])
 }
-Add(Hub,79,161,105)
+Add(Hub,215,154,91)
 {
-  link(onEvent1,78:doClear,[])
-  link(onEvent2,87:doWork1,[(193,118)])
+  link(onEvent1,214:doClear,[])
+  link(onEvent2,223:doWork1,[(186,104)])
 }
-Add(MatrixEnum,80,301,189)
+Add(MatrixEnum,216,294,175)
 {
   Data=1
-  link(onEnum,101:doEvent1,[])
-  link(Matrix,85:Var2,[])
+  link(onEnum,238:doEvent1,[])
+  link(Matrix,221:Var2,[])
 }
-Add(MathParse,81,406,189)
+Add(MathParse,217,399,175)
 {
   MathStr=#29:point($pos[1]*31, $pos[2]*31)|
   Args=#3:pos|
-  link(onResult,82:doDraw,[])
+  link(onResult,218:doDraw,[])
 }
-Add(DrawImage,82,497,189)
+Add(DrawImage,218,490,175)
 {
-  link(Canvas,83:Var1,[(503,175)(489,175)])
-  link(Image,84:Image,[])
+  link(Canvas,219:Var1,[(496,161)(482,161)])
+  link(Image,220:Image,[])
 }
-Add(GetDataEx,83,483,240)
+Add(GetDataEx,219,476,226)
 {
   Angle=3
-  link(Data,77:Canvas,[(216,247)])
+  link(Data,213:Canvas,[(209,233)])
 }
-Add(Image,84,511,133)
+Add(Image,220,504,119)
 {
   Left=532
   Top=63
   Visible=0
   URL=#598:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AgHEzsRP1UQuQAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAEXSURBVFjDxZdBbsUgDETfr3qSbnuQ3v88FTNdgEkgqMv52USOguM3GrDzAswbr0+A1n6RGkZIwgjfYwu5zTv2FathPNf7Hs91xl5jufH99cMH0B9iZMGSpBcjt/7cWj9uYXryvk5LMT3f+PiIqxisS4FOkiO3NYqmFMiSe8SLAknyiqcCafLKdykQJq98lwfC5B7vr7sgSu5NgTC5xvsPBVLk3XP3XRAmr/xnDwTIffJAktzq+bdekCTfz4EwuXTyQJD84YE0eRU5FZCz5NV7bt0wS25p2wVVYYz80Q2z5FXU4STMkNeht82EOfKaQdeZMEj+mIrT5PY/HkiQHz2QJNfMeZgHEuRzAlt6QZDcY/wDeL379/wP2jYWb+q3Q7EAAAAASUVORK5CYII=|
 }
-Add(GetDataEx,85,301,154)
+Add(GetDataEx,221,294,140)
 {
   Angle=3
-  link(Data,114:Var3,[(276,161)(276,161)])
+  link(Data,249:Var3,[(269,147)(269,147)])
 }
-Add(Hub,86,259,196)
+Add(Hub,222,252,182)
 {
-  link(onEvent1,169:doEvent1,[(286,202)(286,255)(196,255)(196,335)])
-  link(onEvent2,87:doWork3,[(283,209)(283,230)(193,230)])
+  link(onEvent1,256:doEvent1,[(279,188)(279,241)(189,241)(189,321)])
+  link(onEvent2,223:doWork3,[(276,195)(276,216)(186,216)])
 }
-Add(HubEx,87,189,189)
+Add(HubEx,223,182,175)
 {
-  link(onEvent,77:doDraw,[])
+  link(onEvent,213:doDraw,[])
 }
-Add(InfoTip,88,357,119)
+Add(InfoTip,224,350,105)
 {
   Info=#4:Draw|
   @Width=218
   @Height=186
 }
-Add(MultiElementEx,89,294,105)
-{
-  @Comment=#11:Init matrix|
-}
-BEGIN_SDK
-Add(MultiElementEditor,90,7,7)
-{
-  WorkCount=1
-  @VOffset=63
-  @HOffset=105
-  @Width=314
-  @Height=179
-  link(doWork1,97:doValue,[(28,76)(28,125)])
-}
-Add(MatrixWrite,91,49,70)
-{
-  Value=String(H)
-  link(onWrite,92:doWrite,[])
-  link(Index,93:Array,[])
-}
-Add(MatrixWrite,92,112,70)
-{
-  Value=String(E)
-  link(Index,94:Array,[])
-}
-Add(Array,93,56,14)
-{
-  Array=#5:[0,2]|
-}
-Add(Array,94,119,14)
-{
-  Array=#5:[1,2]|
-}
-Add(MatrixEnum,95,126,119)
-{
-  Data=1
-  link(onEnum,96:doWrite,[])
-}
-Add(MatrixWrite,96,203,119)
-{
-  link(Matrix,97:Value,[(209,111)(188,111)(188,168)(62,168)])
-  link(Index,95:Index,[(216,104)(180,104)(180,161)(139,161)])
-  link(Value,98:Value,[])
-}
-Add(Memory,97,56,119)
-{
-  link(onData,95:doEnum,[])
-}
-Add(Memory,98,217,49)
-{
-  Default=String( )
-}
-END_SDK
-Add(DrawText,99,504,259)
+Add(DrawText,236,497,245)
 {
   Align=1
-  link(Canvas,83:Var3,[(510,247)])
-  link(Text,80:Item,[(524,237)(307,237)])
+  link(Canvas,219:Var3,[(503,233)])
+  link(Text,216:Item,[(517,223)(300,223)])
 }
-Add(MathParse,100,406,259)
+Add(MathParse,237,399,245)
 {
   MathStr=#43:point($pos[1]*31 + 16, $pos[2]*31 + 16 + 6)|
   Args=#3:pos|
-  link(onResult,99:doDraw,[])
+  link(onResult,236:doDraw,[])
 }
-Add(Hub,101,364,189)
+Add(Hub,238,357,175)
 {
-  link(onEvent1,81:doCalc,[])
-  link(onEvent2,100:doCalc,[(392,202)(392,265)])
+  link(onEvent1,217:doCalc,[])
+  link(onEvent2,237:doCalc,[(385,188)(385,251)])
 }
-Add(MathParse,102,245,385)
+Add(MathParse,239,238,371)
 {
   MathStr=#38:[floor($arr[0]/32), floor($arr[1]/32)]|
   Args=#3:arr|
-  link(onResult,166:doCompare,[])
+  link(onResult,254:doCompare,[])
 }
-Add(MatrixWrite,103,469,385)
+Add(MatrixWrite,240,462,371)
 {
-  link(Matrix,176:Var2,[])
-  link(Value,197:Var3,[(489,377)])
+  link(Matrix,261:Var2,[])
+  link(Value,278:Var3,[(482,363)])
 }
-Add(FBNode,105,448,63)
+Add(FBNode,241,441,49)
 {
-  link(onReference,106:doListen,[])
+  link(onReference,242:doListen,[])
 }
-Add(FBListen,106,504,63)
+Add(FBListen,242,497,49)
 {
   Event=1
-  link(onListen,112:doEvent1,[(550,69)(550,32)(27,32)(27,237)])
+  link(onListen,247:doEvent1,[(543,55)(543,18)(20,18)(20,223)])
 }
-Add(FBSendMessage,107,448,434)
+Add(FBSendMessage,243,441,420)
 {
   Mode=1
-  link(Node,198:Var2,[])
+  link(Node,279:Var2,[])
 }
-Add(Hub,108,350,385)
+Add(Hub,244,343,371)
 {
-  link(onEvent1,103:doWrite,[])
-  link(onEvent2,109:doAdd,[(378,398)(378,440)])
+  link(onEvent1,240:doWrite,[])
+  link(onEvent2,245:doAdd,[(371,384)(371,426)])
 }
-Add(ArrayAdd,109,392,434)
+Add(ArrayAdd,245,385,420)
 {
-  link(onAdd,107:doSend,[])
-  link(Value,197:Var2,[])
+  link(onAdd,243:doSend,[])
+  link(Value,278:Var2,[])
 }
-Add(MatrixWrite,111,84,238)
+Add(MatrixWrite,246,77,224)
 {
-  link(onWrite,87:doWork2,[(153,244)(153,195)])
-  link(Matrix,114:Var1,[(90,161)])
-  link(Value,113:Value,[])
+  link(onWrite,223:doWork2,[(146,230)(146,181)])
+  link(Matrix,249:Var1,[(83,147)])
+  link(Value,248:Value,[])
 }
-Add(Hub,112,42,231)
+Add(Hub,247,35,217)
 {
-  link(onEvent1,113:doRead,[(73,237)(73,188)])
-  link(onEvent2,111:doWrite,[])
+  link(onEvent1,248:doRead,[(66,223)(66,174)])
+  link(onEvent2,246:doWrite,[])
 }
-Add(ArrayRead,113,98,182)
+Add(ArrayRead,248,91,168)
 {
   Index=2
 }
-Add(GetDataEx,114,238,154)
+Add(GetDataEx,249,231,140)
 {
-  link(Data,78:Array,[])
+  link(Data,214:Array,[])
 }
-Add(DoData,115,105,49)
+Add(DoData,250,98,35)
 {
-  Data=Real(1)
-  link(onEventData,76:doVisible,[])
+  Data=Integer(1)
+  link(onEventData,212:doVisible,[])
 }
-Add(Hub,116,49,49)
+Add(Hub,251,42,35)
 {
   OutCount=3
-  link(onEvent1,115:doData,[])
-  link(onEvent2,79:doEvent1,[(87,62)(87,111)])
-  link(onEvent3,118:doStrCat,[])
+  link(onEvent1,250:doData,[])
+  link(onEvent2,215:doEvent1,[(80,48)(80,97)])
+  link(onEvent3,252:doStrCat,[])
 }
-Add(StrCat,118,392,63)
+Add(StrCat,252,385,49)
 {
   Str1=#5:game/|
-  link(onStrCat,105:doReference,[])
+  link(onStrCat,241:doReference,[])
 }
-Add(Label,165,84,287)
+Add(Label,253,77,273)
 {
   Left=182
   Top=7
   Width=#2:92|
   Caption=#17:Character to set:|
 }
-Add(If_else,166,294,385)
+Add(If_else,254,287,371)
 {
-  Op2=Real(0)
-  link(onTrue,108:doEvent1,[])
-  link(onFalse,173:doEvent1,[(338,398)(338,426)])
-  link(Op1,167:Value,[])
+  Op2=Integer(0)
+  link(onTrue,244:doEvent1,[])
+  link(onFalse,259:doEvent1,[(331,384)(331,412)])
+  link(Op1,255:Value,[])
 }
-Add(ArrayRead,167,294,329)
+Add(ArrayRead,255,287,315)
 {
   Index=2
 }
-Add(Hub,169,210,329)
+Add(Hub,256,203,315)
 {
-  link(onEvent1,167:doRead,[])
-  link(onEvent2,102:doCalc,[(234,342)(234,391)])
+  link(onEvent1,255:doRead,[])
+  link(onEvent2,239:doCalc,[(227,328)(227,377)])
 }
-Add(MatrixWrite,171,567,420)
+Add(MatrixWrite,257,560,406)
 {
   Value=String( )
-  link(Matrix,176:Var3,[(573,371)])
+  link(Matrix,261:Var3,[(566,357)])
 }
-Add(FBSendMessage,172,616,469)
+Add(FBSendMessage,258,609,455)
 {
   Mode=1
-  link(Node,198:Var3,[(622,357)])
+  link(Node,279:Var3,[(615,343)])
 }
-Add(Hub,173,525,420)
+Add(Hub,259,518,406)
 {
-  link(onEvent1,171:doWrite,[])
-  link(onEvent2,174:doAdd,[(553,433)(553,475)])
+  link(onEvent1,257:doWrite,[])
+  link(onEvent2,260:doAdd,[(546,419)(546,461)])
 }
-Add(ArrayAdd,174,567,469)
+Add(ArrayAdd,260,560,455)
 {
   Value=#1: |
-  link(onAdd,172:doSend,[])
+  link(onAdd,258:doSend,[])
 }
-Add(GetDataEx,176,469,364)
+Add(GetDataEx,261,462,350)
 {
-  link(Data,85:Var3,[(475,161)])
+  link(Data,221:Var3,[(468,147)])
 }
-Add(Button,180,245,280)
+Add(Button,262,238,266)
 {
   Left=217
   Top=28
   Height=#2:45|
   Caption=#1:H|
   Point(doCaption)
-  link(onClick,182:doWork1,[])
+  link(onClick,291:doShow,[])
 }
-Add(MultiElementEx,182,294,280)
+Add(Memory,277,336,266)
 {
-  @Comment=#15:Enter character|
-  link(onEvent1,196:doValue,[])
+  Default=String(H)
+  link(onData,262:doCaption,[(382,272)(382,258)(224,258)(224,272)])
+}
+Add(GetDataEx,278,392,356)
+{
+  Angle=3
+  link(Data,277:Value,[(342,363)])
+}
+Add(GetDataEx,279,441,336)
+{
+  link(Data,241:Node,[])
+}
+Add(MultiElementEx,281,287,91)
+{
+  @Comment=#11:Init matrix|
 }
 BEGIN_SDK
-Add(MultiElementEditor,181,7,7)
+Add(MultiElementEditorEx,280,7,7)
 {
-  EventCount=1
-  WorkCount=1
-  @VOffset=49
-  @Width=447
-  @Height=228
-  link(doWork1,183:doShow,[])
+  WorkCount=#6:doInit|
+  @VOffset=126
+  link(doInit,288:doValue,[])
 }
-Add(MainForm,183,147,56)
+Add(MatrixWrite,282,42,84)
+{
+  Value=String(H)
+  link(onWrite,283:doWrite,[])
+  link(Index,284:Array,[])
+}
+Add(MatrixWrite,283,105,84)
+{
+  Value=String(E)
+  link(Index,285:Array,[])
+}
+Add(Array,284,49,28)
+{
+  Array=#5:[0,2]|
+}
+Add(Array,285,112,28)
+{
+  Array=#5:[1,2]|
+}
+Add(MatrixEnum,286,119,133)
+{
+  Data=1
+  link(onEnum,287:doWrite,[])
+}
+Add(MatrixWrite,287,196,133)
+{
+  link(Matrix,288:Value,[(202,125)(181,125)(181,182)(55,182)])
+  link(Index,286:Index,[(209,118)(173,118)(173,175)(132,175)])
+  link(Value,289:Value,[])
+}
+Add(Memory,288,49,133)
+{
+  link(onData,286:doEnum,[])
+}
+Add(Memory,289,210,63)
+{
+  Default=String( )
+}
+END_SDK
+Add(MultiElementEx,291,287,266)
+{
+  @Comment=#15:Enter character|
+  link(onInput,277:doValue,[])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,290,7,7)
+{
+  WorkCount=#6:doShow|
+  EventCount=#7:onInput|
+  @VOffset=21
+  @Width=419
+  link(doShow,292:doShow,[])
+}
+Add(MainForm,292,119,28)
 {
   Left=49
   Top=56
@@ -394,14 +400,14 @@ Add(MainForm,183,147,56)
   Visible=0
   Caption=#13:Char selecter|
 }
-Add(Label,184,203,56)
+Add(Label,293,175,28)
 {
   Left=14
   Top=14
   Width=#3:176|
   Caption=#19:Enter the character|
 }
-Add(Edit,185,49,133)
+Add(Edit,294,21,105)
 {
   Left=14
   Top=35
@@ -409,61 +415,47 @@ Add(Edit,185,49,133)
   TabIndex=#1:1|
   Pattern=#1:.|
   Point(onKeyDown)
-  link(onKeyDown,195:doRead,[])
+  link(onKeyDown,302:doRead,[])
 }
-Add(Length,186,217,140)
+Add(Length,295,189,112)
 {
-  link(onLength,188:doCompare,[])
-  link(Str,190:Var2,[])
+  link(onLength,297:doCompare,[])
+  link(Str,299:Var2,[])
 }
-Add(If_else,187,161,140)
+Add(If_else,296,133,112)
 {
-  Op2=Real(13)
-  link(onTrue,186:doLength,[])
+  Op2=Integer(13)
+  link(onTrue,295:doLength,[])
 }
-Add(If_else,188,280,140)
+Add(If_else,297,252,112)
 {
-  Op2=Real(1)
-  link(onTrue,189:doModify,[])
-  link(onFalse,192:doMessage,[(324,153)(324,195)])
+  Op2=Integer(1)
+  link(onTrue,298:doModify,[])
+  link(onFalse,301:doMessage,[(296,125)(296,167)])
 }
-Add(StrCase,189,336,140)
+Add(StrCase,298,308,112)
 {
   Type=1
-  link(onModify,191:doEvent1,[])
-  link(Str,190:Var3,[(342,126)])
+  link(onModify,300:doEvent1,[])
+  link(Str,299:Var3,[(314,98)])
 }
-Add(GetDataEx,190,217,119)
+Add(GetDataEx,299,189,91)
 {
   Angle=3
-  link(Data,185:Text,[(89,126)(89,181)(55,181)])
+  link(Data,294:Text,[(61,98)(61,153)(27,153)])
 }
-Add(Hub,191,385,140)
+Add(Hub,300,357,112)
 {
-  link(onEvent1,183:doClose,[(412,146)(412,108)(133,108)(133,69)])
-  link(onEvent2,181:onEvent1,[(426,153)(426,62)])
+  link(onEvent1,292:doClose,[(384,118)(384,80)(105,80)(105,41)])
+  link(onEvent2,290:onInput,[(398,125)(398,34)])
 }
-Add(Message,192,336,189)
+Add(Message,301,308,161)
 {
   Text=#33:You must enter a single character|
 }
-Add(ArrayRead,195,112,140)
+Add(ArrayRead,302,84,112)
 {
-  link(onRead,187:doCompare,[])
+  link(onRead,296:doCompare,[])
 }
 END_SDK
-Add(Memory,196,343,280)
-{
-  Default=String(H)
-  link(onData,180:doCaption,[(389,286)(389,272)(231,272)(231,286)])
-}
-Add(GetDataEx,197,399,370)
-{
-  Angle=3
-  link(Data,196:Value,[(349,377)])
-}
-Add(GetDataEx,198,448,350)
-{
-  link(Data,105:Node,[])
-}
 END_SDK

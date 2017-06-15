@@ -1,4 +1,5 @@
 Make(webapp)
+Build(2)
 Add(MainForm,1,14,105)
 {
   Left=56
@@ -91,7 +92,7 @@ Add(Memory,41,357,119)
 Add(If_else,42,287,294)
 {
   Type=2
-  Op2=#1:0|
+  Op2=String(0)
   link(onTrue,13:doCalc,[])
   link(onFalse,47:doNext,[(335,307)(335,370)])
   link(Op1,44:Value,[])
@@ -177,7 +178,7 @@ Add(ArraySplit,56,238,49)
 }
 Add(Memory,57,420,49)
 {
-  link(onData,68:doWork1,[])
+  link(onData,82:doInit,[])
 }
 Add(Hub,58,63,105)
 {
@@ -186,52 +187,13 @@ Add(Hub,58,63,105)
 }
 Add(DoData,60,175,91)
 {
-  Data=#7:Hion!!!|
+  Data=String(Hion!!!)
   link(onEventData,74:doWork3,[(221,97)])
   link(Data,55:Text,[])
 }
 Add(Array,63,532,49)
 {
 }
-Add(MultiElementEx,68,476,49)
-{
-  @Comment=#12:Coords array|
-  link(onEvent1,63:doClear,[])
-  link(Data1,73:Var3,[(482,40)(468,40)])
-}
-BEGIN_SDK
-Add(MultiElementEditor,67,7,7)
-{
-  WorkCount=1
-  EventCount=1
-  DataCount=1
-  @VOffset=63
-  @HOffset=168
-  @Width=237
-  @Height=116
-  link(doWork1,70:doEvent1,[])
-}
-Add(ArrayEnum,69,70,77)
-{
-  link(onEnum,78:doCalc,[])
-}
-Add(Hub,70,35,70)
-{
-  link(onEvent1,67:onEvent1,[])
-  link(onEvent2,69:doEnum,[])
-}
-Add(ArrayAdd,71,175,77)
-{
-  link(Array,67:Data1,[])
-}
-Add(MathParse,78,126,77)
-{
-  MathStr=#5:[0,0]|
-  DataCount=0
-  Args=#0:|
-  link(onResult,71:doAdd,[])
-}
-END_SDK
 Add(GetDataEx,73,462,91)
 {
   Angle=1
@@ -241,3 +203,40 @@ Add(HubEx,74,217,49)
 {
   link(onEvent,56:doSplit,[])
 }
+Add(MultiElementEx,82,476,49)
+{
+  @Comment=#12:Coords array|
+  link(Array,73:Var3,[(482,35)(468,35)])
+  link(onInit,63:doClear,[])
+}
+BEGIN_SDK
+Add(MultiElementEditorEx,81,7,7)
+{
+  WorkCount=#6:doInit|
+  EventCount=#6:onInit|
+  DataCount=#5:Array|
+  @VOffset=56
+  @HOffset=189
+  link(doInit,84:doEvent1,[])
+}
+Add(ArrayEnum,83,91,70)
+{
+  link(onEnum,86:doCalc,[])
+}
+Add(Hub,84,56,63)
+{
+  link(onEvent1,81:onInit,[])
+  link(onEvent2,83:doEnum,[])
+}
+Add(ArrayAdd,85,196,70)
+{
+  link(Array,81:Array,[])
+}
+Add(MathParse,86,147,70)
+{
+  MathStr=#5:[0,0]|
+  DataCount=0
+  Args=#0:|
+  link(onResult,85:doAdd,[])
+}
+END_SDK

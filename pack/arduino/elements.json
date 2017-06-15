@@ -489,9 +489,7 @@
 	"StrList": {
 		"tab": "strings",
 		"points": [
-			{ "name": "doAdd", "type": 1 },
 			{ "name": "doText", "type": 1 },
-			{ "name": "doDelete", "type": 1, "args": "Index", "flags": 1 },
 			{ "name": "onChange", "type": 2 },
 			{ "name": "Text", "type": 3, "data": 2 },
 			{ "name": "Array", "type": 3 },

@@ -1,0 +1,12 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"outFile": "../js/hion.js",
+		"removeComments": true,
+		"watch": true,
+		"target": "es3"
+	},
+	"include": [
+		"*.ts"
+	]
+}

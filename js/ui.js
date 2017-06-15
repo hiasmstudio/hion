@@ -147,7 +147,7 @@ Object.defineProperty(UIControl.prototype, "tabIndex", {
 });
 Object.defineProperty(UIControl.prototype, "visible", {
 	get: function() {
-	  return this.getControl().getAttribute("visible");
+	  return this.getControl().getAttribute("visible") === "true";
 	},
 	set: function(value) {
 		this.getControl().setAttribute("visible", value);
@@ -1647,7 +1647,7 @@ ToolButton.prototype.haveSubMenu = function() {
 };
 
 ToolButton.prototype.setSubMenu = function(subitems) {
-	var popup = new PopupMenu(subitems);
+	var popup = new Hion.PopupMenu(subitems);
 	popup.group = true;
 	if(!this.submenu) {
 		new Builder(this._ctl).n("div").attr("parent", this).class("submenu").on("onclick", function(e) {
@@ -1684,9 +1684,26 @@ Object.defineProperty(ToolButton.prototype, "checked", {
 // Splitter
 //******************************************************************************
 
-var __sliderDragObj = {x: 0, y: 0};
-var __sliderManaged = null;
-var __sliderMode = 1;
+var __splitter = {
+	dragObj: {x: 0, y: 0},
+	managed: null,
+	mode: 1,
+	moveX: function(event) {
+		var deltaX = __splitter.dragObj.x - event.clientX;
+		__splitter.managed.width = __splitter.dragObj.w - __splitter.mode*deltaX;
+	},
+	moveY: function(event) {
+		var deltaY = __splitter.dragObj.y - event.clientY;
+		__splitter.managed.height = __splitter.dragObj.h - __splitter.mode*deltaY;
+	},
+	up: function() {
+		document.removeEventListener("mousemove", __splitter.moveX);
+		document.removeEventListener("mousemove", __splitter.moveY);
+		document.removeEventListener("mouseup", __splitter.up);
+		__splitter.managed.parent.getControl().style.cursor = "default";
+		__splitter.dragObj.ctl.onresize();
+	}
+};
 
 function Splitter(options) {
 	this.manage = null;
@@ -1694,12 +1711,12 @@ function Splitter(options) {
 	this.onresize = function(){};
 	
 	this._ctl = new Builder().n("div").class("ui-splitter " + (options.theme || "")).attr("parent", this).on("onmousedown", function(event) {
-		__sliderManaged = this.parent.manage;
-		__sliderDragObj = {x: event.clientX, y: event.clientY, w: __sliderManaged.width, h: __sliderManaged.height, ctl: this.parent};
-		document.addEventListener("mousemove", options.edge % 2 === 1 ? __sliderMoveX : __sliderMoveY);
-		document.addEventListener("mouseup", __sliderUp);
-		__sliderManaged.parent.getControl().style.cursor = options.edge % 2 === 1 ? "col-resize" : "row-resize";
-		__sliderMode = options.edge > 2 ? 1 : -1;
+		__splitter.managed = this.parent.manage;
+		__splitter.dragObj = {x: event.clientX, y: event.clientY, w: __splitter.managed.width, h: __splitter.managed.height, ctl: this.parent};
+		document.addEventListener("mousemove", options.edge % 2 === 1 ? __splitter.moveX : __splitter.moveY);
+		document.addEventListener("mouseup", __splitter.up);
+		__splitter.managed.parent.getControl().style.cursor = options.edge % 2 === 1 ? "col-resize" : "row-resize";
+		__splitter.mode = options.edge > 2 ? 1 : -1;
 	}).element;
 	
 	if(options.edge % 2 === 0) {
@@ -1737,23 +1754,6 @@ Splitter.prototype.setManage = function(control) {
 	else {
 		control.parent.add(this);
 	}
-};
-
-function __sliderMoveX(event) {
-	var deltaX = __sliderDragObj.x - event.clientX;
-	__sliderManaged.width = __sliderDragObj.w - __sliderMode*deltaX;
-};
-function __sliderMoveY(event) {
-	var deltaY = __sliderDragObj.y - event.clientY;
-	__sliderManaged.height = __sliderDragObj.h - __sliderMode*deltaY;
-};
-
-function __sliderUp() {
-	document.removeEventListener("mousemove", __sliderMoveX);
-	document.removeEventListener("mousemove", __sliderMoveY);
-	document.removeEventListener("mouseup", __sliderUp);
-	__sliderManaged.parent.getControl().style.cursor = "default";
-	__sliderDragObj.ctl.onresize();
 };
 
 //******************************************************************************
@@ -2174,6 +2174,10 @@ Dialog.prototype.show = function(opt) {
 
 Dialog.prototype.close = function() {
 	this.form.close();
+};
+
+Dialog.prototype.getButton = function(index) {
+	return this.form.lastChild.childNodes[index];
 };
 
 Dialog.prototype.addListener = function(name, func) {

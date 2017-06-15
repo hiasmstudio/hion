@@ -1,5 +1,7 @@
 'use strict';
 
+var WinElement = Hion.WinElement;
+
 function webapp() {
 	this.init = function(i) {
 		switch (i.name) {
@@ -111,7 +113,7 @@ function webapp() {
 				break;
 			case "PaintBox":
 				i.run = function (flags) {
-					this.ctl = new Canvas({theme: flags & window.FLAG_USE_EDIT ? "borderin" : ""});
+					this.ctl = new Canvas({theme: flags & Hion.FLAG_USE_EDIT ? "borderin" : ""});
 
 					return WinElement.prototype.run.call(this, flags);
 				};
@@ -151,7 +153,7 @@ function webapp() {
 				};
 
 				if(i.parent.parent && i.parent.imgs.length === 1) {
-					i.flags |= window.IS_PARENT;
+					i.flags |= Hion.IS_PARENT;
 				}
 				break;
 			case "ScrollBox":
@@ -166,7 +168,7 @@ function webapp() {
 				};
 
 				if(i.parent.parent && i.parent.imgs.length === 1) {
-					i.flags |= window.IS_PARENT;
+					i.flags |= Hion.IS_PARENT;
 				}
 				break;
 			case "Spoiler":
@@ -181,7 +183,7 @@ function webapp() {
 				};
 
 				if(i.parent.parent) {
-					i.flags |= window.IS_PARENT;
+					i.flags |= Hion.IS_PARENT;
 				}
 				break;
 			case "Image":
@@ -280,23 +282,23 @@ function webapp() {
 					this.ctl = new Dialog({
 						title: this.props.Caption.getTranslateValue(),
 						icon: this.props.URL.value,
-						destroy: !(flags & window.FLAG_USE_CHILD || flags & window.FLAG_USE_EDIT),
-						resize: this.props.Resize.value && !(flags & window.FLAG_USE_EDIT),
+						destroy: !(flags & Hion.FLAG_USE_CHILD || flags & Hion.FLAG_USE_EDIT),
+						resize: this.props.Resize.value && !(flags & Hion.FLAG_USE_EDIT),
 						width: this.props.Width.value,
 						height: this.props.Height.value,
-						modal: !(flags & window.FLAG_USE_EDIT),
-						popup: !(flags & window.FLAG_USE_EDIT),
+						modal: !(flags & Hion.FLAG_USE_EDIT),
+						popup: !(flags & Hion.FLAG_USE_EDIT),
 						showcaption: this.props.ShowCaption.isDef(),
 						showborder: this.props.ShowBorder.isDef(),
 						theme: this.props.Position.value === 2 ? "dialog-fullscreen" : ""
 					});
 
-					if(flags & window.FLAG_USE_EDIT) {
+					if(flags & Hion.FLAG_USE_EDIT) {
 						this.ctl.addListener("close", function(){ return false; });
 					}
-					else if(!(flags & window.FLAG_USE_CHILD)) {
+					else if(!(flags & Hion.FLAG_USE_CHILD)) {
 						this.ctl.addListener("close", function(){
-							i.parent.stop(window.FLAG_USE_RUN);
+							i.parent.stop(Hion.FLAG_USE_RUN);
 							return true;
 						});
 					}
@@ -304,7 +306,7 @@ function webapp() {
 					this.ctl.layout = this.getLayout(this.ctl);
 
 					WinElement.prototype.run.call(this, flags);
-					if(!(flags & window.FLAG_USE_CHILD)) {
+					if(!(flags & Hion.FLAG_USE_CHILD)) {
 						this.ctl.show({noCenter: this.props.Position.value === 0, fullScreen: this.props.Position.value === 2});
 					}
 					return this.ctl
@@ -314,7 +316,7 @@ function webapp() {
 				};
 
 				if(!i.parent.parent || i.parent.imgs.length === 1) {
-					i.flags |= window.IS_PARENT;
+					i.flags |= Hion.IS_PARENT;
 				}
 				break;
 			case "SiteWidget":
@@ -324,7 +326,7 @@ function webapp() {
 					this.ctl.layout = this.getLayout(this.ctl);
 
 					WinElement.prototype.run.call(this, flags);
-					if(!(flags & window.FLAG_USE_CHILD)) {
+					if(!(flags & Hion.FLAG_USE_CHILD)) {
 						this.ctl.show({});
 					}
 					return this.ctl
@@ -333,26 +335,26 @@ function webapp() {
 					return null;
 				};
 
-				i.flags |= window.IS_PARENT;
+				i.flags |= Hion.IS_PARENT;
 				break;
 			case "MultiElement":
 				i.run = function(flags) {
-					// if(flags & window.FLAG_USE_RUN) {
-						return this.sdk.run(flags | window.FLAG_USE_CHILD);
+					// if(flags & Hion.FLAG_USE_RUN) {
+						return this.sdk.run(flags | Hion.FLAG_USE_CHILD);
 					// }
 				};
 				i.onfree = function(flags) {
-					return this.sdk.stop(flags | window.FLAG_USE_CHILD);
+					return this.sdk.stop(flags | Hion.FLAG_USE_CHILD);
 				};
 				break;
 			case "MultiElementEx":
 				i.run = function(flags) {
-					// if(flags & window.FLAG_USE_RUN) {
-						return this.sdk.run(flags | window.FLAG_USE_CHILD);
+					// if(flags & Hion.FLAG_USE_RUN) {
+						return this.sdk.run(flags | Hion.FLAG_USE_CHILD);
 					// }
 				};
 				i.onfree = function(flags) {
-					return this.sdk.stop(flags | window.FLAG_USE_CHILD);
+					return this.sdk.stop(flags | Hion.FLAG_USE_CHILD);
 				};
 				break;
 			case "YaMap":
@@ -372,7 +374,7 @@ function webapp() {
 			case "ChartPie":
 				i.run = function(flags) {
 					this.ctl = new GoogleChart({
-						theme: flags & FLAG_USE_EDIT ? "invisible-control" : "",
+						theme: flags & Hion.FLAG_USE_EDIT ? "invisible-control" : "",
 						chart: "PieChart",
 						title: this.props.Title.value,
 						pieHole: this.props.Hole.value,
