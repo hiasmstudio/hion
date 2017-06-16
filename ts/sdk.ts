@@ -504,7 +504,7 @@ namespace Hion {
 				if(i.y + i.h > maxY) maxY = i.y + i.h;
 			}
 			
-			return {x1: minX, y1: minY, x2: maxX, y2: maxY};
+			return new Rect(minX, minY, maxX, maxY);
 		}
 
 		indexOf(element: SdkElement): number {

@@ -1,17 +1,17 @@
 namespace Hion {
 	
-	export const ME_NONE       		= 0;  // no operation
-	export const ME_ELEMENT			= 1;  // move element
+	export const ME_NONE       			= 0;  // no operation
+	export const ME_ELEMENT				= 1;  // move element
 	export const ME_POINTLINK			= 2;  // link two points
 	export const ME_ADDELEMENT			= 3;  // create new element
-	export const ME_SELRECT			= 4;  // select elements
+	export const ME_SELRECT				= 4;  // select elements
 	export const ME_LINEPOINT			= 5;  // move point of line
 	export const ME_SLIDE_DOWN			= 6;  // select elements after horizont line
-	export const ME_SLIDE_RIGHT		= 7;  // select elements after horizont line
+	export const ME_SLIDE_RIGHT			= 7;  // select elements after horizont line
 	export const ME_ELEMENT_MOUSE		= 8;  // handle by element
-	export const ME_MAKE_LH			= 9;  // make link hint
+	export const ME_MAKE_LH				= 9;  // make link hint
 	export const ME_REMOVE_LH			= 10; // remove link hint
-	export const ME_MOVE_LH			= 11; // move link hint
+	export const ME_MOVE_LH				= 11; // move link hint
 	export const ME_ADDELEMENT_POINT	= 12; // add new element and link with point
 	export const ME_POPUP_MENU			= 13; // show popup menu
 	export const ME_SCROLL_EDITOR		= 14; // change scroll bars positions
@@ -676,6 +676,8 @@ namespace Hion {
 		cursor(x: number, y: number, obj) { return "move"; }
 	}
 
+	//***************************************************************************
+
 	export class SdkEditor extends UIControl {
 
 		private canvas: Builder;
@@ -1296,6 +1298,19 @@ namespace Hion {
 			}());
 			
 			saveData(this.getMainSDK().save(false), file.split("/").pop());
+		}
+
+		/**
+		 * Save current project as PNG file
+		 */
+		saveAsPNG() {
+			let tmp = document.createElement("canvas");
+			let r = this.sdk.getParams();
+			tmp.width = r.width() + 20;
+			tmp.height = r.height() + 20;
+			let buffer = tmp.getContext("2d");
+			buffer.drawImage(this.canvas.element as HTMLCanvasElement, r.x1 - 5, r.y1 - 5, r.width() + 10, r.height() + 10, 5, 5, r.width() + 10, r.height() + 10);
+			window.open(tmp.toDataURL("image/png"));
 		}
 		
 		/**

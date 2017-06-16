@@ -1,6 +1,12 @@
 namespace Hion {
-	export interface Rect {
-		x1, y1, x2, y2: number;
+	export class Rect {
+		constructor(public x1: number, public y1: number, public x2: number, public y2: number) {}
+		width(): number {
+			return this.x2 - this.x1;
+		}
+		height(): number {
+			return this.y2 - this.y1;
+		}
 	}
 
 	export class SelectManager { 
@@ -199,7 +205,7 @@ namespace Hion {
 				if(item.y + item.h > maxY) maxY = item.y + item.h;
 			}
 			
-			return {x1:minX, y1:minY, x2:maxX, y2:maxY};
+			return new Rect(minX, minY, maxX, maxY);
 		}
 	}
 }

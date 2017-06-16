@@ -712,7 +712,7 @@ namespace Hion {
 				case "zoomin": this.sdkEditor.zoomIn(); this.zoom.position++; commander.reset(); break;
 				case "zoomout": this.sdkEditor.zoomOut(); this.zoom.position--; commander.reset(); break;
 				
-				case "capture": window.open(this.sdkEditor.control.toDataURL("image/png")); break;
+				case "capture": this.sdkEditor.saveAsPNG(); break;
 				case "sha_source": this.sdkEditor.download(this.file ? this.file.location() : "Project.sha"); break;
 				
 				case "paste_debug": this.sdkEditor.pasteLineElement("Debug"); break;
@@ -980,11 +980,11 @@ namespace Hion {
 						item.n("img").attr("src", e.img.src);
 						item.n("div").html(e.sys.Comment.value || e.name);
 						for(var l = ed.body.childs()-1; l > 0 && ed.body.child(l).level >= level; l--) {
-							var cls = ed.body.child(l).childNodes[level-1].className;
+							var cls = (ed.body.child(l).childNodes[level-1] as HTMLElement).className;
 							if(cls == "cell")
-								ed.body.child(l).childNodes[level-1].className = l == ed.body.childs()-1 ? "tree-end" : "tree";
+								(ed.body.child(l).childNodes[level-1] as HTMLElement).className = l == ed.body.childs()-1 ? "tree-end" : "tree";
 							else if(cls == "tree-end")
-								ed.body.child(l).childNodes[level-1].className = "tree-center";
+								(ed.body.child(l).childNodes[level-1] as HTMLElement).className = "tree-center";
 						}
 						parse(e.sdk, level + 1);
 					}
@@ -1080,7 +1080,7 @@ namespace Hion {
 			this.startup = new StartupTab("Startup");
 			this._showTab(this.startup);
 
-			document.body.onbeforeunload = () => {
+			document.body['onbeforeunload'] = () => {
 				var saved = true;
 				this.tabs.each(function(tab: ContentTab){
 					if(tab.content) {
