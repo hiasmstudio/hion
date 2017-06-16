@@ -65,7 +65,7 @@
 		"inherit": "UIElement",
 		"props": [
 			{ "name": "Width", "def": 100 },
-			{ "name": "Height", "def": 21 },
+			{ "name": "Height", "def": 100 },
 			{ "name": "Pin", "type": 1, "def": 0 }
 		],
 		"points": [
