@@ -74,14 +74,15 @@ Add(HubEx,14,413,147)
   Angle=1
   link(onEvent,9:doRGB,[(417,189)(336,189)(336,209)])
 }
-Add(hcTransmitter,18,350,329)
+Add(hcTransmitter,18,322,329)
 {
   DataCount=1
-  link(onInit,35:doWork3,[(396,335)])
+  link(onInit,56:doEvent1,[])
   link(Arg1,32:Text,[])
 }
 Add(MultiElementEx,22,161,322)
 {
+  PColor(onEvent2,#0000ff)
   link(onEvent1,28:doEvent1,[])
   link(onEvent2,29:doWork2,[(210,335)(210,286)])
 }
@@ -130,14 +131,15 @@ Add(Hub,28,224,322)
 }
 Add(HubEx,29,245,280)
 {
+  PColor(onEvent,#0000ff)
   link(onEvent,1:doClose,[])
 }
-Add(Edit,32,350,273)
+Add(Edit,32,322,273)
 {
   Left=77
   Top=119
   Width=#3:176|
-  link(onChange,36:doWork2,[])
+  link(onChange,55:doEvent1,[])
 }
 Add(Label,31,7,105)
 {
@@ -160,7 +162,7 @@ Add(Figure,33,70,182)
 Add(Hub,34,413,203)
 {
   link(onEvent1,36:doWork1,[(452,209)])
-  link(onEvent2,32:doText,[(440,216)(440,260)(336,260)(336,279)])
+  link(onEvent2,32:doText,[(440,216)(440,248)(308,248)(308,279)])
 }
 Add(HubEx,35,392,203)
 {
@@ -186,12 +188,11 @@ Add(Rectangle,40,609,329)
   X2=65
   Y2=65
   Type=2
-  link(onDraw,46:doGetPixel,[])
 }
 Add(FillStyle,41,511,329)
 {
   link(onFill,42:doStroke,[])
-  link(Canvas,39:Canvas,[])
+  link(Canvas,54:Var2,[])
 }
 Add(StrokeStyle,42,560,329)
 {
@@ -203,38 +204,39 @@ Add(Hub,44,476,273)
   link(onEvent1,39:doDraw,[])
   link(onEvent2,41:doFill,[(500,286)(500,335)])
 }
-Add(ToRGB,45,721,329)
+Add(ToRGB,45,511,378)
 {
   link(onRGB,49:doEvent1,[])
 }
-Add(GetPixel,46,665,329)
+Add(GetPixel,46,455,378)
 {
   X=10
   Y=10
   link(onGetPixel,45:doGetRGB,[])
+  link(Canvas,54:Var1,[(461,315)])
 }
-Add(CableWork,47,861,329)
+Add(CableWork,47,651,378)
 {
   Wire=#1:r|1:g|1:b|
-  link(onCable,52:doCable,[(888,335)(888,34)(263,34)(263,55)])
+  link(onCable,52:doCable,[(680,384)(680,34)(263,34)(263,55)])
 }
-Add(ArrayRead,48,805,329)
+Add(ArrayRead,48,595,378)
 {
   link(onRead,47:r,[])
 }
-Add(Hub,49,770,329)
+Add(Hub,49,560,378)
 {
   OutCount=3
   link(onEvent1,48:doRead,[])
   link(onEvent2,50:doRead,[])
   link(onEvent3,51:doRead,[])
 }
-Add(ArrayRead,50,805,336)
+Add(ArrayRead,50,595,385)
 {
   Index=1
   link(onRead,47:g,[])
 }
-Add(ArrayRead,51,805,343)
+Add(ArrayRead,51,595,392)
 {
   Index=2
   link(onRead,47:b,[])
@@ -245,4 +247,23 @@ Add(CableEvent,52,280,49)
   link(r,2:doPosition,[])
   link(g,3:doPosition,[(325,62)(325,104)])
   link(b,4:doPosition,[(318,69)(318,153)])
+}
+Add(GetDataEx,54,511,308)
+{
+  link(Data,39:Canvas,[])
+}
+Add(Hub,55,371,273)
+{
+  link(onEvent1,36:doWork2,[])
+  link(onEvent2,57:doWork1,[(420,286)])
+}
+Add(Hub,56,371,329)
+{
+  link(onEvent1,35:doWork3,[(396,335)])
+  link(onEvent2,57:doWork2,[])
+}
+Add(HubEx,57,416,336)
+{
+  Angle=1
+  link(onEvent,46:doGetPixel,[(420,384)])
 }
