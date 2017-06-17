@@ -2,6 +2,7 @@ namespace Hion {
 
 	interface MenuItem {
 		title: string;
+		info?: string;
 		icon: number;
 		checked: boolean;
 		click();
@@ -21,12 +22,15 @@ namespace Hion {
 		/** It is true if menu displayed on screen */
 		opened: boolean;
 		private body: Builder;
+		private hint: Hint;
 
 		constructor (items: MenuItemsList) {
 			this.group = false;
 			
 			let body = new Builder().div("popup").on("oncontextmenu", () => false);
 			this.body = body;
+
+			this.hint = new Hint();
 			
 			for(let i in items) {
 				let item = items[i];
@@ -43,6 +47,15 @@ namespace Hion {
 					popupItem.div("icon").style("backgroundPosition", "-" + (icon % 16)*16 + "px -" + (icon >> 4)*16 + "px");
 					popupItem.span("title").html(item.title);
 					popupItem.on("onclick", () => this.click(popupItem.element as MenuItemElement));
+					popupItem.on("onmouseenter", () => {
+						if(item.info) {
+							let x = this.body.element.offsetLeft + this.body.element.offsetWidth + 5;
+							let y = this.body.element.offsetTop + popupItem.element.offsetTop;
+							this.hint.body().html(item.info);
+							this.hint.show(x, y);
+						}
+					});
+					popupItem.on("onmouseleave", () => this.hint.close());
 				}
 			}
 		}

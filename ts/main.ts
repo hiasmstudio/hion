@@ -45,6 +45,7 @@ namespace Hion {
 				items.push({
 					icon: commander.haveIcon(cmd),
 					title: commander.getCaption(cmd),
+					info: commander.getTitle(cmd),
 					command: cmd,
 					click: function() {
 						commander.execCommand(this.command);
