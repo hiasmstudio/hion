@@ -199,6 +199,7 @@ namespace Hion {
 				this.editor.sdk.selMan.move(dx, dy);
 				MouseOperation.startX += dx;
 				MouseOperation.startY += dy;
+				this.editor.updateScrolls();
 				this.editor.onsdkchange();
 				this.editor.draw();
 			}
