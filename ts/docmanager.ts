@@ -461,12 +461,15 @@ namespace Hion {
 				[translate.translate("ui.statlinkedpoints"), 0]
 			];
 			
-			function fill(sdk) {
+			function fill(sdk: SDK) {
 				if(sdk) {
 					stat[0][1] += sdk.imgs.length;
-					for(var e of sdk.imgs) {
+					for(let e of sdk.imgs) {
 						if(e instanceof ITElement || e instanceof HubsEx || e instanceof Debug) {
 							stat[3][1]++;
+						}
+						if(e.isLink() && !e.isMainLink()) {
+							stat[4][1]++;
 						}
 						for(var p in e.points) {
 							if(!e.points[p].isFree()) {
