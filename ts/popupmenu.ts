@@ -51,6 +51,8 @@ namespace Hion {
 						if(item.info) {
 							let x = this.body.element.offsetLeft + this.body.element.offsetWidth + 5;
 							let y = this.body.element.offsetTop + popupItem.element.offsetTop;
+							if(x > window.innerWidth - 320)
+								x = window.innerWidth - 320;
 							this.hint.body().html(item.info);
 							this.hint.show(x, y);
 						}
