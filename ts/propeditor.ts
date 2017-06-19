@@ -485,7 +485,7 @@ namespace Hion {
 						pEditor.onchange(row.item, value);
 					}
 				});
-				edit.element.focus();
+				setTimeout(() => edit.element.focus(), 1);
 			}
 			else {
 				line.div("advanced").html(this._getDisplayValue(row.item));
