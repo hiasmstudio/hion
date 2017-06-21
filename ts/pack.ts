@@ -46,6 +46,10 @@ namespace Hion {
 		/** Runtime added */
 		selected: boolean;
 	}
+	declare interface CustomEditor {
+		name: string;
+		path: string;
+	}
 
 	export class PackManager {
 		packs: PackList = {};
@@ -272,7 +276,7 @@ namespace Hion {
 			this.core.init(element);
 		}
 
-		getPropertyEditor(propType) {
+		getPropertyEditor(propType): CustomEditor {
 			if(this.editors[propType])
 				return {name: this.editors[propType], path: this.getEditorsPath()};
 			

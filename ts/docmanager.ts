@@ -814,6 +814,8 @@ namespace Hion {
 					}
 				});
 			}
+
+			this.tab.icon = "/img/icons/sha_pas.png";
 		}
 
 		updateCommands(commander: Commander) {
