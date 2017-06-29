@@ -170,6 +170,9 @@ namespace Hion {
 			if(user.uid === 3) {
 				this.places.addIcon("img/mime-folder.png", "GUI");
 			}
+			if(user.uid === 3 || user.uid === 6332) {
+				this.places.addIcon("img/mime-pack.png", "Pack");
+			}
 		}
 		
 		open() {
