@@ -1014,7 +1014,7 @@ namespace Hion {
 
 	var extMap = [
 		{ ext: /.*\.sha$/i, tab: SHATab },
-		{ ext: /.*\.(txt|js|hws|sql|php|ini|html|css|scss)$/i, tab: CodeTab },
+		{ ext: /.*\.(txt|js|hws|sql|php|ini|html|css|scss|json)$/i, tab: CodeTab },
 		{ ext: /.*\.ogg$/i, tab: OggTab },
 		{ ext: /.*\.(png|jpg|ico|gif|jpeg|bmp)$/i, tab: ImageTab }
 	];
