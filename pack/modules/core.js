@@ -2111,6 +2111,9 @@ function modules() {
 					if(method === "POST") {
 						this.parent.xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 					}
+					if(!this.parent.props.User.isDef()) {
+						this.parent.xhr.setRequestHeader('Authorization', "Basic " + btoa(this.parent.props.User.value + ":" + this.parent.props.Password.value));
+					}
 				};
 				i.doSend.onevent = function(data) {
 					this.parent.xhr.send(this.parent.d(data).read("Content"));
