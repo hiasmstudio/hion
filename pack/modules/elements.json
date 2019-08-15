@@ -2416,13 +2416,17 @@
 			{ "name": "onError", "type": 2, "args": "Code" },
 			{ "name": "Data", "type": 3 },
 			{ "name": "URL", "type": 4, "data": 2 },
-			{ "name": "Content", "type": 4, "data": 2 }
+			{ "name": "Content", "type": 4, "data": 2 },
+			{ "name": "User", "type": 4, "data": 2, "flags": 1 },
+			{ "name": "Password", "type": 4, "data": 2, "flags": 1 }
 		],
 		"props": [
 			{ "name": "Method", "type": 14, "def": 0, "list": "GET,POST" },
 			{ "name": "URL", "type": 2, "def": "" },
 			{ "name": "Content", "type": 2, "def": "" },
-			{ "name": "ResponseType", "type": 4, "def": 0, "list": "Text,ArrayBuffer,Blob,Document,Json" }
+			{ "name": "ResponseType", "type": 4, "def": 0, "list": "Text,ArrayBuffer,Blob,Document,Json" },
+			{ "name": "User", "type": 2, "def": "" },
+			{ "name": "Password", "type": 2, "def": "" }
 		]
 	},
 	
