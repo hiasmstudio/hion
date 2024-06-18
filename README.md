@@ -1,4 +1,5 @@
 ![ScreenShot](http://i.mcgl.ru/ekRHV39wrn)
+HionRust - fork the Hion but rewrited on Rust lang, using Tauri-frameworks. Changed: core, elements, code builder and install -pack. It used for create small applications for all operation systems and web.
 
 Hion - HiAsm IDE online
 
